@@ -83,6 +83,7 @@ const EditStockType: FC<IProps> = ({
           </Header>
           <Field
             name="type"
+            label="Stock Type"
             component={TextInput as any}
             placeholder="Type"
             value={formData.type}
@@ -90,6 +91,7 @@ const EditStockType: FC<IProps> = ({
           <Field
             rows={2}
             name="description"
+            label="Stock Type Description"
             placeholder="Description"
             value={formData.description}
             component={TextAreaInput as any}
