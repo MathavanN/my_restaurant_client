@@ -3,6 +3,7 @@ import agent from "../api/agent";
 import { ISelectInputOptions } from "../models/common";
 import { CreateStockItem, IStockItem } from "../models/stockItem";
 import { IStockType } from "../models/stockType";
+import { ISupplier } from "../models/supplier";
 import { IUnitOfMeasure } from "../models/unitOfMeasure";
 import { RootStore } from "./rootStore";
 
@@ -18,6 +19,9 @@ export default class SettingsStore {
 
     stockItem: IStockItem | null = null;
     stockItemRegistry = new Map();
+
+    supplier: ISupplier | null = null;
+    supplierRegistry = new Map();
 
     submitting = false;
     loadingInitial = false;
@@ -48,6 +52,15 @@ export default class SettingsStore {
         }, {} as { [key: number]: IStockType }));
     }
 
+    @computed get getSuppliers() {
+        const sortedStockTypes = this.getSortedSuppliers();
+
+        return Object.entries(sortedStockTypes.reduce((suppliers, supplier, i) => {
+            suppliers[++i] = supplier;
+            return suppliers;
+        }, {} as { [key: number]: ISupplier }));
+    }
+
     @computed get getStockItems() {
         const sortedStockItems = this.getSortedStockItems();
 
@@ -55,6 +68,17 @@ export default class SettingsStore {
             stockItems[++i] = stockItem;
             return stockItems;
         }, {} as { [key: number]: IStockItem }));
+    }
+
+    @computed get loadSupplierOptions() {
+        const sortedSuppliers = this.getSortedSuppliers()
+        return sortedSuppliers.map(supplier => {
+            return {
+                key: supplier.id,
+                text: supplier.name,
+                value: supplier.id,
+            } as ISelectInputOptions;
+        });
     }
 
     @computed get loadUnitOfMeasureOptions() {
@@ -78,6 +102,24 @@ export default class SettingsStore {
                 value: stockType.id,
             } as ISelectInputOptions;
         });
+    }
+
+    loadSuppliers = async () => {
+        this.loadingInitial = true;
+        try {
+            const suppliers = await agent.Supplier.list();
+            runInAction(() => {
+                suppliers.forEach(supplier => {
+                    this.supplierRegistry.set(supplier.id, supplier)
+                });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
     }
 
     loadStockItems = async () => {
@@ -124,6 +166,22 @@ export default class SettingsStore {
                 uoms.forEach(uom => {
                     this.unitOfMeasureRegistry.set(uom.id, uom)
                 });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
+    }
+
+    loadSupplier = async (id: number) => {
+        this.loadingInitial = true;
+        try {
+            const supplier = await agent.Supplier.detail(id);
+            runInAction(() => {
+                this.supplier = supplier;
                 this.loadingInitial = false;
             })
         } catch (error) {
@@ -213,6 +271,21 @@ export default class SettingsStore {
         }
     }
 
+    createSupplier = async (supplier: ISupplier) => {
+        this.submitting = true;
+        try {
+            const result = await agent.Supplier.create(supplier);
+            runInAction(() => {
+                this.supplierRegistry.set(result.id, result)
+                this.submitting = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submitting = false;
+            })
+        }
+    }
+
     createStockType = async (stockType: IStockType) => {
         this.submitting = true;
         try {
@@ -243,6 +316,21 @@ export default class SettingsStore {
         }
     }
 
+    updateSupplier = async (supplier: ISupplier) => {
+        this.submitting = true;
+        try {
+            await agent.Supplier.update(supplier);
+            runInAction(() => {
+                this.supplierRegistry.set(supplier.id, supplier)
+                this.submitting = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submitting = false;
+            })
+        }
+    }
+
     updateStockType = async (stockType: IStockType) => {
         this.submitting = true;
         try {
@@ -264,6 +352,21 @@ export default class SettingsStore {
             await agent.UnitOfMeasure.update(unitOfMeasure);
             runInAction(() => {
                 this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
+                this.submitting = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submitting = false;
+            })
+        }
+    }
+
+    deleteSupplier = async (id: number) => {
+        this.submitting = true;
+        try {
+            await agent.Supplier.delete(id);
+            runInAction(() => {
+                this.supplierRegistry.delete(id);
                 this.submitting = false;
             })
         } catch (error) {
@@ -326,7 +429,12 @@ export default class SettingsStore {
 
 
 
-
+    getSortedSuppliers() {
+        const suppliers: ISupplier[] = Array.from(this.supplierRegistry.values());
+        return suppliers.sort(
+            (a, b) => a.id - b.id
+        );
+    }
 
     getSortedUnitOfMeasures() {
         const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
