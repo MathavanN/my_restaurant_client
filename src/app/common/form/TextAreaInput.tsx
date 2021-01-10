@@ -11,17 +11,18 @@ const TextAreaInput: FC<IProps> = ({
   width,
   rows,
   placeholder,
+  label,
   meta: { touched, error },
 }) => {
   return (
-    <Form.Field error={touched && !!error} width={width}>
+    <Form.Input error={touched && !!error} label={label} width={width}>
       <textarea {...input} rows={rows} placeholder={placeholder} />
       {touched && error && (
         <Label basic color="red">
           {error}
         </Label>
       )}
-    </Form.Field>
+    </Form.Input>
   );
 };
 
