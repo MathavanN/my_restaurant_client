@@ -35,7 +35,7 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             <Table.HeaderCell>No</Table.HeaderCell>
             <Table.HeaderCell>Stock Type</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>UOM Code</Table.HeaderCell>
+            <Table.HeaderCell>Unit</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
@@ -46,7 +46,10 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
               <Table.Cell>{group}</Table.Cell>
               <Table.Cell>{stockItem.stockType}</Table.Cell>
               <Table.Cell>{stockItem.name}</Table.Cell>
-              <Table.Cell>{stockItem.unitOfMeasureCode}</Table.Cell>
+              <Table.Cell>
+                {stockItem.itemUnit}
+                {stockItem.unitOfMeasureCode}
+              </Table.Cell>
               <Table.Cell>{stockItem.description}</Table.Cell>
               <Table.Cell collapsing textAlign="right">
                 <Button
