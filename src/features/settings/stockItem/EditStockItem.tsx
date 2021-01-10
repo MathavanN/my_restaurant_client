@@ -6,7 +6,9 @@ import {
   combineValidators,
   composeValidators,
   hasLengthLessThan,
+  isNumeric,
   isRequired,
+  createValidator,
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import TextInput from "../../../app/common/form/TextInput";
@@ -25,6 +27,16 @@ interface IProps {
   create: boolean;
 }
 
+const isGreaterThan = (n: number) =>
+  createValidator(
+    (message) => (value) => {
+      if (value && Number(value) <= n) {
+        return message;
+      }
+    },
+    (field) => `${field} must be greater than ${n}`
+  );
+
 const validate = combineValidators({
   name: composeValidators(
     isRequired("Name"),
@@ -35,6 +47,11 @@ const validate = combineValidators({
   }),
   typeId: isRequired("Stock Type"),
   unitOfMeasureId: isRequired("Unit Of Measure"),
+  itemUnit: composeValidators(
+    isRequired("Item Unit"),
+    isNumeric({ message: "Item Unit must be a positive number" }),
+    isGreaterThan(0)({ message: "Item unit must be greater than zero" })
+  )(),
 });
 
 const EditStockItem: FC<IProps> = ({
@@ -95,27 +112,39 @@ const EditStockItem: FC<IProps> = ({
           </Header>
           <Field
             name="typeId"
+            label="Stock Type"
             options={loadStockTypeOptions}
             placeholder="Stock Type"
             value={formData.stockType}
             component={SelectInput as any}
           />
+
           <Field
             name="name"
+            label="Item Name"
             component={TextInput as any}
             placeholder="Name"
             value={formData.name}
           />
           <Field
             name="unitOfMeasureId"
+            label="Unit Of Measure"
             options={loadUnitOfMeasureOptions}
             placeholder="Unit Of Measure"
             value={formData.unitOfMeasureCode}
             component={SelectInput as any}
           />
           <Field
+            name="itemUnit"
+            label="Item Unit"
+            component={TextInput as any}
+            placeholder="Item Unit"
+            value={formData.itemUnit}
+          />
+          <Field
             rows={4}
             name="description"
+            label="Item Description"
             placeholder="Description"
             value={formData.description}
             component={TextAreaInput as any}
