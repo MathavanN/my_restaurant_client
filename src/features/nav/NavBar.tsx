@@ -17,6 +17,7 @@ const NavBar = () => {
           Golden Dining
         </Menu.Item>
         <Menu.Item name="Dashboard" as={NavLink} to="/dashboard" />
+        <Menu.Item name="Purchase" as={NavLink} to="/purchase" />
         <Menu.Item name="Settings" as={NavLink} to="/settings" />
         {user && (
           <Menu.Item position="right">
