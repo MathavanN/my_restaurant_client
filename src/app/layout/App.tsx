@@ -19,26 +19,34 @@ import CurrentUser from "../../features/user/CurrentUser";
 import Dashboard from "../../features/dashboard/Dashboard";
 import Settings from "../../features/settings/Settings";
 import Test from "../../features/home/Test";
+import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
+import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
+import CreatePurchaseOrder from "../../features/purchaseOrder/CreatePurchaseOrder";
 
-const App: FC<RouteComponentProps> = () => {
+const App: FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
   const {
     setAppLoaded,
+    getToken,
     refreshToken,
     token,
     appLoaded,
   } = rootStore.commonStore;
   const { getUser, getRefreshToken } = rootStore.userStore;
   useEffect(() => {
+    getToken();
     if (token) {
+      console.log("token availa ble");
+      console.log(token);
       getUser().finally(() => setAppLoaded());
     } else if (refreshToken) {
+      console.log("try with refresh token");
       getRefreshToken(refreshToken);
       getUser().finally(() => setAppLoaded());
     } else {
       setAppLoaded();
     }
-  }, [token, refreshToken, getUser, getRefreshToken, setAppLoaded]);
+  }, [token, refreshToken, getToken, getUser, getRefreshToken, setAppLoaded]);
 
   if (!appLoaded) return <LoadingComponent content="Loading app..." />;
   return (
@@ -54,6 +62,22 @@ const App: FC<RouteComponentProps> = () => {
             <Container style={{ marginTop: "2em" }}>
               <Switch>
                 <PrivateRoute path="/dashboard" exact component={Dashboard} />
+                <PrivateRoute
+                  path="/purchase"
+                  exact
+                  component={PurchaseOrderDashboard}
+                />
+                <PrivateRoute
+                  key={location.key}
+                  path={["/purchase/create", "/purchase/manage/:id"]}
+                  exact
+                  component={CreatePurchaseOrder}
+                />
+                <PrivateRoute
+                  path="/purchase/view/:id"
+                  exact
+                  component={ViewPurchaseOrder}
+                />
                 <PrivateRoute path="/settings" exact component={Settings} />
                 <PrivateRoute path="/user" exact component={CurrentUser} />
                 <Route path="/test" exact component={Test} />

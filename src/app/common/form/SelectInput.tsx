@@ -10,11 +10,12 @@ const SelectInput: FC<IProps> = ({
   input,
   width,
   options,
+  label,
   placeholder,
   meta: { touched, error },
 }) => {
   return (
-    <Form.Field error={touched && !!error} width={width}>
+    <Form.Input error={touched && !!error} label={label} width={width}>
       <Select
         value={input.value}
         onChange={(e, data) => input.onChange(data.value)}
@@ -26,7 +27,7 @@ const SelectInput: FC<IProps> = ({
           {error}
         </Label>
       )}
-    </Form.Field>
+    </Form.Input>
   );
 };
 

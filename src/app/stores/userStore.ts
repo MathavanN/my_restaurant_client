@@ -78,10 +78,9 @@ export default class UserStore {
         try {
             const refreshToken: IRefreshToken = { "refreshToken": token };
             const newToken = await agent.Users.refresh(refreshToken);
-            console.log(newToken)
             runInAction(async () => {
                 this.token = newToken;
-                this.getUser();
+                //this.getUser();
             })
             this.rootStore.commonStore.setToken(newToken.accessToken)
             this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)

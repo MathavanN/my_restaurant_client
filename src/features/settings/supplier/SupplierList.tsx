@@ -2,7 +2,7 @@ import React, { FC, Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Button, Icon, Table } from "semantic-ui-react";
-import DeleteStockItem from "./DeleteStockItem";
+import DeleteSupplier from "./DeleteSupplier";
 
 interface IProps {
   setEditForm: (value: boolean) => void;
@@ -10,12 +10,12 @@ interface IProps {
   setEdit: (value: boolean) => void;
 }
 
-const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
+const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
   const rootStore = useContext(RootStoreContext);
-  const { getStockItems, loadStockItem } = rootStore.settingsStore;
+  const { loadSupplier, getSuppliers } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
   const handleEditMode = (id: number) => {
-    loadStockItem(id);
+    loadSupplier(id);
     setEditForm(true);
     setCreate(false);
     setEdit(true);
@@ -33,29 +33,28 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>No</Table.HeaderCell>
-            <Table.HeaderCell>Stock Type</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Unit</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
+            <Table.HeaderCell>Phone</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Contact Person</Table.HeaderCell>
             <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getStockItems.map(([group, stockItem]) => (
-            <Table.Row key={stockItem.id}>
+          {getSuppliers.map(([group, supplier]) => (
+            <Table.Row key={supplier.id}>
               <Table.Cell>{group}</Table.Cell>
-              <Table.Cell>{stockItem.stockType}</Table.Cell>
-              <Table.Cell>{stockItem.name}</Table.Cell>
-              <Table.Cell>
-                {stockItem.itemUnit}
-                {stockItem.unitOfMeasureCode}
-              </Table.Cell>
-              <Table.Cell>{stockItem.description}</Table.Cell>
+              <Table.Cell>{supplier.name}</Table.Cell>
+              <Table.Cell>{supplier.address1}</Table.Cell>
+              <Table.Cell>{supplier.telephone1}</Table.Cell>
+              <Table.Cell>{supplier.email}</Table.Cell>
+              <Table.Cell>{supplier.contactPerson}</Table.Cell>
               <Table.Cell collapsing textAlign="right">
                 <Button
                   animated="vertical"
                   color="orange"
-                  onClick={() => handleEditMode(stockItem.id)}
+                  onClick={() => handleEditMode(supplier.id)}
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
@@ -66,7 +65,7 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
                   animated="vertical"
                   color="red"
                   onClick={() =>
-                    openModal(<DeleteStockItem stockItem={stockItem} />)
+                    openModal(<DeleteSupplier supplier={supplier} />)
                   }
                 >
                   <Button.Content hidden>Delete</Button.Content>
@@ -80,13 +79,13 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
         </Table.Body>
         <Table.Footer fullWidth>
           <Table.Row>
-            <Table.HeaderCell colSpan="6">
+            <Table.HeaderCell colSpan="7">
               <Button
                 floated="right"
                 primary
                 onClick={() => handleCreateMode()}
               >
-                Add Stock Item
+                Add Supplier
               </Button>
             </Table.HeaderCell>
           </Table.Row>
@@ -96,4 +95,4 @@ const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
   );
 };
 
-export default observer(StockItemList);
+export default observer(SupplierList);

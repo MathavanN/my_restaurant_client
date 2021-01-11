@@ -6,6 +6,7 @@ export interface IStockItem {
     description: string;
     typeId: number;
     unitOfMeasureId: number;
+    itemUnit: number;
 }
 
 export class CreateStockItem {
@@ -14,6 +15,7 @@ export class CreateStockItem {
     unitOfMeasureId: number = 0;
     name: string = "";
     description: string = "";
+    itemUnit: number = 0;
 
     constructor(init?: StockItemFormValues) {
         Object.assign(this, init);
@@ -28,6 +30,7 @@ export class StockItemFormValues {
     unitOfMeasureCode: string = "";
     name: string = "";
     description: string = "";
+    itemUnit: number = 0;
 
     constructor(init?: IStockItem) {
         Object.assign(this, init);

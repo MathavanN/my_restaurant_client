@@ -11,10 +11,16 @@ const TextInput: FC<IProps> = ({
   width,
   type,
   placeholder,
+  label,
   meta: { touched, error },
 }) => {
   return (
-    <Form.Input error={touched && !!error} type={type} width={width}>
+    <Form.Input
+      error={touched && !!error}
+      type={type}
+      label={label}
+      width={width}
+    >
       <input {...input} placeholder={placeholder} />
       {touched && error && (
         <Label basic color="red">

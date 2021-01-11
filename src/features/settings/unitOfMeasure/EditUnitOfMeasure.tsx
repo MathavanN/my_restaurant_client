@@ -83,12 +83,14 @@ const EditUnitOfMeasure: FC<IProps> = ({
           </Header>
           <Field
             name="code"
+            label="UOM Code"
             component={TextInput as any}
             placeholder="Code"
             value={formData.code}
           />
           <Field
             rows={2}
+            label="UOM Description"
             name="description"
             placeholder="Description"
             value={formData.description}

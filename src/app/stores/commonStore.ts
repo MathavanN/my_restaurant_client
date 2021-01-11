@@ -5,10 +5,13 @@ export default class CommonStore {
     rootStore: RootStore;
     token: string | null = window.localStorage.getItem('jwt');
     refreshToken: string | null = window.localStorage.getItem('refreshToken');
+
     appLoaded = false;
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
+        console.log(`i am for common store: ${this.token}`)
+        console.log(window.localStorage.getItem('jwt'))
         reaction(
             () => this.token,
             token => {
@@ -30,7 +33,9 @@ export default class CommonStore {
         })
     }
 
-    
+    getToken = () => {
+        this.token = window.localStorage.getItem('jwt');
+    }
 
     setToken = (token: string | null) => {
         this.token = token;
