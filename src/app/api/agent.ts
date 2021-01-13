@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
 import { CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
+import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreateStockItem, IStockItem } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier } from '../models/supplier';
@@ -17,6 +18,9 @@ axios.interceptors.request.use((config) => {
     return Promise.reject(error)
 })
 axios.interceptors.response.use(undefined, error => {
+    console.log(error.message)
+    console.log(error.response)
+    console.log(error)
     if (error.message === "Network Error" && !error.response) {
         toast.error("network error")
     }
@@ -109,11 +113,17 @@ const Supplier = {
 }
 
 const PurchaseOrder = {
-    listOrders: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
-    createOrder: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
-    orderDetails: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`)
+    list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
+    create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
+    detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder }
+const PurchaseOrderItem = {
+    list: (params: URLSearchParams): Promise<IPurchaseOrderItem[]> => axios.get(`/v1/purchaseorderitem`, { params: params }).then(responseBody),
+    create: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.post(`/v1/purchaseorderitem`, item),
+    detail: (id: number): Promise<IPurchaseOrderItem> => requests.get(`/v1/purchaseorderitem/${id}`)
+}
+
+const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
 
 export default RestaurantApis
