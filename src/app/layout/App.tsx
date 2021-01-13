@@ -21,7 +21,7 @@ import Settings from "../../features/settings/Settings";
 import Test from "../../features/home/Test";
 import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
 import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
-import CreatePurchaseOrder from "../../features/purchaseOrder/CreatePurchaseOrder";
+import OrderMainForm from "../../features/purchaseOrder/OrderMainForm";
 
 const App: FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -71,7 +71,7 @@ const App: FC<RouteComponentProps> = ({ location }) => {
                   key={location.key}
                   path={["/purchase/create", "/purchase/manage/:id"]}
                   exact
-                  component={CreatePurchaseOrder}
+                  component={OrderMainForm}
                 />
                 <PrivateRoute
                   path="/purchase/view/:id"
