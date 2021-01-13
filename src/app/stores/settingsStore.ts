@@ -104,6 +104,17 @@ export default class SettingsStore {
         });
     }
 
+    @computed get loadStockItemOptions() {
+        const sortedStockItems = this.getSortedStockItems();
+        return sortedStockItems.map(stockItem => {
+            return {
+                key: stockItem.id,
+                text: stockItem.name,
+                value: stockItem.id
+            } as ISelectInputOptions
+        })
+    }
+
     loadSuppliers = async () => {
         this.loadingInitial = true;
         try {
