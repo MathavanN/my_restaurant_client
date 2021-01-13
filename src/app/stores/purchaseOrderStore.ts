@@ -1,6 +1,7 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { CreatePurchaseOrder, IPurchaseOrder } from "../models/purchaseOrder";
+import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
 
 export default class PurchaseOrderStore {
@@ -9,12 +10,114 @@ export default class PurchaseOrderStore {
     purchaseOrder: IPurchaseOrder | null = null;
     purchaseOrderRegistry = new Map();
 
+    purchaseOrderItemRegistry = new Map();
+
     submitting = false;
+    submittingItem = false;
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         makeAutoObservable(this);
+    }
+
+    loadPurchaseOrderItems = async (orderId: number) => {
+        this.loadingInitial = true;
+        try {
+            const params = new URLSearchParams();
+            params.append('orderId', String(orderId));
+            const items = await agent.PurchaseOrderItem.list(params);
+            runInAction(() => {
+                items.forEach(item => {
+                    this.purchaseOrderItemRegistry.set(item.id, item)
+                });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
+    }
+
+    createPurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
+        this.submittingItem = true;
+        try {
+            const result = await agent.PurchaseOrderItem.create(item);
+            const x = await agent.PurchaseOrderItem.detail(result.id);
+            runInAction(() => {
+                this.purchaseOrderItemRegistry.set(result.id, x)
+                this.submittingItem = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submittingItem = false;
+            })
+        }
+    }
+
+    updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
+        this.submittingItem = true;
+        try {
+            //const result = await agent.PurchaseOrderItem.create(item);
+            //const x = await agent.PurchaseOrderItem.detail(result.id);
+            runInAction(() => {
+                //this.purchaseOrderItemRegistry.set(result.id, x)
+                this.submittingItem = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submittingItem = false;
+            })
+        }
+    }
+
+    deletePurchaseOrderItem = async (id: number) => {
+        this.submittingItem = true;
+        try {
+            //await agent.Supplier.delete(id);
+            runInAction(() => {
+                this.purchaseOrderItemRegistry.delete(id);
+                this.submittingItem = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submittingItem = false;
+            })
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @computed get getPurchaseOrderItems() {
+        const sortedItems = this.getSortedPurchaseOrderItems();
+
+        return Object.entries(sortedItems.reduce((items, item, i) => {
+            items[++i] = item;
+            return items;
+        }, {} as { [key: number]: IPurchaseOrderItem }));
     }
 
     @computed get getPurchaseOrders() {
@@ -29,7 +132,7 @@ export default class PurchaseOrderStore {
     loadPurchaseOrders = async () => {
         this.loadingInitial = true;
         try {
-            const orders = await agent.PurchaseOrder.listOrders();
+            const orders = await agent.PurchaseOrder.list();
             runInAction(() => {
                 orders.forEach(order => {
                     this.purchaseOrderRegistry.set(order.id, order)
@@ -47,7 +150,7 @@ export default class PurchaseOrderStore {
     loadPurchaseOrder = async (id: number) => {
         this.loadingInitial = true;
         try {
-            const order = await agent.PurchaseOrder.orderDetails(id);
+            const order = await agent.PurchaseOrder.detail(id);
             runInAction(() => {
                 this.purchaseOrder = order;
                 this.loadingInitial = false;
@@ -63,8 +166,8 @@ export default class PurchaseOrderStore {
     createPurchaseOrder = async (order: CreatePurchaseOrder) => {
         this.submitting = true;
         try {
-            const result = await agent.PurchaseOrder.createOrder(order);
-            const x = await agent.PurchaseOrder.orderDetails(result.id);
+            const result = await agent.PurchaseOrder.create(order);
+            const x = await agent.PurchaseOrder.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(result.id, x)
                 this.submitting = false;
@@ -79,6 +182,13 @@ export default class PurchaseOrderStore {
     getSortedPurchaseOrders() {
         const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderRegistry.values());
         return orders.sort(
+            (a, b) => a.id - b.id
+        );
+    }
+
+    getSortedPurchaseOrderItems() {
+        const items: IPurchaseOrderItem[] = Array.from(this.purchaseOrderItemRegistry.values());
+        return items.sort(
             (a, b) => a.id - b.id
         );
     }
