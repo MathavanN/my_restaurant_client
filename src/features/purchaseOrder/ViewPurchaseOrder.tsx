@@ -6,6 +6,7 @@ import { FC } from "react";
 import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { Message, Grid, Segment, Button } from "semantic-ui-react";
 import OrderSummary from "./OrderSummary";
+import OrderItemSummary from "./OrderItemSummary";
 
 interface IDetailsParams {
   id: string;
@@ -17,13 +18,15 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
   const rootStore = useContext(RootStoreContext);
   const {
     loadPurchaseOrder,
+    loadPurchaseOrderItems,
     loadingInitial,
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
 
   useEffect(() => {
     loadPurchaseOrder(parseInt(match.params.id));
-  }, [loadPurchaseOrder, match.params.id]);
+    loadPurchaseOrderItems(parseInt(match.params.id));
+  }, [loadPurchaseOrder, loadPurchaseOrderItems, match.params.id]);
 
   if (loadingInitial)
     return <LoadingComponent content="Loading purchase order details..." />;
@@ -51,6 +54,9 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
           </Segment>
           <Segment attached>
             <OrderSummary order={purchaseOrder} />
+          </Segment>
+          <Segment attached>
+            <OrderItemSummary />
           </Segment>
         </Grid.Column>
       </Grid>
