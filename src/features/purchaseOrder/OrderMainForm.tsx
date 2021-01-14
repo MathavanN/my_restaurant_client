@@ -1,12 +1,10 @@
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { Button, Table, Icon } from "semantic-ui-react";
 import { PurchaseOrderFormValues } from "../../app/models/purchaseOrder";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import CreatePurchaseOrder from "./CreatePurchaseOrder";
+import CreatePurchaseOrder from "./AddPurchaseOrder";
 import { observer } from "mobx-react-lite";
 import OrderItemList from "./OrderItemList";
-import { format } from "date-fns";
 import PurchaseOrderListItem from "./PurchaseOrderListItem";
 
 interface IDetailsParams {
@@ -24,7 +22,6 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
   const { loadSuppliers, loadStockItems } = rootStore.settingsStore;
-  const { openModal, closeModal } = rootStore.modalStore;
 
   useEffect(() => {
     loadSuppliers();
@@ -56,7 +53,7 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
             displayEdit={true}
             displayView={false}
           />
-          <OrderItemList displayAction={true} displayAmount={false} />
+          <OrderItemList order={purchaseOrder} displayAction={true} displayAmount={false} />
         </Fragment>
       ) : (
         <CreatePurchaseOrder
