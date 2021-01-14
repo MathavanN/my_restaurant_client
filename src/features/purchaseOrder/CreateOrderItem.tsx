@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, FC } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { Form, Button, Header } from "semantic-ui-react";
 import {
@@ -12,8 +12,10 @@ import SelectInput from "../../app/common/form/SelectInput";
 import TextInput from "../../app/common/form/TextInput";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useContext } from "react";
-import { PurchaseOrderItemFormValues } from "../../app/models/purchaseOrderItem";
-import { FC } from "react";
+import {
+  CreatePurchaseOrderItem,
+  PurchaseOrderItemFormValues,
+} from "../../app/models/purchaseOrderItem";
 
 const isGreaterThan = (n: number) =>
   createValidator(
@@ -66,7 +68,11 @@ const CreateOrderItem: FC<IProps> = ({ item }) => {
   const { loadStockItemOptions } = rootStore.settingsStore;
 
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
+    const { ...formData } = values;
+    const item = new CreatePurchaseOrderItem(formData);
+    if (item.id === 0)
+      createPurchaseOrderItem(item).finally(() => closeModal());
+    else updatePurchaseOrderItem(item).finally(() => closeModal());
   };
   return (
     <Fragment>
