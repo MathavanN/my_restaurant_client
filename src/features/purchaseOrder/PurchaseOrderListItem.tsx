@@ -1,5 +1,5 @@
 import React, { FC, useContext } from "react";
-import { Button, Header, Icon, Table } from "semantic-ui-react";
+import { Button, Icon, Table } from "semantic-ui-react";
 import {
   IPurchaseOrder,
   PurchaseOrderFormValues,
@@ -7,7 +7,7 @@ import {
 import { format, isEqual } from "date-fns";
 import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import CreatePurchaseOrder from "./CreatePurchaseOrder";
+import CreatePurchaseOrder from "./AddPurchaseOrder";
 
 interface IProps {
   orders: [string, IPurchaseOrder][];
