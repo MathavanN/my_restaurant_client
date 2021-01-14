@@ -1,6 +1,6 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { CreatePurchaseOrder, IPurchaseOrder } from "../models/purchaseOrder";
+import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from "../models/purchaseOrder";
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
 
@@ -60,10 +60,10 @@ export default class PurchaseOrderStore {
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
         this.submittingItem = true;
         try {
-            //const result = await agent.PurchaseOrderItem.create(item);
+            await agent.PurchaseOrderItem.update(item);
             //const x = await agent.PurchaseOrderItem.detail(result.id);
             runInAction(() => {
-                //this.purchaseOrderItemRegistry.set(result.id, x)
+                this.purchaseOrderItemRegistry.set(item.id, item)
                 this.submittingItem = false;
             })
         } catch (error) {
@@ -73,10 +73,11 @@ export default class PurchaseOrderStore {
         }
     }
 
+
     deletePurchaseOrderItem = async (id: number) => {
         this.submittingItem = true;
         try {
-            //await agent.Supplier.delete(id);
+            await agent.PurchaseOrderItem.delete(id);
             runInAction(() => {
                 this.purchaseOrderItemRegistry.delete(id);
                 this.submittingItem = false;
@@ -170,6 +171,38 @@ export default class PurchaseOrderStore {
             const x = await agent.PurchaseOrder.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(result.id, x)
+                this.submitting = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submitting = false;
+            })
+        }
+    }
+
+    updatePurchaseOrder = async (order: CreatePurchaseOrder) => {
+        this.submitting = true;
+        try {
+            await agent.PurchaseOrder.update(order);
+            const x = await agent.PurchaseOrder.detail(order.id);
+            runInAction(() => {
+                this.purchaseOrderRegistry.set(order.id, x)
+                this.submitting = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.submitting = false;
+            })
+        }
+    }
+
+    approvalPurchaseOrder = async (order: ApprovalPurchaseOrder) => {
+        this.submitting = true;
+        try {
+            await agent.PurchaseOrder.approval(order);
+            const x = await agent.PurchaseOrder.detail(order.id);
+            runInAction(() => {
+                this.purchaseOrderRegistry.set(order.id, x)
                 this.submitting = false;
             })
         } catch (error) {
