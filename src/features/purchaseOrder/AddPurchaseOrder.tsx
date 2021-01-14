@@ -12,7 +12,10 @@ import SelectInput from "../../app/common/form/SelectInput";
 import TextInput from "../../app/common/form/TextInput";
 import TextAreaInput from "../../app/common/form/TextAreaInput";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import { PurchaseOrderFormValues } from "../../app/models/purchaseOrder";
+import {
+  PurchaseOrderFormValues,
+  CreatePurchaseOrder,
+} from "../../app/models/purchaseOrder";
 
 const validate = combineValidators({
   description: hasLengthLessThan(500)({
@@ -24,24 +27,28 @@ const validate = combineValidators({
   )(),
 });
 
-interface IParams {
+interface IProps {
   formData: PurchaseOrderFormValues;
   header: string;
   handleCancel: () => void;
 }
 
-const CreatePurchaseOrder: FC<IParams> = ({
-  formData,
-  header,
-  handleCancel,
-}) => {
+const AddPurchaseOrder: FC<IProps> = ({ formData, header, handleCancel }) => {
   const rootStore = useContext(RootStoreContext);
-  const { submitting, createPurchaseOrder } = rootStore.purchaseOrderStore;
+  const {
+    submitting,
+    createPurchaseOrder,
+    updatePurchaseOrder,
+  } = rootStore.purchaseOrderStore;
   const { loadSupplierOptions } = rootStore.settingsStore;
+  const { closeModal } = rootStore.modalStore;
 
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
-    createPurchaseOrder(values);
+    const { ...formData } = values;
+    const order = new CreatePurchaseOrder(formData);
+
+    if (order.id === 0) createPurchaseOrder(order).finally(() => closeModal());
+    else updatePurchaseOrder(order).finally(() => closeModal());
   };
 
   return (
@@ -93,4 +100,4 @@ const CreatePurchaseOrder: FC<IParams> = ({
   );
 };
 
-export default CreatePurchaseOrder;
+export default AddPurchaseOrder;
