@@ -10,8 +10,6 @@ export default class CommonStore {
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
-        console.log(`i am for common store: ${this.token}`)
-        console.log(window.localStorage.getItem('jwt'))
         reaction(
             () => this.token,
             token => {
