@@ -36,11 +36,8 @@ const App: FC<RouteComponentProps> = ({ location }) => {
   useEffect(() => {
     getToken();
     if (token) {
-      console.log("token availa ble");
-      console.log(token);
       getUser().finally(() => setAppLoaded());
     } else if (refreshToken) {
-      console.log("try with refresh token");
       getRefreshToken(refreshToken);
       getUser().finally(() => setAppLoaded());
     } else {
@@ -68,8 +65,7 @@ const App: FC<RouteComponentProps> = ({ location }) => {
                   component={PurchaseOrderDashboard}
                 />
                 <PrivateRoute
-                  key={location.key}
-                  path={["/purchase/create", "/purchase/manage/:id"]}
+                  path="/purchase/manage/:id"
                   exact
                   component={OrderMainForm}
                 />
