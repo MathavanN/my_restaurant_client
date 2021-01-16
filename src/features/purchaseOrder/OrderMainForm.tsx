@@ -1,8 +1,6 @@
 import React, { FC, Fragment, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { PurchaseOrderFormValues } from "../../app/models/purchaseOrder";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import CreatePurchaseOrder from "./AddPurchaseOrder";
 import { observer } from "mobx-react-lite";
 import OrderItemList from "./OrderItemList";
 import PurchaseOrderListItem from "./PurchaseOrderListItem";
@@ -21,17 +19,23 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadPurchaseOrderItems,
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
-  const { loadSuppliers, loadStockItems } = rootStore.settingsStore;
+  const {
+    loadSuppliers,
+    loadStockItems,
+    loadStockTypes,
+  } = rootStore.settingsStore;
 
   useEffect(() => {
     loadSuppliers();
     loadStockItems();
+    loadStockTypes();
     if (match.params.id) {
       loadPurchaseOrder(parseInt(match.params.id));
       loadPurchaseOrderItems(parseInt(match.params.id));
     }
   }, [
     loadSuppliers,
+    loadStockTypes,
     loadStockItems,
     loadPurchaseOrder,
     loadPurchaseOrderItems,
@@ -39,13 +43,9 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     purchaseOrder,
   ]);
 
-  const handleCancel = () => {
-    history.push("/purchase");
-  };
-
   return (
     <Fragment>
-      {match.params.id && purchaseOrder! ? (
+      {match.params.id && purchaseOrder! && (
         <Fragment>
           <PurchaseOrderListItem
             orders={new Array(["1", purchaseOrder])}
@@ -53,14 +53,13 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
             displayEdit={true}
             displayView={false}
           />
-          <OrderItemList order={purchaseOrder} displayAction={true} displayAmount={false} />
+          <OrderItemList
+            order={purchaseOrder}
+            displayAction={true}
+            displaySummary={false}
+            displayAmount={false}
+          />
         </Fragment>
-      ) : (
-        <CreatePurchaseOrder
-          handleCancel={handleCancel}
-          header="Create new purchase order"
-          formData={new PurchaseOrderFormValues()}
-        />
       )}
     </Fragment>
   );
