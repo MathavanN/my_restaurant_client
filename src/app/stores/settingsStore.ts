@@ -109,7 +109,7 @@ export default class SettingsStore {
         return sortedStockItems.map(stockItem => {
             return {
                 key: stockItem.id,
-                text: stockItem.name,
+                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
                 value: stockItem.id
             } as ISelectInputOptions
         })
@@ -432,39 +432,43 @@ export default class SettingsStore {
         }
     }
 
-
-
-
-
-
-
-
+    getFilteredStockItems = (stockTypeId: number) => {
+        const sortedStockItems = this.getSortedStockItems();
+        return sortedStockItems.filter(stockItem => stockItem.typeId === stockTypeId).map(stockItem => {
+            return {
+                key: stockItem.id,
+                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
+                value: stockItem.id
+            } as ISelectInputOptions
+        })
+    }
 
     getSortedSuppliers() {
         const suppliers: ISupplier[] = Array.from(this.supplierRegistry.values());
         return suppliers.sort(
-            (a, b) => a.id - b.id
+            (a, b) => a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1)
         );
     }
 
     getSortedUnitOfMeasures() {
         const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
         return unitOfMeasures.sort(
-            (a, b) => a.id - b.id
+            (a, b) => 0 - (a.code.toLowerCase() < b.code.toLowerCase() ? 1 : -1)
         );
     }
 
     getSortedStockTypes() {
         const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
         return stockTypes.sort(
-            (a, b) => a.id - b.id
+            (a, b) => a.type.toLowerCase() === b.type.toLowerCase() ? 0 : (a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1)
         );
     }
 
     getSortedStockItems() {
         const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
         return stockItems.sort(
-            (a, b) => a.id - b.id
+            (a, b) => (a.stockType.toLowerCase() === b.stockType.toLowerCase() ? 0 : (a.stockType.toLowerCase() < b.stockType.toLowerCase() ? 1 : -1))
+                || (a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
         );
     }
 
