@@ -7,7 +7,8 @@ import {
 import { format, isEqual } from "date-fns";
 import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import CreatePurchaseOrder from "./AddPurchaseOrder";
+import AddPurchaseOrder from "./AddPurchaseOrder";
+import { PURCHASE_ORDER_PENDING } from "../../app/models/constants";
 
 interface IProps {
   orders: [string, IPurchaseOrder][];
@@ -44,12 +45,16 @@ const PurchaseOrderListItem: FC<IProps> = ({
             {displayColumn && <Table.Cell>{group}</Table.Cell>}
             <Table.Cell>{order.orderNumber}</Table.Cell>
             <Table.Cell>{order.supplierName}</Table.Cell>
-            <Table.Cell>{order.requestedBy}</Table.Cell>
+            <Table.Cell>{order.requestedUserName}</Table.Cell>
             <Table.Cell>
               {format(new Date(order.requestedDate), "yyyy-MM-dd'T'HH:mm")}
             </Table.Cell>
-            <Table.Cell>{order.approvalStatus}</Table.Cell>
-            {displayColumn && <Table.Cell>{order.approvedBy}</Table.Cell>}
+            <Table.Cell
+              negative={order.approvalStatus === PURCHASE_ORDER_PENDING}
+            >
+              {order.approvalStatus}
+            </Table.Cell>
+            {displayColumn && <Table.Cell>{order.approvedUserName}</Table.Cell>}
             {displayColumn && (
               <Table.Cell>
                 {!isEqual(
@@ -75,7 +80,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
                   color="orange"
                   onClick={() =>
                     openModal(
-                      <CreatePurchaseOrder
+                      <AddPurchaseOrder
                         formData={new PurchaseOrderFormValues(order)}
                         header="Modify purchase order"
                         handleCancel={closeModal}
