@@ -3,10 +3,12 @@ export interface IPurchaseOrder {
     orderNumber: string;
     supplierId: number;
     supplierName: string;
-    requestedBy: string;
+    requestedUserId: string;
+    requestedUserName: string;
     requestedDate: Date;
     approvalStatus: string;
-    approvedBy: string;
+    approvedUserId: string;
+    approvedUserName: string;
     approvedDate: Date;
     discount: number;
     description: string;
