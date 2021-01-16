@@ -57,7 +57,6 @@ interface IProps {
   item: PurchaseOrderItemFormValues;
 }
 const CreateOrderItem: FC<IProps> = ({ item }) => {
-  console.log(item);
   const rootStore = useContext(RootStoreContext);
   const {
     submittingItem,
@@ -65,7 +64,10 @@ const CreateOrderItem: FC<IProps> = ({ item }) => {
     updatePurchaseOrderItem,
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  const { loadStockItemOptions } = rootStore.settingsStore;
+  const {
+    loadStockTypeOptions,
+    getFilteredStockItems,
+  } = rootStore.settingsStore;
 
   const handleFinalFormSubmit = (values: any) => {
     const { ...formData } = values;
@@ -74,25 +76,42 @@ const CreateOrderItem: FC<IProps> = ({ item }) => {
       createPurchaseOrderItem(item).finally(() => closeModal());
     else updatePurchaseOrderItem(item).finally(() => closeModal());
   };
+
   return (
     <Fragment>
       <FinalForm
         validate={validate}
         initialValues={item}
         onSubmit={handleFinalFormSubmit}
-        render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
+        render={({
+          handleSubmit,
+          invalid,
+          pristine,
+          dirtySinceLastSubmit,
+          values,
+        }) => (
           <Form onSubmit={handleSubmit} error>
             <Header as="h2" color="teal" textAlign="center">
               <Header.Subheader>Add new Item</Header.Subheader>
             </Header>
             <Field
-              name="itemId"
-              label="Item Name"
-              options={loadStockItemOptions}
-              placeholder="Select an item"
+              name="itemTypeId"
+              label="Item Type"
+              options={loadStockTypeOptions}
+              placeholder="Select an item type"
               value={item.itemName}
               component={SelectInput as any}
             />
+            {values.itemTypeId !== 0 && (
+              <Field
+                name="itemId"
+                label="Item Name"
+                options={getFilteredStockItems(values.itemTypeId)}
+                placeholder="Select an item"
+                value={item.itemName}
+                component={SelectInput as any}
+              />
+            )}
             <Field
               name="itemUnitPrice"
               label="Unit Price"
