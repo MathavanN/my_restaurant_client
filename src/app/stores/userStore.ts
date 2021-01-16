@@ -3,6 +3,7 @@ import { runInAction, makeAutoObservable } from "mobx";
 import { IRefreshToken, IToken, IUser, IUserLogin } from "../models/user";
 import agent from "../api/agent";
 import history from '../../history'
+import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
 
 export default class UserStore {
     rootStore: RootStore;
@@ -24,19 +25,23 @@ export default class UserStore {
     }
 
     get isSuperAdminUser() {
-        return this.getAccessPolicy("SuperAdmin");
+        return this.getAccessPolicy(SUPER_ADMIN);
     }
     get isAdminUser() {
-        return this.getAccessPolicy("Admin");
+        return this.getAccessPolicy(ADMIN);
     }
     get isReportUser() {
-        return this.getAccessPolicy("Report");
+        return this.getAccessPolicy(REPORT);
     }
     get isNormalUser() {
-        return this.getAccessPolicy("Normal");
+        return this.getAccessPolicy(NORMAL);
     }
     get isLoggedIn() {
         return !!this.user
+    }
+
+    get hasModifyAccess() {
+        return this.getAccessPolicy(SUPER_ADMIN) || this.getAccessPolicy(ADMIN);
     }
 
     getUser = async () => {
@@ -48,7 +53,6 @@ export default class UserStore {
                 this.loading = false;
             })
         } catch (error) {
-            console.log(error)
             runInAction(() => {
                 this.user = null;
                 this.loading = false;
@@ -81,9 +85,10 @@ export default class UserStore {
             runInAction(async () => {
                 this.token = newToken;
                 //this.getUser();
+                this.rootStore.commonStore.setToken(newToken.accessToken)
+                this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
             })
-            this.rootStore.commonStore.setToken(newToken.accessToken)
-            this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
+
 
             history.push('/dashboard');
 
