@@ -3,6 +3,8 @@ import agent from "../api/agent";
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from "../models/purchaseOrder";
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
+import history from '../../history'
+import { PURCHASE_ORDER_PENDING } from '../models/constants'
 
 export default class PurchaseOrderStore {
     rootStore: RootStore;
@@ -27,7 +29,9 @@ export default class PurchaseOrderStore {
             const params = new URLSearchParams();
             params.append('orderId', String(orderId));
             const items = await agent.PurchaseOrderItem.list(params);
+
             runInAction(() => {
+                this.purchaseOrderItemRegistry.clear();
                 items.forEach(item => {
                     this.purchaseOrderItemRegistry.set(item.id, item)
                 });
@@ -171,8 +175,11 @@ export default class PurchaseOrderStore {
             const x = await agent.PurchaseOrder.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(result.id, x)
+                this.purchaseOrder = x;
                 this.submitting = false;
-            })
+            });
+            this.rootStore.modalStore.closeModal();
+            history.push(`/purchase/manage/${x.id}`);
         } catch (error) {
             runInAction(() => {
                 this.submitting = false;
@@ -214,9 +221,13 @@ export default class PurchaseOrderStore {
 
     getSortedPurchaseOrders() {
         const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderRegistry.values());
-        return orders.sort(
-            (a, b) => a.id - b.id
-        );
+
+        const pendingOrders = orders.filter(d => d.approvalStatus === PURCHASE_ORDER_PENDING);
+        const sortedPendingOrders = pendingOrders.sort((a, b) => new Date(b.requestedDate).getTime() - new Date(a.requestedDate).getTime())
+        const otherOrders = orders.filter(d => d.approvalStatus !== PURCHASE_ORDER_PENDING);
+        const sortedOtherOrders = otherOrders.sort((a, b) => new Date(a.requestedDate).getTime() - new Date(b.requestedDate).getTime())
+
+        return [...sortedPendingOrders, ...sortedOtherOrders]
     }
 
     getSortedPurchaseOrderItems() {
