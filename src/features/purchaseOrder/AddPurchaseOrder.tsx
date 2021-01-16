@@ -47,7 +47,7 @@ const AddPurchaseOrder: FC<IProps> = ({ formData, header, handleCancel }) => {
     const { ...formData } = values;
     const order = new CreatePurchaseOrder(formData);
 
-    if (order.id === 0) createPurchaseOrder(order).finally(() => closeModal());
+    if (order.id === 0) createPurchaseOrder(order);
     else updatePurchaseOrder(order).finally(() => closeModal());
   };
 
