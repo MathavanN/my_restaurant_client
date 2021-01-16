@@ -13,9 +13,15 @@ import OrderItemSummary from "./OrderItemSummary";
 interface IProps {
   displayAmount: boolean;
   displayAction: boolean;
+  displaySummary: boolean;
   order: IPurchaseOrder;
 }
-const OrderItemList: FC<IProps> = ({ displayAction, displayAmount, order }) => {
+const OrderItemList: FC<IProps> = ({
+  displayAction,
+  displayAmount,
+  displaySummary,
+  order,
+}) => {
   const rootStore = useContext(RootStoreContext);
   const { getPurchaseOrderItems } = rootStore.purchaseOrderStore;
   const { openModal } = rootStore.modalStore;
@@ -31,7 +37,26 @@ const OrderItemList: FC<IProps> = ({ displayAction, displayAmount, order }) => {
             <Table.HeaderCell>Quantity</Table.HeaderCell>
             <Table.HeaderCell>Discount(%)</Table.HeaderCell>
             {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
-            {displayAction && <Table.HeaderCell>Action</Table.HeaderCell>}
+            {displayAction && (
+              <Table.HeaderCell textAlign="center">
+                <Button
+                  animated="vertical"
+                  color="green"
+                  onClick={() =>
+                    openModal(
+                      <CreateOrderItem
+                        item={new PurchaseOrderItemFormValues(order.id)}
+                      />
+                    )
+                  }
+                >
+                  <Button.Content hidden>Add</Button.Content>
+                  <Button.Content visible>
+                    <Icon name="add circle" />
+                  </Button.Content>
+                </Button>
+              </Table.HeaderCell>
+            )}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -61,7 +86,7 @@ const OrderItemList: FC<IProps> = ({ displayAction, displayAmount, order }) => {
                     onClick={() =>
                       openModal(
                         <CreateOrderItem
-                          item={new PurchaseOrderItemFormValues(item)}
+                          item={new PurchaseOrderItemFormValues(order.id, item)}
                         />
                       )
                     }
@@ -87,12 +112,16 @@ const OrderItemList: FC<IProps> = ({ displayAction, displayAmount, order }) => {
           ))}
         </Table.Body>
       </Table>
-      <Divider />
-      <Header size="medium" textAlign="center">
-        Purchase Order Item Summary
-      </Header>
-      <Divider />
-      <OrderItemSummary order={order} items={getPurchaseOrderItems} />
+      {displaySummary && (
+        <Fragment>
+          <Divider />
+          <Header size="medium" textAlign="center">
+            Purchase Order Item Summary
+          </Header>
+          <Divider />
+          <OrderItemSummary order={order} items={getPurchaseOrderItems} />
+        </Fragment>
+      )}
     </Fragment>
   );
 };
