@@ -26,17 +26,12 @@ axios.interceptors.response.use(undefined, error => {
     }
     const { status, data, config, headers } = error.response;
 
-    if (status === 401) {
-        window.localStorage.removeItem("jwt");
+    if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
+        console.log(error.response)
+        window.localStorage.removeItem("jwt")
         history.push('/')
+        toast.info("Your session has expired, please login again")
     }
-
-    // if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
-    //     console.log(error.response)
-    //     //window.localStorage.removeItem("jwt")
-    //     history.push('/')
-    //     toast.info("Your session has expired, please login again")
-    // }
 
     if (status === 404) {
         history.push('/dashboard');
