@@ -1,6 +1,8 @@
 export interface IPurchaseOrderItem {
     id: number;
     purchaseOrderId: number;
+    itemTypeId: number;
+    itemTypeName: string;
     itemId: number;
     itemName: string;
     itemUnit: number;
@@ -14,6 +16,8 @@ export interface IPurchaseOrderItem {
 export class CreatePurchaseOrderItem {
     id: number = 0;
     purchaseOrderId: number = 0;
+    itemTypeId: number = 0;
+    itemTypeName: string = "";
     itemId: number = 0;
     itemUnitPrice: number = 0;
     discount: number = 0;
@@ -26,12 +30,17 @@ export class CreatePurchaseOrderItem {
 export class PurchaseOrderItemFormValues {
     id: number = 0;
     purchaseOrderId: number = 0;
+    itemTypeId: number = 0;
+    itemTypeName: string = "";
     itemId: number = 0;
     itemName: string = "";
     itemUnitPrice: number = 0;
     discount: number = 0;
     quantity: number = 0;
-    constructor(init?: IPurchaseOrderItem) {
+    constructor(orderId: number, init?: IPurchaseOrderItem) {
+        this.purchaseOrderId = orderId;
         Object.assign(this, init);
+
     }
+
 }
