@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
-import { CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
+import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
+import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreateStockItem, IStockItem } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier } from '../models/supplier';
@@ -17,22 +18,20 @@ axios.interceptors.request.use((config) => {
     return Promise.reject(error)
 })
 axios.interceptors.response.use(undefined, error => {
+    console.log(error.message)
+    console.log(error.response)
+    console.log(error)
     if (error.message === "Network Error" && !error.response) {
         toast.error("network error")
     }
     const { status, data, config, headers } = error.response;
 
-    if (status === 401) {
-        window.localStorage.removeItem("jwt");
+    if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
+        console.log(error.response)
+        window.localStorage.removeItem("jwt")
         history.push('/')
+        toast.info("Your session has expired, please login again")
     }
-
-    // if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
-    //     console.log(error.response)
-    //     //window.localStorage.removeItem("jwt")
-    //     history.push('/')
-    //     toast.info("Your session has expired, please login again")
-    // }
 
     if (status === 404) {
         history.push('/dashboard');
@@ -54,6 +53,7 @@ const responseBody = (response: AxiosResponse) => response.data;
 
 const requests = {
     get: (url: string) => axios.get(url).then(responseBody),
+    getByParams: (url: string, params: URLSearchParams) => axios.get(url, { params: params }).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     del: (url: string) => axios.delete(url).then(responseBody),
@@ -109,11 +109,22 @@ const Supplier = {
 }
 
 const PurchaseOrder = {
-    listOrders: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
-    createOrder: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
-    orderDetails: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`)
+    list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
+    create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
+    detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`),
+    update: (order: CreatePurchaseOrder) => requests.put(`/v1/purchaseorder/${order.id}`, order),
+    delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`),
+    approval: (order: ApprovalPurchaseOrder) => requests.put(`/v1/purchaseorder/approval/${order.id}`, order)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder }
+const PurchaseOrderItem = {
+    list: (params: URLSearchParams): Promise<IPurchaseOrderItem[]> => requests.getByParams(`/v1/purchaseorderitem`, params),
+    create: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.post(`/v1/purchaseorderitem`, item),
+    detail: (id: number): Promise<IPurchaseOrderItem> => requests.get(`/v1/purchaseorderitem/${id}`),
+    update: (item: CreatePurchaseOrderItem) => requests.put(`/v1/purchaseorderitem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`)
+}
+
+const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
 
 export default RestaurantApis

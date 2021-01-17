@@ -1,5 +1,4 @@
-import { observer } from "mobx-react-lite";
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { Form, Button, Header } from "semantic-ui-react";
 import {
@@ -13,8 +12,10 @@ import SelectInput from "../../app/common/form/SelectInput";
 import TextInput from "../../app/common/form/TextInput";
 import TextAreaInput from "../../app/common/form/TextAreaInput";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import { RouteComponentProps } from "react-router-dom";
-import { PurchaseOrderFormValues } from "../../app/models/purchaseOrder";
+import {
+  PurchaseOrderFormValues,
+  CreatePurchaseOrder,
+} from "../../app/models/purchaseOrder";
 
 const validate = combineValidators({
   description: hasLengthLessThan(500)({
@@ -26,41 +27,30 @@ const validate = combineValidators({
   )(),
 });
 
-interface IDetailsParams {
-  id: string;
+interface IProps {
+  formData: PurchaseOrderFormValues;
+  header: string;
+  handleCancel: () => void;
 }
 
-const CreatePurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
-  match,
-  history,
-}) => {
+const AddPurchaseOrder: FC<IProps> = ({ formData, header, handleCancel }) => {
   const rootStore = useContext(RootStoreContext);
   const {
     submitting,
     createPurchaseOrder,
-    loadPurchaseOrder,
-    purchaseOrder,
+    updatePurchaseOrder,
   } = rootStore.purchaseOrderStore;
-  const { loadSuppliers, loadSupplierOptions } = rootStore.settingsStore;
-  const [formData, setFormData] = useState(new PurchaseOrderFormValues());
-
-  useEffect(() => {
-    loadSuppliers();
-    if (match.params.id) {
-      loadPurchaseOrder(parseInt(match.params.id)).finally(() =>
-        setFormData(new PurchaseOrderFormValues(purchaseOrder!))
-      );
-    }
-  }, [loadSuppliers, loadPurchaseOrder, match.params.id, purchaseOrder]);
+  const { loadSupplierOptions } = rootStore.settingsStore;
+  const { closeModal } = rootStore.modalStore;
 
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
-    createPurchaseOrder(values);
+    const { ...formData } = values;
+    const order = new CreatePurchaseOrder(formData);
+
+    if (order.id === 0) createPurchaseOrder(order);
+    else updatePurchaseOrder(order).finally(() => closeModal());
   };
 
-  const handleCancel = () => {
-    history.push("/purchase");
-  };
   return (
     <Fragment>
       <FinalForm
@@ -70,17 +60,13 @@ const CreatePurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
         render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
           <Form onSubmit={handleSubmit} error>
             <Header as="h2" color="teal" textAlign="center">
-              <Header.Subheader>
-                {match.params.id
-                  ? "Modify purchase order"
-                  : "Create new purchase order"}
-              </Header.Subheader>
+              <Header.Subheader>{header}</Header.Subheader>
             </Header>
             <Field
               name="supplierId"
               label="Supplier"
               options={loadSupplierOptions}
-              placeholder="Supplier"
+              placeholder="Select Supplier"
               value={formData.supplierName}
               component={SelectInput as any}
             />
@@ -114,4 +100,4 @@ const CreatePurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
   );
 };
 
-export default observer(CreatePurchaseOrder);
+export default AddPurchaseOrder;

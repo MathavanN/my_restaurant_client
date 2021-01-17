@@ -3,10 +3,12 @@ export interface IPurchaseOrder {
     orderNumber: string;
     supplierId: number;
     supplierName: string;
-    requestedBy: string;
+    requestedUserId: string;
+    requestedUserName: string;
     requestedDate: Date;
     approvalStatus: string;
-    approvedBy: string;
+    approvedUserId: string;
+    approvedUserName: string;
     approvedDate: Date;
     discount: number;
     description: string;
@@ -20,6 +22,17 @@ export class CreatePurchaseOrder {
     description: string = "";
     constructor(init?: PurchaseOrderFormValues) {
         Object.assign(this, init);
+    }
+}
+
+export class ApprovalPurchaseOrder {
+    id: number = 0;
+    approvalStatus: string = "";
+    approvalReason: string = "";
+    constructor(id: number, status: string, reason: string) {
+        this.id = id;
+        this.approvalStatus = status;
+        this.approvalReason = reason;
     }
 }
 

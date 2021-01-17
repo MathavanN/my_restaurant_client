@@ -33,7 +33,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Request By</Table.Cell>
-                <Table.Cell>{order.requestedBy}</Table.Cell>
+                <Table.Cell>{order.requestedUserName}</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Request Date</Table.Cell>
@@ -49,7 +49,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Approved By</Table.Cell>
-                <Table.Cell>{order.approvedBy}</Table.Cell>
+                <Table.Cell>{order.approvedUserName}</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Approved Date</Table.Cell>

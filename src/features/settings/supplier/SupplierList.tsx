@@ -14,6 +14,7 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
   const rootStore = useContext(RootStoreContext);
   const { loadSupplier, getSuppliers } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
+  const { hasModifyAccess } = rootStore.userStore;
   const handleEditMode = (id: number) => {
     loadSupplier(id);
     setEditForm(true);
@@ -38,7 +39,7 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             <Table.HeaderCell>Phone</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Contact Person</Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
+            {hasModifyAccess && <Table.HeaderCell>Action</Table.HeaderCell>}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -50,46 +51,50 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
               <Table.Cell>{supplier.telephone1}</Table.Cell>
               <Table.Cell>{supplier.email}</Table.Cell>
               <Table.Cell>{supplier.contactPerson}</Table.Cell>
-              <Table.Cell collapsing textAlign="right">
-                <Button
-                  animated="vertical"
-                  color="orange"
-                  onClick={() => handleEditMode(supplier.id)}
-                >
-                  <Button.Content hidden>Edit</Button.Content>
-                  <Button.Content visible>
-                    <Icon name="edit" />
-                  </Button.Content>
-                </Button>
-                <Button
-                  animated="vertical"
-                  color="red"
-                  onClick={() =>
-                    openModal(<DeleteSupplier supplier={supplier} />)
-                  }
-                >
-                  <Button.Content hidden>Delete</Button.Content>
-                  <Button.Content visible>
-                    <Icon name="delete" />
-                  </Button.Content>
-                </Button>
-              </Table.Cell>
+              {hasModifyAccess && (
+                <Table.Cell collapsing textAlign="right">
+                  <Button
+                    animated="vertical"
+                    color="orange"
+                    onClick={() => handleEditMode(supplier.id)}
+                  >
+                    <Button.Content hidden>Edit</Button.Content>
+                    <Button.Content visible>
+                      <Icon name="edit" />
+                    </Button.Content>
+                  </Button>
+                  <Button
+                    animated="vertical"
+                    color="red"
+                    onClick={() =>
+                      openModal(<DeleteSupplier supplier={supplier} />)
+                    }
+                  >
+                    <Button.Content hidden>Delete</Button.Content>
+                    <Button.Content visible>
+                      <Icon name="delete" />
+                    </Button.Content>
+                  </Button>
+                </Table.Cell>
+              )}
             </Table.Row>
           ))}
         </Table.Body>
-        <Table.Footer fullWidth>
-          <Table.Row>
-            <Table.HeaderCell colSpan="7">
-              <Button
-                floated="right"
-                primary
-                onClick={() => handleCreateMode()}
-              >
-                Add Supplier
-              </Button>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
+        {hasModifyAccess && (
+          <Table.Footer fullWidth>
+            <Table.Row>
+              <Table.HeaderCell colSpan="7">
+                <Button
+                  floated="right"
+                  primary
+                  onClick={() => handleCreateMode()}
+                >
+                  Add Supplier
+                </Button>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
+        )}
       </Table>
     </Fragment>
   );
