@@ -1,32 +1,16 @@
-import React, { FC, Fragment, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Button, Icon, Table } from "semantic-ui-react";
 import DeleteSupplier from "./DeleteSupplier";
+import EditSupplier from "./EditSupplier";
+import { SupplierFormValues } from "../../../app/models/supplier";
 
-interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-}
-
-const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
+const SupplierList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadSupplier, getSuppliers } = rootStore.settingsStore;
+  const { getSuppliers } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
-  const handleEditMode = (id: number) => {
-    loadSupplier(id);
-    setEditForm(true);
-    setCreate(false);
-    setEdit(true);
-  };
-
-  const handleCreateMode = () => {
-    setEditForm(true);
-    setCreate(true);
-    setEdit(false);
-  };
 
   return (
     <Fragment>
@@ -39,7 +23,24 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             <Table.HeaderCell>Phone</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Contact Person</Table.HeaderCell>
-            {hasModifyAccess && <Table.HeaderCell>Action</Table.HeaderCell>}
+            {hasModifyAccess && (
+              <Table.HeaderCell>
+                <Button
+                  animated="vertical"
+                  color="green"
+                  onClick={() =>
+                    openModal(
+                      <EditSupplier supplier={new SupplierFormValues()} />
+                    )
+                  }
+                >
+                  <Button.Content hidden>Add</Button.Content>
+                  <Button.Content visible>
+                    <Icon name="add circle" />
+                  </Button.Content>
+                </Button>
+              </Table.HeaderCell>
+            )}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -56,7 +57,13 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
                   <Button
                     animated="vertical"
                     color="orange"
-                    onClick={() => handleEditMode(supplier.id)}
+                    onClick={() =>
+                      openModal(
+                        <EditSupplier
+                          supplier={new SupplierFormValues(supplier)}
+                        />
+                      )
+                    }
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
@@ -80,21 +87,6 @@ const SupplierList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             </Table.Row>
           ))}
         </Table.Body>
-        {hasModifyAccess && (
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell colSpan="7">
-                <Button
-                  floated="right"
-                  primary
-                  onClick={() => handleCreateMode()}
-                >
-                  Add Supplier
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        )}
       </Table>
     </Fragment>
   );
