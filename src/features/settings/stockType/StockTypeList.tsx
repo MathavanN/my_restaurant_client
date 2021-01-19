@@ -1,32 +1,16 @@
-import React, { FC, Fragment, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Button, Icon, Table } from "semantic-ui-react";
 import DeleteStockType from "./DeleteStockType";
+import EditStockType from "./EditStockType";
+import { StockTypeFormValues } from "../../../app/models/stockType";
 
-interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-}
-
-const StockTypeList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
+const StockTypeList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadStockType, getStockTypes } = rootStore.settingsStore;
+  const { getStockTypes } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
-  const handleEditMode = (id: number) => {
-    loadStockType(id);
-    setEditForm(true);
-    setCreate(false);
-    setEdit(true);
-  };
-
-  const handleCreateMode = () => {
-    setEditForm(true);
-    setCreate(true);
-    setEdit(false);
-  };
 
   return (
     <Fragment>
@@ -36,7 +20,24 @@ const StockTypeList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             <Table.HeaderCell>No</Table.HeaderCell>
             <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
-            {hasModifyAccess && <Table.HeaderCell>Action</Table.HeaderCell>}
+            {hasModifyAccess && (
+              <Table.HeaderCell>
+                <Button
+                  animated="vertical"
+                  color="green"
+                  onClick={() =>
+                    openModal(
+                      <EditStockType stockType={new StockTypeFormValues()} />
+                    )
+                  }
+                >
+                  <Button.Content hidden>Add</Button.Content>
+                  <Button.Content visible>
+                    <Icon name="add circle" />
+                  </Button.Content>
+                </Button>
+              </Table.HeaderCell>
+            )}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -50,7 +51,13 @@ const StockTypeList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
                   <Button
                     animated="vertical"
                     color="orange"
-                    onClick={() => handleEditMode(stockType.id)}
+                    onClick={() =>
+                      openModal(
+                        <EditStockType
+                          stockType={new StockTypeFormValues(stockType)}
+                        />
+                      )
+                    }
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
@@ -74,21 +81,6 @@ const StockTypeList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             </Table.Row>
           ))}
         </Table.Body>
-        {hasModifyAccess && (
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell colSpan="4">
-                <Button
-                  floated="right"
-                  primary
-                  onClick={() => handleCreateMode()}
-                >
-                  Add Stock Type
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        )}
       </Table>
     </Fragment>
   );
