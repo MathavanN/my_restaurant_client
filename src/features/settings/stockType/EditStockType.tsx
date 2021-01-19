@@ -1,111 +1,81 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isRequired,
-} from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { StockTypeFormValues } from "../../../app/models/stockType";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
 
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  stockType: StockTypeFormValues;
 }
-
-const validate = combineValidators({
-  type: composeValidators(
-    isRequired("Type"),
-    hasLengthLessThan(20)({ message: "Type maximum characters 50" })
-  )(),
-  description: hasLengthLessThan(100)({
-    message: "Description maximum characters 100",
-  }),
-});
-
-const EditStockType: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
-}) => {
+const EditStockType: FC<IProps> = ({ stockType }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    updateStockType,
-    createStockType,
-    stockType,
-    submitting,
-  } = rootStore.settingsStore;
+  const { updateStockType, createStockType } = rootStore.settingsStore;
 
-  const [formData, setFormData] = useState(new StockTypeFormValues());
-  useEffect(() => {
-    if (edit) {
-      setFormData(new StockTypeFormValues(stockType!));
-    }
-  }, [edit, stockType]);
+  const { closeModal } = rootStore.modalStore;
 
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    if (formData.id === 0) {
-      createStockType(formData);
-    } else {
-      updateStockType(formData);
-    }
-    handleEditFormMode();
-  };
-
-  const handleEditFormMode = () => {
-    setFormData(new StockTypeFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
+  const { register, errors, handleSubmit } = useForm({
+    defaultValues: stockType,
+  });
+  const onSubmit = (data: any) => {
+    const formData = new StockTypeFormValues({ ...data, id: stockType.id });
+    if (formData.id === 0)
+      createStockType(formData).finally(() => closeModal());
+    else updateStockType(formData).finally(() => closeModal());
   };
 
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Stock Type" : "Create Stock Type"}
-            </Header.Subheader>
-          </Header>
-          <Field
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {stockType.id === 0 ? "Create Stock Type" : "Modify Stock Type"}
+          </Header.Subheader>
+        </Header>
+        <Form.Field>
+          <label>UOM Code</label>
+          <input
+            type="text"
             name="type"
-            label="Stock Type"
-            component={TextInput as any}
-            placeholder="Type"
-            value={formData.type}
+            placeholder="Stock Type"
+            ref={register({
+              required: "Stock type is required",
+              maxLength: {
+                value: 50,
+                message: "Stock type maximum characters 50",
+              },
+            })}
           />
-          <Field
-            rows={2}
+          {errors.type && (
+            <Label basic color="red" pointing>
+              {errors.type.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Form.Field>
+          <label>UOM Description</label>
+          <textarea
             name="description"
-            label="Stock Type Description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
+            placeholder="Stock Type Description"
+            rows={2}
+            ref={register({
+              maxLength: {
+                value: 100,
+                message: "Description maximum characters 100",
+              },
+            })}
           />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+          {errors.description && (
+            <Label basic color="red" pointing>
+              {errors.description.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 

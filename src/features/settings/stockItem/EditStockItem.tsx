@@ -8,7 +8,6 @@ import {
   hasLengthLessThan,
   isNumeric,
   isRequired,
-  createValidator,
 } from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import TextInput from "../../../app/common/form/TextInput";
@@ -18,6 +17,7 @@ import {
   CreateStockItem,
   StockItemFormValues,
 } from "../../../app/models/stockItem";
+import { isGreaterThan } from "../../../app/common/validators/customValidators";
 
 interface IProps {
   setEditForm: (value: boolean) => void;
@@ -26,16 +26,6 @@ interface IProps {
   edit: boolean;
   create: boolean;
 }
-
-const isGreaterThan = (n: number) =>
-  createValidator(
-    (message) => (value) => {
-      if (value && Number(value) <= n) {
-        return message;
-      }
-    },
-    (field) => `${field} must be greater than ${n}`
-  );
 
 const validate = combineValidators({
   name: composeValidators(
@@ -81,6 +71,7 @@ const EditStockItem: FC<IProps> = ({
   }, [edit, stockItem, loadUnitOfMeasures, loadStockTypes]);
 
   const handleFinalFormSubmit = (values: any) => {
+    validate();
     const { ...formData } = values;
     const stockItem = new CreateStockItem(formData);
     if (stockItem.id === 0) {
