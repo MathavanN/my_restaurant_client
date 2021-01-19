@@ -1,155 +1,159 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isNumeric,
-  isRequired,
-} from "revalidate";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
-import SelectInput from "../../../app/common/form/SelectInput";
 import {
   CreateStockItem,
   StockItemFormValues,
 } from "../../../app/models/stockItem";
-import { isGreaterThan } from "../../../app/common/validators/customValidators";
+import { ISelectInputOptions } from "../../../app/models/common";
 
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  stockItem: StockItemFormValues;
+  stockTypes: ISelectInputOptions[];
+  unitOfMeasures: ISelectInputOptions[];
 }
 
-const validate = combineValidators({
-  name: composeValidators(
-    isRequired("Name"),
-    hasLengthLessThan(250)({ message: "Name maximum characters 250" })
-  )(),
-  description: hasLengthLessThan(500)({
-    message: "Description maximum characters 500",
-  }),
-  typeId: isRequired("Stock Type"),
-  unitOfMeasureId: isRequired("Unit Of Measure"),
-  itemUnit: composeValidators(
-    isRequired("Item Unit"),
-    isNumeric({ message: "Item Unit must be a positive number" }),
-    isGreaterThan(0)({ message: "Item unit must be greater than zero" })
-  )(),
-});
-
 const EditStockItem: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
+  stockItem,
+  stockTypes,
+  unitOfMeasures,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadUnitOfMeasures,
-    loadStockTypes,
-    createStockItem,
-    updateStockItem,
-    loadStockTypeOptions,
-    loadUnitOfMeasureOptions,
-    submitting,
-    stockItem,
-  } = rootStore.settingsStore;
-  const [formData, setFormData] = useState(new StockItemFormValues());
-  useEffect(() => {
-    loadUnitOfMeasures();
-    loadStockTypes();
-    if (edit) {
-      setFormData(new StockItemFormValues(stockItem!));
-    }
-  }, [edit, stockItem, loadUnitOfMeasures, loadStockTypes]);
+  const { createStockItem, updateStockItem } = rootStore.settingsStore;
+  const { closeModal } = rootStore.modalStore;
 
-  const handleFinalFormSubmit = (values: any) => {
-    validate();
-    const { ...formData } = values;
-    const stockItem = new CreateStockItem(formData);
-    if (stockItem.id === 0) {
-      createStockItem(stockItem);
-    } else {
-      updateStockItem(stockItem);
-    }
-    handleEditFormMode();
-  };
+  const { register, errors, handleSubmit } = useForm({
+    defaultValues: stockItem,
+  });
 
-  const handleEditFormMode = () => {
-    setFormData(new StockItemFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
+  const onSubmit = (data: any) => {
+    const formData = new CreateStockItem({ ...data, id: stockItem.id });
+    if (formData.id === 0)
+      createStockItem(formData).finally(() => closeModal());
+    else updateStockItem(formData).finally(() => closeModal());
   };
 
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Stock Item" : "Add Stock Item"}
-            </Header.Subheader>
-          </Header>
-          <Field
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {stockItem.id === 0 ? "Add new Stock Item" : "Modify Stock Item"}
+          </Header.Subheader>
+        </Header>
+        <Form.Field>
+          <label>Stock Type</label>
+          <select
+            ref={register({
+              required: "Stock type is required",
+            })}
             name="typeId"
-            label="Stock Type"
-            options={loadStockTypeOptions}
-            placeholder="Stock Type"
-            value={formData.stockType}
-            component={SelectInput as any}
-          />
+            placeholder="Stock type"
+          >
+            {stockTypes.map((d) => (
+              <option key={d.key} value={d.key}>
+                {d.text}
+              </option>
+            ))}
+          </select>
 
-          <Field
+          {errors.typeId && (
+            <Label basic color="red" pointing>
+              {errors.typeId.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Form.Field>
+          <label>Item Name</label>
+          <input
+            type="text"
             name="name"
-            label="Item Name"
-            component={TextInput as any}
-            placeholder="Name"
-            value={formData.name}
+            placeholder="Item Name"
+            ref={register({
+              required: "Item Name is required",
+              maxLength: {
+                value: 250,
+                message: "Item Name maximum characters 250",
+              },
+            })}
           />
-          <Field
+          {errors.name && (
+            <Label basic color="red" pointing>
+              {errors.name.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Form.Field>
+          <label>Unit Of Measure</label>
+          <select
+            ref={register({
+              required: "Unit of measure is required",
+            })}
             name="unitOfMeasureId"
-            label="Unit Of Measure"
-            options={loadUnitOfMeasureOptions}
             placeholder="Unit Of Measure"
-            value={formData.unitOfMeasureCode}
-            component={SelectInput as any}
-          />
-          <Field
+          >
+            {unitOfMeasures.map((d) => (
+              <option key={d.key} value={d.key}>
+                {d.text}
+              </option>
+            ))}
+          </select>
+          {errors.unitOfMeasureId && (
+            <Label basic color="red" pointing>
+              {errors.unitOfMeasureId.message}
+            </Label>
+          )}
+        </Form.Field>
+
+        <Form.Field>
+          <label>Item Unit</label>
+          <input
+            type="number"
             name="itemUnit"
-            label="Item Unit"
-            component={TextInput as any}
             placeholder="Item Unit"
-            value={formData.itemUnit}
+            ref={register({
+              required: "Item unit is required",
+              validate: {
+                greaterThanZero: (value) =>
+                  parseInt(value, 0) > 0
+                    ? true
+                    : "Item unit must be greater than zero",
+              },
+            })}
           />
-          <Field
-            rows={4}
+          {errors.itemUnit && (
+            <Label basic color="red" pointing>
+              {errors.itemUnit.message}
+            </Label>
+          )}
+        </Form.Field>
+
+        <Form.Field>
+          <label>Item Description</label>
+          <textarea
             name="description"
-            label="Item Description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
+            placeholder="Item Description"
+            rows={4}
+            ref={register({
+              maxLength: {
+                value: 500,
+                message: "Description maximum characters 500",
+              },
+            })}
           />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+          {errors.description && (
+            <Label basic color="red" pointing>
+              {errors.description.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 
