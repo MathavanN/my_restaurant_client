@@ -1,9 +1,8 @@
-import React, { FC, Fragment, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { useForm } from "react-hook-form";
 import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import TextInput from "../../../app/common/form/TextInput";
 import { SupplierFormValues } from "../../../app/models/supplier";
 
 interface IProps {
