@@ -1,111 +1,79 @@
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isRequired,
-} from "revalidate";
-import { Form, Button, Header } from "semantic-ui-react";
+import React, { FC, Fragment, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import { observer } from "mobx-react-lite";
 
-const validate = combineValidators({
-  code: composeValidators(
-    isRequired("Code"),
-    hasLengthLessThan(20)({ message: "Code maximum characters 20" })
-  )(),
-  description: hasLengthLessThan(50)({
-    message: "Description maximum characters 50",
-  }),
-});
-
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  uom: UnitOfMeasureFormValues;
 }
 
-const EditUnitOfMeasure: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
-}) => {
+const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    updateUnitOfMeasure,
-    createUnitOfMeasure,
-    unitOfMeasure,
-    submitting,
-  } = rootStore.settingsStore;
+  const { updateUnitOfMeasure, createUnitOfMeasure } = rootStore.settingsStore;
+  const { closeModal } = rootStore.modalStore;
 
-  const [formData, setFormData] = useState(new UnitOfMeasureFormValues());
-  useEffect(() => {
-    if (edit) {
-      setFormData(new UnitOfMeasureFormValues(unitOfMeasure!));
-    }
-  }, [edit, unitOfMeasure]);
-
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    if (formData.id === 0) {
-      createUnitOfMeasure(formData);
-    } else {
-      updateUnitOfMeasure(formData);
-    }
-    handleEditFormMode();
-  };
-
-  const handleEditFormMode = () => {
-    setFormData(new UnitOfMeasureFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
+  const { register, errors, handleSubmit } = useForm({ defaultValues: uom });
+  const onSubmit = (data: any) => {
+    const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
+    if (formData.id === 0)
+      createUnitOfMeasure(formData).finally(() => closeModal());
+    else updateUnitOfMeasure(formData).finally(() => closeModal());
   };
 
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Unit Of Measure" : "Create Unit Of Measure"}
-            </Header.Subheader>
-          </Header>
-          <Field
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {uom.id === 0 ? "Create Unit Of Measure" : "Modify Unit Of Measure"}
+          </Header.Subheader>
+        </Header>
+        <Form.Field>
+          <label>UOM Code</label>
+          <input
+            type="text"
             name="code"
-            label="UOM Code"
-            component={TextInput as any}
-            placeholder="Code"
-            value={formData.code}
+            placeholder="UOM Code"
+            ref={register({
+              required: "UOM code is required",
+              maxLength: {
+                value: 20,
+                message: "Code maximum characters 20",
+              },
+            })}
           />
-          <Field
-            rows={2}
-            label="UOM Description"
+          {errors.code && (
+            <Label basic color="red" pointing>
+              {errors.code.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Form.Field>
+          <label>UOM Description</label>
+          <textarea
             name="description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
+            placeholder="UOM Description"
+            rows={2}
+            ref={register({
+              maxLength: {
+                value: 50,
+                message: "Description maximum characters 50",
+              },
+            })}
           />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+          {errors.description && (
+            <Label basic color="red" pointing>
+              {errors.description.message}
+            </Label>
+          )}
+        </Form.Field>
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 

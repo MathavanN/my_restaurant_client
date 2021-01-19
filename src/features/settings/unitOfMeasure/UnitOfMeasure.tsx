@@ -1,8 +1,7 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import UnitOfMeasureList from "./UnitOfMeasureList";
-import EditUnitOfMeasure from "./EditUnitOfMeasure";
 
 const UnitOfMeasure = () => {
   const rootStore = useContext(RootStoreContext);
@@ -10,27 +9,10 @@ const UnitOfMeasure = () => {
   useEffect(() => {
     loadUnitOfMeasures();
   }, [loadUnitOfMeasures]);
-  const [editForm, setEditForm] = useState(false);
-  const [create, setCreate] = useState(false);
-  const [edit, setEdit] = useState(false);
 
   return (
     <Fragment>
-      {editForm ? (
-        <EditUnitOfMeasure
-          setEditForm={setEditForm}
-          setCreate={setCreate}
-          setEdit={setEdit}
-          edit={edit}
-          create={create}
-        />
-      ) : (
-        <UnitOfMeasureList
-          setEditForm={setEditForm}
-          setCreate={setCreate}
-          setEdit={setEdit}
-        />
-      )}
+      <UnitOfMeasureList />
     </Fragment>
   );
 };

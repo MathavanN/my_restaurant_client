@@ -1,31 +1,17 @@
-import React, { Fragment, useContext, FC } from "react";
+import React, { Fragment, useContext } from "react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import DeleteUnitOfMeasure from "./DeleteUnitOfMeasure";
+import EditUnitOfMeasure from "./EditUnitOfMeasure";
+import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
 
-interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-}
-const UnitOfMeasureList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
+const UnitOfMeasureList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadUnitOfMeasure, getUnitOfMeasures } = rootStore.settingsStore;
+  const { getUnitOfMeasures } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
-  const handleEditMode = (id: number) => {
-    loadUnitOfMeasure(id);
-    setEditForm(true);
-    setCreate(false);
-    setEdit(true);
-  };
 
-  const handleCreateMode = () => {
-    setEditForm(true);
-    setCreate(true);
-    setEdit(false);
-  };
   return (
     <Fragment>
       <Table compact celled>
@@ -34,7 +20,24 @@ const UnitOfMeasureList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             <Table.HeaderCell>No</Table.HeaderCell>
             <Table.HeaderCell>Code</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
-            {hasModifyAccess && <Table.HeaderCell>Action</Table.HeaderCell>}
+            {hasModifyAccess && (
+              <Table.HeaderCell>
+                <Button
+                  animated="vertical"
+                  color="green"
+                  onClick={() =>
+                    openModal(
+                      <EditUnitOfMeasure uom={new UnitOfMeasureFormValues()} />
+                    )
+                  }
+                >
+                  <Button.Content hidden>Add</Button.Content>
+                  <Button.Content visible>
+                    <Icon name="add circle" />
+                  </Button.Content>
+                </Button>
+              </Table.HeaderCell>
+            )}
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -48,13 +51,20 @@ const UnitOfMeasureList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
                   <Button
                     animated="vertical"
                     color="orange"
-                    onClick={() => handleEditMode(uom.id)}
+                    onClick={() =>
+                      openModal(
+                        <EditUnitOfMeasure
+                          uom={new UnitOfMeasureFormValues(uom)}
+                        />
+                      )
+                    }
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
                       <Icon name="edit" />
                     </Button.Content>
                   </Button>
+
                   <Button
                     animated="vertical"
                     color="red"
@@ -72,21 +82,6 @@ const UnitOfMeasureList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
             </Table.Row>
           ))}
         </Table.Body>
-        {hasModifyAccess && (
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell colSpan="4">
-                <Button
-                  floated="right"
-                  primary
-                  onClick={() => handleCreateMode()}
-                >
-                  Add Unit Of Measure
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        )}
       </Table>
     </Fragment>
   );
