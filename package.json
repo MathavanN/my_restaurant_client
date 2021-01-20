@@ -1,5 +1,5 @@
 {
-  "name": "mr-restaurant",
+  "name": "my-restaurant",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +23,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-final-form": "^6.5.2",
-    "react-hook-form": "^6.14.0",
+    "react-hook-form": "^6.14.2",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
