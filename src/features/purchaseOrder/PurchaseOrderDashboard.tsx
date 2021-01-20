@@ -8,11 +8,18 @@ import PurchaseOrderList from "./PurchaseOrderList";
 
 const PurchaseOrderDashboard = () => {
   const rootStore = useContext(RootStoreContext);
-  const { openModal, closeModal } = rootStore.modalStore;
-  const { loadSuppliers } = rootStore.settingsStore;
+  const { openModal } = rootStore.modalStore;
+  const {
+    loadSuppliers,
+    loadStockItems,
+    loadSupplierOptions,
+  } = rootStore.settingsStore;
+  const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
   useEffect(() => {
     loadSuppliers();
-  }, [loadSuppliers]);
+    loadStockItems();
+    loadPurchaseOrders();
+  }, [loadSuppliers, loadStockItems, loadPurchaseOrders]);
   return (
     <Fragment>
       <Message info icon>
@@ -25,9 +32,8 @@ const PurchaseOrderDashboard = () => {
           onClick={() =>
             openModal(
               <AddPurchaseOrder
-                formData={new PurchaseOrderFormValues()}
-                header="Create new purchase order"
-                handleCancel={closeModal}
+                order={new PurchaseOrderFormValues()}
+                supplierOptions={loadSupplierOptions}
               />
             )
           }
