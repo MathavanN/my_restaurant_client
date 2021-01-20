@@ -6,8 +6,8 @@ import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseO
 import { CreateStockItem, IStockItem } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier } from '../models/supplier';
-import { IUnitOfMeasure } from '../models/unitOfMeasure';
-import { IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
+import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
+import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
@@ -70,6 +70,7 @@ const userV1Apis = {
     refresh: "/v1/Account/Refresh",
 }
 const Users = {
+    list: (): Promise<IAppUser[]> => requests.get(`/v1/account/users`),
     current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
     login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
     refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
@@ -78,8 +79,8 @@ const Users = {
 
 const UnitOfMeasure = {
     list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitofmeasure`),
-    create: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> => requests.post(`/v1/unitofmeasure`, unitOfMeasure),
-    update: (unitOfMeasure: IUnitOfMeasure) => requests.put(`/v1/unitofmeasure/${unitOfMeasure.id}`, unitOfMeasure),
+    create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.post(`/v1/unitofmeasure`, unitOfMeasure),
+    update: (unitOfMeasure: UnitOfMeasureFormValues) => requests.put(`/v1/unitofmeasure/${unitOfMeasure.id}`, unitOfMeasure),
     detail: (id: number): Promise<IUnitOfMeasure> => requests.get(`/v1/unitofmeasure/${id}`),
     delete: (id: number) => requests.del(`/v1/unitofmeasure/${id}`),
 }
