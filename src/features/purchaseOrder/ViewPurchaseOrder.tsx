@@ -30,13 +30,20 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
     purchaseOrder,
     getPurchaseOrderItems,
   } = rootStore.purchaseOrderStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
   const { openModal } = rootStore.modalStore;
   const { user, hasModifyAccess } = rootStore.userStore;
 
   useEffect(() => {
+    loadStockTypes();
     loadPurchaseOrder(parseInt(match.params.id));
     loadPurchaseOrderItems(parseInt(match.params.id));
-  }, [loadPurchaseOrder, loadPurchaseOrderItems, match.params.id]);
+  }, [
+    loadPurchaseOrder,
+    loadStockTypes,
+    loadPurchaseOrderItems,
+    match.params.id,
+  ]);
 
   if (loadingInitial)
     return <LoadingComponent content="Loading purchase order details..." />;
@@ -73,6 +80,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
           <Segment attached>
             <OrderItemList
               order={purchaseOrder}
+              stockTypeOptions={loadStockTypeOptions}
               displayAction={false}
               displaySummary={true}
               displayAmount={true}
