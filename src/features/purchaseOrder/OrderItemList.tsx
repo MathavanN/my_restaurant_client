@@ -9,18 +9,21 @@ import { PurchaseOrderItemFormValues } from "../../app/models/purchaseOrderItem"
 import DeleteOrderItem from "./DeleteOrderItem";
 import { IPurchaseOrder } from "../../app/models/purchaseOrder";
 import OrderItemSummary from "./OrderItemSummary";
+import { ISelectInputOptions } from "../../app/models/common";
 
 interface IProps {
   displayAmount: boolean;
   displayAction: boolean;
   displaySummary: boolean;
   order: IPurchaseOrder;
+  stockTypeOptions: ISelectInputOptions[];
 }
 const OrderItemList: FC<IProps> = ({
   displayAction,
   displayAmount,
   displaySummary,
   order,
+  stockTypeOptions,
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { getPurchaseOrderItems } = rootStore.purchaseOrderStore;
@@ -46,6 +49,7 @@ const OrderItemList: FC<IProps> = ({
                     openModal(
                       <CreateOrderItem
                         item={new PurchaseOrderItemFormValues(order.id)}
+                        stockTypeOptions={stockTypeOptions}
                       />
                     )
                   }
@@ -87,6 +91,7 @@ const OrderItemList: FC<IProps> = ({
                       openModal(
                         <CreateOrderItem
                           item={new PurchaseOrderItemFormValues(order.id, item)}
+                          stockTypeOptions={stockTypeOptions}
                         />
                       )
                     }
