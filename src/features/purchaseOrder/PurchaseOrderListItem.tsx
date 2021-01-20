@@ -9,21 +9,24 @@ import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import AddPurchaseOrder from "./AddPurchaseOrder";
 import { PURCHASE_ORDER_PENDING } from "../../app/models/constants";
+import { ISelectInputOptions } from "../../app/models/common";
 
 interface IProps {
   orders: [string, IPurchaseOrder][];
+  supplierOptions: ISelectInputOptions[];
   displayColumn: boolean;
   displayView: boolean;
   displayEdit: boolean;
 }
 const PurchaseOrderListItem: FC<IProps> = ({
   orders,
+  supplierOptions,
   displayColumn,
   displayView,
   displayEdit,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { openModal, closeModal } = rootStore.modalStore;
+  const { openModal } = rootStore.modalStore;
   return (
     <Table compact celled>
       <Table.Header>
@@ -81,9 +84,8 @@ const PurchaseOrderListItem: FC<IProps> = ({
                   onClick={() =>
                     openModal(
                       <AddPurchaseOrder
-                        formData={new PurchaseOrderFormValues(order)}
-                        header="Modify purchase order"
-                        handleCancel={closeModal}
+                        order={new PurchaseOrderFormValues(order)}
+                        supplierOptions={supplierOptions}
                       />
                     )
                   }
