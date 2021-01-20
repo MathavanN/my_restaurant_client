@@ -4,7 +4,7 @@ import { ISelectInputOptions } from "../models/common";
 import { CreateStockItem, IStockItem } from "../models/stockItem";
 import { IStockType } from "../models/stockType";
 import { ISupplier } from "../models/supplier";
-import { IUnitOfMeasure } from "../models/unitOfMeasure";
+import { IUnitOfMeasure, UnitOfMeasureFormValues } from "../models/unitOfMeasure";
 import { RootStore } from "./rootStore";
 
 export default class SettingsStore {
@@ -271,8 +271,9 @@ export default class SettingsStore {
         this.submitting = true;
         try {
             await agent.StockItem.update(stockItem);
+            const x = await agent.StockItem.detail(stockItem.id);
             runInAction(() => {
-                this.stockItemRegistry.set(stockItem.id, stockItem)
+                this.stockItemRegistry.set(stockItem.id, x)
                 this.submitting = false;
             })
         } catch (error) {
@@ -312,7 +313,7 @@ export default class SettingsStore {
         }
     }
 
-    createUnitOfMeasure = async (unitOfMeasure: IUnitOfMeasure) => {
+    createUnitOfMeasure = async (unitOfMeasure: UnitOfMeasureFormValues) => {
         this.submitting = true;
         try {
             const uom = await agent.UnitOfMeasure.create(unitOfMeasure);
@@ -357,7 +358,7 @@ export default class SettingsStore {
         }
     }
 
-    updateUnitOfMeasure = async (unitOfMeasure: IUnitOfMeasure) => {
+    updateUnitOfMeasure = async (unitOfMeasure: UnitOfMeasureFormValues) => {
         this.submitting = true;
         try {
             await agent.UnitOfMeasure.update(unitOfMeasure);
@@ -466,6 +467,7 @@ export default class SettingsStore {
 
     getSortedStockItems() {
         const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
+        console.log({ ...stockItems })
         return stockItems.sort(
             (a, b) => (a.stockType.toLowerCase() === b.stockType.toLowerCase() ? 0 : (a.stockType.toLowerCase() < b.stockType.toLowerCase() ? 1 : -1))
                 || (a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
