@@ -1,6 +1,6 @@
 import { RootStore } from "./rootStore";
-import { runInAction, makeAutoObservable } from "mobx";
-import { IRefreshToken, IToken, IUser, IUserLogin } from "../models/user";
+import { runInAction, makeAutoObservable, computed } from "mobx";
+import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from "../models/user";
 import agent from "../api/agent";
 import history from '../../history'
 import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
@@ -14,6 +14,8 @@ export default class UserStore {
     isAdmin = false;
     isReport = false;
     isNormal = false;
+
+    appUsersRegistry = new Map();
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
@@ -42,6 +44,40 @@ export default class UserStore {
 
     get hasModifyAccess() {
         return this.getAccessPolicy(SUPER_ADMIN) || this.getAccessPolicy(ADMIN);
+    }
+
+    loadAppUsers = async () => {
+        this.loading = true
+        try {
+            const users = await agent.Users.list();
+            runInAction(() => {
+                users.forEach(user => {
+                    this.appUsersRegistry.set(user.id, user)
+                });
+                this.loading = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loading = false;
+            })
+        }
+    }
+
+    getSortedAppUsers() {
+        const users: IAppUser[] = Array.from(this.appUsersRegistry.values());
+        return users.sort(
+            (a, b) => (a.firstName.toLowerCase() === b.firstName.toLowerCase() ? 0 : (a.firstName.toLowerCase() < b.firstName.toLowerCase() ? 1 : -1))
+                || (a.lastName.toLowerCase() === b.lastName.toLowerCase() ? 0 : (a.lastName.toLowerCase() > b.lastName.toLowerCase() ? 1 : -1))
+        );
+    }
+
+    @computed get getAppUsers() {
+        const sortedAppUsers = this.getSortedAppUsers();
+
+        return Object.entries(sortedAppUsers.reduce((users, user, i) => {
+            users[++i] = user;
+            return users;
+        }, {} as { [key: number]: IAppUser }));
     }
 
     getUser = async () => {
