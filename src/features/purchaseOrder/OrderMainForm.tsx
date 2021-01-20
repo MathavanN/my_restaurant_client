@@ -20,27 +20,28 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
   const {
-    loadSuppliers,
-    loadStockItems,
+    loadSupplierOptions,
     loadStockTypes,
+    loadSuppliers,
+    loadStockTypeOptions,
+    loadStockItems,
   } = rootStore.settingsStore;
 
   useEffect(() => {
+    loadStockTypes();
     loadSuppliers();
     loadStockItems();
-    loadStockTypes();
     if (match.params.id) {
       loadPurchaseOrder(parseInt(match.params.id));
       loadPurchaseOrderItems(parseInt(match.params.id));
     }
   }, [
-    loadSuppliers,
-    loadStockTypes,
-    loadStockItems,
     loadPurchaseOrder,
     loadPurchaseOrderItems,
     match.params.id,
-    purchaseOrder,
+    loadStockTypes,
+    loadSuppliers,
+    loadStockItems,
   ]);
 
   return (
@@ -49,12 +50,14 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
         <Fragment>
           <PurchaseOrderListItem
             orders={new Array(["1", purchaseOrder])}
+            supplierOptions={loadSupplierOptions}
             displayColumn={false}
             displayEdit={true}
             displayView={false}
           />
           <OrderItemList
             order={purchaseOrder}
+            stockTypeOptions={loadStockTypeOptions}
             displayAction={true}
             displaySummary={false}
             displayAmount={false}
