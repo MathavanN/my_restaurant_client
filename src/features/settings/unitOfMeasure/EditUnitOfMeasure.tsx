@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext } from "react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, Header, Label } from "semantic-ui-react";
 import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
@@ -14,7 +14,9 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const { updateUnitOfMeasure, createUnitOfMeasure } = rootStore.settingsStore;
   const { closeModal } = rootStore.modalStore;
 
-  const { register, errors, handleSubmit } = useForm({ defaultValues: uom });
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
+    defaultValues: uom,
+  });
   const onSubmit = (data: any) => {
     const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
     if (formData.id === 0)
@@ -22,6 +24,27 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
     else updateUnitOfMeasure(formData).finally(() => closeModal());
   };
 
+  useEffect(() => {
+    register(
+      { name: "code" },
+      {
+        required: "UOM code is required",
+        maxLength: {
+          value: 20,
+          message: "UOM code maximum characters 20",
+        },
+      }
+    );
+    register(
+      { name: "description" },
+      {
+        maxLength: {
+          value: 50,
+          message: "UOM description maximum characters 50",
+        },
+      }
+    );
+  }, [register]);
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -30,45 +53,42 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
             {uom.id === 0 ? "Create Unit Of Measure" : "Modify Unit Of Measure"}
           </Header.Subheader>
         </Header>
-        <Form.Field>
-          <label>UOM Code</label>
-          <input
-            type="text"
-            name="code"
-            placeholder="UOM Code"
-            ref={register({
-              required: "UOM code is required",
-              maxLength: {
-                value: 20,
-                message: "Code maximum characters 20",
-              },
-            })}
-          />
-          {errors.code && (
-            <Label basic color="red" pointing>
-              {errors.code.message}
-            </Label>
-          )}
-        </Form.Field>
-        <Form.Field>
-          <label>UOM Description</label>
-          <textarea
-            name="description"
-            placeholder="UOM Description"
-            rows={2}
-            ref={register({
-              maxLength: {
-                value: 50,
-                message: "Description maximum characters 50",
-              },
-            })}
-          />
-          {errors.description && (
-            <Label basic color="red" pointing>
-              {errors.description.message}
-            </Label>
-          )}
-        </Form.Field>
+        <Form.Input
+          name="code"
+          fluid
+          label="UOM Code"
+          placeholder="UOM Code"
+          defaultValue={uom.code}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.code && (
+              <Label basic color="red" pointing>
+                {errors.code.message}
+              </Label>
+            )
+          }
+        />
+        <Form.TextArea
+          label="UOM Description"
+          name="description"
+          placeholder="UOM description..."
+          defaultValue={uom.description}
+          rows={2}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.description && (
+              <Label basic color="red" pointing>
+                {errors.description.message}
+              </Label>
+            )
+          }
+        />
         <Button type="submit" color="teal" fluid>
           Submit
         </Button>
