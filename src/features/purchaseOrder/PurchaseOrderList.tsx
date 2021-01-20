@@ -1,19 +1,14 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext } from "react";
 import { Header } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import PurchaseOrderListItem from "./PurchaseOrderListItem";
 
 const PurchaseOrderList = () => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadPurchaseOrders,
-    getPurchaseOrders,
-  } = rootStore.purchaseOrderStore;
+  const { getPurchaseOrders } = rootStore.purchaseOrderStore;
+  const { loadSupplierOptions } = rootStore.settingsStore;
 
-  useEffect(() => {
-    loadPurchaseOrders();
-  }, [loadPurchaseOrders]);
   return (
     <Fragment>
       <Header as="h3" dividing textAlign="center">
@@ -21,6 +16,7 @@ const PurchaseOrderList = () => {
       </Header>
       <PurchaseOrderListItem
         orders={getPurchaseOrders}
+        supplierOptions={loadSupplierOptions}
         displayColumn={true}
         displayEdit={false}
         displayView={true}
