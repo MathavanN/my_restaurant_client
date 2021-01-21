@@ -46,50 +46,38 @@ export default class PurchaseOrderStore {
     }
 
     createPurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
-        this.submittingItem = true;
         try {
             const result = await agent.PurchaseOrderItem.create(item);
             const x = await agent.PurchaseOrderItem.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderItemRegistry.set(result.id, x)
-                this.submittingItem = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submittingItem = false;
-            })
+            throw error;
         }
     }
 
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
-        this.submittingItem = true;
         try {
             await agent.PurchaseOrderItem.update(item);
             //const x = await agent.PurchaseOrderItem.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderItemRegistry.set(item.id, item)
-                this.submittingItem = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submittingItem = false;
-            })
+            throw error;
         }
     }
 
 
     deletePurchaseOrderItem = async (id: number) => {
-        this.submittingItem = true;
         try {
             await agent.PurchaseOrderItem.delete(id);
             runInAction(() => {
                 this.purchaseOrderItemRegistry.delete(id);
-                this.submittingItem = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submittingItem = false;
-            })
+            throw error;
         }
     }
 
@@ -169,53 +157,41 @@ export default class PurchaseOrderStore {
     }
 
     createPurchaseOrder = async (order: CreatePurchaseOrder) => {
-        this.submitting = true;
         try {
             const result = await agent.PurchaseOrder.create(order);
             const x = await agent.PurchaseOrder.detail(result.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(result.id, x)
                 this.purchaseOrder = x;
-                this.submitting = false;
             });
             this.rootStore.modalStore.closeModal();
             history.push(`/purchase/manage/${x.id}`);
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     updatePurchaseOrder = async (order: CreatePurchaseOrder) => {
-        this.submitting = true;
         try {
             await agent.PurchaseOrder.update(order);
             const x = await agent.PurchaseOrder.detail(order.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(order.id, x)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     approvalPurchaseOrder = async (order: ApprovalPurchaseOrder) => {
-        this.submitting = true;
         try {
             await agent.PurchaseOrder.approval(order);
             const x = await agent.PurchaseOrder.detail(order.id);
             runInAction(() => {
                 this.purchaseOrderRegistry.set(order.id, x)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
