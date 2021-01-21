@@ -7,6 +7,8 @@ import {
   CreatePurchaseOrder,
 } from "../../app/models/purchaseOrder";
 import { ISelectInputOptions } from "../../app/models/common";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 interface IProps {
   order: PurchaseOrderFormValues;
@@ -26,10 +28,21 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
 
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrder({ ...data, id: order.id });
+    formData.supplierId = 0;
     console.log(formData);
     if (formData.id === 0)
-      createPurchaseOrder(formData).finally(() => closeModal());
-    else updatePurchaseOrder(formData).finally(() => closeModal());
+      createPurchaseOrder(formData).catch((error) => {
+        toast.error(<ErrorMessage error={error} text="Error:" />);
+      });
+    else
+      updatePurchaseOrder(formData)
+        .then(() => {
+          toast.success("Purchase order updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
   useEffect(() => {
     register(

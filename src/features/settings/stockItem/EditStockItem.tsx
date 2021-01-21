@@ -8,7 +8,8 @@ import {
   StockItemFormValues,
 } from "../../../app/models/stockItem";
 import { ISelectInputOptions } from "../../../app/models/common";
-
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 interface IProps {
   stockItem: StockItemFormValues;
   stockTypes: ISelectInputOptions[];
@@ -30,10 +31,24 @@ const EditStockItem: FC<IProps> = ({
 
   const onSubmit = (data: any) => {
     const formData = new CreateStockItem({ ...data, id: stockItem.id });
-    console.log(formData);
     if (formData.id === 0)
-      createStockItem(formData).finally(() => closeModal());
-    else updateStockItem(formData).finally(() => closeModal());
+      createStockItem(formData)
+        .then(() => {
+          toast.success("Stock item created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateStockItem(formData)
+        .then(() => {
+          toast.success("Stock item updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
 
   useEffect(() => {
@@ -92,7 +107,7 @@ const EditStockItem: FC<IProps> = ({
 
   return (
     <Fragment>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} error>
         <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {stockItem.id === 0 ? "Add new Stock Item" : "Modify Stock Item"}

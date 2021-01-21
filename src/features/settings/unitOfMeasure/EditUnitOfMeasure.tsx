@@ -4,6 +4,8 @@ import { Form, Button, Header, Label } from "semantic-ui-react";
 import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   uom: UnitOfMeasureFormValues;
@@ -20,8 +22,23 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const onSubmit = (data: any) => {
     const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
     if (formData.id === 0)
-      createUnitOfMeasure(formData).finally(() => closeModal());
-    else updateUnitOfMeasure(formData).finally(() => closeModal());
+      createUnitOfMeasure(formData)
+        .then(() => {
+          toast.success("Unit of measure created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateUnitOfMeasure(formData)
+        .then(() => {
+          toast.success("Unit of measure updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
 
   useEffect(() => {

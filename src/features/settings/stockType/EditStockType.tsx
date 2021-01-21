@@ -4,6 +4,8 @@ import { Form, Button, Header, Label } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { StockTypeFormValues } from "../../../app/models/stockType";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+import { toast } from "react-toastify";
 
 interface IProps {
   stockType: StockTypeFormValues;
@@ -20,8 +22,23 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
   const onSubmit = (data: any) => {
     const formData = new StockTypeFormValues({ ...data, id: stockType.id });
     if (formData.id === 0)
-      createStockType(formData).finally(() => closeModal());
-    else updateStockType(formData).finally(() => closeModal());
+      createStockType(formData)
+        .then(() => {
+          toast.success("Stock type created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateStockType(formData)
+        .then(() => {
+          toast.success("Stock type updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
   useEffect(() => {
     register(

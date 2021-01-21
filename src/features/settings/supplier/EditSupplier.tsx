@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { SupplierFormValues } from "../../../app/models/supplier";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   supplier: SupplierFormValues;
@@ -19,8 +21,24 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
   });
   const onSubmit = (data: any) => {
     const formData = new SupplierFormValues({ ...data, id: supplier.id });
-    if (formData.id === 0) createSupplier(formData).finally(() => closeModal());
-    else updateSupplier(formData).finally(() => closeModal());
+    if (formData.id === 0)
+      createSupplier(formData)
+        .then(() => {
+          toast.success("Supplier created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateSupplier(formData)
+        .then(() => {
+          toast.success("Supplier updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
   useEffect(() => {
     register(
