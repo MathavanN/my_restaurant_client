@@ -18,16 +18,12 @@ axios.interceptors.request.use((config) => {
     return Promise.reject(error)
 })
 axios.interceptors.response.use(undefined, error => {
-    console.log(error.message)
-    console.log(error.response)
-    console.log(error)
     if (error.message === "Network Error" && !error.response) {
         toast.error("network error")
     }
     const { status, data, config, headers } = error.response;
 
-    if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
-        console.log(error.response)
+    if (status === 401 && headers['www-authenticate'] !== undefined && headers['www-authenticate'].includes("invalid_token")) {
         window.localStorage.removeItem("jwt")
         history.push('/')
         toast.info("Your session has expired, please login again")
@@ -40,9 +36,6 @@ axios.interceptors.response.use(undefined, error => {
         history.push('/dashboard');
     }
 
-    if (status === 409) {
-        toast.error(data.errorMessage)
-    }
     if (status === 500) {
         toast.error('Server error - check the terminal for more info!')
     }
