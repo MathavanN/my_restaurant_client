@@ -1,69 +1,95 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import { FORM_ERROR } from "final-form";
-import React, { useContext } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import { combineValidators, isRequired } from "revalidate";
-import { Form, Button, Header } from "semantic-ui-react";
-import ErrorMessage from "../../app/common/form/ErrorMessage";
-import TextInput from "../../app/common/form/TextInput";
+import { useForm } from "react-hook-form";
+import React, { Fragment, useEffect } from "react";
+import { Button, Form, Header, Label } from "semantic-ui-react";
+
 import { IUserLogin } from "../../app/models/user";
 import { RootStoreContext } from "../../app/stores/rootStore";
-
-const validate = combineValidators({
-  email: isRequired("email"),
-  password: isRequired("password"),
-});
+import { useContext } from "react";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 const LoginForm = () => {
   const rootStore = useContext(RootStoreContext);
   const { login } = rootStore.userStore;
-  return (
-    <FinalForm
-      validate={validate}
-      onSubmit={(values: IUserLogin) =>
-        login(values).catch((error) => ({ [FORM_ERROR]: error }))
+
+  const { register, errors, handleSubmit, setValue, trigger } = useForm();
+
+  const onSubmit = (data: IUserLogin) => {
+    login(data).catch((error) => {
+      console.log(error)
+      toast.error(<ErrorMessage error={error} text="Error:" />);
+    });
+  };
+
+  useEffect(() => {
+    register(
+      { name: "email" },
+      {
+        required: "Email is required",
+        pattern: {
+          value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+          message: "Invalid email address",
+        },
       }
-      render={({
-        handleSubmit,
-        submitting,
-        submitError,
-        invalid,
-        pristine,
-        dirtySinceLastSubmit,
-      }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <FontAwesomeIcon icon={faSignInAlt} size="lg" />
-            <Header.Subheader>Sign In</Header.Subheader>
-          </Header>
-          <Field
-            name="email"
-            component={TextInput as any}
-            placeholder="Email"
-          />
-          <Field
-            name="password"
-            component={TextInput as any}
-            placeholder="Password"
-            type="password"
-          />
-          {submitError && !dirtySinceLastSubmit && (
-            <ErrorMessage
-              error={submitError}
-              text="Invalid username or password"
-            />
-          )}
-          <Button
-            loading={submitting}
-            positive
-            content="Login"
-            fluid
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-        </Form>
-      )}
-    />
+    );
+    register(
+      { name: "password" },
+      {
+        required: "You must specify a password",
+      }
+    );
+  }, [register]);
+
+  return (
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <FontAwesomeIcon icon={faSignInAlt} size="lg" />
+          <Header.Subheader>Sign In</Header.Subheader>
+        </Header>
+        <Form.Input
+          name="email"
+          type="email"
+          fluid
+          label="Email"
+          placeholder="Email"
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.email && (
+              <Label basic color="red" pointing>
+                {errors.email.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="password"
+          type="password"
+          fluid
+          label="Password"
+          placeholder="Password"
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.password && (
+              <Label basic color="red" pointing>
+                {errors.password.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 
