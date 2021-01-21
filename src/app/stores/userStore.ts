@@ -101,7 +101,7 @@ export default class UserStore {
             const token = await agent.Users.login(values);
             runInAction(async () => {
                 this.token = token;
-                this.getUser();
+                //this.getUser();
                 this.rootStore.commonStore.setToken(token.accessToken)
                 this.rootStore.commonStore.setRefreshToken(token.refreshToken)
                 this.rootStore.modalStore.closeModal();
@@ -109,7 +109,6 @@ export default class UserStore {
             history.push('/test')
 
         } catch (error) {
-            console.log(`Error: ${JSON.stringify(error)}`)
             throw error;
         }
     }
@@ -124,13 +123,8 @@ export default class UserStore {
                 this.rootStore.commonStore.setToken(newToken.accessToken)
                 this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
             })
-
-
             history.push('/dashboard');
-
-
         } catch (error) {
-            console.log(`Error: ${JSON.stringify(error)}`)
             throw error;
         }
     }
