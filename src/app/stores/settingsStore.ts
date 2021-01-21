@@ -252,184 +252,136 @@ export default class SettingsStore {
     }
 
     createStockItem = async (stockItem: CreateStockItem) => {
-        this.submitting = true;
         try {
             const result = await agent.StockItem.create(stockItem);
             const x = await agent.StockItem.detail(result.id);
             runInAction(() => {
                 this.stockItemRegistry.set(result.id, x)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     updateStockItem = async (stockItem: CreateStockItem) => {
-        this.submitting = true;
         try {
             await agent.StockItem.update(stockItem);
             const x = await agent.StockItem.detail(stockItem.id);
             runInAction(() => {
                 this.stockItemRegistry.set(stockItem.id, x)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     createSupplier = async (supplier: ISupplier) => {
-        this.submitting = true;
         try {
             const result = await agent.Supplier.create(supplier);
             runInAction(() => {
                 this.supplierRegistry.set(result.id, result)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     createStockType = async (stockType: IStockType) => {
-        this.submitting = true;
         try {
             const result = await agent.StockType.create(stockType);
             runInAction(() => {
                 this.stockTypeRegistry.set(result.id, result)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     createUnitOfMeasure = async (unitOfMeasure: UnitOfMeasureFormValues) => {
-        this.submitting = true;
         try {
             const uom = await agent.UnitOfMeasure.create(unitOfMeasure);
             runInAction(() => {
                 this.unitOfMeasureRegistry.set(uom.id, uom)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     updateSupplier = async (supplier: ISupplier) => {
-        this.submitting = true;
         try {
             await agent.Supplier.update(supplier);
             runInAction(() => {
                 this.supplierRegistry.set(supplier.id, supplier)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     updateStockType = async (stockType: IStockType) => {
-        this.submitting = true;
         try {
             await agent.StockType.update(stockType);
             runInAction(() => {
                 this.stockTypeRegistry.set(stockType.id, stockType)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     updateUnitOfMeasure = async (unitOfMeasure: UnitOfMeasureFormValues) => {
-        this.submitting = true;
         try {
             await agent.UnitOfMeasure.update(unitOfMeasure);
             runInAction(() => {
                 this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     deleteSupplier = async (id: number) => {
-        this.submitting = true;
         try {
             await agent.Supplier.delete(id);
             runInAction(() => {
                 this.supplierRegistry.delete(id);
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     deleteStockType = async (id: number) => {
-        this.submitting = true;
         try {
             await agent.StockType.delete(id);
             runInAction(() => {
                 this.stockTypeRegistry.delete(id);
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     deleteUnitOfMeasure = async (id: number) => {
-        this.submitting = true;
         try {
             await agent.UnitOfMeasure.delete(id);
             runInAction(() => {
                 this.unitOfMeasureRegistry.delete(id);
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
     deleteStockItem = async (id: number) => {
-        this.submitting = true;
         try {
             await agent.StockItem.delete(id);
             runInAction(() => {
                 this.stockItemRegistry.delete(id);
-                this.submitting = false;
             })
         } catch (error) {
-            runInAction(() => {
-                this.submitting = false;
-            })
+            throw error;
         }
     }
 
@@ -467,7 +419,6 @@ export default class SettingsStore {
 
     getSortedStockItems() {
         const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
-        console.log({ ...stockItems })
         return stockItems.sort(
             (a, b) => (a.stockType.toLowerCase() === b.stockType.toLowerCase() ? 0 : (a.stockType.toLowerCase() < b.stockType.toLowerCase() ? 1 : -1))
                 || (a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
