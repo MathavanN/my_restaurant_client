@@ -5,15 +5,12 @@ import StockItemList from "./StockItemList";
 
 const StockItem = () => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadStockItems,
-    loadStockTypes,
-    loadUnitOfMeasures,
-  } = rootStore.settingsStore;
+  const { loadStockTypes, loadUnitOfMeasures } = rootStore.settingsStore;
+  const { loadStockItems } = rootStore.stockItemStore;
   useEffect(() => {
-    loadStockItems();
     loadUnitOfMeasures();
     loadStockTypes();
+    loadStockItems();
   }, [loadStockItems, loadUnitOfMeasures, loadStockTypes]);
 
   return (
