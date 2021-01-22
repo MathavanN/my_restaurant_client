@@ -1,103 +1,60 @@
 import React, { Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import { Button, Icon, Table } from "semantic-ui-react";
-import DeleteStockItem from "./DeleteStockItem";
-import EditStockItem from "./EditStockItem";
+import { Table } from "semantic-ui-react";
 import { StockItemFormValues } from "../../../app/models/stockItem";
+import FilterStockItem from "./FilterStockItem";
+import StockItemListHeader from "./StockItemListHeader";
+import StockItemListItem from "./StockItemListItem";
+import StockListItemFooter from "./StockListItemFooter";
 
 const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);
   const {
-    getStockItems,
     loadStockTypeOptions,
     loadUnitOfMeasureOptions,
   } = rootStore.settingsStore;
+
+  const {
+    loadStockItems,
+    loadStockItems1,
+    getStockItems,
+    getStockItemTotalPages,
+    page,
+    setStockItemPage,
+    setPredicate,
+  } = rootStore.stockItemStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
 
   return (
     <Fragment>
+      <FilterStockItem
+        stockTypeOptions={loadStockTypeOptions}
+        setPredicate={setPredicate}
+        loadStockItems={loadStockItems1}
+      />
       <Table compact celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>No</Table.HeaderCell>
-            <Table.HeaderCell>Stock Type</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Unit</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            {hasModifyAccess && (
-              <Table.HeaderCell>
-                <Button
-                  animated="vertical"
-                  color="green"
-                  onClick={() =>
-                    openModal(
-                      <EditStockItem
-                        stockItem={new StockItemFormValues()}
-                        stockTypes={loadStockTypeOptions}
-                        unitOfMeasures={loadUnitOfMeasureOptions}
-                      />
-                    )
-                  }
-                >
-                  <Button.Content hidden>Add</Button.Content>
-                  <Button.Content visible>
-                    <Icon name="add circle" />
-                  </Button.Content>
-                </Button>
-              </Table.HeaderCell>
-            )}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {getStockItems.map(([group, stockItem]) => (
-            <Table.Row key={stockItem.id}>
-              <Table.Cell>{group}</Table.Cell>
-              <Table.Cell>{stockItem.stockType}</Table.Cell>
-              <Table.Cell>{stockItem.name}</Table.Cell>
-              <Table.Cell>
-                {stockItem.itemUnit}
-                {stockItem.unitOfMeasureCode}
-              </Table.Cell>
-              <Table.Cell>{stockItem.description}</Table.Cell>
-              {hasModifyAccess && (
-                <Table.Cell collapsing textAlign="right">
-                  <Button
-                    animated="vertical"
-                    color="orange"
-                    onClick={() =>
-                      openModal(
-                        <EditStockItem
-                          stockItem={new StockItemFormValues(stockItem)}
-                          stockTypes={loadStockTypeOptions}
-                          unitOfMeasures={loadUnitOfMeasureOptions}
-                        />
-                      )
-                    }
-                  >
-                    <Button.Content hidden>Edit</Button.Content>
-                    <Button.Content visible>
-                      <Icon name="edit" />
-                    </Button.Content>
-                  </Button>
-                  <Button
-                    animated="vertical"
-                    color="red"
-                    onClick={() =>
-                      openModal(<DeleteStockItem stockItem={stockItem} />)
-                    }
-                  >
-                    <Button.Content hidden>Delete</Button.Content>
-                    <Button.Content visible>
-                      <Icon name="delete" />
-                    </Button.Content>
-                  </Button>
-                </Table.Cell>
-              )}
-            </Table.Row>
-          ))}
-        </Table.Body>
+        <StockItemListHeader
+          hasModifyAccess={hasModifyAccess}
+          openModal={openModal}
+          stockItem={new StockItemFormValues()}
+          stockTypeOptions={loadStockTypeOptions}
+          unitOfMeasureOptions={loadUnitOfMeasureOptions}
+        />
+        <StockItemListItem
+          hasModifyAccess={hasModifyAccess}
+          openModal={openModal}
+          getStockItems={getStockItems}
+          stockTypeOptions={loadStockTypeOptions}
+          unitOfMeasureOptions={loadUnitOfMeasureOptions}
+        />
+        <StockListItemFooter
+          page={page}
+          totalPages={getStockItemTotalPages}
+          setPage={setStockItemPage}
+          loadStockItems={loadStockItems}
+        />
       </Table>
     </Fragment>
   );
