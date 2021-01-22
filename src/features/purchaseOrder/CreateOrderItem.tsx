@@ -22,7 +22,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     updatePurchaseOrderItem,
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  const { getFilteredStockItems } = rootStore.settingsStore;
+  const { getFilteredStockItems } = rootStore.stockItemStore;
 
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrderItem({ ...data, id: item.id });
