@@ -30,8 +30,8 @@ const CurrentUser = () => {
               <Card.Content extra>
                 Available Access Roles:
                 <ul>
-                  {user.roles.map((role) => (
-                    <li>{role}</li>
+                  {user.roles.map((role: string, i: number) => (
+                    <li key={i}>{role}</li>
                   ))}
                 </ul>
               </Card.Content>
