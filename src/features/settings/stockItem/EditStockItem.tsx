@@ -12,17 +12,17 @@ import { toast } from "react-toastify";
 import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 interface IProps {
   stockItem: StockItemFormValues;
-  stockTypes: ISelectInputOptions[];
-  unitOfMeasures: ISelectInputOptions[];
+  stockTypeOptions: ISelectInputOptions[];
+  unitOfMeasureOptions: ISelectInputOptions[];
 }
 
 const EditStockItem: FC<IProps> = ({
   stockItem,
-  stockTypes,
-  unitOfMeasures,
+  stockTypeOptions,
+  unitOfMeasureOptions,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { createStockItem, updateStockItem } = rootStore.settingsStore;
+  const { createStockItem, updateStockItem } = rootStore.stockItemStore;
   const { closeModal } = rootStore.modalStore;
 
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
@@ -116,7 +116,7 @@ const EditStockItem: FC<IProps> = ({
         <Form.Select
           name="typeId"
           fluid
-          options={stockTypes}
+          options={stockTypeOptions}
           label="Stock Type"
           placeholder="Select stock type"
           defaultValue={stockItem.typeId}
@@ -153,7 +153,7 @@ const EditStockItem: FC<IProps> = ({
         <Form.Select
           name="unitOfMeasureId"
           fluid
-          options={unitOfMeasures}
+          options={unitOfMeasureOptions}
           label="Unit Of Measure"
           placeholder="Select unit of measure"
           defaultValue={stockItem.unitOfMeasureId}
