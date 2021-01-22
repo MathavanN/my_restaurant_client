@@ -24,8 +24,9 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadStockTypes,
     loadSuppliers,
     loadStockTypeOptions,
-    loadStockItems,
   } = rootStore.settingsStore;
+
+  const { loadStockItems } = rootStore.stockItemStore;
 
   useEffect(() => {
     loadStockTypes();
