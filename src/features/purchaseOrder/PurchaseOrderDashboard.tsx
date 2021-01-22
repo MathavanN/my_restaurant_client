@@ -9,11 +9,8 @@ import PurchaseOrderList from "./PurchaseOrderList";
 const PurchaseOrderDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
-  const {
-    loadSuppliers,
-    loadStockItems,
-    loadSupplierOptions,
-  } = rootStore.settingsStore;
+  const { loadSuppliers, loadSupplierOptions } = rootStore.settingsStore;
+  const { loadStockItems } = rootStore.stockItemStore;
   const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
   useEffect(() => {
     loadSuppliers();
