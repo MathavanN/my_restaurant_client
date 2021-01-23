@@ -4,14 +4,12 @@ import { Pagination, Table } from "semantic-ui-react";
 interface IProps {
   page: number;
   totalPages: number;
-  setPage: (page: number) => void;
-  loadStockItems: () => void;
+  handleOnPageChange: (page: number) => void;
 }
 const StockListItemFooter: FC<IProps> = ({
   page,
   totalPages,
-  setPage,
-  loadStockItems,
+  handleOnPageChange,
 }) => {
   return (
     <Fragment>
@@ -22,10 +20,9 @@ const StockListItemFooter: FC<IProps> = ({
               <Pagination
                 defaultActivePage={page}
                 totalPages={totalPages}
-                onPageChange={(e, d) => {
-                  setPage(d.activePage as number);
-                  loadStockItems();
-                }}
+                onPageChange={(e, d) =>
+                  handleOnPageChange(d.activePage as number)
+                }
               />
             </Table.HeaderCell>
           </Table.Row>
