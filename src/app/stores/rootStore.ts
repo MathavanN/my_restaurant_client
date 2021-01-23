@@ -7,6 +7,7 @@ import RestaurantStore from "./restaurantStore";
 import SettingsStore from "./settingsStore";
 import PurchaseOrderStore from "./purchaseOrderStore";
 import StockItemStore from "./stockItemStore";
+import SupplierStore from "./supplierStore";
 
 configure({ enforceActions: 'always' })
 
@@ -18,6 +19,7 @@ export class RootStore {
     settingsStore: SettingsStore;
     purchaseOrderStore: PurchaseOrderStore;
     stockItemStore: StockItemStore
+    supplierStore: SupplierStore;
 
     constructor() {
         this.userStore = new UserStore(this)
@@ -27,6 +29,7 @@ export class RootStore {
         this.settingsStore = new SettingsStore(this);
         this.purchaseOrderStore = new PurchaseOrderStore(this);
         this.stockItemStore = new StockItemStore(this);
+        this.supplierStore = new SupplierStore(this)
     }
 }
 
