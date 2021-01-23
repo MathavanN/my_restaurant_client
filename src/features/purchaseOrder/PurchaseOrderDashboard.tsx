@@ -10,13 +10,13 @@ const PurchaseOrderDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
   const { loadSuppliers, loadSupplierOptions } = rootStore.settingsStore;
-  const { loadStockItems } = rootStore.stockItemStore;
+  const { loadAllStockItems } = rootStore.stockItemStore;
   const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
   useEffect(() => {
     loadSuppliers();
-    loadStockItems();
+    loadAllStockItems();
     loadPurchaseOrders();
-  }, [loadSuppliers, loadStockItems, loadPurchaseOrders]);
+  }, [loadSuppliers, loadAllStockItems, loadPurchaseOrders]);
   return (
     <Fragment>
       <Message info icon>
