@@ -26,12 +26,12 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadStockTypeOptions,
   } = rootStore.settingsStore;
 
-  const { loadStockItems } = rootStore.stockItemStore;
+  const { loadAllStockItems } = rootStore.stockItemStore;
 
   useEffect(() => {
     loadStockTypes();
     loadSuppliers();
-    loadStockItems();
+    loadAllStockItems();
     if (match.params.id) {
       loadPurchaseOrder(parseInt(match.params.id));
       loadPurchaseOrderItems(parseInt(match.params.id));
@@ -42,7 +42,7 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     match.params.id,
     loadStockTypes,
     loadSuppliers,
-    loadStockItems,
+    loadAllStockItems,
   ]);
 
   return (
