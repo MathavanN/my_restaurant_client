@@ -19,18 +19,15 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadPurchaseOrderItems,
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
-  const {
-    loadSupplierOptions,
-    loadStockTypes,
-    loadSuppliers,
-    loadStockTypeOptions,
-  } = rootStore.settingsStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
+
+  const { loadSupplierOptions, loadAllSuppliers } = rootStore.supplierStore;
 
   const { loadAllStockItems } = rootStore.stockItemStore;
 
   useEffect(() => {
     loadStockTypes();
-    loadSuppliers();
+    loadAllSuppliers();
     loadAllStockItems();
     if (match.params.id) {
       loadPurchaseOrder(parseInt(match.params.id));
@@ -41,7 +38,7 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadPurchaseOrderItems,
     match.params.id,
     loadStockTypes,
-    loadSuppliers,
+    loadAllSuppliers,
     loadAllStockItems,
   ]);
 

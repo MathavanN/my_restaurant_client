@@ -10,7 +10,7 @@ interface IProps {
 }
 const OrderSummary: FC<IProps> = ({ order }) => {
   const rootStore = useContext(RootStoreContext);
-  const { loadSupplier, supplier } = rootStore.settingsStore;
+  const { loadSupplier, supplier } = rootStore.supplierStore;
   useEffect(() => {
     loadSupplier(order.supplierId);
   }, [loadSupplier, order]);
