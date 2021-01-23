@@ -1,3 +1,7 @@
+export interface ISupplierEnvelop {
+    suppliers: ISupplier[],
+    supplierCount: number
+}
 export interface ISupplier {
     id: number;
     name: string;
@@ -25,7 +29,6 @@ export class SupplierFormValues {
     fax: string = "";
     email: string = "";
     contactPerson: string = "";
-    description: string = "";
     constructor(init?: ISupplier) {
         Object.assign(this, init);
     }
