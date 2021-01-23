@@ -23,6 +23,7 @@ const RegisterNonAdminUser = () => {
     getValues("roles").length ? true : "Select required access roles.";
 
   useEffect(() => {
+    register({ name: "roles" }, { required: true });
     register(
       { name: "email" },
       {
