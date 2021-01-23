@@ -1,7 +1,6 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { ISelectInputOptions } from "../models/common";
-import { CreateStockItem, IStockItem } from "../models/stockItem";
 import { IStockType } from "../models/stockType";
 import { ISupplier } from "../models/supplier";
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from "../models/unitOfMeasure";
@@ -17,8 +16,7 @@ export default class SettingsStore {
     stockType: IStockType | null = null;
     stockTypeRegistry = new Map();
 
-    stockItem: IStockItem | null = null;
-    stockItemRegistry = new Map();
+
 
     supplier: ISupplier | null = null;
     supplierRegistry = new Map();
@@ -33,6 +31,10 @@ export default class SettingsStore {
     setActiveTab = (activeIndex: number) => {
         this.activeTab = activeIndex
     }
+
+
+
+
 
     @computed get getUnitOfMeasures() {
         const sortedUnitOfMeasures = this.getSortedUnitOfMeasures();
@@ -61,14 +63,7 @@ export default class SettingsStore {
         }, {} as { [key: number]: ISupplier }));
     }
 
-    @computed get getStockItems() {
-        const sortedStockItems = this.getSortedStockItems();
 
-        return Object.entries(sortedStockItems.reduce((stockItems, stockItem, i) => {
-            stockItems[++i] = stockItem;
-            return stockItems;
-        }, {} as { [key: number]: IStockItem }));
-    }
 
     @computed get loadSupplierOptions() {
         const sortedSuppliers = this.getSortedSuppliers()
@@ -93,7 +88,6 @@ export default class SettingsStore {
     }
 
     @computed get loadStockTypeOptions() {
-
         const sortedStockTypes = this.getSortedStockTypes()
         return sortedStockTypes.map(stockType => {
             return {
@@ -104,16 +98,7 @@ export default class SettingsStore {
         });
     }
 
-    @computed get loadStockItemOptions() {
-        const sortedStockItems = this.getSortedStockItems();
-        return sortedStockItems.map(stockItem => {
-            return {
-                key: stockItem.id,
-                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-                value: stockItem.id
-            } as ISelectInputOptions
-        })
-    }
+
 
     loadSuppliers = async () => {
         this.loadingInitial = true;
@@ -133,23 +118,7 @@ export default class SettingsStore {
         }
     }
 
-    loadStockItems = async () => {
-        this.loadingInitial = true;
-        try {
-            const stockItems = await agent.StockItem.list();
-            runInAction(() => {
-                stockItems.forEach(stockItem => {
-                    this.stockItemRegistry.set(stockItem.id, stockItem)
-                });
-                this.loadingInitial = false;
-            })
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            })
-            console.log(error)
-        }
-    }
+
 
     loadStockTypes = async () => {
         this.loadingInitial = true;
@@ -235,45 +204,7 @@ export default class SettingsStore {
         }
     }
 
-    loadStockItem = async (id: number) => {
-        this.loadingInitial = true;
-        try {
-            const stockItem = await agent.StockItem.detail(id);
-            runInAction(() => {
-                this.stockItem = stockItem;
-                this.loadingInitial = false;
-            })
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            })
-            console.log(error)
-        }
-    }
 
-    createStockItem = async (stockItem: CreateStockItem) => {
-        try {
-            const result = await agent.StockItem.create(stockItem);
-            const x = await agent.StockItem.detail(result.id);
-            runInAction(() => {
-                this.stockItemRegistry.set(result.id, x)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    updateStockItem = async (stockItem: CreateStockItem) => {
-        try {
-            await agent.StockItem.update(stockItem);
-            const x = await agent.StockItem.detail(stockItem.id);
-            runInAction(() => {
-                this.stockItemRegistry.set(stockItem.id, x)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
 
     createSupplier = async (supplier: ISupplier) => {
         try {
@@ -374,27 +305,9 @@ export default class SettingsStore {
         }
     }
 
-    deleteStockItem = async (id: number) => {
-        try {
-            await agent.StockItem.delete(id);
-            runInAction(() => {
-                this.stockItemRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
 
-    getFilteredStockItems = (stockTypeId: number) => {
-        const sortedStockItems = this.getSortedStockItems();
-        return sortedStockItems.filter(stockItem => stockItem.typeId === stockTypeId).map(stockItem => {
-            return {
-                key: stockItem.id,
-                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-                value: stockItem.id
-            } as ISelectInputOptions
-        })
-    }
+
+
 
     getSortedSuppliers() {
         const suppliers: ISupplier[] = Array.from(this.supplierRegistry.values());
@@ -413,16 +326,10 @@ export default class SettingsStore {
     getSortedStockTypes() {
         const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
         return stockTypes.sort(
-            (a, b) => a.type.toLowerCase() === b.type.toLowerCase() ? 0 : (a.type.toLowerCase() < b.type.toLowerCase() ? 1 : -1)
+            (a, b) => a.type.toLowerCase() === b.type.toLowerCase() ? 0 : (a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1)
         );
     }
 
-    getSortedStockItems() {
-        const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
-        return stockItems.sort(
-            (a, b) => (a.stockType.toLowerCase() === b.stockType.toLowerCase() ? 0 : (a.stockType.toLowerCase() < b.stockType.toLowerCase() ? 1 : -1))
-                || (a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
-        );
-    }
+
 
 }
