@@ -6,11 +6,11 @@ import { ISupplier } from "../../../app/models/supplier";
 
 interface IProps {
   supplier: ISupplier;
+  closeModal: () => void;
 }
-const DeleteSupplier: FC<IProps> = ({ supplier }) => {
+const DeleteSupplier: FC<IProps> = ({ supplier, closeModal }) => {
   const rootStore = useContext(RootStoreContext);
-  const { closeModal } = rootStore.modalStore;
-  const { deleteSupplier } = rootStore.settingsStore;
+  const { deleteSupplier } = rootStore.supplierStore;
   return (
     <Fragment>
       <Header icon="delete" content="Are you sure to delete?" color="red" />

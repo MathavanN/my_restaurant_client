@@ -9,11 +9,12 @@ import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   supplier: SupplierFormValues;
+  
 }
 
 const EditSupplier: FC<IProps> = ({ supplier }) => {
   const rootStore = useContext(RootStoreContext);
-  const { updateSupplier, createSupplier } = rootStore.settingsStore;
+  const { updateSupplier, createSupplier } = rootStore.supplierStore;
   const { closeModal } = rootStore.modalStore;
 
   const { register, errors, handleSubmit, setValue, trigger } = useForm({

@@ -5,7 +5,7 @@ import SupplierList from "./SupplierList";
 
 const Supplier = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadSuppliers } = rootStore.settingsStore;
+  const { loadSuppliers } = rootStore.supplierStore;
   useEffect(() => {
     loadSuppliers();
   }, [loadSuppliers]);
