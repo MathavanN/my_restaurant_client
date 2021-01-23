@@ -7,7 +7,7 @@ import PurchaseOrderListItem from "./PurchaseOrderListItem";
 const PurchaseOrderList = () => {
   const rootStore = useContext(RootStoreContext);
   const { getPurchaseOrders } = rootStore.purchaseOrderStore;
-  const { loadSupplierOptions } = rootStore.settingsStore;
+  const { loadSupplierOptions } = rootStore.supplierStore;
 
   return (
     <Fragment>
