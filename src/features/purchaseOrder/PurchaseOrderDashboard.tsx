@@ -9,14 +9,14 @@ import PurchaseOrderList from "./PurchaseOrderList";
 const PurchaseOrderDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
-  const { loadSuppliers, loadSupplierOptions } = rootStore.settingsStore;
+  const { loadAllSuppliers, loadSupplierOptions } = rootStore.supplierStore;
   const { loadAllStockItems } = rootStore.stockItemStore;
   const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
   useEffect(() => {
-    loadSuppliers();
+    loadAllSuppliers();
     loadAllStockItems();
     loadPurchaseOrders();
-  }, [loadSuppliers, loadAllStockItems, loadPurchaseOrders]);
+  }, [loadAllSuppliers, loadAllStockItems, loadPurchaseOrders]);
   return (
     <Fragment>
       <Message info icon>
