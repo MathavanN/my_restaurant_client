@@ -5,7 +5,7 @@ import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../m
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
-import { ISupplier } from '../models/supplier';
+import { ISupplier, ISupplierEnvelop } from '../models/supplier';
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
 import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
 
@@ -96,7 +96,7 @@ const StockItem = {
 }
 
 const Supplier = {
-    list: (): Promise<ISupplier[]> => requests.get(`/v1/supplier`),
+    list: (params: URLSearchParams): Promise<ISupplierEnvelop> => requests.getByParams(`/v1/supplier`, params),
     create: (supplier: ISupplier): Promise<ISupplier> => requests.post(`/v1/supplier`, supplier),
     update: (supplier: ISupplier) => requests.put(`/v1/supplier/${supplier.id}`, supplier),
     detail: (id: number): Promise<ISupplier> => requests.get(`/v1/supplier/${id}`),
