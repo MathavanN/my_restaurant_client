@@ -54,27 +54,7 @@ export default class SettingsStore {
         }, {} as { [key: number]: IStockType }));
     }
 
-    @computed get getSuppliers() {
-        const sortedStockTypes = this.getSortedSuppliers();
-
-        return Object.entries(sortedStockTypes.reduce((suppliers, supplier, i) => {
-            suppliers[++i] = supplier;
-            return suppliers;
-        }, {} as { [key: number]: ISupplier }));
-    }
-
-
-
-    @computed get loadSupplierOptions() {
-        const sortedSuppliers = this.getSortedSuppliers()
-        return sortedSuppliers.map(supplier => {
-            return {
-                key: supplier.id,
-                text: supplier.name,
-                value: supplier.id,
-            } as ISelectInputOptions;
-        });
-    }
+    
 
     @computed get loadUnitOfMeasureOptions() {
         const sortedUnitOfMeasures = this.getSortedUnitOfMeasures()
@@ -100,23 +80,7 @@ export default class SettingsStore {
 
 
 
-    loadSuppliers = async () => {
-        this.loadingInitial = true;
-        try {
-            const suppliers = await agent.Supplier.list();
-            runInAction(() => {
-                suppliers.forEach(supplier => {
-                    this.supplierRegistry.set(supplier.id, supplier)
-                });
-                this.loadingInitial = false;
-            })
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            })
-            console.log(error)
-        }
-    }
+    
 
 
 
@@ -156,21 +120,7 @@ export default class SettingsStore {
         }
     }
 
-    loadSupplier = async (id: number) => {
-        this.loadingInitial = true;
-        try {
-            const supplier = await agent.Supplier.detail(id);
-            runInAction(() => {
-                this.supplier = supplier;
-                this.loadingInitial = false;
-            })
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            })
-            console.log(error)
-        }
-    }
+    
 
     loadStockType = async (id: number) => {
         this.loadingInitial = true;
@@ -206,16 +156,7 @@ export default class SettingsStore {
 
 
 
-    createSupplier = async (supplier: ISupplier) => {
-        try {
-            const result = await agent.Supplier.create(supplier);
-            runInAction(() => {
-                this.supplierRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
+    
 
     createStockType = async (stockType: IStockType) => {
         try {
@@ -239,16 +180,7 @@ export default class SettingsStore {
         }
     }
 
-    updateSupplier = async (supplier: ISupplier) => {
-        try {
-            await agent.Supplier.update(supplier);
-            runInAction(() => {
-                this.supplierRegistry.set(supplier.id, supplier)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
+    
 
     updateStockType = async (stockType: IStockType) => {
         try {
@@ -272,17 +204,7 @@ export default class SettingsStore {
         }
     }
 
-    deleteSupplier = async (id: number) => {
-        try {
-            await agent.Supplier.delete(id);
-            runInAction(() => {
-                this.supplierRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
-
+    
     deleteStockType = async (id: number) => {
         try {
             await agent.StockType.delete(id);
@@ -309,12 +231,7 @@ export default class SettingsStore {
 
 
 
-    getSortedSuppliers() {
-        const suppliers: ISupplier[] = Array.from(this.supplierRegistry.values());
-        return suppliers.sort(
-            (a, b) => a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1)
-        );
-    }
+    
 
     getSortedUnitOfMeasures() {
         const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
