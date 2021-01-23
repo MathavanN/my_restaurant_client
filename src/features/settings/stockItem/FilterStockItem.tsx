@@ -5,20 +5,17 @@ import { ISelectInputOptions } from "../../../app/models/common";
 
 interface IProps {
   stockTypeOptions: ISelectInputOptions[];
-  setPredicate: (predicate: string, value: string | number | Date) => void;
-  loadStockItems: () => void;
+  handleStockItemSearch: (typeId: number) => void;
 }
 
 const FilterStockItem: FC<IProps> = ({
   stockTypeOptions,
-  setPredicate,
-  loadStockItems,
+  handleStockItemSearch,
 }) => {
   const { handleSubmit, setValue, register, errors, trigger } = useForm();
   const onSubmit = (data: any) => {
     console.log({ ...data });
-    setPredicate("typeId", data.typeId);
-    loadStockItems();
+    handleStockItemSearch(data.typeId);
   };
   useEffect(() => {
     if (stockTypeOptions.length > 0) {
