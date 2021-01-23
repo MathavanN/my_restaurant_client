@@ -6,12 +6,10 @@ import StockItemList from "./StockItemList";
 const StockItem = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadStockTypes, loadUnitOfMeasures } = rootStore.settingsStore;
-  const { loadStockItems } = rootStore.stockItemStore;
   useEffect(() => {
     loadUnitOfMeasures();
     loadStockTypes();
-    loadStockItems();
-  }, [loadStockItems, loadUnitOfMeasures, loadStockTypes]);
+  }, [loadUnitOfMeasures, loadStockTypes]);
 
   return (
     <Fragment>
