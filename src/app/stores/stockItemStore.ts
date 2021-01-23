@@ -1,37 +1,35 @@
 import { RootStore } from "./rootStore";
-import { runInAction, makeAutoObservable, computed, reaction } from "mobx";
+import { runInAction, makeAutoObservable, computed } from "mobx";
 import { CreateStockItem, IStockItem } from "../models/stockItem";
 import { ISelectInputOptions } from "../models/common";
 import agent from "../api/agent";
 
-const LIMIT = 10;
+const LIMIT = 5;
 export default class StockItemStore {
-    
+
     rootStore: RootStore;
     stockItem: IStockItem | null = null;
-    stockItemRegistry = new Map();
+    stockItemRegistry = new Map(); // this is for pagination
     stockItemCount: number = 0;
     page: number = 1;
     loadingInitial = false;
     predicate = new Map();
 
+    allStockItemsRegistry = new Map(); //this to show in dropdown
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
-        reaction(
-            () => this.predicate.keys(),
-            () => {
-                this.page = 0;
-                this.stockItemRegistry.clear();
-                this.loadStockItems1();
-            }
-        )
         makeAutoObservable(this)
     }
 
     @computed get getStockItemTotalPages() {
-        console.log(this.stockItemCount);
-        console.log(this.stockItemCount / LIMIT)
         return Math.ceil(this.stockItemCount / LIMIT);
+    }
+
+    @computed get axiosParams() {
+        const params = new URLSearchParams();
+        params.append('limit', String(LIMIT));
+        params.append('offset', `${this.page ? ((this.page - 1) * LIMIT) : 1}`)
+        return params
     }
 
     setPredicate = (predicate: string, value: string | Date | number) => {
@@ -39,52 +37,32 @@ export default class StockItemStore {
     }
 
     setStockItemPage = (page: number) => {
-        console.log(page)
         this.page = page;
     }
 
     @computed get getStockItems() {
-        const sortedStockItems = this.getSortedStockItems();
+        const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
 
-        return Object.entries(sortedStockItems.reduce((stockItems, stockItem, i) => {
-            stockItems[++i] = stockItem;
+        return Object.entries(stockItems.reduce((stockItems, stockItem, i) => {
+            const serialNumber = LIMIT * (this.page - 1) + i + 1;
+            stockItems[serialNumber] = stockItem;
             return stockItems;
         }, {} as { [key: number]: IStockItem }));
     }
 
-    @computed get loadStockItemOptions() {
-        const sortedStockItems = this.getSortedStockItems();
-        return sortedStockItems.map(stockItem => {
-            return {
-                key: stockItem.id,
-                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-                value: stockItem.id
-            } as ISelectInputOptions
-        })
-    }
-
-    loadStockItems1 = async () => {
+    loadStockItems = async (typeId: number) => {
         this.stockItemRegistry.clear();
         this.loadingInitial = true;
         try {
-            const stockItems = await agent.StockItem.list();
+            const stockItemEnvelop = await agent.StockItem.list(typeId, this.axiosParams);
+            const { stockItems, stockItemCount } = stockItemEnvelop;
+
             runInAction(() => {
-                if (this.predicate.has("typeId")) {
-                    const filteredData = stockItems.filter(d => d.typeId === this.predicate.get("typeId"));
-                    this.stockItemCount = filteredData.length;
-                    const paginationData = filteredData.splice(((this.page - 1) * LIMIT), LIMIT);
-                    paginationData.forEach(stockItem => {
-                        this.stockItemRegistry.set(stockItem.id, stockItem)
-                    });
-                }
-                else {
-                    this.stockItemCount = stockItems.length;
-                    const x = stockItems.splice(((this.page - 1) * LIMIT), LIMIT)
-                    x.forEach(stockItem => {
-                        this.stockItemRegistry.set(stockItem.id, stockItem)
-                    });
-                    this.loadingInitial = false;
-                }
+                stockItems.forEach(stockItem => {
+                    this.stockItemRegistry.set(stockItem.id, stockItem)
+                });
+                this.stockItemCount = stockItemCount;
+                this.loadingInitial = false;
             })
         }
         catch (error) {
@@ -92,27 +70,6 @@ export default class StockItemStore {
                 this.loadingInitial = false;
             })
             console.log(error);
-        }
-    }
-
-    loadStockItems = async () => {
-        this.loadingInitial = true;
-        try {
-            const stockItems = await agent.StockItem.list();
-            const x = stockItems.splice(((this.page - 1) * LIMIT), LIMIT)
-            runInAction(() => {
-                this.stockItemRegistry.clear();
-                x.forEach(stockItem => {
-                    this.stockItemRegistry.set(stockItem.id, stockItem)
-                });
-                this.stockItemCount = stockItems.length + x.length;
-                this.loadingInitial = false;
-            })
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            })
-            console.log(error)
         }
     }
 
@@ -167,22 +124,30 @@ export default class StockItemStore {
         }
     }
 
-    getFilteredStockItems = (stockTypeId: number) => {
-        const sortedStockItems = this.getSortedStockItems();
-        return sortedStockItems.filter(stockItem => stockItem.typeId === stockTypeId).map(stockItem => {
+    loadAllStockItems = async () => {
+        this.allStockItemsRegistry.clear();
+        try {
+            const stockItems = await agent.StockItem.listAll();
+
+            runInAction(() => {
+                stockItems.forEach(stockItem => {
+                    this.allStockItemsRegistry.set(stockItem.id, stockItem)
+                });
+            })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    getAllStockItemsForStockType = (typeId: number) => {
+        const stockItems: IStockItem[] = Array.from(this.allStockItemsRegistry.values());
+        return stockItems.filter(stockItem => stockItem.typeId === typeId).map(stockItem => {
             return {
                 key: stockItem.id,
                 text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
                 value: stockItem.id
             } as ISelectInputOptions
         })
-    }
-
-    getSortedStockItems() {
-        const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
-        return stockItems.sort(
-            (a, b) => (a.stockType.toLowerCase() === b.stockType.toLowerCase() ? 0 : (a.stockType.toLowerCase() < b.stockType.toLowerCase() ? 1 : -1))
-                || (a.name.toLowerCase() === b.name.toLowerCase() ? 0 : (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
-        );
     }
 }
