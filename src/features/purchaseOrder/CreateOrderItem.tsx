@@ -22,7 +22,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     updatePurchaseOrderItem,
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  const { getFilteredStockItems } = rootStore.stockItemStore;
+  const { getAllStockItemsForStockType } = rootStore.stockItemStore;
 
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrderItem({ ...data, id: item.id });
@@ -32,6 +32,8 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     else updatePurchaseOrderItem(formData).finally(() => closeModal());
   };
   const itemTypeSelected = watch("itemTypeId");
+  console.log(itemTypeSelected);
+
   useEffect(() => {
     register(
       { name: "itemTypeId" },
@@ -123,7 +125,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             fluid
             search
             selection
-            options={getFilteredStockItems(itemTypeSelected)}
+            options={getAllStockItemsForStockType(itemTypeSelected)}
             label="Item Name"
             placeholder="Select an item"
             defaultValue={item.itemId}
