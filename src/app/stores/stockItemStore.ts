@@ -3,8 +3,8 @@ import { runInAction, makeAutoObservable, computed } from "mobx";
 import { CreateStockItem, IStockItem } from "../models/stockItem";
 import { ISelectInputOptions } from "../models/common";
 import agent from "../api/agent";
+import { LIMIT } from '../models/constants'
 
-const LIMIT = 5;
 export default class StockItemStore {
 
     rootStore: RootStore;
@@ -56,7 +56,6 @@ export default class StockItemStore {
         try {
             const stockItemEnvelop = await agent.StockItem.list(typeId, this.axiosParams);
             const { stockItems, stockItemCount } = stockItemEnvelop;
-
             runInAction(() => {
                 stockItems.forEach(stockItem => {
                     this.stockItemRegistry.set(stockItem.id, stockItem)
