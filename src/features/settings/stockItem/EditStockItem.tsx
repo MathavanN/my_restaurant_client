@@ -171,7 +171,6 @@ const EditStockItem: FC<IProps> = ({
         />
         <Form.Input
           name="itemUnit"
-          type="number"
           fluid
           label="Item Unit"
           placeholder="Item unit"
