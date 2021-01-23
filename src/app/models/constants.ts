@@ -1,4 +1,8 @@
 
+
+//Pagination Limit
+export const LIMIT = 10;
+
 //Access roles
 export const SUPER_ADMIN = "SuperAdmin";
 export const ADMIN = "Admin";
