@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import history from '../../history'
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
-import { CreateStockItem, IStockItem } from '../models/stockItem';
+import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier } from '../models/supplier';
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
@@ -87,7 +87,8 @@ const StockType = {
 }
 
 const StockItem = {
-    list: (): Promise<IStockItem[]> => requests.get(`/v1/stockitem`),
+    list: (typeId: number, params: URLSearchParams): Promise<IStockItemEnvelop> => requests.getByParams(`/v1/StockItem/type/${typeId}`, params),
+    listAll: (): Promise<IStockItem[]> => requests.get(`/v1/StockItem`),
     create: (stockItem: CreateStockItem): Promise<IStockItem> => requests.post(`/v1/stockitem`, stockItem),
     update: (stockItem: CreateStockItem) => requests.put(`/v1/stockitem/${stockItem.id}`, stockItem),
     detail: (id: number): Promise<IStockItem> => requests.get(`/v1/stockitem/${id}`),
