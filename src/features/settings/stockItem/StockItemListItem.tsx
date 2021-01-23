@@ -1,7 +1,7 @@
 import React, { FC, Fragment } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { ISelectInputOptions } from "../../../app/models/common";
-import { IStockItem } from "../../../app/models/stockItem";
+import { IStockItem, StockItemFormValues } from "../../../app/models/stockItem";
 import DeleteStockItem from "./DeleteStockItem";
 import EditStockItem from "./EditStockItem";
 
@@ -10,20 +10,20 @@ interface IProps {
   stockTypeOptions: ISelectInputOptions[];
   unitOfMeasureOptions: ISelectInputOptions[];
   openModal: (content: any) => void;
-  getStockItems: [string, IStockItem][];
+  stockItems: [string, IStockItem][];
 }
 
 const StockItemListItem: FC<IProps> = ({
   hasModifyAccess,
   stockTypeOptions,
   unitOfMeasureOptions,
-  getStockItems,
+  stockItems,
   openModal,
 }) => {
   return (
     <Fragment>
       <Table.Body>
-        {getStockItems.map(([group, stockItem]) => (
+        {stockItems.map(([group, stockItem]) => (
           <Table.Row key={stockItem.id}>
             <Table.Cell>{group}</Table.Cell>
             <Table.Cell>{stockItem.stockType}</Table.Cell>
@@ -41,7 +41,7 @@ const StockItemListItem: FC<IProps> = ({
                   onClick={() =>
                     openModal(
                       <EditStockItem
-                        stockItem={stockItem}
+                        stockItem={new StockItemFormValues(stockItem)}
                         stockTypeOptions={stockTypeOptions}
                         unitOfMeasureOptions={unitOfMeasureOptions}
                       />

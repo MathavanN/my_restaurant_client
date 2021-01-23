@@ -70,7 +70,7 @@ const StockItemList = () => {
           <StockItemListItem
             hasModifyAccess={hasModifyAccess}
             openModal={openModal}
-            getStockItems={getStockItems}
+            stockItems={getStockItems}
             stockTypeOptions={loadStockTypeOptions}
             unitOfMeasureOptions={loadUnitOfMeasureOptions}
           />
