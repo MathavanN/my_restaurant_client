@@ -1,111 +1,115 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isRequired,
-} from "revalidate";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { StockTypeFormValues } from "../../../app/models/stockType";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+import { toast } from "react-toastify";
 
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  stockType: StockTypeFormValues;
 }
-
-const validate = combineValidators({
-  type: composeValidators(
-    isRequired("Type"),
-    hasLengthLessThan(20)({ message: "Type maximum characters 50" })
-  )(),
-  description: hasLengthLessThan(100)({
-    message: "Description maximum characters 100",
-  }),
-});
-
-const EditStockType: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
-}) => {
+const EditStockType: FC<IProps> = ({ stockType }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    updateStockType,
-    createStockType,
-    stockType,
-    submitting,
-  } = rootStore.settingsStore;
+  const { updateStockType, createStockType } = rootStore.settingsStore;
 
-  const [formData, setFormData] = useState(new StockTypeFormValues());
+  const { closeModal } = rootStore.modalStore;
+
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
+    defaultValues: stockType,
+  });
+  const onSubmit = (data: any) => {
+    const formData = new StockTypeFormValues({ ...data, id: stockType.id });
+    if (formData.id === 0)
+      createStockType(formData)
+        .then(() => {
+          toast.success("Stock type created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateStockType(formData)
+        .then(() => {
+          toast.success("Stock type updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+  };
   useEffect(() => {
-    if (edit) {
-      setFormData(new StockTypeFormValues(stockType!));
-    }
-  }, [edit, stockType]);
-
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    if (formData.id === 0) {
-      createStockType(formData);
-    } else {
-      updateStockType(formData);
-    }
-    handleEditFormMode();
-  };
-
-  const handleEditFormMode = () => {
-    setFormData(new StockTypeFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
-  };
-
+    register(
+      { name: "type" },
+      {
+        required: "Stock type is required",
+        maxLength: {
+          value: 50,
+          message: "Stock type maximum characters 50",
+        },
+      }
+    );
+    register(
+      { name: "description" },
+      {
+        maxLength: {
+          value: 100,
+          message: "Description maximum characters 100",
+        },
+      }
+    );
+  }, [register]);
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Stock Type" : "Create Stock Type"}
-            </Header.Subheader>
-          </Header>
-          <Field
-            name="type"
-            label="Stock Type"
-            component={TextInput as any}
-            placeholder="Type"
-            value={formData.type}
-          />
-          <Field
-            rows={2}
-            name="description"
-            label="Stock Type Description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
-          />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {stockType.id === 0 ? "Create Stock Type" : "Modify Stock Type"}
+          </Header.Subheader>
+        </Header>
+        <Form.Input
+          name="type"
+          fluid
+          label="Stock Type"
+          placeholder="Stock type"
+          defaultValue={stockType.type}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.type && (
+              <Label basic color="red" pointing>
+                {errors.type.message}
+              </Label>
+            )
+          }
+        />
+        <Form.TextArea
+          label="Stock Type Description"
+          name="description"
+          placeholder="Stock type description..."
+          defaultValue={stockType.description}
+          rows={2}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.description && (
+              <Label basic color="red" pointing>
+                {errors.description.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 

@@ -10,7 +10,7 @@ interface IProps {
 const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { deleteStockItem } = rootStore.settingsStore;
+  const { deleteStockItem } = rootStore.stockItemStore;
   return (
     <Fragment>
       <Header icon="delete" content="Are you sure to delete?" color="red" />

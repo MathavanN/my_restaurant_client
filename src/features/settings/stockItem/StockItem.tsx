@@ -1,36 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import EditStockItem from "./EditStockItem";
 import StockItemList from "./StockItemList";
 
 const StockItem = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadStockItems } = rootStore.settingsStore;
+  const { loadStockTypes, loadUnitOfMeasures } = rootStore.settingsStore;
   useEffect(() => {
-    loadStockItems();
-  }, [loadStockItems]);
-  const [editForm, setEditForm] = useState(false);
-  const [create, setCreate] = useState(false);
-  const [edit, setEdit] = useState(false);
+    loadUnitOfMeasures();
+    loadStockTypes();
+  }, [loadUnitOfMeasures, loadStockTypes]);
 
   return (
     <Fragment>
-      {editForm ? (
-        <EditStockItem
-          setEditForm={setEditForm}
-          setCreate={setCreate}
-          setEdit={setEdit}
-          edit={edit}
-          create={create}
-        />
-      ) : (
-        <StockItemList
-          setEditForm={setEditForm}
-          setCreate={setCreate}
-          setEdit={setEdit}
-        />
-      )}
+      <StockItemList />
     </Fragment>
   );
 };

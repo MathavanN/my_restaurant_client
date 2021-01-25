@@ -1,164 +1,215 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isNumeric,
-  isRequired,
-  createValidator,
-} from "revalidate";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
-import SelectInput from "../../../app/common/form/SelectInput";
 import {
   CreateStockItem,
   StockItemFormValues,
 } from "../../../app/models/stockItem";
-
+import { ISelectInputOptions } from "../../../app/models/common";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  stockItem: StockItemFormValues;
+  stockTypeOptions: ISelectInputOptions[];
+  unitOfMeasureOptions: ISelectInputOptions[];
 }
 
-const isGreaterThan = (n: number) =>
-  createValidator(
-    (message) => (value) => {
-      if (value && Number(value) <= n) {
-        return message;
-      }
-    },
-    (field) => `${field} must be greater than ${n}`
-  );
-
-const validate = combineValidators({
-  name: composeValidators(
-    isRequired("Name"),
-    hasLengthLessThan(250)({ message: "Name maximum characters 250" })
-  )(),
-  description: hasLengthLessThan(500)({
-    message: "Description maximum characters 500",
-  }),
-  typeId: isRequired("Stock Type"),
-  unitOfMeasureId: isRequired("Unit Of Measure"),
-  itemUnit: composeValidators(
-    isRequired("Item Unit"),
-    isNumeric({ message: "Item Unit must be a positive number" }),
-    isGreaterThan(0)({ message: "Item unit must be greater than zero" })
-  )(),
-});
-
 const EditStockItem: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
+  stockItem,
+  stockTypeOptions,
+  unitOfMeasureOptions,
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadUnitOfMeasures,
-    loadStockTypes,
-    createStockItem,
-    updateStockItem,
-    loadStockTypeOptions,
-    loadUnitOfMeasureOptions,
-    submitting,
-    stockItem,
-  } = rootStore.settingsStore;
-  const [formData, setFormData] = useState(new StockItemFormValues());
+  const { createStockItem, updateStockItem } = rootStore.stockItemStore;
+  const { closeModal } = rootStore.modalStore;
+
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
+    defaultValues: stockItem,
+  });
+
+  const onSubmit = (data: any) => {
+    const formData = new CreateStockItem({ ...data, id: stockItem.id });
+    if (formData.id === 0)
+      createStockItem(formData)
+        .then(() => {
+          toast.success("Stock item created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateStockItem(formData)
+        .then(() => {
+          toast.success("Stock item updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+  };
+
   useEffect(() => {
-    loadUnitOfMeasures();
-    loadStockTypes();
-    if (edit) {
-      setFormData(new StockItemFormValues(stockItem!));
-    }
-  }, [edit, stockItem, loadUnitOfMeasures, loadStockTypes]);
-
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    const stockItem = new CreateStockItem(formData);
-    if (stockItem.id === 0) {
-      createStockItem(stockItem);
-    } else {
-      updateStockItem(stockItem);
-    }
-    handleEditFormMode();
-  };
-
-  const handleEditFormMode = () => {
-    setFormData(new StockItemFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
-  };
+    register(
+      { name: "name" },
+      {
+        required: "Item name is required",
+        maxLength: {
+          value: 250,
+          message: "Item name maximum characters 250",
+        },
+      }
+    );
+    register(
+      { name: "typeId" },
+      {
+        required: true,
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) > 0 ? true : "Stock type is required",
+        },
+      }
+    );
+    register(
+      { name: "unitOfMeasureId" },
+      {
+        required: true,
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) > 0 ? true : "Unit of measure is required",
+        },
+      }
+    );
+    register(
+      { name: "itemUnit" },
+      {
+        required: "Item unit is required",
+        validate: {
+          greaterThanZero: (value) =>
+            parseInt(value, 0) > 0
+              ? true
+              : "Item unit must be greater than zero",
+        },
+      }
+    );
+    register(
+      { name: "description" },
+      {
+        maxLength: {
+          value: 500,
+          message: "Description maximum characters 500",
+        },
+      }
+    );
+  }, [register]);
 
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Stock Item" : "Add Stock Item"}
-            </Header.Subheader>
-          </Header>
-          <Field
-            name="typeId"
-            label="Stock Type"
-            options={loadStockTypeOptions}
-            placeholder="Stock Type"
-            value={formData.stockType}
-            component={SelectInput as any}
-          />
-
-          <Field
-            name="name"
-            label="Item Name"
-            component={TextInput as any}
-            placeholder="Name"
-            value={formData.name}
-          />
-          <Field
-            name="unitOfMeasureId"
-            label="Unit Of Measure"
-            options={loadUnitOfMeasureOptions}
-            placeholder="Unit Of Measure"
-            value={formData.unitOfMeasureCode}
-            component={SelectInput as any}
-          />
-          <Field
-            name="itemUnit"
-            label="Item Unit"
-            component={TextInput as any}
-            placeholder="Item Unit"
-            value={formData.itemUnit}
-          />
-          <Field
-            rows={4}
-            name="description"
-            label="Item Description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
-          />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)} error>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {stockItem.id === 0 ? "Add new Stock Item" : "Modify Stock Item"}
+          </Header.Subheader>
+        </Header>
+        <Form.Select
+          name="typeId"
+          fluid
+          options={stockTypeOptions}
+          label="Stock Type"
+          placeholder="Select stock type"
+          defaultValue={stockItem.typeId}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.typeId && (
+              <Label basic color="red" pointing>
+                {errors.typeId.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="name"
+          fluid
+          label="Item Name"
+          placeholder="Item name"
+          defaultValue={stockItem.name}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.name && (
+              <Label basic color="red" pointing>
+                {errors.name.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Select
+          name="unitOfMeasureId"
+          fluid
+          options={unitOfMeasureOptions}
+          label="Unit Of Measure"
+          placeholder="Select unit of measure"
+          defaultValue={stockItem.unitOfMeasureId}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.unitOfMeasureId && (
+              <Label basic color="red" pointing>
+                {errors.unitOfMeasureId.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="itemUnit"
+          fluid
+          label="Item Unit"
+          placeholder="Item unit"
+          defaultValue={stockItem.itemUnit}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.itemUnit && (
+              <Label basic color="red" pointing>
+                {errors.itemUnit.message}
+              </Label>
+            )
+          }
+        />
+        <Form.TextArea
+          label="Item Description"
+          name="description"
+          placeholder="Item description..."
+          defaultValue={stockItem.description}
+          rows={4}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.description && (
+              <Label basic color="red" pointing>
+                {errors.description.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 

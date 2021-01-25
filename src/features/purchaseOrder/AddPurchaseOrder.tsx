@@ -1,101 +1,152 @@
-import React, { FC, Fragment, useContext } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isNumeric,
-  isRequired,
-} from "revalidate";
-import SelectInput from "../../app/common/form/SelectInput";
-import TextInput from "../../app/common/form/TextInput";
-import TextAreaInput from "../../app/common/form/TextAreaInput";
+import React, { FC, Fragment, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import {
   PurchaseOrderFormValues,
   CreatePurchaseOrder,
 } from "../../app/models/purchaseOrder";
-
-const validate = combineValidators({
-  description: hasLengthLessThan(500)({
-    message: "Description maximum characters 500",
-  }),
-  supplierId: isRequired("Supplier"),
-  discount: composeValidators(
-    isNumeric({ message: "Discount must be a positive number" })
-  )(),
-});
+import { ISelectInputOptions } from "../../app/models/common";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 interface IProps {
-  formData: PurchaseOrderFormValues;
-  header: string;
-  handleCancel: () => void;
+  order: PurchaseOrderFormValues;
+  supplierOptions: ISelectInputOptions[];
 }
 
-const AddPurchaseOrder: FC<IProps> = ({ formData, header, handleCancel }) => {
+const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
+    defaultValues: order,
+  });
   const rootStore = useContext(RootStoreContext);
   const {
-    submitting,
     createPurchaseOrder,
     updatePurchaseOrder,
   } = rootStore.purchaseOrderStore;
-  const { loadSupplierOptions } = rootStore.settingsStore;
   const { closeModal } = rootStore.modalStore;
 
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    const order = new CreatePurchaseOrder(formData);
-
-    if (order.id === 0) createPurchaseOrder(order);
-    else updatePurchaseOrder(order).finally(() => closeModal());
+  const onSubmit = (data: any) => {
+    const formData = new CreatePurchaseOrder({ ...data, id: order.id });
+    formData.supplierId = 0;
+    console.log(formData);
+    if (formData.id === 0)
+      createPurchaseOrder(formData).catch((error) => {
+        toast.error(<ErrorMessage error={error} text="Error:" />);
+      });
+    else
+      updatePurchaseOrder(formData)
+        .then(() => {
+          toast.success("Purchase order updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
+  useEffect(() => {
+    register(
+      { name: "supplierId" },
+      {
+        required: true,
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) > 0 ? true : "Supplier is required",
+        },
+      }
+    );
+    register(
+      { name: "discount" },
+      {
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) >= 0
+              ? true
+              : "Discount must be a positive number",
+        },
+      }
+    );
+    register(
+      { name: "description" },
+      {
+        maxLength: {
+          value: 500,
+          message: "UOM description maximum characters 500",
+        },
+      }
+    );
+  }, [register]);
 
   return (
     <Fragment>
-      <FinalForm
-        validate={validate}
-        initialValues={formData!}
-        onSubmit={handleFinalFormSubmit}
-        render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-          <Form onSubmit={handleSubmit} error>
-            <Header as="h2" color="teal" textAlign="center">
-              <Header.Subheader>{header}</Header.Subheader>
-            </Header>
-            <Field
-              name="supplierId"
-              label="Supplier"
-              options={loadSupplierOptions}
-              placeholder="Select Supplier"
-              value={formData.supplierName}
-              component={SelectInput as any}
-            />
-
-            <Field
-              name="discount"
-              label="Discount (%)"
-              component={TextInput as any}
-              placeholder="Discount"
-              value={formData.discount}
-            />
-            <Field
-              rows={4}
-              name="description"
-              label="Order Description"
-              placeholder="Description"
-              value={formData.description}
-              component={TextAreaInput as any}
-            />
-            <Button
-              loading={submitting}
-              positive
-              content="Submit"
-              disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-            />
-            <Button content="Cancel" onClick={() => handleCancel()} />
-          </Form>
-        )}
-      />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {order.id === 0
+              ? "Create new purchase order"
+              : "Modify purchase order"}
+          </Header.Subheader>
+        </Header>
+        <Form.Select
+          name="supplierId"
+          fluid
+          options={supplierOptions}
+          label="Supplier"
+          placeholder="Select supplier"
+          defaultValue={order.supplierId}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.supplierId && (
+              <Label basic color="red" pointing>
+                {errors.supplierId.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="discount"
+          type="number"
+          fluid
+          label="Discount (%)"
+          placeholder="Discount"
+          defaultValue={order.discount}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.discount && (
+              <Label basic color="red" pointing>
+                {errors.discount.message}
+              </Label>
+            )
+          }
+        />
+        <Form.TextArea
+          label="Order Description"
+          name="description"
+          placeholder="Order description..."
+          defaultValue={order.description}
+          rows={4}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.description && (
+              <Label basic color="red" pointing>
+                {errors.description.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
     </Fragment>
   );
 };

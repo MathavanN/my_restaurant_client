@@ -19,6 +19,7 @@ const NavBar = () => {
         <Menu.Item name="Dashboard" as={NavLink} to="/dashboard" />
         <Menu.Item name="Purchase" as={NavLink} to="/purchase" />
         <Menu.Item name="Settings" as={NavLink} to="/settings" />
+        <Menu.Item name="Users" as={NavLink} to="/users" />
         {user && (
           <Menu.Item position="right">
             <FontAwesomeIcon icon={faUser} size="lg" className="fa-fw" />

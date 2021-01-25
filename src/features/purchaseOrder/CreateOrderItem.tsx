@@ -1,148 +1,209 @@
-import React, { Fragment, FC } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  isNumeric,
-  createValidator,
-  isRequired,
-} from "revalidate";
-import SelectInput from "../../app/common/form/SelectInput";
-import TextInput from "../../app/common/form/TextInput";
+import React, { FC, Fragment, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import { useContext } from "react";
 import {
   CreatePurchaseOrderItem,
   PurchaseOrderItemFormValues,
 } from "../../app/models/purchaseOrderItem";
-
-const isGreaterThan = (n: number) =>
-  createValidator(
-    (message) => (value) => {
-      if (value && Number(value) <= n) {
-        return message;
-      }
-    },
-    (field) => `${field} must be greater than ${n}`
-  );
-
-const isGreaterThanOrEqual = (n: number) =>
-  createValidator(
-    (message) => (value) => {
-      if (value && Number(value) < n) {
-        return message;
-      }
-    },
-    (field) => `${field} must be greater than ${n}`
-  );
-
-const validate = combineValidators({
-  quantity: composeValidators(
-    isRequired("Quantity"),
-    isNumeric({ message: "Quantity must be a positive number" }),
-    isGreaterThan(0)({ message: "Quantity must be greater than zero" })
-  )(),
-  itemUnitPrice: composeValidators(
-    isRequired("Unit price"),
-    isGreaterThan(0)({ message: "Unit price must be greater than zero" })
-  )(),
-  itemId: isRequired("Item Name"),
-  discount: composeValidators(
-    isGreaterThanOrEqual(0)({ message: "Discount must be a positive number" })
-  )(),
-});
+import { ISelectInputOptions } from "../../app/models/common";
 
 interface IProps {
   item: PurchaseOrderItemFormValues;
+  stockTypeOptions: ISelectInputOptions[];
 }
-const CreateOrderItem: FC<IProps> = ({ item }) => {
+const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
+  const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
+    defaultValues: item,
+  });
   const rootStore = useContext(RootStoreContext);
   const {
-    submittingItem,
     createPurchaseOrderItem,
     updatePurchaseOrderItem,
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  const {
-    loadStockTypeOptions,
-    getFilteredStockItems,
-  } = rootStore.settingsStore;
+  const { getAllStockItemsForStockType } = rootStore.stockItemStore;
 
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    const item = new CreatePurchaseOrderItem(formData);
-    if (item.id === 0)
-      createPurchaseOrderItem(item).finally(() => closeModal());
-    else updatePurchaseOrderItem(item).finally(() => closeModal());
+  const onSubmit = (data: any) => {
+    const formData = new CreatePurchaseOrderItem({ ...data, id: item.id });
+    console.log(formData);
+    if (formData.id === 0)
+      createPurchaseOrderItem(formData).finally(() => closeModal());
+    else updatePurchaseOrderItem(formData).finally(() => closeModal());
   };
+  const itemTypeSelected = watch("itemTypeId");
+  console.log(itemTypeSelected);
+
+  useEffect(() => {
+    register(
+      { name: "itemTypeId" },
+      {
+        required: "Item type is required",
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) > 0 ? true : "Item type is required",
+        },
+      }
+    );
+    register(
+      { name: "quantity" },
+      {
+        required: "Quantity is required",
+        validate: {
+          greaterThanZero: (value) =>
+            parseInt(value, 0) > 0
+              ? true
+              : "Quantity must be greater than zero",
+        },
+      }
+    );
+    register(
+      { name: "itemId" },
+      {
+        required: true,
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) > 0 ? true : "Item is required",
+        },
+      }
+    );
+    register(
+      { name: "discount" },
+      {
+        validate: {
+          validValue: (value) =>
+            parseInt(value, 0) >= 0
+              ? true
+              : "Discount must be a positive number",
+        },
+      }
+    );
+    register(
+      { name: "itemUnitPrice" },
+      {
+        required: "Item unit price is required",
+        validate: {
+          greaterThanZero: (value) =>
+            parseInt(value, 0) > 0
+              ? true
+              : "Item unit price must be greater than zero",
+        },
+      }
+    );
+  }, [register]);
 
   return (
     <Fragment>
-      <FinalForm
-        validate={validate}
-        initialValues={item}
-        onSubmit={handleFinalFormSubmit}
-        render={({
-          handleSubmit,
-          invalid,
-          pristine,
-          dirtySinceLastSubmit,
-          values,
-        }) => (
-          <Form onSubmit={handleSubmit} error>
-            <Header as="h2" color="teal" textAlign="center">
-              <Header.Subheader>Add new Item</Header.Subheader>
-            </Header>
-            <Field
-              name="itemTypeId"
-              label="Item Type"
-              options={loadStockTypeOptions}
-              placeholder="Select an item type"
-              value={item.itemName}
-              component={SelectInput as any}
-            />
-            {values.itemTypeId !== 0 && (
-              <Field
-                name="itemId"
-                label="Item Name"
-                options={getFilteredStockItems(values.itemTypeId)}
-                placeholder="Select an item"
-                value={item.itemName}
-                component={SelectInput as any}
-              />
-            )}
-            <Field
-              name="itemUnitPrice"
-              label="Unit Price"
-              component={TextInput as any}
-              placeholder="Unit price"
-              value={item.itemUnitPrice}
-            />
-            <Field
-              name="quantity"
-              label="Quantity"
-              component={TextInput as any}
-              placeholder="Quantity"
-              value={item.quantity}
-            />
-            <Field
-              name="discount"
-              label="Discount (%)"
-              component={TextInput as any}
-              placeholder="Discount"
-              value={item.discount}
-            />
-            <Button
-              loading={submittingItem}
-              positive
-              content="Save"
-              disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-            />
-            <Button content="Cancel" onClick={closeModal} />
-          </Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {item.id === 0 ? "Add new Item" : "Modify Item"}
+          </Header.Subheader>
+        </Header>
+        <Form.Select
+          name="itemTypeId"
+          fluid
+          options={stockTypeOptions}
+          label="Item Type"
+          placeholder="Select item type"
+          defaultValue={item.itemTypeId}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.itemTypeId && (
+              <Label basic color="red" pointing>
+                {errors.itemTypeId.message}
+              </Label>
+            )
+          }
+        />
+        {itemTypeSelected > 0 && (
+          <Form.Select
+            name="itemId"
+            fluid
+            search
+            selection
+            options={getAllStockItemsForStockType(itemTypeSelected)}
+            label="Item Name"
+            placeholder="Select an item"
+            defaultValue={item.itemId}
+            onChange={async (e, { name, value }) => {
+              setValue(name, value);
+              await trigger(name);
+            }}
+            error={
+              errors.itemId && (
+                <Label basic color="red" pointing>
+                  {errors.itemId.message}
+                </Label>
+              )
+            }
+          />
         )}
-      />
+
+        <Form.Input
+          name="itemUnitPrice"
+          type="number"
+          fluid
+          label="Unit Price"
+          placeholder="Unit price"
+          defaultValue={item.itemUnitPrice}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.itemUnitPrice && (
+              <Label basic color="red" pointing>
+                {errors.itemUnitPrice.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="quantity"
+          type="number"
+          fluid
+          label="Quantity"
+          placeholder="Quantity"
+          defaultValue={item.quantity}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.quantity && (
+              <Label basic color="red" pointing>
+                {errors.quantity.message}
+              </Label>
+            )
+          }
+        />
+        <Form.Input
+          name="discount"
+          type="number"
+          fluid
+          label="Discount (%)"
+          placeholder="Discount"
+          defaultValue={item.discount}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.discount && (
+              <Label basic color="red" pointing>
+                {errors.discount.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
     </Fragment>
   );
 };

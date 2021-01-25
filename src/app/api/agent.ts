@@ -3,11 +3,11 @@ import { toast } from 'react-toastify';
 import history from '../../history'
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
-import { CreateStockItem, IStockItem } from '../models/stockItem';
+import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
-import { ISupplier } from '../models/supplier';
-import { IUnitOfMeasure } from '../models/unitOfMeasure';
-import { IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
+import { ISupplier, ISupplierEnvelop } from '../models/supplier';
+import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
+import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
@@ -18,16 +18,12 @@ axios.interceptors.request.use((config) => {
     return Promise.reject(error)
 })
 axios.interceptors.response.use(undefined, error => {
-    console.log(error.message)
-    console.log(error.response)
-    console.log(error)
     if (error.message === "Network Error" && !error.response) {
         toast.error("network error")
     }
     const { status, data, config, headers } = error.response;
 
-    if (status === 401 && headers['www-authenticate'].includes("invalid_token")) {
-        console.log(error.response)
+    if (status === 401 && headers['www-authenticate'] !== undefined && headers['www-authenticate'].includes("invalid_token")) {
         window.localStorage.removeItem("jwt")
         history.push('/')
         toast.info("Your session has expired, please login again")
@@ -40,9 +36,6 @@ axios.interceptors.response.use(undefined, error => {
         history.push('/dashboard');
     }
 
-    if (status === 409) {
-        toast.error(data.errorMessage)
-    }
     if (status === 500) {
         toast.error('Server error - check the terminal for more info!')
     }
@@ -70,6 +63,7 @@ const userV1Apis = {
     refresh: "/v1/Account/Refresh",
 }
 const Users = {
+    list: (): Promise<IAppUser[]> => requests.get(`/v1/account/users`),
     current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
     login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
     refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
@@ -78,8 +72,8 @@ const Users = {
 
 const UnitOfMeasure = {
     list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitofmeasure`),
-    create: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> => requests.post(`/v1/unitofmeasure`, unitOfMeasure),
-    update: (unitOfMeasure: IUnitOfMeasure) => requests.put(`/v1/unitofmeasure/${unitOfMeasure.id}`, unitOfMeasure),
+    create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.post(`/v1/unitofmeasure`, unitOfMeasure),
+    update: (unitOfMeasure: UnitOfMeasureFormValues) => requests.put(`/v1/unitofmeasure/${unitOfMeasure.id}`, unitOfMeasure),
     detail: (id: number): Promise<IUnitOfMeasure> => requests.get(`/v1/unitofmeasure/${id}`),
     delete: (id: number) => requests.del(`/v1/unitofmeasure/${id}`),
 }
@@ -93,7 +87,8 @@ const StockType = {
 }
 
 const StockItem = {
-    list: (): Promise<IStockItem[]> => requests.get(`/v1/stockitem`),
+    list: (typeId: number, params: URLSearchParams): Promise<IStockItemEnvelop> => requests.getByParams(`/v1/StockItem/type/${typeId}`, params),
+    listAll: (): Promise<IStockItem[]> => requests.get(`/v1/StockItem`),
     create: (stockItem: CreateStockItem): Promise<IStockItem> => requests.post(`/v1/stockitem`, stockItem),
     update: (stockItem: CreateStockItem) => requests.put(`/v1/stockitem/${stockItem.id}`, stockItem),
     detail: (id: number): Promise<IStockItem> => requests.get(`/v1/stockitem/${id}`),
@@ -101,7 +96,7 @@ const StockItem = {
 }
 
 const Supplier = {
-    list: (): Promise<ISupplier[]> => requests.get(`/v1/supplier`),
+    list: (params: URLSearchParams): Promise<ISupplierEnvelop> => requests.getByParams(`/v1/supplier`, params),
     create: (supplier: ISupplier): Promise<ISupplier> => requests.post(`/v1/supplier`, supplier),
     update: (supplier: ISupplier) => requests.put(`/v1/supplier/${supplier.id}`, supplier),
     detail: (id: number): Promise<ISupplier> => requests.get(`/v1/supplier/${id}`),

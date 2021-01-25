@@ -1,102 +1,86 @@
-import React, { FC, Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import { Button, Icon, Table } from "semantic-ui-react";
-import DeleteStockItem from "./DeleteStockItem";
+import { Table } from "semantic-ui-react";
+import { StockItemFormValues } from "../../../app/models/stockItem";
+import FilterStockItem from "./FilterStockItem";
+import StockItemListHeader from "./StockItemListHeader";
+import StockItemListItem from "./StockItemListItem";
+import StockListItemFooter from "./StockListItemFooter";
+import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 
-interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-}
-
-const StockItemList: FC<IProps> = ({ setEditForm, setCreate, setEdit }) => {
+const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getStockItems, loadStockItem } = rootStore.settingsStore;
+  const {
+    loadStockTypeOptions,
+    loadUnitOfMeasureOptions,
+  } = rootStore.settingsStore;
+
+  const {
+    loadStockItems,
+    getStockItems,
+    getStockItemTotalPages,
+    page,
+    setStockItemPage,
+    loadingInitial,
+  } = rootStore.stockItemStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
-  const handleEditMode = (id: number) => {
-    loadStockItem(id);
-    setEditForm(true);
-    setCreate(false);
-    setEdit(true);
+  const [selectedStockType, setSelectedStockType] = useState(0);
+
+  const handleStockItemSearch = (typeId: number) => {
+    setStockItemPage(1);
+    setSelectedStockType(typeId);
+    loadStockItems(typeId);
   };
 
-  const handleCreateMode = () => {
-    setEditForm(true);
-    setCreate(true);
-    setEdit(false);
+  const handleOnPageChange = (page: number) => {
+    setStockItemPage(page);
+    loadStockItems(selectedStockType);
   };
+
+  useEffect(() => {
+    if (loadStockTypeOptions.length > 0) {
+      setSelectedStockType(loadStockTypeOptions[0].key);
+      loadStockItems(loadStockTypeOptions[0].key);
+    }
+  }, [loadStockTypeOptions, loadStockItems]);
+
+  if (loadStockTypeOptions.length === 0)
+    return <LoadingComponent content="Cannot find stock type..." />;
+
+  if (loadingInitial && page === 1)
+    return <LoadingComponent content="Loading stock items..." />;
 
   return (
     <Fragment>
-      <Table compact celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>No</Table.HeaderCell>
-            <Table.HeaderCell>Stock Type</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Unit</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            {hasModifyAccess && <Table.HeaderCell>Action</Table.HeaderCell>}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {getStockItems.map(([group, stockItem]) => (
-            <Table.Row key={stockItem.id}>
-              <Table.Cell>{group}</Table.Cell>
-              <Table.Cell>{stockItem.stockType}</Table.Cell>
-              <Table.Cell>{stockItem.name}</Table.Cell>
-              <Table.Cell>
-                {stockItem.itemUnit}
-                {stockItem.unitOfMeasureCode}
-              </Table.Cell>
-              <Table.Cell>{stockItem.description}</Table.Cell>
-              {hasModifyAccess && (
-                <Table.Cell collapsing textAlign="right">
-                  <Button
-                    animated="vertical"
-                    color="orange"
-                    onClick={() => handleEditMode(stockItem.id)}
-                  >
-                    <Button.Content hidden>Edit</Button.Content>
-                    <Button.Content visible>
-                      <Icon name="edit" />
-                    </Button.Content>
-                  </Button>
-                  <Button
-                    animated="vertical"
-                    color="red"
-                    onClick={() =>
-                      openModal(<DeleteStockItem stockItem={stockItem} />)
-                    }
-                  >
-                    <Button.Content hidden>Delete</Button.Content>
-                    <Button.Content visible>
-                      <Icon name="delete" />
-                    </Button.Content>
-                  </Button>
-                </Table.Cell>
-              )}
-            </Table.Row>
-          ))}
-        </Table.Body>
-        {hasModifyAccess && (
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell colSpan="6">
-                <Button
-                  floated="right"
-                  primary
-                  onClick={() => handleCreateMode()}
-                >
-                  Add Stock Item
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
-        )}
-      </Table>
+      <FilterStockItem
+        stockTypeOptions={loadStockTypeOptions}
+        handleStockItemSearch={handleStockItemSearch}
+      />
+      {selectedStockType > 0 && (
+        <Table compact celled>
+          <StockItemListHeader
+            hasModifyAccess={hasModifyAccess}
+            openModal={openModal}
+            stockItem={new StockItemFormValues()}
+            stockTypeOptions={loadStockTypeOptions}
+            unitOfMeasureOptions={loadUnitOfMeasureOptions}
+          />
+          <StockItemListItem
+            hasModifyAccess={hasModifyAccess}
+            openModal={openModal}
+            stockItems={getStockItems}
+            stockTypeOptions={loadStockTypeOptions}
+            unitOfMeasureOptions={loadUnitOfMeasureOptions}
+          />
+          <StockListItemFooter
+            page={page}
+            totalPages={getStockItemTotalPages}
+            handleOnPageChange={handleOnPageChange}
+          />
+        </Table>
+      )}
     </Fragment>
   );
 };

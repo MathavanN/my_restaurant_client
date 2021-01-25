@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <Segment textAlign="center" vertical>
       <Container text style={{ marginTop: "2em" }}>
-        <Image src="/assets/WebSiteLogo.png" size="large" centered />
+        <Image src="/assets/WebSiteLog-min.png" size="large" centered />
         {isLoggedIn && user && token ? (
           <Fragment>
             <Header as="h2" content={`Welcome back ${user.fullName}`} />

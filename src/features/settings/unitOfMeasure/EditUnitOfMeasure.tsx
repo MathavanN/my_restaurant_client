@@ -1,111 +1,116 @@
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isRequired,
-} from "revalidate";
-import { Form, Button, Header } from "semantic-ui-react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
 import { RootStoreContext } from "../../../app/stores/rootStore";
-import TextInput from "../../../app/common/form/TextInput";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import { observer } from "mobx-react-lite";
-
-const validate = combineValidators({
-  code: composeValidators(
-    isRequired("Code"),
-    hasLengthLessThan(20)({ message: "Code maximum characters 20" })
-  )(),
-  description: hasLengthLessThan(50)({
-    message: "Description maximum characters 50",
-  }),
-});
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
-  setEditForm: (value: boolean) => void;
-  setCreate: (value: boolean) => void;
-  setEdit: (value: boolean) => void;
-  edit: boolean;
-  create: boolean;
+  uom: UnitOfMeasureFormValues;
 }
 
-const EditUnitOfMeasure: FC<IProps> = ({
-  setEditForm,
-  setCreate,
-  setEdit,
-  edit,
-}) => {
+const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    updateUnitOfMeasure,
-    createUnitOfMeasure,
-    unitOfMeasure,
-    submitting,
-  } = rootStore.settingsStore;
+  const { updateUnitOfMeasure, createUnitOfMeasure } = rootStore.settingsStore;
+  const { closeModal } = rootStore.modalStore;
 
-  const [formData, setFormData] = useState(new UnitOfMeasureFormValues());
+  const { register, errors, handleSubmit, setValue, trigger } = useForm({
+    defaultValues: uom,
+  });
+  const onSubmit = (data: any) => {
+    const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
+    if (formData.id === 0)
+      createUnitOfMeasure(formData)
+        .then(() => {
+          toast.success("Unit of measure created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateUnitOfMeasure(formData)
+        .then(() => {
+          toast.success("Unit of measure updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+  };
+
   useEffect(() => {
-    if (edit) {
-      setFormData(new UnitOfMeasureFormValues(unitOfMeasure!));
-    }
-  }, [edit, unitOfMeasure]);
-
-  const handleFinalFormSubmit = (values: any) => {
-    const { ...formData } = values;
-    if (formData.id === 0) {
-      createUnitOfMeasure(formData);
-    } else {
-      updateUnitOfMeasure(formData);
-    }
-    handleEditFormMode();
-  };
-
-  const handleEditFormMode = () => {
-    setFormData(new UnitOfMeasureFormValues());
-    setEditForm(false);
-    setCreate(false);
-    setEdit(false);
-  };
-
+    register(
+      { name: "code" },
+      {
+        required: "UOM code is required",
+        maxLength: {
+          value: 20,
+          message: "UOM code maximum characters 20",
+        },
+      }
+    );
+    register(
+      { name: "description" },
+      {
+        maxLength: {
+          value: 50,
+          message: "UOM description maximum characters 50",
+        },
+      }
+    );
+  }, [register]);
   return (
-    <FinalForm
-      validate={validate}
-      initialValues={formData!}
-      onSubmit={handleFinalFormSubmit}
-      render={({ handleSubmit, invalid, pristine, dirtySinceLastSubmit }) => (
-        <Form onSubmit={handleSubmit} error>
-          <Header as="h2" color="teal" textAlign="center">
-            <Header.Subheader>
-              {edit ? "Modify Unit Of Measure" : "Create Unit Of Measure"}
-            </Header.Subheader>
-          </Header>
-          <Field
-            name="code"
-            label="UOM Code"
-            component={TextInput as any}
-            placeholder="Code"
-            value={formData.code}
-          />
-          <Field
-            rows={2}
-            label="UOM Description"
-            name="description"
-            placeholder="Description"
-            value={formData.description}
-            component={TextAreaInput as any}
-          />
-          <Button
-            loading={submitting}
-            positive
-            content="Save"
-            disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-          />
-          <Button content="Cancel" onClick={() => handleEditFormMode()} />
-        </Form>
-      )}
-    />
+    <Fragment>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>
+            {uom.id === 0 ? "Create Unit Of Measure" : "Modify Unit Of Measure"}
+          </Header.Subheader>
+        </Header>
+        <Form.Input
+          name="code"
+          fluid
+          label="UOM Code"
+          placeholder="UOM Code"
+          defaultValue={uom.code}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.code && (
+              <Label basic color="red" pointing>
+                {errors.code.message}
+              </Label>
+            )
+          }
+        />
+        <Form.TextArea
+          label="UOM Description"
+          name="description"
+          placeholder="UOM description..."
+          defaultValue={uom.description}
+          rows={2}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.description && (
+              <Label basic color="red" pointing>
+                {errors.description.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
+    </Fragment>
   );
 };
 

@@ -1,24 +1,9 @@
-import React, { Fragment, useContext } from "react";
-import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Header } from "semantic-ui-react";
-import {
-  combineValidators,
-  composeValidators,
-  hasLengthLessThan,
-  isRequired,
-} from "revalidate";
-import TextAreaInput from "../../app/common/form/TextAreaInput";
-import { FC } from "react";
+import React, { FC, Fragment, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Form, Button, Header, Label } from "semantic-ui-react";
 import { ApprovalPurchaseOrder } from "../../app/models/purchaseOrder";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import history from "../../history";
-
-const validate = combineValidators({
-  approvalReason: composeValidators(
-    isRequired("Reason"),
-    hasLengthLessThan(500)({ message: "Reason maximum characters 500" })
-  )(),
-});
 
 interface IProps {
   header: string;
@@ -27,52 +12,60 @@ interface IProps {
 }
 
 export const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
+  const { register, errors, handleSubmit, setValue, trigger } = useForm();
   const rootStore = useContext(RootStoreContext);
   const { approvalPurchaseOrder } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
+  const onSubmit = (data: any) => {
+    const approval = new ApprovalPurchaseOrder(
+      orderId,
+      status,
+      data.approvalReason
+    );
+    approvalPurchaseOrder(approval).finally(() => {
+      closeModal();
+      history.push("/purchase");
+    });
+  };
+  useEffect(() => {
+    register(
+      { name: "approvalReason" },
+      {
+        required: "Reason is required",
+        maxLength: {
+          value: 500,
+          message: "Reason maximum characters 500",
+        },
+      }
+    );
+  }, [register]);
   return (
     <Fragment>
-      <FinalForm
-        validate={validate}
-        onSubmit={(values: ApprovalPurchaseOrder) => {
-          const approval = new ApprovalPurchaseOrder(
-            orderId,
-            status,
-            values.approvalReason
-          );
-          approvalPurchaseOrder(approval).finally(() => {
-            closeModal();
-            history.push("/purchase");
-          });
-        }}
-        render={({
-          handleSubmit,
-          submitting,
-          invalid,
-          pristine,
-          dirtySinceLastSubmit,
-        }) => (
-          <Form onSubmit={handleSubmit} error>
-            <Header as="h2" color="teal" textAlign="center">
-              <Header.Subheader>{header}</Header.Subheader>
-            </Header>
-
-            <Field
-              rows={4}
-              name="approvalReason"
-              label="Reason"
-              placeholder="Reason"
-              component={TextAreaInput as any}
-            />
-            <Button
-              loading={submitting}
-              positive
-              content="Submit"
-              disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-            />
-          </Form>
-        )}
-      />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Header as="h2" color="teal" textAlign="center">
+          <Header.Subheader>{header}</Header.Subheader>
+        </Header>
+        <Form.TextArea
+          label="Reason"
+          name="approvalReason"
+          placeholder="Reason..."
+          rows={4}
+          onChange={async (e, { name, value }) => {
+            setValue(name, value);
+            await trigger(name);
+          }}
+          error={
+            errors.approvalReason && (
+              <Label basic color="red" pointing>
+                {errors.approvalReason.message}
+              </Label>
+            )
+          }
+        />
+        <Button type="submit" color="teal" fluid>
+          Submit
+        </Button>
+      </Form>
     </Fragment>
   );
 };

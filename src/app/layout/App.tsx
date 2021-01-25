@@ -22,6 +22,7 @@ import Test from "../../features/home/Test";
 import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
 import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
 import OrderMainForm from "../../features/purchaseOrder/OrderMainForm";
+import UserDashboard from "../../features/user/UserDashboard";
 
 const App: FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -74,6 +75,7 @@ const App: FC<RouteComponentProps> = ({ location }) => {
                   exact
                   component={ViewPurchaseOrder}
                 />
+                <PrivateRoute path="/users" exact component={UserDashboard} />
                 <PrivateRoute path="/settings" exact component={Settings} />
                 <PrivateRoute path="/user" exact component={CurrentUser} />
                 <Route path="/test" exact component={Test} />
