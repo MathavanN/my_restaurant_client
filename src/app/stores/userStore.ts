@@ -4,6 +4,7 @@ import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from "../models/us
 import agent from "../api/agent";
 import history from '../../history'
 import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
+import { ISelectGuidInputOptions } from "../models/common";
 
 export default class UserStore {
     rootStore: RootStore;
@@ -78,6 +79,17 @@ export default class UserStore {
             users[++i] = user;
             return users;
         }, {} as { [key: number]: IAppUser }));
+    }
+
+    @computed get loadAppUsersOptions() {
+        const sortedAppUsers = this.getSortedAppUsers();
+        return sortedAppUsers.map(user => {
+            return {
+                key: user.id,
+                text: `${user.firstName} ${user.lastName}`,
+                value: user.id
+            } as ISelectGuidInputOptions
+        })
     }
 
     getUser = async () => {
