@@ -23,6 +23,7 @@ import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDa
 import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
 import OrderMainForm from "../../features/purchaseOrder/OrderMainForm";
 import UserDashboard from "../../features/user/UserDashboard";
+import GRNDashboard from "../../features/grn/GRNDashboard";
 
 const App: FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -65,6 +66,7 @@ const App: FC<RouteComponentProps> = ({ location }) => {
                   exact
                   component={PurchaseOrderDashboard}
                 />
+                <PrivateRoute path="/grn" exact component={GRNDashboard} />
                 <PrivateRoute
                   path="/purchase/manage/:id"
                   exact
