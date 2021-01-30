@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { FC, Fragment } from "react";
 import { Tab } from "semantic-ui-react";
+import PaymentType from "./paymentType/PaymentType";
 import StockItem from "./stockItem/StockItem";
 import StockType from "./stockType/StockType";
 import Supplier from "./supplier/Supplier";
@@ -10,6 +11,7 @@ const panes = [
   { menuItem: "Unit Of Measure", render: () => <UnitOfMeasure /> },
   { menuItem: "Stock Type", render: () => <StockType /> },
   { menuItem: "Stock Item", render: () => <StockItem /> },
+  { menuItem: "Payment Type", render: () => <PaymentType /> },
   { menuItem: "Supplier", render: () => <Supplier /> },
 ];
 interface IProps {
