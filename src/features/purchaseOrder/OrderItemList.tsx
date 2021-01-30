@@ -38,7 +38,6 @@ const OrderItemList: FC<IProps> = ({
             <Table.HeaderCell>Item Unit</Table.HeaderCell>
             <Table.HeaderCell>Unit Price</Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
-            <Table.HeaderCell>Discount(%)</Table.HeaderCell>
             {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
             {displayAction && (
               <Table.HeaderCell textAlign="center">
@@ -74,13 +73,8 @@ const OrderItemList: FC<IProps> = ({
               </Table.Cell>
               <Table.Cell>{item.itemUnitPrice}</Table.Cell>
               <Table.Cell>{item.quantity}</Table.Cell>
-              <Table.Cell>{item.discount}</Table.Cell>
               {displayAmount && (
-                <Table.Cell>
-                  {item.itemUnitPrice *
-                    item.quantity *
-                    ((100 - item.discount) / 100)}
-                </Table.Cell>
+                <Table.Cell>{item.itemUnitPrice * item.quantity}</Table.Cell>
               )}
               {displayAction && (
                 <Table.Cell collapsing textAlign="right">
