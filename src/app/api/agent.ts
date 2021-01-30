@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
+import { IPaymentType } from '../models/paymentType';
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
@@ -86,6 +87,14 @@ const StockType = {
     delete: (id: number) => requests.del(`/v1/stocktype/${id}`),
 }
 
+const PaymentType = {
+    list: (): Promise<IPaymentType[]> => requests.get(`/v1/paymenttype`),
+    create: (paymentType: IPaymentType): Promise<IPaymentType> => requests.post(`/v1/paymenttype`, paymentType),
+    update: (paymentType: IPaymentType) => requests.put(`/v1/paymenttype/${paymentType.id}`, paymentType),
+    detail: (id: number): Promise<IPaymentType> => requests.get(`/v1/paymenttype/${id}`),
+    delete: (id: number) => requests.del(`/v1/paymenttype/${id}`),
+}
+
 const StockItem = {
     list: (typeId: number, params: URLSearchParams): Promise<IStockItemEnvelop> => requests.getByParams(`/v1/StockItem/type/${typeId}`, params),
     listAll: (): Promise<IStockItem[]> => requests.get(`/v1/StockItem`),
@@ -120,6 +129,6 @@ const PurchaseOrderItem = {
     delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
+const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
 
 export default RestaurantApis
