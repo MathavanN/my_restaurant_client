@@ -34,7 +34,7 @@ const GRNDashboard = () => {
           onClick={() =>
             openModal(
               <AddGRN
-                grn={new CreateGoodsReceivedNote()}
+                goodsReceivedNote={new CreateGoodsReceivedNote()}
                 purchaseOrderOptions={loadApprovedPurchaseOrdersOptions}
                 paymentTypeOptions={loadPaymentTypeOptions}
                 userOptions={loadAppUsersOptions}
