@@ -153,7 +153,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
 
         <Form.Input
           name="itemUnitPrice"
-          type="number"
           fluid
           label="Unit Price"
           placeholder="Unit price"
@@ -172,7 +171,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         <Form.Input
           name="quantity"
-          type="number"
           fluid
           label="Quantity"
           placeholder="Quantity"
