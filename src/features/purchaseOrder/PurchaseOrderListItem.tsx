@@ -8,7 +8,7 @@ import { format, isEqual } from "date-fns";
 import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import AddPurchaseOrder from "./AddPurchaseOrder";
-import { PURCHASE_ORDER_PENDING } from "../../app/models/constants";
+import { PENDING } from "../../app/models/constants";
 import { ISelectInputOptions } from "../../app/models/common";
 
 interface IProps {
@@ -53,7 +53,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
               {format(new Date(order.requestedDate), "yyyy-MM-dd'T'HH:mm")}
             </Table.Cell>
             <Table.Cell
-              negative={order.approvalStatus === PURCHASE_ORDER_PENDING}
+              negative={order.approvalStatus === PENDING}
             >
               {order.approvalStatus}
             </Table.Cell>
