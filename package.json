@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/qs": "^6.9.5",
     "@types/react-datepicker": "^3.1.3"
   }
 }
