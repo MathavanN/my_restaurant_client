@@ -13,7 +13,12 @@ const GRNDetails = () => {
       <Header as="h3" dividing textAlign="center">
         GRN Details.
       </Header>
-      <GRNList grns={getGRNs} />
+      <GRNList
+        grns={getGRNs}
+        displayColumn={true}
+        displayEdit={false}
+        displayView={true}
+      />
     </Fragment>
   );
 };
