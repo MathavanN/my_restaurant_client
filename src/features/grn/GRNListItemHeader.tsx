@@ -1,12 +1,15 @@
-import React, { Fragment } from "react";
+import React, { FC, Fragment } from "react";
 import { Table } from "semantic-ui-react";
+interface IProps {
+  displayColumn: boolean;
+}
 
-const GRNListItemHeader = () => {
+const GRNListItemHeader: FC<IProps> = ({ displayColumn }) => {
   return (
     <Fragment>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>No</Table.HeaderCell>
+          {displayColumn && <Table.HeaderCell>No</Table.HeaderCell>}
           <Table.HeaderCell>PO Number</Table.HeaderCell>
           <Table.HeaderCell>Invoice</Table.HeaderCell>
           <Table.HeaderCell>Payment</Table.HeaderCell>
@@ -14,8 +17,8 @@ const GRNListItemHeader = () => {
           <Table.HeaderCell>VAT %</Table.HeaderCell>
           <Table.HeaderCell>Discount %</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
-          <Table.HeaderCell>Approval By</Table.HeaderCell>
-          <Table.HeaderCell>Approval Date</Table.HeaderCell>
+          {displayColumn && <Table.HeaderCell>Approval By</Table.HeaderCell>}
+          {displayColumn && <Table.HeaderCell>Approval Date</Table.HeaderCell>}
           <Table.HeaderCell>Action</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
