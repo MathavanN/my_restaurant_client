@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
+import { CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
+import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
+import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import { IPaymentType } from '../models/paymentType';
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
@@ -14,6 +17,7 @@ axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
     const token = window.localStorage.getItem('jwt');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+
     return config;
 }, error => {
     return Promise.reject(error)
@@ -129,6 +133,20 @@ const PurchaseOrderItem = {
     delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
+const GRN = {
+    list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsreceivednote`),
+    create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsreceivednote`, grn),
+    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`)
+}
+
+const GRNItem = {
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteItem[]> => requests.getByParams(`/v1/goodsreceivednoteitem`, params),
+}
+
+const GRNFreeItem = {
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteFreeItem[]> => requests.getByParams(`/v1/goodsreceivednotefreeitem`, params),
+}
+
+const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem, GRN, GRNItem, GRNFreeItem }
 
 export default RestaurantApis
