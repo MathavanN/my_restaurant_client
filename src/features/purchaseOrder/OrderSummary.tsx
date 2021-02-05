@@ -4,6 +4,7 @@ import { IPurchaseOrder } from "../../app/models/purchaseOrder";
 import { format, isEqual } from "date-fns";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { APPROVED } from "../../app/models/constants";
 
 interface IProps {
   order: IPurchaseOrder;
@@ -15,12 +16,12 @@ const OrderSummary: FC<IProps> = ({ order }) => {
     loadSupplier(order.supplierId);
   }, [loadSupplier, order]);
 
-  const positive = order.approvalStatus === "Completed" && true;
-  const negative = order.approvalStatus !== "Completed" && true;
-  const isDefaultDate = isEqual(
-    new Date(order.approvedDate),
-    new Date("0001-01-01T00:00:00")
-  );
+  const positive = order.approvalStatus === APPROVED && true;
+  const negative = order.approvalStatus !== APPROVED && true;
+  const isDefaultDate = (date: Date) => {
+    return isEqual(new Date(date), new Date("0001-01-01T00:00:00"));
+  };
+
   return (
     <Grid columns={2}>
       <Grid.Row>
@@ -37,7 +38,10 @@ const OrderSummary: FC<IProps> = ({ order }) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Request Date</Table.Cell>
-                <Table.Cell>{order.requestedDate}</Table.Cell>
+                <Table.Cell>
+                  {!isDefaultDate(order.requestedDate) &&
+                    format(new Date(order.requestedDate), "yyyy-MM-dd'T'HH:mm")}
+                </Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell positive={positive} negative={negative}>
@@ -54,7 +58,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
               <Table.Row>
                 <Table.Cell>Approved Date</Table.Cell>
                 <Table.Cell>
-                  {!isDefaultDate &&
+                  {!isDefaultDate(order.approvedDate) &&
                     format(new Date(order.approvedDate), "yyyy-MM-dd'T'HH:mm")}
                 </Table.Cell>
               </Table.Row>
