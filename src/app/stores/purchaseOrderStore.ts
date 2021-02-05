@@ -4,7 +4,8 @@ import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from "../m
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
 import history from '../../history'
-import { PURCHASE_ORDER_PENDING } from '../models/constants'
+import { APPROVED, PENDING } from '../models/constants'
+import { ISelectInputOptions } from "../models/common";
 
 export default class PurchaseOrderStore {
     rootStore: RootStore;
@@ -29,7 +30,6 @@ export default class PurchaseOrderStore {
             const params = new URLSearchParams();
             params.append('orderId', String(orderId));
             const items = await agent.PurchaseOrderItem.list(params);
-
             runInAction(() => {
                 this.purchaseOrderItemRegistry.clear();
                 items.forEach(item => {
@@ -60,9 +60,9 @@ export default class PurchaseOrderStore {
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
         try {
             await agent.PurchaseOrderItem.update(item);
-            //const x = await agent.PurchaseOrderItem.detail(result.id);
+            const x = await agent.PurchaseOrderItem.detail(item.id);
             runInAction(() => {
-                this.purchaseOrderItemRegistry.set(item.id, item)
+                this.purchaseOrderItemRegistry.set(item.id, x)
             })
         } catch (error) {
             throw error;
@@ -93,17 +93,6 @@ export default class PurchaseOrderStore {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     @computed get getPurchaseOrderItems() {
         const sortedItems = this.getSortedPurchaseOrderItems();
 
@@ -111,6 +100,18 @@ export default class PurchaseOrderStore {
             items[++i] = item;
             return items;
         }, {} as { [key: number]: IPurchaseOrderItem }));
+    }
+
+    @computed get loadApprovedPurchaseOrdersOptions() {
+        const sortedOrders = this.getSortedPurchaseOrders();
+
+        return sortedOrders.filter(order => order.approvalStatus === APPROVED).map(order => {
+            return {
+                key: order.id,
+                text: order.orderNumber,
+                value: order.id
+            } as ISelectInputOptions
+        })
     }
 
     @computed get getPurchaseOrders() {
@@ -198,9 +199,9 @@ export default class PurchaseOrderStore {
     getSortedPurchaseOrders() {
         const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderRegistry.values());
 
-        const pendingOrders = orders.filter(d => d.approvalStatus === PURCHASE_ORDER_PENDING);
+        const pendingOrders = orders.filter(d => d.approvalStatus === PENDING);
         const sortedPendingOrders = pendingOrders.sort((a, b) => new Date(b.requestedDate).getTime() - new Date(a.requestedDate).getTime())
-        const otherOrders = orders.filter(d => d.approvalStatus !== PURCHASE_ORDER_PENDING);
+        const otherOrders = orders.filter(d => d.approvalStatus !== PENDING);
         const sortedOtherOrders = otherOrders.sort((a, b) => new Date(a.requestedDate).getTime() - new Date(b.requestedDate).getTime())
 
         return [...sortedPendingOrders, ...sortedOtherOrders]
