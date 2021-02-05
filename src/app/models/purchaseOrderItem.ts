@@ -19,6 +19,7 @@ export class CreatePurchaseOrderItem {
     itemTypeName: string = "";
     itemId: number = 0;
     itemUnitPrice: number = 0;
+    quantity: number = 0;
     constructor(init?: PurchaseOrderItemFormValues) {
         Object.assign(this, init);
     }
@@ -36,7 +37,5 @@ export class PurchaseOrderItemFormValues {
     constructor(orderId: number, init?: IPurchaseOrderItem) {
         this.purchaseOrderId = orderId;
         Object.assign(this, init);
-
     }
-
 }
