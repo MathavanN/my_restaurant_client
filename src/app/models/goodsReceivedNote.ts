@@ -30,6 +30,8 @@ export class CreateGoodsReceivedNote {
     receivedDate: Date = new Date()
     constructor(init?: IGoodsReceivedNote) {
         Object.assign(this, init);
+        if (init)
+            this.receivedDate = new Date(init?.receivedDate)
     }
 }
 
