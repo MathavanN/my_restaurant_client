@@ -10,6 +10,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import AddPurchaseOrder from "./AddPurchaseOrder";
 import { PENDING } from "../../app/models/constants";
 import { ISelectInputOptions } from "../../app/models/common";
+import { observer } from "mobx-react-lite";
 
 interface IProps {
   orders: [string, IPurchaseOrder][];
@@ -52,9 +53,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
             <Table.Cell>
               {format(new Date(order.requestedDate), "yyyy-MM-dd'T'HH:mm")}
             </Table.Cell>
-            <Table.Cell
-              negative={order.approvalStatus === PENDING}
-            >
+            <Table.Cell negative={order.approvalStatus === PENDING}>
               {order.approvalStatus}
             </Table.Cell>
             {displayColumn && <Table.Cell>{order.approvedUserName}</Table.Cell>}
@@ -104,4 +103,4 @@ const PurchaseOrderListItem: FC<IProps> = ({
   );
 };
 
-export default PurchaseOrderListItem;
+export default observer(PurchaseOrderListItem);
