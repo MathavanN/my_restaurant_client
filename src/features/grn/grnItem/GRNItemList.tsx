@@ -7,8 +7,8 @@ const GRNItemList = () => {
   return (
     <Fragment>
       <Table compact celled>
-        <GRNItemListHeader />
-        <GRNItemListItem />
+        <GRNItemListHeader displayAction={false} displayAmount={true} />
+        <GRNItemListItem displayAction={false} displayAmount={true} />
       </Table>
     </Fragment>
   );
