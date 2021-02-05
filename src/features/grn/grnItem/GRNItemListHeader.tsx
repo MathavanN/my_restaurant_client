@@ -1,7 +1,11 @@
-import React, { Fragment } from "react";
+import React, { FC, Fragment } from "react";
 import { Table } from "semantic-ui-react";
 
-const GRNItemListHeader = () => {
+interface IProps {
+  displayAmount: boolean;
+  displayAction: boolean;
+}
+const GRNItemListHeader: FC<IProps> = ({ displayAction, displayAmount }) => {
   return (
     <Fragment>
       <Table.Header>
@@ -14,8 +18,8 @@ const GRNItemListHeader = () => {
           <Table.HeaderCell>NBT %</Table.HeaderCell>
           <Table.HeaderCell>VAT %</Table.HeaderCell>
           <Table.HeaderCell>Discount %</Table.HeaderCell>
-          <Table.HeaderCell>Amount</Table.HeaderCell>
-          <Table.HeaderCell>Action</Table.HeaderCell>
+          {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
+          {displayAction && <Table.HeaderCell>Action</Table.HeaderCell>}
         </Table.Row>
       </Table.Header>
     </Fragment>
