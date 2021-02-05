@@ -4,12 +4,14 @@ import { Button, Icon, Message } from "semantic-ui-react";
 import { CreateGoodsReceivedNote } from "../../app/models/goodsReceivedNote";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import AddGRN from "./AddGRN";
+import GRNDetails from "./GRNDetails";
 
 const GRNDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
   const { loadPaymentTypes, loadPaymentTypeOptions } = rootStore.settingsStore;
   const { loadAppUsers, loadAppUsersOptions } = rootStore.userStore;
+  const { loadGRNs } = rootStore.grnStore;
   const {
     loadPurchaseOrders,
     loadApprovedPurchaseOrdersOptions,
@@ -18,7 +20,8 @@ const GRNDashboard = () => {
     loadPaymentTypes();
     loadAppUsers();
     loadPurchaseOrders();
-  }, [loadPaymentTypes, loadAppUsers, loadPurchaseOrders]);
+    loadGRNs();
+  }, [loadPaymentTypes, loadAppUsers, loadPurchaseOrders, loadGRNs]);
   return (
     <Fragment>
       <Message positive icon>
@@ -42,6 +45,7 @@ const GRNDashboard = () => {
           Create
         </Button>
       </Message>
+      <GRNDetails />
     </Fragment>
   );
 };

@@ -30,9 +30,11 @@ const AddGRN: FC<IProps> = ({
     defaultValues: grn,
   });
   const rootStore = useContext(RootStoreContext);
+  const { createGRN } = rootStore.grnStore;
   const onSubmit = (data: any) => {
     const formData = new CreateGoodsReceivedNote({ ...data, id: grn.id });
     console.log(formData);
+    if (formData.id === 0) createGRN(formData);
   };
   const handleReceivedDate = (selectedDate: Date) => {
     setReceivedDate(selectedDate);
@@ -62,7 +64,7 @@ const AddGRN: FC<IProps> = ({
       }
     );
     register(
-      { name: "receivedUserId" },
+      { name: "receivedBy" },
       {
         required: "Received by is required",
       }
@@ -183,7 +185,6 @@ const AddGRN: FC<IProps> = ({
         />
         <Form.Input
           name="nbt"
-          type="number"
           fluid
           label="NBT (%)"
           placeholder="NBT"
@@ -202,7 +203,6 @@ const AddGRN: FC<IProps> = ({
         />
         <Form.Input
           name="vat"
-          type="number"
           fluid
           label="VAT (%)"
           placeholder="VAT"
@@ -221,7 +221,6 @@ const AddGRN: FC<IProps> = ({
         />
         <Form.Input
           name="discount"
-          type="number"
           fluid
           label="Discount (%)"
           placeholder="Discount"
@@ -239,20 +238,20 @@ const AddGRN: FC<IProps> = ({
           }
         />
         <Form.Select
-          name="receivedUserId"
+          name="receivedBy"
           fluid
           options={userOptions}
           label="Received By"
           placeholder="Select received by"
-          defaultValue={grn.receivedUserId}
+          defaultValue={grn.receivedBy}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
-            errors.receivedUserId && (
+            errors.receivedBy && (
               <Label basic color="red" pointing>
-                {errors.receivedUserId.message}
+                {errors.receivedBy.message}
               </Label>
             )
           }
