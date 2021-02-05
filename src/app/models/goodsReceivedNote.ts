@@ -8,12 +8,14 @@ export interface IGoodsReceivedNote {
     nbt: number;
     vat: number;
     discount: number;
-    receivedUserId: string;
+    receivedBy: string;
     receivedUserName: string;
     receivedDate: Date;
-    createdUserId: string;
-    createdUserName: string;
-    createdDate: Date;
+    approvalStatus: string;
+    approvedBy: string;
+    approvedUserName: string;
+    approvedDate: Date;
+    approvalReason: string;
 }
 
 export class CreateGoodsReceivedNote {
@@ -24,7 +26,7 @@ export class CreateGoodsReceivedNote {
     nbt: number = 0;
     vat: number = 0;
     discount: number = 0;
-    receivedUserId: string = "";
+    receivedBy: string = "";
     receivedDate: Date = new Date()
     constructor(init?: IGoodsReceivedNote) {
         Object.assign(this, init);
