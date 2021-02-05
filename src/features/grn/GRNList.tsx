@@ -6,14 +6,27 @@ import GRNListItemHeader from "./GRNListItemHeader";
 
 interface IProps {
   grns: [string, IGoodsReceivedNote][];
+  displayColumn: boolean;
+  displayView: boolean;
+  displayEdit: boolean;
 }
 
-const GRNList: FC<IProps> = ({ grns }) => {
+const GRNList: FC<IProps> = ({
+  grns,
+  displayColumn,
+  displayEdit,
+  displayView,
+}) => {
   return (
     <Fragment>
       <Table compact celled>
-        <GRNListItemHeader />
-        <GRNListItem grns={grns} />
+        <GRNListItemHeader displayColumn={displayColumn} />
+        <GRNListItem
+          grns={grns}
+          displayColumn={displayColumn}
+          displayEdit={displayEdit}
+          displayView={displayView}
+        />
       </Table>
     </Fragment>
   );
