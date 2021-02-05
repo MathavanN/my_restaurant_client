@@ -13,26 +13,30 @@ import "react-datepicker/dist/react-datepicker.css";
 import { setHours, setMinutes } from "date-fns";
 
 interface IProps {
-  grn: CreateGoodsReceivedNote;
+  goodsReceivedNote: CreateGoodsReceivedNote;
   purchaseOrderOptions: ISelectInputOptions[];
   paymentTypeOptions: ISelectInputOptions[];
   userOptions: ISelectGuidInputOptions[];
 }
 
 const AddGRN: FC<IProps> = ({
-  grn,
+  goodsReceivedNote,
   purchaseOrderOptions,
   paymentTypeOptions,
   userOptions,
 }) => {
+  console.log(goodsReceivedNote);
   const [receivedDate, setReceivedDate] = useState(new Date());
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
-    defaultValues: grn,
+    defaultValues: goodsReceivedNote,
   });
   const rootStore = useContext(RootStoreContext);
   const { createGRN } = rootStore.grnStore;
   const onSubmit = (data: any) => {
-    const formData = new CreateGoodsReceivedNote({ ...data, id: grn.id });
+    const formData = new CreateGoodsReceivedNote({
+      ...data,
+      id: goodsReceivedNote.id,
+    });
     console.log(formData);
     if (formData.id === 0) createGRN(formData);
   };
@@ -42,7 +46,7 @@ const AddGRN: FC<IProps> = ({
     trigger("receivedDate");
   };
   useEffect(() => {
-    setReceivedDate(grn.receivedDate);
+    setReceivedDate(goodsReceivedNote.receivedDate);
     register(
       { name: "purchaseOrderId" },
       {
@@ -114,13 +118,13 @@ const AddGRN: FC<IProps> = ({
         required: "Received date is required",
       }
     );
-  }, [register, grn.receivedDate, setReceivedDate]);
+  }, [register, goodsReceivedNote.receivedDate, setReceivedDate]);
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
-            {grn.id === 0
+            {goodsReceivedNote.id === 0
               ? "Create a new goods received note"
               : "Modify a goods received note"}
           </Header.Subheader>
@@ -133,7 +137,7 @@ const AddGRN: FC<IProps> = ({
           options={purchaseOrderOptions}
           label="Purchase Order"
           placeholder="Select a purchase order"
-          defaultValue={grn.purchaseOrderId}
+          defaultValue={goodsReceivedNote.purchaseOrderId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -151,7 +155,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="Invoice Number"
           placeholder="invoice number"
-          defaultValue={grn.invoiceNumber}
+          defaultValue={goodsReceivedNote.invoiceNumber}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -170,7 +174,7 @@ const AddGRN: FC<IProps> = ({
           options={paymentTypeOptions}
           label="Payment Type"
           placeholder="Select payment type"
-          defaultValue={grn.paymentTypeId}
+          defaultValue={goodsReceivedNote.paymentTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -188,7 +192,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="NBT (%)"
           placeholder="NBT"
-          defaultValue={grn.nbt}
+          defaultValue={goodsReceivedNote.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -206,7 +210,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="VAT (%)"
           placeholder="VAT"
-          defaultValue={grn.vat}
+          defaultValue={goodsReceivedNote.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -224,7 +228,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="Discount (%)"
           placeholder="Discount"
-          defaultValue={grn.discount}
+          defaultValue={goodsReceivedNote.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
@@ -243,7 +247,7 @@ const AddGRN: FC<IProps> = ({
           options={userOptions}
           label="Received By"
           placeholder="Select received by"
-          defaultValue={grn.receivedBy}
+          defaultValue={goodsReceivedNote.receivedBy}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
