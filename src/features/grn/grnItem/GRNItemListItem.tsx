@@ -2,14 +2,27 @@ import React, { FC, Fragment, useContext } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import DeleteGRNItem from "./DeleteGRNItem";
+import CreateGRNItem from "./CreateGRNItem";
+import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
+import { ISelectInputOptions } from "../../../app/models/common";
+import { GoodsReceivedNoteItemFormValues } from "../../../app/models/goodsReceivedNoteItem";
 
 interface IProps {
   displayAmount: boolean;
   displayAction: boolean;
+  grn: IGoodsReceivedNote;
+  stockTypeOptions: ISelectInputOptions[];
 }
-const GRNItemListItem: FC<IProps> = ({ displayAction, displayAmount }) => {
+const GRNItemListItem: FC<IProps> = ({
+  displayAction,
+  displayAmount,
+  grn,
+  stockTypeOptions,
+}) => {
   const rootStore = useContext(RootStoreContext);
   const { getGRNItems } = rootStore.grnStore;
+  const { openModal } = rootStore.modalStore;
   return (
     <Fragment>
       <Table.Body>
@@ -27,17 +40,39 @@ const GRNItemListItem: FC<IProps> = ({ displayAction, displayAmount }) => {
             <Table.Cell>{item.vat}</Table.Cell>
             <Table.Cell>{item.discount}</Table.Cell>
             {displayAmount && (
-              <Table.Cell>{item.itemUnitPrice * item.quantity}</Table.Cell>
+              <Table.Cell>
+                {(
+                  item.itemUnitPrice * item.quantity +
+                  item.itemUnitPrice * item.quantity * (item.nbt / 100) +
+                  item.itemUnitPrice * item.quantity * (item.vat / 100) -
+                  item.itemUnitPrice * item.quantity * (item.discount / 100)
+                ).toFixed(2)}
+              </Table.Cell>
             )}
             {displayAction && (
               <Table.Cell collapsing textAlign="right">
-                <Button animated="vertical" color="orange">
+                <Button
+                  animated="vertical"
+                  color="orange"
+                  onClick={() =>
+                    openModal(
+                      <CreateGRNItem
+                        item={new GoodsReceivedNoteItemFormValues(grn.id, item)}
+                        stockTypeOptions={stockTypeOptions}
+                      />
+                    )
+                  }
+                >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
                     <Icon name="edit" />
                   </Button.Content>
                 </Button>
-                <Button animated="vertical" color="red">
+                <Button
+                  animated="vertical"
+                  color="red"
+                  onClick={() => openModal(<DeleteGRNItem item={item} />)}
+                >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
                     <Icon name="delete" />
