@@ -13,15 +13,15 @@ const GRNDashboard = () => {
   const { loadAppUsers, loadAppUsersOptions } = rootStore.userStore;
   const { loadGRNs } = rootStore.grnStore;
   const {
-    loadPurchaseOrders,
+    loadPOForGRN,
     loadApprovedPurchaseOrdersOptions,
   } = rootStore.purchaseOrderStore;
   useEffect(() => {
     loadPaymentTypes();
     loadAppUsers();
-    loadPurchaseOrders();
+    loadPOForGRN();
     loadGRNs();
-  }, [loadPaymentTypes, loadAppUsers, loadPurchaseOrders, loadGRNs]);
+  }, [loadPaymentTypes, loadAppUsers, loadPOForGRN, loadGRNs]);
   return (
     <Fragment>
       <Message positive icon>
