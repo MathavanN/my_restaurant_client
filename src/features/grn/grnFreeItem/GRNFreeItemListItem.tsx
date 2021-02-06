@@ -1,9 +1,14 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, FC } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
-const GRNFreeItemListItem = () => {
+interface IProps {
+  displayAmount: boolean;
+  displayAction: boolean;
+}
+
+const GRNFreeItemListItem: FC<IProps> = ({ displayAction, displayAmount }) => {
   const rootStore = useContext(RootStoreContext);
   const { getGRNFreeItems } = rootStore.grnStore;
   return (
