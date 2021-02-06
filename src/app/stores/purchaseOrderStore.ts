@@ -4,7 +4,7 @@ import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from "../m
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
 import history from '../../history'
-import { APPROVED, PENDING } from '../models/constants'
+import { PENDING } from '../models/constants'
 import { ISelectInputOptions } from "../models/common";
 
 export default class PurchaseOrderStore {
@@ -12,6 +12,7 @@ export default class PurchaseOrderStore {
 
     purchaseOrder: IPurchaseOrder | null = null;
     purchaseOrderRegistry = new Map();
+    purchaseOrderForGRNRegistry = new Map();
 
     purchaseOrderItemRegistry = new Map();
 
@@ -103,9 +104,9 @@ export default class PurchaseOrderStore {
     }
 
     @computed get loadApprovedPurchaseOrdersOptions() {
-        const sortedOrders = this.getSortedPurchaseOrders();
+        const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderForGRNRegistry.values());
 
-        return sortedOrders.filter(order => order.approvalStatus === APPROVED).map(order => {
+        return orders.map(order => {
             return {
                 key: order.id,
                 text: order.orderNumber,
@@ -121,6 +122,23 @@ export default class PurchaseOrderStore {
             orders[++i] = order;
             return orders;
         }, {} as { [key: number]: IPurchaseOrder }));
+    }
+
+    loadPOForGRN = async () => {
+        try {
+            const orders = await agent.PurchaseOrder.listPOForGRN();
+            runInAction(() => {
+                orders.forEach(order => {
+                    this.purchaseOrderForGRNRegistry.set(order.id, order)
+                });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
     }
 
     loadPurchaseOrders = async () => {
