@@ -11,6 +11,8 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { setHours, setMinutes } from "date-fns";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 interface IProps {
   goodsReceivedNote: CreateGoodsReceivedNote;
@@ -25,26 +27,42 @@ const AddGRN: FC<IProps> = ({
   paymentTypeOptions,
   userOptions,
 }) => {
-  console.log(goodsReceivedNote);
   const [receivedDate, setReceivedDate] = useState(new Date());
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: goodsReceivedNote,
   });
+
   const rootStore = useContext(RootStoreContext);
-  const { createGRN } = rootStore.grnStore;
+  const { createGRN, updateGRN } = rootStore.grnStore;
+  const { closeModal } = rootStore.modalStore;
+  
+
   const onSubmit = (data: any) => {
     const formData = new CreateGoodsReceivedNote({
       ...data,
       id: goodsReceivedNote.id,
     });
-    console.log(formData);
-    if (formData.id === 0) createGRN(formData);
+    if (formData.id === 0)
+      createGRN(formData).catch((error) => {
+        toast.error(<ErrorMessage error={error} text="Error:" />);
+      });
+    else
+      updateGRN(formData)
+        .then(() => {
+          toast.success("GRN updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
+
   const handleReceivedDate = (selectedDate: Date) => {
     setReceivedDate(selectedDate);
     setValue("receivedDate", selectedDate);
     trigger("receivedDate");
   };
+
   useEffect(() => {
     setReceivedDate(goodsReceivedNote.receivedDate);
     register(
