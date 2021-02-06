@@ -1,15 +1,16 @@
-import React, { FC, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Grid, Table, Header } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
 const GRNItemSummary = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getGRNItems } = rootStore.grnStore;
-  const orderTotal = getGRNItems.reduce(
-    (total, [group, item]) => total + item.itemUnitPrice * item.quantity,
-    0
-  );
+  const { getGRNItemsSummary, grnItemSummaryRegistry } = rootStore.grnStore;
+
+  useEffect(() => {
+    getGRNItemsSummary();
+  }, [getGRNItemsSummary]);
+
   return (
     <Grid>
       <Grid.Row>
@@ -25,7 +26,77 @@ const GRNItemSummary = () => {
                 </Table.Cell>
                 <Table.Cell>
                   <Header as="h4">
-                    <Header.Content>{orderTotal}</Header.Content>
+                    <Header.Content>
+                      {parseFloat(grnItemSummaryRegistry.get("total")).toFixed(
+                        2
+                      )}
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+              </Table.Row>
+
+              <Table.Row>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>Total NBT</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>
+                      {parseFloat(grnItemSummaryRegistry.get("nbt")).toFixed(2)}
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+              </Table.Row>
+
+              <Table.Row>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>Total VAT</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>
+                      {parseFloat(grnItemSummaryRegistry.get("vat")).toFixed(2)}
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>Total Discount</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>
+                      {parseFloat(
+                        grnItemSummaryRegistry.get("discount")
+                      ).toFixed(2)}
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+              </Table.Row>
+
+              <Table.Row>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>GRN Grand Total</Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>
+                  <Header as="h4">
+                    <Header.Content>
+                      {(
+                        parseFloat(grnItemSummaryRegistry.get("total")) +
+                        parseFloat(grnItemSummaryRegistry.get("vat")) +
+                        parseFloat(grnItemSummaryRegistry.get("nbt")) -
+                        parseFloat(grnItemSummaryRegistry.get("discount"))
+                      ).toFixed(2)}
+                    </Header.Content>
                   </Header>
                 </Table.Cell>
               </Table.Row>
