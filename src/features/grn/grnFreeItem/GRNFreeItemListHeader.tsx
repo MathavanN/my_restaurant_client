@@ -1,7 +1,15 @@
-import React, { Fragment } from "react";
+import React, { FC, Fragment } from "react";
 import { Table } from "semantic-ui-react";
 
-const GRNFreeItemListHeader = () => {
+interface IProps {
+  displayAmount: boolean;
+  displayAction: boolean;
+}
+
+const GRNFreeItemListHeader: FC<IProps> = ({
+  displayAction,
+  displayAmount,
+}) => {
   return (
     <Fragment>
       <Table.Header>
