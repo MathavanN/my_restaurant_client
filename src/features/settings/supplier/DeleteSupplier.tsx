@@ -3,6 +3,8 @@ import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 import { ISupplier } from "../../../app/models/supplier";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   supplier: ISupplier;
@@ -25,9 +27,16 @@ const DeleteSupplier: FC<IProps> = ({ supplier, closeModal }) => {
             <Button
               content="Yes"
               color="red"
-              onClick={() =>
-                deleteSupplier(supplier.id).then(() => closeModal())
-              }
+              onClick={() => {
+                deleteSupplier(supplier.id)
+                  .then(() => {
+                    toast.success("Supplier deleted successfully");
+                    closeModal();
+                  })
+                  .catch((error) => {
+                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                  });
+              }}
             />
             <Button content="No" color="green" onClick={() => closeModal()} />
           </Grid.Column>
