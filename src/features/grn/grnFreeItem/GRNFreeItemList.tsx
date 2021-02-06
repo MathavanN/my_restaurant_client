@@ -1,14 +1,25 @@
-import React, { Fragment } from "react";
+import React, { Fragment, FC } from "react";
 import { Table } from "semantic-ui-react";
 import GRNFreeItemListHeader from "./GRNFreeItemListHeader";
 import GRNFreeItemListItem from "./GRNFreeItemListItem";
 
-const GRNItemList = () => {
+interface IProps {
+  displayAmount: boolean;
+  displayAction: boolean;
+}
+
+const GRNItemList: FC<IProps> = ({ displayAction, displayAmount }) => {
   return (
     <Fragment>
       <Table compact celled>
-        <GRNFreeItemListHeader />
-        <GRNFreeItemListItem />
+        <GRNFreeItemListHeader
+          displayAction={displayAction}
+          displayAmount={displayAmount}
+        />
+        <GRNFreeItemListItem
+          displayAction={displayAction}
+          displayAmount={displayAmount}
+        />
       </Table>
     </Fragment>
   );
