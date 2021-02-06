@@ -26,7 +26,7 @@ const GRNListItem: FC<IProps> = ({
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
   const { loadPaymentTypeOptions } = rootStore.settingsStore;
-  const { loadAppUsersOptions } = rootStore.userStore;
+  const { loadAppUsersOptions, isSuperAdminUser } = rootStore.userStore;
   const { loadApprovedPurchaseOrdersOptions } = rootStore.purchaseOrderStore;
   return (
     <Fragment>
@@ -62,7 +62,7 @@ const GRNListItem: FC<IProps> = ({
                 />
               </Table.Cell>
             )}
-            {displayEdit && (
+            {displayEdit && isSuperAdminUser && (
               <Table.Cell>
                 <Button
                   animated="vertical"
