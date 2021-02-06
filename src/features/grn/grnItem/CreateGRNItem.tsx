@@ -2,26 +2,62 @@ import React, { FC, Fragment, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, Header, Label } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { GoodsReceivedNoteItemFormValues } from "../../../app/models/goodsReceivedNoteItem";
+import {
+  CreateGoodsReceivedNoteItem,
+  GoodsReceivedNoteItemFormValues,
+} from "../../../app/models/goodsReceivedNoteItem";
 import { ISelectInputOptions } from "../../../app/models/common";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   item: GoodsReceivedNoteItemFormValues;
   stockTypeOptions: ISelectInputOptions[];
 }
 const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
+  console.log(item);
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { getAllStockItemsForStockType } = rootStore.stockItemStore;
+  const {
+    loadAllStockItems,
+    getAllStockItemsForStockType,
+  } = rootStore.stockItemStore;
+  const { createGRNItem, updateGRNItem } = rootStore.grnStore;
+
   const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
     defaultValues: item,
   });
+
   const onSubmit = (data: any) => {
-    console.log({ ...data });
+    const formData = new CreateGoodsReceivedNoteItem({
+      ...data,
+      id: item.id,
+      goodsReceivedNoteId: item.goodsReceivedNoteId,
+    });
+    console.log(formData);
+    if (formData.id === 0)
+      createGRNItem(formData)
+        .then(() => {
+          toast.success("Item created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updateGRNItem(formData)
+        .then(() => {
+          toast.success("Item updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
+
   const itemTypeSelected = watch("itemTypeId");
   useEffect(() => {
+    loadAllStockItems();
     register(
       { name: "itemTypeId" },
       {
@@ -95,7 +131,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         },
       }
     );
-  }, [register]);
+  }, [loadAllStockItems, register]);
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
