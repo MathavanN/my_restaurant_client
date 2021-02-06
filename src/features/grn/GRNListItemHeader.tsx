@@ -1,10 +1,14 @@
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment, useContext } from "react";
 import { Table } from "semantic-ui-react";
+import { RootStoreContext } from "../../app/stores/rootStore";
 interface IProps {
   displayColumn: boolean;
 }
 
 const GRNListItemHeader: FC<IProps> = ({ displayColumn }) => {
+  const rootStore = useContext(RootStoreContext);
+  const { isSuperAdminUser } = rootStore.userStore;
+
   return (
     <Fragment>
       <Table.Header>
@@ -19,7 +23,7 @@ const GRNListItemHeader: FC<IProps> = ({ displayColumn }) => {
           <Table.HeaderCell>Status</Table.HeaderCell>
           {displayColumn && <Table.HeaderCell>Approval By</Table.HeaderCell>}
           {displayColumn && <Table.HeaderCell>Approval Date</Table.HeaderCell>}
-          <Table.HeaderCell>Action</Table.HeaderCell>
+          {isSuperAdminUser && <Table.HeaderCell>Action</Table.HeaderCell>}
         </Table.Row>
       </Table.Header>
     </Fragment>
