@@ -1,14 +1,22 @@
-import React, { Fragment } from "react";
+import React, { Fragment, FC } from "react";
 import { Header } from "semantic-ui-react";
 import GRNFreeItemList from "./GRNFreeItemList";
 
-const GRNFreeItemDetails = () => {
+interface IProps {
+  displayAmount: boolean;
+  displayAction: boolean;
+}
+
+const GRNFreeItemDetails: FC<IProps> = ({ displayAction, displayAmount }) => {
   return (
     <Fragment>
       <Header size="medium" textAlign="center">
         GRN Free Item Details.
       </Header>
-      <GRNFreeItemList />
+      <GRNFreeItemList
+        displayAction={displayAction}
+        displayAmount={displayAmount}
+      />
     </Fragment>
   );
 };
