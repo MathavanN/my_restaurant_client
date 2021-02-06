@@ -2,6 +2,9 @@ import React, { FC, Fragment, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import GRNList from "./GRNList";
+import { observer } from "mobx-react-lite";
+import GRNItemDetails from "./grnItem/GRNItemDetails";
+import GRNFreeItemDetails from "./grnFreeItem/GRNFreeItemDetails";
 
 interface IDetailsParams {
   id: string;
@@ -13,13 +16,18 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { loadGRN, loadGRNItems, loadGRNFreeItems, grn } = rootStore.grnStore;
-  const { loadPaymentTypes } = rootStore.settingsStore;
+  const {
+    loadPaymentTypes,
+    loadStockTypes,
+    loadStockTypeOptions,
+  } = rootStore.settingsStore;
   const { loadAppUsers } = rootStore.userStore;
   const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
   useEffect(() => {
     loadPaymentTypes();
     loadAppUsers();
     loadPurchaseOrders();
+    loadStockTypes();
     if (match.params.id) {
       loadGRN(parseInt(match.params.id));
       loadGRNItems(parseInt(match.params.id));
@@ -29,6 +37,7 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadPaymentTypes,
     loadAppUsers,
     loadPurchaseOrders,
+    loadStockTypes,
     loadGRN,
     loadGRNItems,
     loadGRNFreeItems,
@@ -44,10 +53,17 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
             displayEdit={true}
             displayView={false}
           />
+          <GRNItemDetails
+            displayAction={true}
+            displayAmount={false}
+            grn={grn}
+            stockTypeOptions={loadStockTypeOptions}
+          />
+          <GRNFreeItemDetails displayAction={true} displayAmount={false} />
         </Fragment>
       )}
     </Fragment>
   );
 };
 
-export default GRNMainForm;
+export default observer(GRNMainForm);
