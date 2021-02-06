@@ -17,10 +17,15 @@ interface IDetailsParams {
 const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
   const rootStore = useContext(RootStoreContext);
   const { loadGRN, grn, loadingInitial, loadGRNItems } = rootStore.grnStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
+  const { hasModifyAccess, user } = rootStore.userStore;
   useEffect(() => {
-    loadGRN(parseInt(match.params.id));
-    loadGRNItems(parseInt(match.params.id));
-  }, [loadGRN, loadGRNItems, match.params.id]);
+    loadStockTypes();
+    if (match.params.id) {
+      loadGRN(parseInt(match.params.id));
+      loadGRNItems(parseInt(match.params.id));
+    }
+  }, [loadStockTypes, loadGRN, loadGRNItems, match.params.id]);
 
   if (loadingInitial)
     return <LoadingComponent content="Loading GRN details..." />;
@@ -30,33 +35,39 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     <Fragment>
       <Grid>
         <Grid.Column width={16}>
-          {grn.approvalStatus === PENDING && (
-            <Segment attached="top" textAlign="center">
-              <Message info icon>
-                <Message.Content>
-                  <Message.Header>GRN Details</Message.Header>
-                </Message.Content>
-                <Button
-                  floated="left"
-                  as={Link}
-                  to={`/grn/manage/${match.params.id}`}
-                >
-                  Modify
-                </Button>
-              </Message>
-            </Segment>
-          )}
+          {grn.approvalStatus === PENDING &&
+            (hasModifyAccess || grn.receivedBy === user?.userId) && (
+              <Segment attached="top" textAlign="center">
+                <Message info icon>
+                  <Message.Content>
+                    <Message.Header>GRN Details</Message.Header>
+                  </Message.Content>
+                  <Button
+                    floated="left"
+                    as={Link}
+                    to={`/grn/manage/${match.params.id}`}
+                  >
+                    Modify
+                  </Button>
+                </Message>
+              </Segment>
+            )}
           <Segment attached>
             <GRNSummary grn={grn} />
           </Segment>
           <Segment attached>
-            <GRNItemDetails />
+            <GRNItemDetails
+              displayAmount={true}
+              displayAction={false}
+              grn={grn}
+              stockTypeOptions={loadStockTypeOptions}
+            />
           </Segment>
           <Segment attached>
             <GRNItemSummary />
           </Segment>
           <Segment attached>
-            <GRNFreeItemDetails />
+            <GRNFreeItemDetails displayAmount={true} displayAction={false} />
           </Segment>
         </Grid.Column>
       </Grid>
