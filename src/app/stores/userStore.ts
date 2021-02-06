@@ -11,10 +11,6 @@ export default class UserStore {
     token: IToken | null = null;
     user: IUser | null = null
     loading = false;
-    isSuperAdmin = false;
-    isAdmin = false;
-    isReport = false;
-    isNormal = false;
 
     appUsersRegistry = new Map();
     constructor(rootStore: RootStore) {
