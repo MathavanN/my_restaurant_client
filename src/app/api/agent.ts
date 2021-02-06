@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
 import { CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
-import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
-import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
+import { CreateGoodsReceivedNoteFreeItem, IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import { IPaymentType } from '../models/paymentType';
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
@@ -118,6 +118,7 @@ const Supplier = {
 
 const PurchaseOrder = {
     list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
+    listPOForGRN: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder/grnallowed`),
     create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
     detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`),
     update: (order: CreatePurchaseOrder) => requests.put(`/v1/purchaseorder/${order.id}`, order),
@@ -136,15 +137,24 @@ const PurchaseOrderItem = {
 const GRN = {
     list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsreceivednote`),
     create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsreceivednote`, grn),
-    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`)
+    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`),
+    update: (grn: CreateGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/${grn.id}`, grn)
 }
 
 const GRNItem = {
     list: (params: URLSearchParams): Promise<IGoodsReceivedNoteItem[]> => requests.getByParams(`/v1/goodsreceivednoteitem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteItem> => requests.get(`/v1/goodsreceivednoteitem/${id}`),
+    create: (item: CreateGoodsReceivedNoteItem): Promise<IGoodsReceivedNoteItem> => requests.post(`/v1/goodsreceivednoteitem`, item),
+    update: (item: CreateGoodsReceivedNoteItem) => requests.put(`/v1/goodsreceivednoteitem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsreceivednoteitem/${id}`)
 }
 
 const GRNFreeItem = {
     list: (params: URLSearchParams): Promise<IGoodsReceivedNoteFreeItem[]> => requests.getByParams(`/v1/goodsreceivednotefreeitem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteFreeItem> => requests.get(`/v1/goodsreceivednotefreeitem/${id}`),
+    create: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.post(`/v1/goodsreceivednotefreeitem`, item),
+    update: (item: CreateGoodsReceivedNoteFreeItem) => requests.put(`/v1/goodsreceivednotefreeitem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsreceivednotefreeitem/${id}`)
 }
 
 const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem, GRN, GRNItem, GRNFreeItem }
