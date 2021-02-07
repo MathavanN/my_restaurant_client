@@ -137,7 +137,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
-            {item.id === 0 ? "Add new Item" : "Modify Item"}
+            {item.id === 0 ? "Add New GRN Item" : "Modify GRN Item"}
           </Header.Subheader>
         </Header>
         <Form.Select
