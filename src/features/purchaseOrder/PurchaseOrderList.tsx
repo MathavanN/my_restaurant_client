@@ -1,13 +1,17 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
 import { Header } from "semantic-ui-react";
+import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import PurchaseOrderListItem from "./PurchaseOrderListItem";
 
 const PurchaseOrderList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getPurchaseOrders } = rootStore.purchaseOrderStore;
+  const { getPurchaseOrders, loadingInitial } = rootStore.purchaseOrderStore;
   const { loadSupplierOptions } = rootStore.supplierStore;
+
+  if (loadingInitial)
+    return <LoadingComponent content="Loading purchase orders..." />;
 
   return (
     <Fragment>
