@@ -1,6 +1,6 @@
 import { RootStore } from "./rootStore";
 import { runInAction, makeAutoObservable, computed } from "mobx";
-import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from "../models/user";
+import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IToken, IUser, IUserLogin } from "../models/user";
 import agent from "../api/agent";
 import history from '../../history'
 import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
@@ -10,7 +10,7 @@ export default class UserStore {
     rootStore: RootStore;
     token: IToken | null = null;
     user: IUser | null = null
-    loading = false;
+    loadingInitial = false;
 
     appUsersRegistry = new Map();
     constructor(rootStore: RootStore) {
@@ -44,18 +44,18 @@ export default class UserStore {
     }
 
     loadAppUsers = async () => {
-        this.loading = true
+        this.loadingInitial = true
         try {
             const users = await agent.Users.list();
             runInAction(() => {
                 users.forEach(user => {
                     this.appUsersRegistry.set(user.id, user)
                 });
-                this.loading = false;
+                this.loadingInitial = false;
             })
         } catch (error) {
             runInAction(() => {
-                this.loading = false;
+                this.loadingInitial = false;
             })
         }
     }
@@ -89,17 +89,17 @@ export default class UserStore {
     }
 
     getUser = async () => {
-        this.loading = true
+        this.loadingInitial = true
         try {
             const user = await agent.Users.current();
             runInAction(() => {
                 this.user = user;
-                this.loading = false;
+                this.loadingInitial = false;
             })
         } catch (error) {
             runInAction(() => {
                 this.user = null;
-                this.loading = false;
+                this.loadingInitial = false;
             })
         }
     }
@@ -115,6 +115,24 @@ export default class UserStore {
                 this.rootStore.modalStore.closeModal();
             });
             history.push('/test')
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    registerAdmin = async (user: IRegisterAdminUser) => {
+        try {
+            return await agent.Users.registerAdmin(user);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    registerNonAdmin = async (user: IRegisterNonAdminUser) => {
+        try {
+            return await agent.Users.registerNonAdmin(user);
 
         } catch (error) {
             throw error;
