@@ -1,9 +1,16 @@
 import { useForm } from "react-hook-form";
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useContext, useEffect, useRef } from "react";
 import { Button, Form, Header, Label } from "semantic-ui-react";
 import { NORMAL, REPORT } from "../../app/models/constants";
+import { RootStoreContext } from "../../app/stores/rootStore";
+import { IRegisterNonAdminUser } from "../../app/models/user";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 const RegisterNonAdminUser = () => {
+  const rootStore = useContext(RootStoreContext);
+  const { registerNonAdmin } = rootStore.userStore;
+  const { closeModal } = rootStore.modalStore;
   const {
     register,
     errors,
@@ -16,8 +23,20 @@ const RegisterNonAdminUser = () => {
   const password = useRef({});
   password.current = watch("password", "");
 
-  const onSubmit = (data: any) => {
-    console.log(JSON.stringify(data));
+  const onSubmit = (data: IRegisterNonAdminUser) => {
+    registerNonAdmin(data)
+      .then((result) => {
+        if (result.status === "Success") {
+          toast.success(result.message);
+          closeModal();
+        } else {
+          toast.error(result.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(<ErrorMessage error={error} text="Error:" />);
+      });
   };
   const atLeastOne = () =>
     getValues("roles").length ? true : "Select required access roles.";
