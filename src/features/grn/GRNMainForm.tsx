@@ -59,7 +59,12 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
             grn={grn}
             stockTypeOptions={loadStockTypeOptions}
           />
-          <GRNFreeItemDetails displayAction={true} displayAmount={false} />
+          <GRNFreeItemDetails
+            displayAction={true}
+            displayAmount={false}
+            grn={grn}
+            stockTypeOptions={loadStockTypeOptions}
+          />
         </Fragment>
       )}
     </Fragment>
