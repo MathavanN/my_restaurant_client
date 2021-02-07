@@ -1,15 +1,26 @@
-import React, { FC, Fragment } from "react";
-import { Table } from "semantic-ui-react";
+import React, { FC, Fragment, useContext } from "react";
+import { Button, Icon, Table } from "semantic-ui-react";
+import { ISelectInputOptions } from "../../../app/models/common";
+import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
+import { GoodsReceivedNoteFreeItemFormValues } from "../../../app/models/goodsReceivedNoteFreeItem";
+import { RootStoreContext } from "../../../app/stores/rootStore";
+import CreateGRNFreeItem from "./CreateGRNFreeItem";
 
 interface IProps {
   displayAmount: boolean;
   displayAction: boolean;
+  grn: IGoodsReceivedNote;
+  stockTypeOptions: ISelectInputOptions[];
 }
 
 const GRNFreeItemListHeader: FC<IProps> = ({
   displayAction,
   displayAmount,
+  grn,
+  stockTypeOptions,
 }) => {
+  const rootStore = useContext(RootStoreContext);
+  const { openModal } = rootStore.modalStore;
   return (
     <Fragment>
       <Table.Header>
@@ -22,8 +33,28 @@ const GRNFreeItemListHeader: FC<IProps> = ({
           <Table.HeaderCell>NBT %</Table.HeaderCell>
           <Table.HeaderCell>VAT %</Table.HeaderCell>
           <Table.HeaderCell>Discount %</Table.HeaderCell>
-          <Table.HeaderCell>Amount</Table.HeaderCell>
-          <Table.HeaderCell>Action</Table.HeaderCell>
+          {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
+          {displayAction && (
+            <Table.HeaderCell textAlign="center">
+              <Button
+                animated="vertical"
+                color="green"
+                onClick={() =>
+                  openModal(
+                    <CreateGRNFreeItem
+                      item={new GoodsReceivedNoteFreeItemFormValues(grn.id)}
+                      stockTypeOptions={stockTypeOptions}
+                    />
+                  )
+                }
+              >
+                <Button.Content hidden>Add</Button.Content>
+                <Button.Content visible>
+                  <Icon name="add circle" />
+                </Button.Content>
+              </Button>
+            </Table.HeaderCell>
+          )}
         </Table.Row>
       </Table.Header>
     </Fragment>
