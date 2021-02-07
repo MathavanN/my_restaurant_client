@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
-import { CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
+import { ApprovalGoodsReceivedNote, CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
 import { CreateGoodsReceivedNoteFreeItem, IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
 import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import { IPaymentType } from '../models/paymentType';
@@ -11,7 +11,7 @@ import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockI
 import { IStockType } from '../models/stockType';
 import { ISupplier, ISupplierEnvelop } from '../models/supplier';
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
-import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
+import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IRegisterResult, IToken, IUser, IUserLogin } from '../models/user';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
@@ -72,7 +72,8 @@ const Users = {
     current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
     login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
     refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
-    //register: (user: IUserFormValues): Promise<IUser> => requests.post(`/user/register`, user)
+    registerAdmin: (user: IRegisterAdminUser): Promise<IRegisterResult> => requests.post(`/user/registeradminuser`, user),
+    registerNonAdmin: (user: IRegisterNonAdminUser): Promise<IRegisterResult> => requests.post(`/user/registernormaluser`, user)
 }
 
 const UnitOfMeasure = {
@@ -138,7 +139,8 @@ const GRN = {
     list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsreceivednote`),
     create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsreceivednote`, grn),
     detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`),
-    update: (grn: CreateGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/${grn.id}`, grn)
+    update: (grn: CreateGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/${grn.id}`, grn),
+    approval: (grn: ApprovalGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/approval/${grn.id}`, grn)
 }
 
 const GRNItem = {
