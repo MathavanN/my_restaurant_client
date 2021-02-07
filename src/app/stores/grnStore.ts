@@ -1,6 +1,6 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { CreateGoodsReceivedNote, IGoodsReceivedNote } from "../models/goodsReceivedNote";
+import { ApprovalGoodsReceivedNote, CreateGoodsReceivedNote, IGoodsReceivedNote } from "../models/goodsReceivedNote";
 import { RootStore } from "./rootStore";
 import { PENDING } from '../models/constants'
 import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from "../models/goodsReceivedNoteItem";
@@ -53,6 +53,18 @@ export default class GRNStore {
             runInAction(() => {
                 this.grnRegistry.set(grn.id, x)
                 this.grn = x;
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    approvalGRN = async (grn: ApprovalGoodsReceivedNote) => {
+        try {
+            await agent.GRN.approval(grn);
+            const x = await agent.GRN.detail(grn.id);
+            runInAction(() => {
+                this.grnRegistry.set(grn.id, x)
             })
         } catch (error) {
             throw error;
@@ -114,8 +126,10 @@ export default class GRNStore {
             const items = await agent.GRNItem.list(params);
             runInAction(() => {
                 this.grnItemRegistry.clear();
+                this.createEmptyGRNItemSummary();
                 items.forEach(item => {
                     this.grnItemRegistry.set(item.id, item)
+                    this.updateGRNItemSummary(item)
                 });
                 this.loadingInitial = false;
             })
@@ -155,14 +169,6 @@ export default class GRNStore {
         }, {} as { [key: number]: IGoodsReceivedNoteItem }));
     }
 
-    getGRNItemsSummary = () => {
-        const items: IGoodsReceivedNoteItem[] = Array.from(this.grnItemRegistry.values());
-        runInAction(() => {
-            console.log(items.length);
-            this.createEmptyGRNItemSummary();
-            items.forEach(item => this.updateGRNItemSummary(item));
-        })
-    }
     createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
         try {
             const result = await agent.GRNItem.create(item);
@@ -186,7 +192,6 @@ export default class GRNStore {
             throw error;
         }
     }
-
 
     deleteGRNItem = async (id: number) => {
         try {
