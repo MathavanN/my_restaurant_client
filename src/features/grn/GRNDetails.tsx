@@ -1,12 +1,16 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext } from "react";
 import { Header } from "semantic-ui-react";
+import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import GRNList from "./GRNList";
 
 const GRNDetails = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getGRNs } = rootStore.grnStore;
+  const { getGRNs, loadingInitial } = rootStore.grnStore;
+
+  if (loadingInitial)
+    return <LoadingComponent content="Loading GRNs..." />;
 
   return (
     <Fragment>
