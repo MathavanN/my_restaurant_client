@@ -12,6 +12,10 @@ export interface IUser {
     roles: string[]
 }
 
+export interface IRegisterResult {
+    status: string;
+    message: string;
+}
 export interface IRegisterAdminUser {
     firstName: string;
     lastName: string;
