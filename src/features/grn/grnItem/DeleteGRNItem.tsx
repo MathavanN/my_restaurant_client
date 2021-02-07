@@ -18,7 +18,7 @@ const DeleteGRNItem: FC<IProps> = ({ item }) => {
       <Header icon="delete" content="Are you sure to delete?" color="red" />
       <Divider horizontal></Divider>
       <Modal.Content>
-        <p>Item: {item.itemName}</p>
+        <p>GRN Item: {item.itemName}</p>
       </Modal.Content>
       <Divider horizontal></Divider>
       <Modal.Actions>
