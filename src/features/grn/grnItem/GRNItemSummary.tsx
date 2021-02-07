@@ -1,15 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Grid, Table, Header } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
 
 const GRNItemSummary = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getGRNItemsSummary, grnItemSummaryRegistry } = rootStore.grnStore;
-
-  useEffect(() => {
-    getGRNItemsSummary();
-  }, [getGRNItemsSummary]);
+  const { grnItemSummaryRegistry } = rootStore.grnStore;
 
   return (
     <Grid>
