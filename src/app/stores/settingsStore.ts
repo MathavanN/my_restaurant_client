@@ -1,6 +1,7 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { ISelectInputOptions } from "../models/common";
+import { IPaymentType } from "../models/paymentType";
 import { IStockType } from "../models/stockType";
 import { ISupplier } from "../models/supplier";
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from "../models/unitOfMeasure";
@@ -16,7 +17,8 @@ export default class SettingsStore {
     stockType: IStockType | null = null;
     stockTypeRegistry = new Map();
 
-
+    paymentType: IPaymentType | null = null;
+    paymentTypeRegistry = new Map();
 
     supplier: ISupplier | null = null;
     supplierRegistry = new Map();
@@ -37,28 +39,39 @@ export default class SettingsStore {
 
 
     @computed get getUnitOfMeasures() {
-        const sortedUnitOfMeasures = this.getSortedUnitOfMeasures();
+        //const sortedUnitOfMeasures = this.getSortedUnitOfMeasures();
+        const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
 
-        return Object.entries(sortedUnitOfMeasures.reduce((unitOfMeasures, unitOfMeasure, i) => {
+        return Object.entries(unitOfMeasures.reduce((unitOfMeasures, unitOfMeasure, i) => {
             unitOfMeasures[++i] = unitOfMeasure;
             return unitOfMeasures;
         }, {} as { [key: number]: IUnitOfMeasure }));
     }
 
     @computed get getStockTypes() {
-        const sortedStockTypes = this.getSortedStockTypes();
+        //const sortedStockTypes = this.getSortedStockTypes();
+        const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
 
-        return Object.entries(sortedStockTypes.reduce((stockTypes, stockType, i) => {
+        return Object.entries(stockTypes.reduce((stockTypes, stockType, i) => {
             stockTypes[++i] = stockType;
             return stockTypes;
         }, {} as { [key: number]: IStockType }));
     }
 
-    
+    @computed get getPaymentTypes() {
+        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
+
+        return Object.entries(paymentTypes.reduce((paymentTypes, paymentType, i) => {
+            paymentTypes[++i] = paymentType;
+            return paymentTypes;
+        }, {} as { [key: number]: IPaymentType }));
+    }
+
 
     @computed get loadUnitOfMeasureOptions() {
-        const sortedUnitOfMeasures = this.getSortedUnitOfMeasures()
-        return sortedUnitOfMeasures.map(unitOfMeasure => {
+        //const sortedUnitOfMeasures = this.getSortedUnitOfMeasures()
+        const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
+        return unitOfMeasures.map(unitOfMeasure => {
             return {
                 key: unitOfMeasure.id,
                 text: unitOfMeasure.code,
@@ -68,8 +81,9 @@ export default class SettingsStore {
     }
 
     @computed get loadStockTypeOptions() {
-        const sortedStockTypes = this.getSortedStockTypes()
-        return sortedStockTypes.map(stockType => {
+        //const sortedStockTypes = this.getSortedStockTypes()
+        const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
+        return stockTypes.map(stockType => {
             return {
                 key: stockType.id,
                 text: stockType.type,
@@ -78,9 +92,19 @@ export default class SettingsStore {
         });
     }
 
+    @computed get loadPaymentTypeOptions() {
+        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
+        return paymentTypes.map(paymentType => {
+            return {
+                key: paymentType.id,
+                text: paymentType.name,
+                value: paymentType.id,
+            } as ISelectInputOptions;
+        });
+    }
 
 
-    
+
 
 
 
@@ -91,6 +115,24 @@ export default class SettingsStore {
             runInAction(() => {
                 stockTypes.forEach(stockType => {
                     this.stockTypeRegistry.set(stockType.id, stockType)
+                });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
+    }
+
+    loadPaymentTypes = async () => {
+        this.loadingInitial = true;
+        try {
+            const paymentTypes = await agent.PaymentType.list();
+            runInAction(() => {
+                paymentTypes.forEach(paymentType => {
+                    this.paymentTypeRegistry.set(paymentType.id, paymentType)
                 });
                 this.loadingInitial = false;
             })
@@ -120,7 +162,7 @@ export default class SettingsStore {
         }
     }
 
-    
+
 
     loadStockType = async (id: number) => {
         this.loadingInitial = true;
@@ -128,6 +170,22 @@ export default class SettingsStore {
             const stockType = await agent.StockType.detail(id);
             runInAction(() => {
                 this.stockType = stockType;
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
+    }
+
+    loadPaymentType = async (id: number) => {
+        this.loadingInitial = true;
+        try {
+            const paymentType = await agent.PaymentType.detail(id);
+            runInAction(() => {
+                this.paymentType = paymentType;
                 this.loadingInitial = false;
             })
         } catch (error) {
@@ -156,13 +214,24 @@ export default class SettingsStore {
 
 
 
-    
+
 
     createStockType = async (stockType: IStockType) => {
         try {
             const result = await agent.StockType.create(stockType);
             runInAction(() => {
                 this.stockTypeRegistry.set(result.id, result)
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    createPaymentType = async (paymentType: IPaymentType) => {
+        try {
+            const result = await agent.PaymentType.create(paymentType);
+            runInAction(() => {
+                this.paymentTypeRegistry.set(result.id, result)
             })
         } catch (error) {
             throw error;
@@ -180,13 +249,24 @@ export default class SettingsStore {
         }
     }
 
-    
+
 
     updateStockType = async (stockType: IStockType) => {
         try {
             await agent.StockType.update(stockType);
             runInAction(() => {
                 this.stockTypeRegistry.set(stockType.id, stockType)
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    updatePaymentType = async (paymentType: IPaymentType) => {
+        try {
+            await agent.PaymentType.update(paymentType);
+            runInAction(() => {
+                this.paymentTypeRegistry.set(paymentType.id, paymentType)
             })
         } catch (error) {
             throw error;
@@ -204,12 +284,23 @@ export default class SettingsStore {
         }
     }
 
-    
+
     deleteStockType = async (id: number) => {
         try {
             await agent.StockType.delete(id);
             runInAction(() => {
                 this.stockTypeRegistry.delete(id);
+            })
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    deletePaymentType = async (id: number) => {
+        try {
+            await agent.PaymentType.delete(id);
+            runInAction(() => {
+                this.paymentTypeRegistry.delete(id);
             })
         } catch (error) {
             throw error;
@@ -231,7 +322,7 @@ export default class SettingsStore {
 
 
 
-    
+
 
     getSortedUnitOfMeasures() {
         const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());

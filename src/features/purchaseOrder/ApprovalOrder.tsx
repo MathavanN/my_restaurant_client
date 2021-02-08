@@ -4,6 +4,7 @@ import { Form, Button, Header, Label } from "semantic-ui-react";
 import { ApprovalPurchaseOrder } from "../../app/models/purchaseOrder";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import history from "../../history";
+import { observer } from "mobx-react-lite";
 
 interface IProps {
   header: string;
@@ -11,7 +12,7 @@ interface IProps {
   status: string;
 }
 
-export const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
+const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm();
   const rootStore = useContext(RootStoreContext);
   const { approvalPurchaseOrder } = rootStore.purchaseOrderStore;
@@ -69,3 +70,5 @@ export const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
     </Fragment>
   );
 };
+
+export default observer(ApprovalOrder);

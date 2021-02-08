@@ -28,7 +28,6 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
 
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrder({ ...data, id: order.id });
-    formData.supplierId = 0;
     console.log(formData);
     if (formData.id === 0)
       createPurchaseOrder(formData).catch((error) => {
@@ -48,21 +47,10 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
     register(
       { name: "supplierId" },
       {
-        required: true,
+        required: "Supplier is required",
         validate: {
           validValue: (value) =>
             parseInt(value, 0) > 0 ? true : "Supplier is required",
-        },
-      }
-    );
-    register(
-      { name: "discount" },
-      {
-        validate: {
-          validValue: (value) =>
-            parseInt(value, 0) >= 0
-              ? true
-              : "Discount must be a positive number",
         },
       }
     );
@@ -102,25 +90,6 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
             errors.supplierId && (
               <Label basic color="red" pointing>
                 {errors.supplierId.message}
-              </Label>
-            )
-          }
-        />
-        <Form.Input
-          name="discount"
-          type="number"
-          fluid
-          label="Discount (%)"
-          placeholder="Discount"
-          defaultValue={order.discount}
-          onChange={async (e, { name, value }) => {
-            setValue(name, value);
-            await trigger(name);
-          }}
-          error={
-            errors.discount && (
-              <Label basic color="red" pointing>
-                {errors.discount.message}
               </Label>
             )
           }

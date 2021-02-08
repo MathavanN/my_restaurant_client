@@ -1,18 +1,23 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
+import { ApprovalGoodsReceivedNote, CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
+import { CreateGoodsReceivedNoteFreeItem, IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
+import { IPaymentType } from '../models/paymentType';
 import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier, ISupplierEnvelop } from '../models/supplier';
 import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
-import { IAppUser, IRefreshToken, IToken, IUser, IUserLogin } from '../models/user';
+import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IRegisterResult, IToken, IUser, IUserLogin } from '../models/user';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
     const token = window.localStorage.getItem('jwt');
     if (token) config.headers.Authorization = `Bearer ${token}`;
+
     return config;
 }, error => {
     return Promise.reject(error)
@@ -67,7 +72,8 @@ const Users = {
     current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
     login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
     refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
-    //register: (user: IUserFormValues): Promise<IUser> => requests.post(`/user/register`, user)
+    registerAdmin: (user: IRegisterAdminUser): Promise<IRegisterResult> => requests.post(`/user/registeradminuser`, user),
+    registerNonAdmin: (user: IRegisterNonAdminUser): Promise<IRegisterResult> => requests.post(`/user/registernormaluser`, user)
 }
 
 const UnitOfMeasure = {
@@ -84,6 +90,14 @@ const StockType = {
     update: (stockType: IStockType) => requests.put(`/v1/stocktype/${stockType.id}`, stockType),
     detail: (id: number): Promise<IStockType> => requests.get(`/v1/stocktype/${id}`),
     delete: (id: number) => requests.del(`/v1/stocktype/${id}`),
+}
+
+const PaymentType = {
+    list: (): Promise<IPaymentType[]> => requests.get(`/v1/paymenttype`),
+    create: (paymentType: IPaymentType): Promise<IPaymentType> => requests.post(`/v1/paymenttype`, paymentType),
+    update: (paymentType: IPaymentType) => requests.put(`/v1/paymenttype/${paymentType.id}`, paymentType),
+    detail: (id: number): Promise<IPaymentType> => requests.get(`/v1/paymenttype/${id}`),
+    delete: (id: number) => requests.del(`/v1/paymenttype/${id}`),
 }
 
 const StockItem = {
@@ -105,6 +119,7 @@ const Supplier = {
 
 const PurchaseOrder = {
     list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
+    listPOForGRN: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder/grnallowed`),
     create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
     detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`),
     update: (order: CreatePurchaseOrder) => requests.put(`/v1/purchaseorder/${order.id}`, order),
@@ -120,6 +135,30 @@ const PurchaseOrderItem = {
     delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem }
+const GRN = {
+    list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsreceivednote`),
+    create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsreceivednote`, grn),
+    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`),
+    update: (grn: CreateGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/${grn.id}`, grn),
+    approval: (grn: ApprovalGoodsReceivedNote) => requests.put(`/v1/goodsreceivednote/approval/${grn.id}`, grn)
+}
+
+const GRNItem = {
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteItem[]> => requests.getByParams(`/v1/goodsreceivednoteitem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteItem> => requests.get(`/v1/goodsreceivednoteitem/${id}`),
+    create: (item: CreateGoodsReceivedNoteItem): Promise<IGoodsReceivedNoteItem> => requests.post(`/v1/goodsreceivednoteitem`, item),
+    update: (item: CreateGoodsReceivedNoteItem) => requests.put(`/v1/goodsreceivednoteitem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsreceivednoteitem/${id}`)
+}
+
+const GRNFreeItem = {
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteFreeItem[]> => requests.getByParams(`/v1/goodsreceivednotefreeitem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteFreeItem> => requests.get(`/v1/goodsreceivednotefreeitem/${id}`),
+    create: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.post(`/v1/goodsreceivednotefreeitem`, item),
+    update: (item: CreateGoodsReceivedNoteFreeItem) => requests.put(`/v1/goodsreceivednotefreeitem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsreceivednotefreeitem/${id}`)
+}
+
+const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem, GRN, GRNItem, GRNFreeItem }
 
 export default RestaurantApis

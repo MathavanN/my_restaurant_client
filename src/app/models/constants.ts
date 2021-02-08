@@ -9,8 +9,8 @@ export const ADMIN = "Admin";
 export const REPORT = "Report";
 export const NORMAL = "Normal";
 
-//PO Status
-export const PURCHASE_ORDER_PENDING = "Pending";
-export const PURCHASE_ORDER_APPROVED = "Approved";
-export const PURCHASE_ORDER_CANCELLED = "Cancelled";
-export const PURCHASE_ORDER_REJECTED = "Rejected";
+//PO/GRN Status
+export const PENDING = "Pending";
+export const APPROVED = "Approved";
+export const CANCELLED = "Cancelled";
+export const REJECTED = "Rejected";

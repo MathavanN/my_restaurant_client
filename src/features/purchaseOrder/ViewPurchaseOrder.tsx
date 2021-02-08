@@ -7,12 +7,12 @@ import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { Message, Grid, Segment, Button } from "semantic-ui-react";
 import OrderSummary from "./OrderSummary";
 import OrderItemList from "./OrderItemList";
-import { ApprovalOrder } from "./ApprovalOrder";
+import ApprovalOrder from "./ApprovalOrder";
 import {
-  PURCHASE_ORDER_APPROVED,
-  PURCHASE_ORDER_CANCELLED,
-  PURCHASE_ORDER_PENDING,
-  PURCHASE_ORDER_REJECTED,
+  APPROVED,
+  CANCELLED,
+  PENDING,
+  REJECTED,
 } from "../../app/models/constants";
 
 interface IDetailsParams {
@@ -55,7 +55,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
     <Fragment>
       <Grid>
         <Grid.Column width={16}>
-          {purchaseOrder.approvalStatus === PURCHASE_ORDER_PENDING &&
+          {purchaseOrder.approvalStatus === PENDING &&
             (hasModifyAccess ||
               purchaseOrder.requestedUserId === user?.userId) && (
               <Segment attached="top" textAlign="center">
@@ -86,51 +86,50 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
               displayAmount={true}
             />
           </Segment>
-          {purchaseOrder.approvalStatus === PURCHASE_ORDER_PENDING &&
-            hasModifyAccess && (
-              <Segment attached textAlign="center">
-                <Button
-                  color="green"
-                  content="Approve"
-                  disabled={getPurchaseOrderItems.length === 0 ? true : false}
-                  onClick={() =>
-                    openModal(
-                      <ApprovalOrder
-                        orderId={parseInt(match.params.id)}
-                        status={PURCHASE_ORDER_APPROVED}
-                        header="Approve the Purchase Order"
-                      />
-                    )
-                  }
-                />
-                <Button
-                  color="orange"
-                  content="Cancel"
-                  onClick={() =>
-                    openModal(
-                      <ApprovalOrder
-                        orderId={parseInt(match.params.id)}
-                        status={PURCHASE_ORDER_CANCELLED}
-                        header="Cancel the Purchase Order"
-                      />
-                    )
-                  }
-                />
-                <Button
-                  color="red"
-                  content="Reject"
-                  onClick={() =>
-                    openModal(
-                      <ApprovalOrder
-                        orderId={parseInt(match.params.id)}
-                        status={PURCHASE_ORDER_REJECTED}
-                        header="Reject the Purchase Order"
-                      />
-                    )
-                  }
-                />
-              </Segment>
-            )}
+          {purchaseOrder.approvalStatus === PENDING && hasModifyAccess && (
+            <Segment attached textAlign="center">
+              <Button
+                color="green"
+                content="Approve"
+                disabled={getPurchaseOrderItems.length === 0 ? true : false}
+                onClick={() =>
+                  openModal(
+                    <ApprovalOrder
+                      orderId={parseInt(match.params.id)}
+                      status={APPROVED}
+                      header="Approve the Purchase Order"
+                    />
+                  )
+                }
+              />
+              <Button
+                color="orange"
+                content="Cancel"
+                onClick={() =>
+                  openModal(
+                    <ApprovalOrder
+                      orderId={parseInt(match.params.id)}
+                      status={CANCELLED}
+                      header="Cancel the Purchase Order"
+                    />
+                  )
+                }
+              />
+              <Button
+                color="red"
+                content="Reject"
+                onClick={() =>
+                  openModal(
+                    <ApprovalOrder
+                      orderId={parseInt(match.params.id)}
+                      status={REJECTED}
+                      header="Reject the Purchase Order"
+                    />
+                  )
+                }
+              />
+            </Segment>
+          )}
         </Grid.Column>
       </Grid>
     </Fragment>

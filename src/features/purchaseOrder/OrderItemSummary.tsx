@@ -8,9 +8,7 @@ interface IProps {
 }
 const OrderItemSummary: FC<IProps> = ({ items, order }) => {
   const orderTotal = items.reduce(
-    (total, [group, item]) =>
-      total +
-      (item.itemUnitPrice * item.quantity * (100 - item.discount)) / 100,
+    (total, [group, item]) => total + item.itemUnitPrice * item.quantity,
     0
   );
   return (
@@ -19,16 +17,6 @@ const OrderItemSummary: FC<IProps> = ({ items, order }) => {
         <Grid.Column width={8}>
           <Table basic="very">
             <Table.Body>
-              <Table.Row>
-                <Table.Cell>
-                  <Header as="h5">
-                    <Header.Content>
-                      Order discount: {order.discount}
-                      {"%"}
-                    </Header.Content>
-                  </Header>
-                </Table.Cell>
-              </Table.Row>
               <Table.Row>
                 <Table.Cell>
                   <Header as="h5">
@@ -47,40 +35,12 @@ const OrderItemSummary: FC<IProps> = ({ items, order }) => {
               <Table.Row>
                 <Table.Cell>
                   <Header as="h4">
-                    <Header.Content>Sub Total</Header.Content>
-                  </Header>
-                </Table.Cell>
-                <Table.Cell>
-                  <Header as="h4">
-                    <Header.Content>{orderTotal}</Header.Content>
-                  </Header>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row warning>
-                <Table.Cell>
-                  <Header as="h4">
-                    <Header.Content>Order Discount</Header.Content>
-                  </Header>
-                </Table.Cell>
-                <Table.Cell>
-                  <Header as="h4">
-                    <Header.Content>
-                      {(orderTotal * order.discount) / 100}
-                    </Header.Content>
-                  </Header>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  <Header as="h4">
                     <Header.Content>Purchase Order Total</Header.Content>
                   </Header>
                 </Table.Cell>
                 <Table.Cell>
                   <Header as="h4">
-                    <Header.Content>
-                      {(orderTotal * (100 - order.discount)) / 100}
-                    </Header.Content>
+                    <Header.Content>{orderTotal}</Header.Content>
                   </Header>
                 </Table.Cell>
               </Table.Row>

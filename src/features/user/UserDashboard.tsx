@@ -9,6 +9,7 @@ import RegisterNonAdminUser from "./RegisterNonAdminUser";
 const UserDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
+  const { isSuperAdminUser } = rootStore.userStore;
   return (
     <Fragment>
       <Message info icon>
@@ -22,9 +23,14 @@ const UserDashboard = () => {
         >
           Normal User
         </Button>
-        <Button floated="left" onClick={() => openModal(<RegisterAdminUser />)}>
-          Admin User
-        </Button>
+        {isSuperAdminUser && (
+          <Button
+            floated="left"
+            onClick={() => openModal(<RegisterAdminUser />)}
+          >
+            Admin User
+          </Button>
+        )}
       </Message>
       <UserList />
     </Fragment>

@@ -4,13 +4,15 @@ import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from "../m
 import { CreatePurchaseOrderItem, IPurchaseOrderItem } from "../models/purchaseOrderItem";
 import { RootStore } from "./rootStore";
 import history from '../../history'
-import { PURCHASE_ORDER_PENDING } from '../models/constants'
+import { PENDING } from '../models/constants'
+import { ISelectInputOptions } from "../models/common";
 
 export default class PurchaseOrderStore {
     rootStore: RootStore;
 
     purchaseOrder: IPurchaseOrder | null = null;
     purchaseOrderRegistry = new Map();
+    purchaseOrderForGRNRegistry = new Map();
 
     purchaseOrderItemRegistry = new Map();
 
@@ -29,7 +31,6 @@ export default class PurchaseOrderStore {
             const params = new URLSearchParams();
             params.append('orderId', String(orderId));
             const items = await agent.PurchaseOrderItem.list(params);
-
             runInAction(() => {
                 this.purchaseOrderItemRegistry.clear();
                 items.forEach(item => {
@@ -60,9 +61,9 @@ export default class PurchaseOrderStore {
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
         try {
             await agent.PurchaseOrderItem.update(item);
-            //const x = await agent.PurchaseOrderItem.detail(result.id);
+            const x = await agent.PurchaseOrderItem.detail(item.id);
             runInAction(() => {
-                this.purchaseOrderItemRegistry.set(item.id, item)
+                this.purchaseOrderItemRegistry.set(item.id, x)
             })
         } catch (error) {
             throw error;
@@ -93,17 +94,6 @@ export default class PurchaseOrderStore {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     @computed get getPurchaseOrderItems() {
         const sortedItems = this.getSortedPurchaseOrderItems();
 
@@ -113,6 +103,18 @@ export default class PurchaseOrderStore {
         }, {} as { [key: number]: IPurchaseOrderItem }));
     }
 
+    @computed get loadApprovedPurchaseOrdersOptions() {
+        const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderForGRNRegistry.values());
+
+        return orders.map(order => {
+            return {
+                key: order.id,
+                text: order.orderNumber,
+                value: order.id
+            } as ISelectInputOptions
+        })
+    }
+
     @computed get getPurchaseOrders() {
         const sortedOrders = this.getSortedPurchaseOrders();
 
@@ -120,6 +122,23 @@ export default class PurchaseOrderStore {
             orders[++i] = order;
             return orders;
         }, {} as { [key: number]: IPurchaseOrder }));
+    }
+
+    loadPOForGRN = async () => {
+        try {
+            const orders = await agent.PurchaseOrder.listPOForGRN();
+            runInAction(() => {
+                orders.forEach(order => {
+                    this.purchaseOrderForGRNRegistry.set(order.id, order)
+                });
+                this.loadingInitial = false;
+            })
+        } catch (error) {
+            runInAction(() => {
+                this.loadingInitial = false;
+            })
+            console.log(error)
+        }
     }
 
     loadPurchaseOrders = async () => {
@@ -198,9 +217,9 @@ export default class PurchaseOrderStore {
     getSortedPurchaseOrders() {
         const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderRegistry.values());
 
-        const pendingOrders = orders.filter(d => d.approvalStatus === PURCHASE_ORDER_PENDING);
+        const pendingOrders = orders.filter(d => d.approvalStatus === PENDING);
         const sortedPendingOrders = pendingOrders.sort((a, b) => new Date(b.requestedDate).getTime() - new Date(a.requestedDate).getTime())
-        const otherOrders = orders.filter(d => d.approvalStatus !== PURCHASE_ORDER_PENDING);
+        const otherOrders = orders.filter(d => d.approvalStatus !== PENDING);
         const sortedOtherOrders = otherOrders.sort((a, b) => new Date(a.requestedDate).getTime() - new Date(b.requestedDate).getTime())
 
         return [...sortedPendingOrders, ...sortedOtherOrders]

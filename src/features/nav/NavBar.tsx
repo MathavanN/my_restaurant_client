@@ -18,6 +18,7 @@ const NavBar = () => {
         </Menu.Item>
         <Menu.Item name="Dashboard" as={NavLink} to="/dashboard" />
         <Menu.Item name="Purchase" as={NavLink} to="/purchase" />
+        <Menu.Item name="GRN" as={NavLink} to="/grn" />
         <Menu.Item name="Settings" as={NavLink} to="/settings" />
         <Menu.Item name="Users" as={NavLink} to="/users" />
         {user && (

@@ -2,11 +2,13 @@ import React, { FC, Fragment, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button, Header, Label } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import { toast } from "react-toastify";
 import {
   CreatePurchaseOrderItem,
   PurchaseOrderItemFormValues,
 } from "../../app/models/purchaseOrderItem";
 import { ISelectInputOptions } from "../../app/models/common";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 interface IProps {
   item: PurchaseOrderItemFormValues;
@@ -25,15 +27,32 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   const { getAllStockItemsForStockType } = rootStore.stockItemStore;
 
   const onSubmit = (data: any) => {
-    const formData = new CreatePurchaseOrderItem({ ...data, id: item.id });
+    const formData = new CreatePurchaseOrderItem({
+      ...data,
+      id: item.id,
+      purchaseOrderId: item.purchaseOrderId,
+    });
     console.log(formData);
     if (formData.id === 0)
-      createPurchaseOrderItem(formData).finally(() => closeModal());
-    else updatePurchaseOrderItem(formData).finally(() => closeModal());
+      createPurchaseOrderItem(formData)
+        .then(() => {
+          toast.success("Item created successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
+    else
+      updatePurchaseOrderItem(formData)
+        .then(() => {
+          toast.success("Item updated successfully");
+          closeModal();
+        })
+        .catch((error) => {
+          toast.error(<ErrorMessage error={error} text="Error:" />);
+        });
   };
   const itemTypeSelected = watch("itemTypeId");
-  console.log(itemTypeSelected);
-
   useEffect(() => {
     register(
       { name: "itemTypeId" },
@@ -60,21 +79,10 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     register(
       { name: "itemId" },
       {
-        required: true,
+        required: "Item is required",
         validate: {
           validValue: (value) =>
             parseInt(value, 0) > 0 ? true : "Item is required",
-        },
-      }
-    );
-    register(
-      { name: "discount" },
-      {
-        validate: {
-          validValue: (value) =>
-            parseInt(value, 0) >= 0
-              ? true
-              : "Discount must be a positive number",
         },
       }
     );
@@ -145,7 +153,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
 
         <Form.Input
           name="itemUnitPrice"
-          type="number"
           fluid
           label="Unit Price"
           placeholder="Unit price"
@@ -164,7 +171,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         <Form.Input
           name="quantity"
-          type="number"
           fluid
           label="Quantity"
           placeholder="Quantity"
@@ -177,25 +183,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             errors.quantity && (
               <Label basic color="red" pointing>
                 {errors.quantity.message}
-              </Label>
-            )
-          }
-        />
-        <Form.Input
-          name="discount"
-          type="number"
-          fluid
-          label="Discount (%)"
-          placeholder="Discount"
-          defaultValue={item.discount}
-          onChange={async (e, { name, value }) => {
-            setValue(name, value);
-            await trigger(name);
-          }}
-          error={
-            errors.discount && (
-              <Label basic color="red" pointing>
-                {errors.discount.message}
               </Label>
             )
           }

@@ -3,6 +3,8 @@ import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
 import { IUnitOfMeasure } from "../../../app/models/unitOfMeasure";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { observer } from "mobx-react-lite";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../../app/common/alert/ErrorMessage";
 
 interface IProps {
   unitOfMeasure: IUnitOfMeasure;
@@ -25,9 +27,16 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
             <Button
               content="Yes"
               color="red"
-              onClick={() =>
-                deleteUnitOfMeasure(unitOfMeasure.id).then(() => closeModal())
-              }
+              onClick={() => {
+                deleteUnitOfMeasure(unitOfMeasure.id)
+                  .then(() => {
+                    toast.success("UOM deleted successfully");
+                    closeModal();
+                  })
+                  .catch((error) => {
+                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                  });
+              }}
             />
             <Button content="No" color="green" onClick={() => closeModal()} />
           </Grid.Column>

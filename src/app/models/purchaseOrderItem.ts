@@ -9,7 +9,6 @@ export interface IPurchaseOrderItem {
     unitOfMeasureCode: string;
     itemUnitPrice: number;
     quantity: number;
-    discount: number;
 }
 
 
@@ -20,7 +19,6 @@ export class CreatePurchaseOrderItem {
     itemTypeName: string = "";
     itemId: number = 0;
     itemUnitPrice: number = 0;
-    discount: number = 0;
     quantity: number = 0;
     constructor(init?: PurchaseOrderItemFormValues) {
         Object.assign(this, init);
@@ -35,12 +33,9 @@ export class PurchaseOrderItemFormValues {
     itemId: number = 0;
     itemName: string = "";
     itemUnitPrice: number = 0;
-    discount: number = 0;
     quantity: number = 0;
     constructor(orderId: number, init?: IPurchaseOrderItem) {
         this.purchaseOrderId = orderId;
         Object.assign(this, init);
-
     }
-
 }

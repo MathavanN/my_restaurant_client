@@ -3,6 +3,8 @@ import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IPurchaseOrderItem } from "../../app/models/purchaseOrderItem";
+import { toast } from "react-toastify";
+import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 interface IProps {
   item: IPurchaseOrderItem;
@@ -25,9 +27,16 @@ const DeleteOrderItem: FC<IProps> = ({ item }) => {
             <Button
               content="Yes"
               color="red"
-              onClick={() =>
-                deletePurchaseOrderItem(item.id).then(() => closeModal())
-              }
+              onClick={() => {
+                deletePurchaseOrderItem(item.id)
+                  .then(() => {
+                    toast.success("Item deleted successfully");
+                    closeModal();
+                  })
+                  .catch((error) => {
+                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                  });
+              }}
             />
             <Button content="No" color="green" onClick={() => closeModal()} />
           </Grid.Column>
