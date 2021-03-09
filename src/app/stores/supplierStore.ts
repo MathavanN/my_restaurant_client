@@ -72,7 +72,6 @@ export default class SupplierStore {
         try {
             const supplierEnvelop = await agent.Supplier.list(this.axiosParams)
             const { suppliers, supplierCount } = supplierEnvelop;
-            console.log(supplierCount)
             runInAction(() => {
                 suppliers.forEach(supplier => {
                     this.supplierRegistry.set(supplier.id, supplier)
