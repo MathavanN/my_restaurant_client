@@ -3,7 +3,6 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { Fragment, useEffect } from "react";
 import { Button, Form, Header, Label } from "semantic-ui-react";
-
 import { IUserLogin } from "../../app/models/user";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { useContext } from "react";
@@ -12,14 +11,20 @@ import ErrorMessage from "../../app/common/alert/ErrorMessage";
 
 const LoginForm = () => {
   const rootStore = useContext(RootStoreContext);
-  const { login } = rootStore.userStore;
+  const { login, getUser, moveToDashboardPage } = rootStore.userStore;
 
   const { register, errors, handleSubmit, setValue, trigger } = useForm();
 
   const onSubmit = (data: IUserLogin) => {
-    login(data).catch((error) => {
-      console.log(error);
-      toast.error(<ErrorMessage error={error} text="Error:" />);
+    login(data)
+      .then((result) => {
+        getUser().then((user) => {
+          moveToDashboardPage();
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(<ErrorMessage error={error} text="Error:" />);
     });
   };
 
