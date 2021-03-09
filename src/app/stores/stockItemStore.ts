@@ -91,9 +91,8 @@ export default class StockItemStore {
     createStockItem = async (stockItem: CreateStockItem) => {
         try {
             const result = await agent.StockItem.create(stockItem);
-            const x = await agent.StockItem.detail(result.id);
             runInAction(() => {
-                this.stockItemRegistry.set(result.id, x)
+                this.stockItemRegistry.set(result.id, result)
             })
         } catch (error) {
             throw error;
@@ -102,10 +101,9 @@ export default class StockItemStore {
 
     updateStockItem = async (stockItem: CreateStockItem) => {
         try {
-            await agent.StockItem.update(stockItem);
-            const x = await agent.StockItem.detail(stockItem.id);
+            const result = await agent.StockItem.update(stockItem);
             runInAction(() => {
-                this.stockItemRegistry.set(stockItem.id, x)
+                this.stockItemRegistry.set(stockItem.id, result)
             })
         } catch (error) {
             throw error;
