@@ -18,7 +18,6 @@ import { LoadingComponent } from "./LoadingComponent";
 import CurrentUser from "../../features/user/CurrentUser";
 import Dashboard from "../../features/dashboard/Dashboard";
 import Settings from "../../features/settings/Settings";
-import Test from "../../features/home/Test";
 import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
 import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
 import OrderMainForm from "../../features/purchaseOrder/OrderMainForm";
@@ -27,7 +26,7 @@ import GRNDashboard from "../../features/grn/GRNDashboard";
 import ViewGRN from "../../features/grn/ViewGRN";
 import GRNMainForm from "../../features/grn/GRNMainForm";
 
-const App: FC<RouteComponentProps> = ({ location }) => {
+const App: FC<RouteComponentProps> = () => {
   const rootStore = useContext(RootStoreContext);
   const {
     setAppLoaded,
@@ -88,7 +87,6 @@ const App: FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute path="/users" exact component={UserDashboard} />
                 <PrivateRoute path="/settings" exact component={Settings} />
                 <PrivateRoute path="/user" exact component={CurrentUser} />
-                <Route path="/test" exact component={Test} />
                 <Route component={NotFound} />
               </Switch>
             </Container>
