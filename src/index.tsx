@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router-dom";
 import App from "./app/layout/App";
@@ -8,13 +7,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "./app/layout/styles.css";
 import history from "./history";
 import ScrollToTop from "./app/layout/ScrollToTop";
+import React from "react";
 
 ReactDOM.render(
-  <Router history={history}>
-    <ScrollToTop>
-      <App />
-    </ScrollToTop>
-  </Router>,
+  <React.StrictMode>
+    <Router history={history}>
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
+    </Router>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
