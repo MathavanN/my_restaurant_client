@@ -72,7 +72,6 @@ export default class SupplierStore {
         try {
             const supplierEnvelop = await agent.Supplier.list(this.axiosParams)
             const { suppliers, supplierCount } = supplierEnvelop;
-            console.log(supplierCount)
             runInAction(() => {
                 suppliers.forEach(supplier => {
                     this.supplierRegistry.set(supplier.id, supplier)
@@ -117,9 +116,9 @@ export default class SupplierStore {
 
     updateSupplier = async (supplier: ISupplier) => {
         try {
-            await agent.Supplier.update(supplier);
+            const result = await agent.Supplier.update(supplier);
             runInAction(() => {
-                this.supplierRegistry.set(supplier.id, supplier)
+                this.supplierRegistry.set(supplier.id, result)
             })
         } catch (error) {
             throw error;

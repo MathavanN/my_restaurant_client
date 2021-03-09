@@ -96,6 +96,7 @@ export default class UserStore {
                 this.user = user;
                 this.loadingInitial = false;
             })
+            return user;
         } catch (error) {
             runInAction(() => {
                 this.user = null;
@@ -109,13 +110,11 @@ export default class UserStore {
             const token = await agent.Users.login(values);
             runInAction(async () => {
                 this.token = token;
-                //this.getUser();
                 this.rootStore.commonStore.setToken(token.accessToken)
                 this.rootStore.commonStore.setRefreshToken(token.refreshToken)
                 this.rootStore.modalStore.closeModal();
             });
-            history.push('/test')
-
+            return token;
         } catch (error) {
             throw error;
         }
@@ -124,7 +123,6 @@ export default class UserStore {
     registerAdmin = async (user: IRegisterAdminUser) => {
         try {
             return await agent.Users.registerAdmin(user);
-
         } catch (error) {
             throw error;
         }
@@ -133,7 +131,6 @@ export default class UserStore {
     registerNonAdmin = async (user: IRegisterNonAdminUser) => {
         try {
             return await agent.Users.registerNonAdmin(user);
-
         } catch (error) {
             throw error;
         }
@@ -145,14 +142,17 @@ export default class UserStore {
             const newToken = await agent.Users.refresh(refreshToken);
             runInAction(async () => {
                 this.token = newToken;
-                //this.getUser();
                 this.rootStore.commonStore.setToken(newToken.accessToken)
                 this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
             })
-            history.push('/dashboard');
+            
         } catch (error) {
             throw error;
         }
+    }
+
+    moveToDashboardPage = () => {
+        history.push('/dashboard');
     }
 
     logout = () => {

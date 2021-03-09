@@ -1,5 +1,5 @@
 import { format, isEqual } from "date-fns";
-import React, { FC } from "react";
+import { FC } from "react";
 import { Grid, Table } from "semantic-ui-react";
 import { APPROVED } from "../../app/models/constants";
 import { IGoodsReceivedNote } from "../../app/models/goodsReceivedNote";

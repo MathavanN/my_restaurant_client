@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { Tab } from "semantic-ui-react";
 import PaymentType from "./paymentType/PaymentType";
 import StockItem from "./stockItem/StockItem";

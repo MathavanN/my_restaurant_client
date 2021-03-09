@@ -253,9 +253,9 @@ export default class SettingsStore {
 
     updateStockType = async (stockType: IStockType) => {
         try {
-            await agent.StockType.update(stockType);
+            const result = await agent.StockType.update(stockType);
             runInAction(() => {
-                this.stockTypeRegistry.set(stockType.id, stockType)
+                this.stockTypeRegistry.set(stockType.id, result)
             })
         } catch (error) {
             throw error;
@@ -264,9 +264,9 @@ export default class SettingsStore {
 
     updatePaymentType = async (paymentType: IPaymentType) => {
         try {
-            await agent.PaymentType.update(paymentType);
+            const result = await agent.PaymentType.update(paymentType);
             runInAction(() => {
-                this.paymentTypeRegistry.set(paymentType.id, paymentType)
+                this.paymentTypeRegistry.set(paymentType.id, result)
             })
         } catch (error) {
             throw error;
@@ -275,9 +275,9 @@ export default class SettingsStore {
 
     updateUnitOfMeasure = async (unitOfMeasure: UnitOfMeasureFormValues) => {
         try {
-            await agent.UnitOfMeasure.update(unitOfMeasure);
+            const result = await agent.UnitOfMeasure.update(unitOfMeasure);
             runInAction(() => {
-                this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
+                this.unitOfMeasureRegistry.set(unitOfMeasure.id, result)
             })
         } catch (error) {
             throw error;

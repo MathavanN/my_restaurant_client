@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
 import { Card, Grid, Icon } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

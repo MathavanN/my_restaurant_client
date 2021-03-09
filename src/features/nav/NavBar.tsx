@@ -1,4 +1,3 @@
-import React from "react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, Container, Dropdown } from "semantic-ui-react";

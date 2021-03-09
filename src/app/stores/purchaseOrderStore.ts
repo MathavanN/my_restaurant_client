@@ -49,9 +49,8 @@ export default class PurchaseOrderStore {
     createPurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
         try {
             const result = await agent.PurchaseOrderItem.create(item);
-            const x = await agent.PurchaseOrderItem.detail(result.id);
             runInAction(() => {
-                this.purchaseOrderItemRegistry.set(result.id, x)
+                this.purchaseOrderItemRegistry.set(result.id, result)
             })
         } catch (error) {
             throw error;
@@ -60,10 +59,9 @@ export default class PurchaseOrderStore {
 
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
         try {
-            await agent.PurchaseOrderItem.update(item);
-            const x = await agent.PurchaseOrderItem.detail(item.id);
+            const result = await agent.PurchaseOrderItem.update(item);
             runInAction(() => {
-                this.purchaseOrderItemRegistry.set(item.id, x)
+                this.purchaseOrderItemRegistry.set(item.id, result)
             })
         } catch (error) {
             throw error;
@@ -178,13 +176,12 @@ export default class PurchaseOrderStore {
     createPurchaseOrder = async (order: CreatePurchaseOrder) => {
         try {
             const result = await agent.PurchaseOrder.create(order);
-            const x = await agent.PurchaseOrder.detail(result.id);
             runInAction(() => {
-                this.purchaseOrderRegistry.set(result.id, x)
-                this.purchaseOrder = x;
+                this.purchaseOrderRegistry.set(result.id, result)
+                this.purchaseOrder = result;
             });
             this.rootStore.modalStore.closeModal();
-            history.push(`/purchase/manage/${x.id}`);
+            history.push(`/purchase/manage/${result.id}`);
         } catch (error) {
             throw error;
         }
@@ -192,10 +189,9 @@ export default class PurchaseOrderStore {
 
     updatePurchaseOrder = async (order: CreatePurchaseOrder) => {
         try {
-            await agent.PurchaseOrder.update(order);
-            const x = await agent.PurchaseOrder.detail(order.id);
+            const result = await agent.PurchaseOrder.update(order);
             runInAction(() => {
-                this.purchaseOrderRegistry.set(order.id, x)
+                this.purchaseOrderRegistry.set(order.id, result)
             })
         } catch (error) {
             throw error;
@@ -204,10 +200,9 @@ export default class PurchaseOrderStore {
 
     approvalPurchaseOrder = async (order: ApprovalPurchaseOrder) => {
         try {
-            await agent.PurchaseOrder.approval(order);
-            const x = await agent.PurchaseOrder.detail(order.id);
+            const result = await agent.PurchaseOrder.approval(order);
             runInAction(() => {
-                this.purchaseOrderRegistry.set(order.id, x)
+                this.purchaseOrderRegistry.set(order.id, result)
             })
         } catch (error) {
             throw error;

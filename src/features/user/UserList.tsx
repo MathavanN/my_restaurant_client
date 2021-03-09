@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { Header } from "semantic-ui-react";
 import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../app/stores/rootStore";

@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { ISupplier, SupplierFormValues } from "../../../app/models/supplier";
 import DeleteSupplier from "./DeleteSupplier";

@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext, useEffect } from "react";
+import { FC, Fragment, useContext, useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import GRNList from "./GRNList";
@@ -10,10 +10,7 @@ interface IDetailsParams {
   id: string;
 }
 
-const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
-  match,
-  history,
-}) => {
+const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
   const rootStore = useContext(RootStoreContext);
   const { loadGRN, loadGRNItems, loadGRNFreeItems, grn } = rootStore.grnStore;
   const {

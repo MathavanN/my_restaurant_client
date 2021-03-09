@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { Button, Icon, Message } from "semantic-ui-react";
 import { CreateGoodsReceivedNote } from "../../app/models/goodsReceivedNote";
 import { RootStoreContext } from "../../app/stores/rootStore";

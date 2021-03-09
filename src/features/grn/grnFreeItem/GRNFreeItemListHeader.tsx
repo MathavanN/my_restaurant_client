@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext } from "react";
+import { FC, Fragment, useContext } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { ISelectInputOptions } from "../../../app/models/common";
 import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";

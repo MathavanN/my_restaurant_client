@@ -34,13 +34,12 @@ export default class GRNStore {
     createGRN = async (grn: CreateGoodsReceivedNote) => {
         try {
             const result = await agent.GRN.create(grn);
-            const x = await agent.GRN.detail(result.id);
             runInAction(() => {
-                this.grnRegistry.set(result.id, x)
-                this.grn = x;
+                this.grnRegistry.set(result.id, result)
+                this.grn = result;
             });
             this.rootStore.modalStore.closeModal();
-            history.push(`/purchase/manage/${x.id}`);
+            history.push(`/purchase/manage/${result.id}`);
         } catch (error) {
             throw error;
         }
@@ -48,11 +47,10 @@ export default class GRNStore {
 
     updateGRN = async (grn: CreateGoodsReceivedNote) => {
         try {
-            await agent.GRN.update(grn);
-            const x = await agent.GRN.detail(grn.id);
+            const result = await agent.GRN.update(grn);
             runInAction(() => {
-                this.grnRegistry.set(grn.id, x)
-                this.grn = x;
+                this.grnRegistry.set(grn.id, result)
+                this.grn = result;
             })
         } catch (error) {
             throw error;
@@ -61,10 +59,9 @@ export default class GRNStore {
 
     approvalGRN = async (grn: ApprovalGoodsReceivedNote) => {
         try {
-            await agent.GRN.approval(grn);
-            const x = await agent.GRN.detail(grn.id);
+            const result = await agent.GRN.approval(grn);
             runInAction(() => {
-                this.grnRegistry.set(grn.id, x)
+                this.grnRegistry.set(grn.id, result)
             })
         } catch (error) {
             throw error;
@@ -172,9 +169,8 @@ export default class GRNStore {
     createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
         try {
             const result = await agent.GRNItem.create(item);
-            const x = await agent.GRNItem.detail(result.id);
             runInAction(() => {
-                this.grnItemRegistry.set(result.id, x)
+                this.grnItemRegistry.set(result.id, result)
             })
         } catch (error) {
             throw error;
@@ -183,10 +179,9 @@ export default class GRNStore {
 
     updateGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
         try {
-            await agent.GRNItem.update(item);
-            const x = await agent.GRNItem.detail(item.id);
+            const result = await agent.GRNItem.update(item);
             runInAction(() => {
-                this.grnItemRegistry.set(item.id, x)
+                this.grnItemRegistry.set(item.id, result)
             })
         } catch (error) {
             throw error;
@@ -239,9 +234,8 @@ export default class GRNStore {
     createGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {
         try {
             const result = await agent.GRNFreeItem.create(item);
-            const x = await agent.GRNFreeItem.detail(result.id);
             runInAction(() => {
-                this.grnFreeItemRegistry.set(result.id, x)
+                this.grnFreeItemRegistry.set(result.id, result)
             })
         } catch (error) {
             throw error;
@@ -250,16 +244,14 @@ export default class GRNStore {
 
     updateGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {
         try {
-            await agent.GRNFreeItem.update(item);
-            const x = await agent.GRNFreeItem.detail(item.id);
+            const result = await agent.GRNFreeItem.update(item);
             runInAction(() => {
-                this.grnFreeItemRegistry.set(item.id, x)
+                this.grnFreeItemRegistry.set(item.id, result)
             })
         } catch (error) {
             throw error;
         }
     }
-
 
     deleteGRNFreeItem = async (id: number) => {
         try {

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { Button, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { useContext } from "react";

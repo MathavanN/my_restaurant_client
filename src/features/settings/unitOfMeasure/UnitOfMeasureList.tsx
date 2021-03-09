@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Table } from "semantic-ui-react";
 import { IAppUser } from "../../app/models/user";
 
