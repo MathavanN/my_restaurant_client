@@ -117,9 +117,9 @@ export default class SupplierStore {
 
     updateSupplier = async (supplier: ISupplier) => {
         try {
-            await agent.Supplier.update(supplier);
+            const result = await agent.Supplier.update(supplier);
             runInAction(() => {
-                this.supplierRegistry.set(supplier.id, supplier)
+                this.supplierRegistry.set(supplier.id, result)
             })
         } catch (error) {
             throw error;
