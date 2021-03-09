@@ -40,7 +40,7 @@ const App: FC<RouteComponentProps> = () => {
     getToken();
     if (token) {
       getUser().finally(() => setAppLoaded());
-    } else if (refreshToken) {
+    } else if (refreshToken && process.env.NODE_ENV === 'development') {
       getRefreshToken(refreshToken);
       getUser().finally(() => setAppLoaded());
     } else {
