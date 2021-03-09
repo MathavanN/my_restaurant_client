@@ -1,7 +1,7 @@
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { Button, Icon, Table } from "semantic-ui-react";
 import { PaymentTypeFormValues } from "../../../app/models/paymentType";
-import  EditPaymentType  from "./EditPaymentType";
+import EditPaymentType from "./EditPaymentType";
 
 interface IProps {
   hasModifyAccess: boolean;

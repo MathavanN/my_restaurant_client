@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import UserList from "./UserList";
 import { Button, Message, Icon } from "semantic-ui-react";

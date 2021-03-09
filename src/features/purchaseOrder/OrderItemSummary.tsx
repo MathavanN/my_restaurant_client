@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Grid, Header, Table } from "semantic-ui-react";
 import { IPurchaseOrder } from "../../app/models/purchaseOrder";
 import { IPurchaseOrderItem } from "../../app/models/purchaseOrderItem";

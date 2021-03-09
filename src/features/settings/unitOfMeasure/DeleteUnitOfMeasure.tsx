@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext } from "react";
+import { FC, Fragment, useContext } from "react";
 import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
 import { IUnitOfMeasure } from "../../../app/models/unitOfMeasure";
 import { RootStoreContext } from "../../../app/stores/rootStore";

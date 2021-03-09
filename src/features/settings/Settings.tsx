@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import SettingsContent from "./SettingsContent";

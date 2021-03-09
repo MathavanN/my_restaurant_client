@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { Fragment, useContext, useEffect, useRef } from "react";
+import { Fragment, useContext, useEffect, useRef } from "react";
 import { Button, Form, Header, Label } from "semantic-ui-react";
 import { NORMAL, REPORT } from "../../app/models/constants";
 import { RootStoreContext } from "../../app/stores/rootStore";

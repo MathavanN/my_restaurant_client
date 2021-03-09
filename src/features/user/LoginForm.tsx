@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { Button, Form, Header, Label } from "semantic-ui-react";
 
 import { IUserLogin } from "../../app/models/user";
@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   const onSubmit = (data: IUserLogin) => {
     login(data).catch((error) => {
-      console.log(error)
+      console.log(error);
       toast.error(<ErrorMessage error={error} text="Error:" />);
     });
   };
