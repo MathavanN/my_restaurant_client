@@ -27,7 +27,7 @@ export default class SupplierStore {
     @computed get axiosParams() {
         const params = new URLSearchParams();
         params.append('limit', String(LIMIT));
-        params.append('offset', `${this.page ? ((this.page - 1) * LIMIT) : 1}`);
+        params.append('offset', String(this.page - 1));
         this.predicate.forEach((value, key) => {
             params.append(key, value)
         })
