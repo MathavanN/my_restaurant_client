@@ -30,23 +30,25 @@ const App: FC<RouteComponentProps> = () => {
   const rootStore = useContext(RootStoreContext);
   const {
     setAppLoaded,
-    getToken,
     refreshToken,
-    token,
     appLoaded,
+    token,
+    getToken,
   } = rootStore.commonStore;
+
   const { getUser, getRefreshToken } = rootStore.userStore;
+
   useEffect(() => {
     getToken();
     if (token) {
       getUser().finally(() => setAppLoaded());
-    } else if (refreshToken && process.env.NODE_ENV === 'development') {
+    } else if (refreshToken && process.env.NODE_ENV === "development") {
       getRefreshToken(refreshToken);
       getUser().finally(() => setAppLoaded());
     } else {
       setAppLoaded();
     }
-  }, [token, refreshToken, getToken, getUser, getRefreshToken, setAppLoaded]);
+  }, [getToken, token, refreshToken, getUser, getRefreshToken, setAppLoaded]);
 
   if (!appLoaded) return <LoadingComponent content="Loading app..." />;
   return (
