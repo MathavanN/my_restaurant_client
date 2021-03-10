@@ -39,7 +39,7 @@ export default class GRNStore {
                 this.grn = result;
             });
             this.rootStore.modalStore.closeModal();
-            history.push(`/purchase/manage/${result.id}`);
+            history.push(`/grn/manage/${result.id}`);
         } catch (error) {
             throw error;
         }
@@ -128,6 +128,7 @@ export default class GRNStore {
                     this.grnItemRegistry.set(item.id, item)
                     this.updateGRNItemSummary(item)
                 });
+                this.updateGRNSummary();
                 this.loadingInitial = false;
             })
         } catch (error) {
@@ -140,10 +141,15 @@ export default class GRNStore {
 
     createEmptyGRNItemSummary() {
         this.grnItemSummaryRegistry.clear();
-        this.grnItemSummaryRegistry.set('total', 0)
-        this.grnItemSummaryRegistry.set('nbt', 0)
-        this.grnItemSummaryRegistry.set('vat', 0)
-        this.grnItemSummaryRegistry.set('discount', 0)
+        this.grnItemSummaryRegistry.set('total', 0);
+        this.grnItemSummaryRegistry.set('nbt', 0);
+        this.grnItemSummaryRegistry.set('vat', 0);
+        this.grnItemSummaryRegistry.set('discount', 0);
+        this.grnItemSummaryRegistry.set('grandTotal', 0);
+        this.grnItemSummaryRegistry.set('grnNBT', 0);
+        this.grnItemSummaryRegistry.set('grnVAT', 0);
+        this.grnItemSummaryRegistry.set('grnDiscount', 0);
+        this.grnItemSummaryRegistry.set('grnGrandTotal', 0);
     }
     updateGRNItemSummary(item: CreateGoodsReceivedNoteItem) {
         const total = item.itemUnitPrice * item.quantity;
@@ -155,6 +161,28 @@ export default class GRNStore {
         this.grnItemSummaryRegistry.set('nbt', this.grnItemSummaryRegistry.get('nbt') + nbt)
         this.grnItemSummaryRegistry.set('vat', this.grnItemSummaryRegistry.get('vat') + vat)
         this.grnItemSummaryRegistry.set('discount', this.grnItemSummaryRegistry.get('discount') + discount)
+    }
+
+    updateGRNSummary() {
+        const itemTotal = (
+            this.grnItemSummaryRegistry.get('total') +
+            this.grnItemSummaryRegistry.get('nbt') +
+            this.grnItemSummaryRegistry.get('vat')) -
+            this.grnItemSummaryRegistry.get('discount');
+
+        this.grnItemSummaryRegistry.set('grandTotal', itemTotal)
+
+        if (this.grn) {
+            const nbt = (itemTotal * this.grn.nbt) / 100;
+            const vat = (itemTotal * this.grn.vat) / 100;
+            const discount = (itemTotal * this.grn.discount) / 100;
+
+            this.grnItemSummaryRegistry.set('grnNBT', nbt);
+            this.grnItemSummaryRegistry.set('grnVAT', vat);
+            this.grnItemSummaryRegistry.set('grnDiscount', discount);
+            this.grnItemSummaryRegistry.set('grnGrandTotal', (itemTotal + nbt + vat) - discount);
+
+        }
     }
 
     @computed get getGRNItems() {
