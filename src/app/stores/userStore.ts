@@ -145,7 +145,7 @@ export default class UserStore {
                 this.rootStore.commonStore.setToken(newToken.accessToken)
                 this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
             })
-            
+
         } catch (error) {
             throw error;
         }

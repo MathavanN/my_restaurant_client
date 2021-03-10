@@ -13,7 +13,7 @@ import {
 import GRNSummary from "./GRNSummary";
 import GRNItemDetails from "./grnItem/GRNItemDetails";
 import GRNFreeItemDetails from "./grnFreeItem/GRNFreeItemDetails";
-import GRNItemSummary from "./grnItem/GRNItemSummary";
+import GRNFullSummary from "./GRNFullSummary";
 import ApprovalGRN from "./ApprovalGRN";
 
 interface IDetailsParams {
@@ -77,7 +77,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
             />
           </Segment>
           <Segment attached>
-            <GRNItemSummary />
+            <GRNFullSummary />
           </Segment>
           <Segment attached>
             <GRNFreeItemDetails
@@ -98,7 +98,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={APPROVED}
-                      header="Approve the Purchase Order"
+                      header="Approve the GRN"
                     />
                   )
                 }
@@ -111,7 +111,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={CANCELLED}
-                      header="Cancel the Purchase Order"
+                      header="Cancel the GRN"
                     />
                   )
                 }
@@ -124,7 +124,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={REJECTED}
-                      header="Reject the Purchase Order"
+                      header="Reject the GRN"
                     />
                   )
                 }

@@ -56,6 +56,7 @@ const StockItemList = () => {
     <Fragment>
       <FilterStockItem
         stockTypeOptions={loadStockTypeOptions}
+        selectedStockType={selectedStockType}
         handleStockItemSearch={handleStockItemSearch}
       />
       {selectedStockType > 0 && (
