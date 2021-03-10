@@ -28,7 +28,7 @@ export default class StockItemStore {
     @computed get axiosParams() {
         const params = new URLSearchParams();
         params.append('limit', String(LIMIT));
-        params.append('offset', `${this.page ? ((this.page - 1) * LIMIT) : 1}`)
+        params.append('offset', String(this.page - 1))
         return params
     }
 
@@ -55,6 +55,7 @@ export default class StockItemStore {
         this.loadingInitial = true;
         try {
             const stockItemEnvelop = await agent.StockItem.list(typeId, this.axiosParams);
+            console.log(stockItemEnvelop)
             const { stockItems, stockItemCount } = stockItemEnvelop;
             runInAction(() => {
                 stockItems.forEach(stockItem => {
