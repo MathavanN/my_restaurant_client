@@ -5,11 +5,13 @@ import { ISelectInputOptions } from "../../../app/models/common";
 
 interface IProps {
   stockTypeOptions: ISelectInputOptions[];
+  selectedStockType: number;
   handleStockItemSearch: (typeId: number) => void;
 }
 
 const FilterStockItem: FC<IProps> = ({
   stockTypeOptions,
+  selectedStockType,
   handleStockItemSearch,
 }) => {
   const { handleSubmit, setValue, register, errors, trigger } = useForm();
@@ -18,13 +20,9 @@ const FilterStockItem: FC<IProps> = ({
     handleStockItemSearch(data.typeId);
   };
   useEffect(() => {
-    if (stockTypeOptions.length > 0) {
-      setValue("typeId", stockTypeOptions[0].key);
-    }
-    register({
-      name: "typeId",
-    });
-  }, [register, stockTypeOptions, setValue]);
+    setValue("typeId", selectedStockType);
+    register({ name: "typeId" }, { required: true });
+  }, [register, selectedStockType, setValue]);
 
   return (
     <Fragment>
@@ -38,7 +36,7 @@ const FilterStockItem: FC<IProps> = ({
                   name="typeId"
                   compact
                   options={stockTypeOptions}
-                  defaultValue={stockTypeOptions[0].key}
+                  defaultValue={selectedStockType}
                   onChange={async (e, { name, value }) => {
                     setValue(name, value);
                     await trigger(name);
