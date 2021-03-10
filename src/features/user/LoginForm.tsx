@@ -25,7 +25,7 @@ const LoginForm = () => {
       .catch((error) => {
         console.log(error);
         toast.error(<ErrorMessage error={error} text="Error:" />);
-    });
+      });
   };
 
   useEffect(() => {
