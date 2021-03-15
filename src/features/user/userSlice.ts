@@ -9,12 +9,14 @@ interface UserState {
     accessJWT: string | null;
     refreshJWT: string | null;
     user: IUser | null;
+    isLoggedIn: boolean
 }
 const initialState: UserState = {
     token: null,
     accessJWT: window.localStorage.getItem(ACCESS_TOKEN),
     refreshJWT: window.localStorage.getItem(REFRESH_TOKEN),
-    user: null
+    user: null,
+    isLoggedIn: false
 }
 
 export const userSlice = createSlice({
@@ -35,15 +37,20 @@ export const userSlice = createSlice({
             state.refreshJWT = action.payload;
             window.localStorage.setItem(REFRESH_TOKEN, action.payload)
         },
+        isLoggedIn: state => {
+            state.isLoggedIn = !!state.user;
+        },
         signOut: state => {
             state.refreshJWT = null;
+            window.localStorage.removeItem(ACCESS_TOKEN)
             state.accessJWT = null;
+            window.localStorage.removeItem(REFRESH_TOKEN)
             state.token = null
         }
     }
 });
 
-export const { fetchToken, setAccessJWT, setRefreshJWT, signOut, fetchUser } = userSlice.actions
+export const { fetchToken, setAccessJWT, setRefreshJWT, signOut, fetchUser, isLoggedIn } = userSlice.actions
 
 export const userLoginAsync = (user: IUserLogin): AppThunk => async dispatch => {
     try {
@@ -58,6 +65,7 @@ export const userLoginAsync = (user: IUserLogin): AppThunk => async dispatch => 
 }
 
 export const currentUserAsync = (): AppThunk => async dispatch => {
+    console.log("hi")
     try {
         const response = await agent.User.current();
         dispatch(fetchUser(response))

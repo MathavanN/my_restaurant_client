@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Helmet } from "react-helmet";
 import {
   createMuiTheme,
@@ -22,11 +22,27 @@ import {
   PAGE_TODO,
 } from "utils/constants";
 import SignIn from "features/user/SignIn";
+import {
+  getUser,
+  getAccessJWT,
+  isLoggedIn,
+  currentUserAsync,
+} from "features/user/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const accessJWT = useSelector(getAccessJWT);
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
   let theme: Theme = createMuiTheme(useDefaultTheme ? lightTheme : darkTheme);
   theme = responsiveFontSizes(theme);
+
+  useEffect(() => {
+    if (accessJWT) {
+      dispatch(currentUserAsync());
+    }
+  }, [accessJWT, dispatch]);
 
   return (
     <>
