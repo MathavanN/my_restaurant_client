@@ -5,9 +5,9 @@ import { fetchTodoAsync, selectTodos, toggleTodo } from "./todoSlice";
 const ToDoList = () => {
   const dispatch = useDispatch();
   const todos = useSelector(selectTodos);
-  useEffect(() => {
-    dispatch(fetchTodoAsync());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchTodoAsync());
+  // }, [dispatch]);
   return (
     <>
       <ul>

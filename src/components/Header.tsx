@@ -7,14 +7,20 @@ import {
   IconButton,
   Typography,
   Tooltip,
+  Button,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
-import { FC } from "react";
-import { APP_TITLE, DRAWER_WIDTH } from "../utils/constants";
+import React, { FC, useState } from "react";
+import { APP_TITLE, DRAWER_WIDTH, PAGE_USER_SIGN_IN } from "../utils/constants";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
-import UserIcon from "@material-ui/icons/AccountCircle";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccessJWT, signOut } from "../features/user/userSlice";
 
 interface IProps {
   open: boolean;
@@ -65,6 +71,21 @@ const Header: FC<IProps> = ({
   toggleTheme,
   useDefaultTheme,
 }) => {
+  const dispatch = useDispatch();
+  const accessJWT = useSelector(getAccessJWT);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const view = Boolean(anchorEl);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleSingOut = () => {
+    dispatch(signOut());
+    setAnchorEl(null);
+  };
+
   const classes = useStyles();
   return (
     <>
@@ -101,9 +122,39 @@ const Header: FC<IProps> = ({
               </Tooltip>
             )}
           </IconButton>
-          <IconButton size="small" color="inherit">
-            <UserIcon />
-          </IconButton>
+          {accessJWT ? (
+            <>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                size="small"
+                color="inherit"
+                onClick={handleMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                keepMounted
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                open={view}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>My Account</MenuItem>
+                <MenuItem onClick={handleSingOut}>Sign Out</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <NavLink
+              to={`${PAGE_USER_SIGN_IN.path}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button>Sign In</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </>

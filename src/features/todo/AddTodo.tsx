@@ -12,7 +12,8 @@ const AddTodo = () => {
 
     dispatch(
       addTodo({
-        id: Date.now().toString(),
+        userId: 1,
+        id: 5,
         completed: false,
         title,
       })

@@ -1,20 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "app/store";
+import { ITodo } from "model/Todo.model";
 import agent from "../../api/agent"
-
-export type TodoId = string;
-
-export type Todo = {
-    id: TodoId;
-    title: string;
-    completed: boolean
-};
-
 
 type TodosState = {
     status: "loading" | "idle";
     error: string | null;
-    list: Todo[]
+    list: ITodo[]
 };
 
 const initialState = {
@@ -27,15 +19,15 @@ export const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        addTodo: (state, action: PayloadAction<Todo>) => {
+        addTodo: (state, action: PayloadAction<ITodo>) => {
             state.list.push(action.payload);
         },
-        toggleTodo: (state, action: PayloadAction<TodoId>) => {
+        toggleTodo: (state, action: PayloadAction<number>) => {
             const index = state.list.findIndex(({ id }) => id === action.payload);
             if (index)
                 state.list[index].completed = !state.list[index].completed
         },
-        loadTodos: (state, action: PayloadAction<Todo[]>) => {
+        loadTodos: (state, action: PayloadAction<ITodo[]>) => {
             state.list = action.payload;
         }
     }
@@ -45,7 +37,7 @@ export const { addTodo, toggleTodo, loadTodos } = todosSlice.actions;
 
 export const fetchTodoAsync = (): AppThunk => async dispatch => {
     try {
-        const response = await agent.TodoAPI.list();
+        const response = await agent.Todo.list();
         dispatch(loadTodos(response))
 
     } catch (error) {

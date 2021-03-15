@@ -1,9 +1,13 @@
 import axios, { AxiosResponse } from 'axios'
-import { Todo } from '../features/todo/todoSlice'
+import { ITodo } from 'model/Todo.model';
+import { IToken, IUser, IUserLogin } from 'model/User.model';
+import { ACCESS_TOKEN } from 'utils/constants';
 
-axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 
 axios.interceptors.request.use((config) => {
+    const token = window.localStorage.getItem(ACCESS_TOKEN);
+    if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, error => {
     return Promise.reject(error)
@@ -14,7 +18,22 @@ axios.interceptors.response.use(undefined, error => {
         throw error.message
     }
     const { status, data, config, headers } = error.response;
+    if (status === 401 && headers['www-authenticate'] !== undefined && headers['www-authenticate'].includes("invalid_token")) {
+        window.localStorage.removeItem(ACCESS_TOKEN)
+        //history.push('/')
+        //toast.info("Your session has expired, please login again")
+    }
 
+    // if (status === 404) {
+    //     history.push('/dashboard');
+    // }
+    // if (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
+    //     history.push('/dashboard');
+    // }
+
+    // if (status === 500) {
+    //     toast.error('Server error - check the terminal for more info!')
+    // }
     throw error.response
 })
 
@@ -28,10 +47,15 @@ const requests = {
     del: (url: string) => axios.delete(url).then(responseBody)
 }
 
-const TodoAPI = {
-    list: (): Promise<Todo[]> => requests.get(`/todos`)
+const User = {
+    login: (user: IUserLogin): Promise<IToken> => requests.post('/v1/account/login', user),
+    current: (): Promise<IUser> => requests.get('/v1/account/currentuser')
+}
+
+const Todo = {
+    list: (): Promise<ITodo[]> => requests.get(`/todos`)
 }
 
 
-const RestaurantApis = { TodoAPI };
+const RestaurantApis = { User, Todo };
 export default RestaurantApis;

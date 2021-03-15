@@ -47,7 +47,7 @@ interface IProps {
 
 const Layout: FC<IProps> = ({ toggleTheme, useDefaultTheme, children }) => {
   const classes = useStyles();
-  const [open, toggle] = useReducer((open) => !open, true);
+  const [open, toggle] = useReducer((open) => !open, false);
   return (
     <div className={classes.root}>
       <CssBaseline />

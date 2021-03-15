@@ -13,7 +13,7 @@ import Counter from "features/counter/Counter";
 import ToDoList from "features/todo/ToDoList";
 import AddTodo from "features/todo/AddTodo";
 import Settings from "features/settings/Settings";
-import { APP_TITLE, PAGE_TODO_ADD } from "utils/constants";
+import { APP_TITLE, PAGE_TODO_ADD, PAGE_USER_SIGN_IN } from "utils/constants";
 import { darkTheme, lightTheme } from "theme/appTheme";
 import {
   PAGE_COUNTER,
@@ -21,6 +21,7 @@ import {
   PAGE_SETTINGS,
   PAGE_TODO,
 } from "utils/constants";
+import SignIn from "features/user/SignIn";
 
 const App = () => {
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
@@ -41,6 +42,7 @@ const App = () => {
               <Route path={PAGE_TODO.path} exact component={ToDoList} />
               <Route path={PAGE_TODO_ADD.path} exact component={AddTodo} />
               <Route path={PAGE_SETTINGS.path} exact component={Settings} />
+              <Route path={PAGE_USER_SIGN_IN.path} exact component={SignIn} />
             </Layout>
           </Switch>
         </Router>
