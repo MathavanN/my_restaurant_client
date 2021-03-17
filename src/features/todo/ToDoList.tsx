@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTodoAsync, selectTodos, toggleTodo } from "./todoSlice";
+import { selectTodos, toggleTodo } from "./todoSlice";
 
 const ToDoList = () => {
   const dispatch = useDispatch();

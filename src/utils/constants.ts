@@ -18,3 +18,7 @@ export const PAGE_TODO = { path: "/todo", title: "Todo", tooltip: "Todo" }
 export const PAGE_TODO_ADD = { path: "/todo/add-new" }
 export const PAGE_SETTINGS = { path: "/settings", title: "Settings", tooltip: "Settings" }
 export const PAGE_USER_SIGN_IN = { path: "/user/sing-in" }
+export const PAGE_STORE = { title: "My Store", tooltip: "My store" }
+export const PAGE_UOM = { path: "/uom", title: "UOM", tooltip: "UOM" }
+export const PAGE_STOCK_TYPE = { path: "/stock-type", title: "Stock Type", tooltip: "Stock Type" }
+export const PAGE_STOCK_ITEM = { path: "/stock-item", title: "Stock Item", tooltip: "Stock Item" }

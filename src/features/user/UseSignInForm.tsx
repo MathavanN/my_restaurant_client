@@ -5,8 +5,11 @@ import { IUserLogin } from "model/User.model";
 import { useCallback, useMemo } from "react";
 import { userLoginAsync } from "./userSlice";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { PAGE_COUNTER } from "utils/constants";
 
 const UseSignInForm = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const validationSchema = useMemo(
     () =>
@@ -22,8 +25,9 @@ const UseSignInForm = () => {
   const onSubmit = useCallback(
     (formValues: IUserLogin) => {
       dispatch(userLoginAsync(formValues));
+      history.push(PAGE_COUNTER.path);
     },
-    [dispatch]
+    [dispatch, history]
   );
 
   return {

@@ -4,11 +4,16 @@ import { Provider } from "react-redux";
 import App from "./app/App";
 import { store } from "./app/store";
 import reportWebVitals from "./reportWebVitals";
+import "react-toastify/dist/ReactToastify.css";
+import history from "./historyy";
+import { Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router history={history}>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

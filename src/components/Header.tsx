@@ -12,15 +12,20 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import React, { FC, useState } from "react";
-import { APP_TITLE, DRAWER_WIDTH, PAGE_USER_SIGN_IN } from "../utils/constants";
+import {
+  APP_TITLE,
+  DRAWER_WIDTH,
+  PAGE_HOME,
+  PAGE_USER_SIGN_IN,
+} from "../utils/constants";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAccessJWT, signOut } from "../features/user/userSlice";
+import { getUser, signOut } from "../features/user/userSlice";
 
 interface IProps {
   open: boolean;
@@ -72,9 +77,10 @@ const Header: FC<IProps> = ({
   useDefaultTheme,
 }) => {
   const dispatch = useDispatch();
-  const accessJWT = useSelector(getAccessJWT);
+  const user = useSelector(getUser);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const view = Boolean(anchorEl);
+  const history = useHistory();
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,6 +90,7 @@ const Header: FC<IProps> = ({
   const handleSingOut = () => {
     dispatch(signOut());
     setAnchorEl(null);
+    history.push(PAGE_HOME.path);
   };
 
   const classes = useStyles();
@@ -122,7 +129,7 @@ const Header: FC<IProps> = ({
               </Tooltip>
             )}
           </IconButton>
-          {accessJWT ? (
+          {user ? (
             <>
               <IconButton
                 aria-label="account of current user"

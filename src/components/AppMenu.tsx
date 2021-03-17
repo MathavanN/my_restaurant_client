@@ -81,6 +81,7 @@ const AppMenu = () => {
                 <List className={classes.nested}>
                   {route.subRoutes.map((sRoute) => (
                     <MenuItem
+                      key={`${sRoute.routeKey}`}
                       routeKey={`${sRoute.routeKey}`}
                       title={sRoute.title}
                       icon={sRoute.icon}

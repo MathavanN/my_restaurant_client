@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import React, { FC, useEffect, useReducer } from "react";
 import { Helmet } from "react-helmet";
 import {
   createMuiTheme,
@@ -6,14 +6,26 @@ import {
   Theme,
   responsiveFontSizes,
 } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  withRouter,
+  RouteComponentProps,
+} from "react-router-dom";
 import Layout from "components/Layout";
 import Home from "features/home/Home";
 import Counter from "features/counter/Counter";
 import ToDoList from "features/todo/ToDoList";
 import AddTodo from "features/todo/AddTodo";
 import Settings from "features/settings/Settings";
-import { APP_TITLE, PAGE_TODO_ADD, PAGE_USER_SIGN_IN } from "utils/constants";
+import {
+  APP_TITLE,
+  PAGE_STOCK_ITEM,
+  PAGE_STOCK_TYPE,
+  PAGE_TODO_ADD,
+  PAGE_UOM,
+  PAGE_USER_SIGN_IN,
+} from "utils/constants";
 import { darkTheme, lightTheme } from "theme/appTheme";
 import {
   PAGE_COUNTER,
@@ -23,26 +35,31 @@ import {
 } from "utils/constants";
 import SignIn from "features/user/SignIn";
 import {
-  getUser,
-  getAccessJWT,
-  isLoggedIn,
   currentUserAsync,
+  getAppLoaded,
+  getUserLoggedIn,
 } from "features/user/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import PrivateRoute from "components/PrivateRoute";
+import UnitOfMeasure from "features/unitOfMeasure/UnitOfMeasure";
+import Loading from "components/Loading";
+import StockType from "features/stockType/StockType";
+import StockItem from "features/stockItem/StockItem";
 
-const App = () => {
+const App: FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
-  const user = useSelector(getUser);
-  const accessJWT = useSelector(getAccessJWT);
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
   let theme: Theme = createMuiTheme(useDefaultTheme ? lightTheme : darkTheme);
   theme = responsiveFontSizes(theme);
 
   useEffect(() => {
-    if (accessJWT) {
-      dispatch(currentUserAsync());
-    }
-  }, [accessJWT, dispatch]);
+    dispatch(currentUserAsync());
+  }, [dispatch]);
+
+  const appLoaded = useSelector(getAppLoaded);
+  const isLoggedIn = useSelector(getUserLoggedIn);
+  if (!appLoaded) return <Loading />;
 
   return (
     <>
@@ -50,21 +67,63 @@ const App = () => {
         <title>{APP_TITLE}</title>
       </Helmet>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Layout toggleTheme={toggle} useDefaultTheme={useDefaultTheme}>
-              <Route path={PAGE_HOME.path} exact component={Home} />
-              <Route path={PAGE_COUNTER.path} exact component={Counter} />
-              <Route path={PAGE_TODO.path} exact component={ToDoList} />
-              <Route path={PAGE_TODO_ADD.path} exact component={AddTodo} />
-              <Route path={PAGE_SETTINGS.path} exact component={Settings} />
-              <Route path={PAGE_USER_SIGN_IN.path} exact component={SignIn} />
-            </Layout>
-          </Switch>
-        </Router>
+        <ToastContainer position="bottom-right" />
+        <Layout toggleTheme={toggle} useDefaultTheme={useDefaultTheme}>
+          <Route path={PAGE_HOME.path} exact component={Home} />
+          <Route
+            path={"/(.+)"}
+            render={() => (
+              <Switch>
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_COUNTER.path}
+                  exact
+                  component={Counter}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_TODO.path}
+                  exact
+                  component={ToDoList}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_TODO_ADD.path}
+                  exact
+                  component={AddTodo}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_SETTINGS.path}
+                  exact
+                  component={Settings}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_UOM.path}
+                  exact
+                  component={UnitOfMeasure}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_STOCK_TYPE.path}
+                  exact
+                  component={StockType}
+                />
+                <PrivateRoute
+                  isLoggedIn={isLoggedIn}
+                  path={PAGE_STOCK_ITEM.path}
+                  exact
+                  component={StockItem}
+                />
+                <Route path={PAGE_USER_SIGN_IN.path} exact component={SignIn} />
+              </Switch>
+            )}
+          />
+        </Layout>
       </ThemeProvider>
     </>
   );
 };
 
-export default App;
+export default withRouter(App);
