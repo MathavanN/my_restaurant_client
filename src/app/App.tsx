@@ -59,7 +59,7 @@ const App: FC<RouteComponentProps> = () => {
 
   const appLoaded = useSelector(getAppLoaded);
   const isLoggedIn = useSelector(getUserLoggedIn);
-  if (!appLoaded) return <Loading />;
+  if (!appLoaded) return <Loading show={true} />;
 
   return (
     <>
