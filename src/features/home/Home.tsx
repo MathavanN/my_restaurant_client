@@ -4,6 +4,7 @@ import { RootStoreContext } from "../../app/stores/rootStore";
 import LoginForm from "../user/LoginForm";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import homeImage from "../../assets/WebSiteLog-min.png";
 
 const Home = () => {
   const token = window.localStorage.getItem("jwt");
@@ -14,7 +15,7 @@ const Home = () => {
   return (
     <Segment textAlign="center" vertical>
       <Container text style={{ marginTop: "2em" }}>
-        <Image src="/assets/WebSiteLog-min.png" size="large" centered />
+        <Image src={homeImage} size="large" centered />
         {isLoggedIn && user && token ? (
           <Fragment>
             <Header as="h2" content={`Welcome back ${user.fullName}`} />
