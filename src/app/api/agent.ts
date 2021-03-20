@@ -62,16 +62,11 @@ const requests = {
     }
 }
 
-const userV1Apis = {
-    login: "/v1/account/login",
-    currentUser: "/v1/account/currentuser",
-    refresh: "/v1/Account/Refresh",
-}
 const Users = {
     list: (): Promise<IAppUser[]> => requests.get(`/v1/account/users`),
-    current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
-    login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
-    refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
+    current: (): Promise<IUser> => requests.get("/v1/account/currentuser"),
+    login: (user: IUserLogin): Promise<IToken> => requests.post("/v1/account/login", user),
+    refresh: (token: IRefreshToken): Promise<IToken> => requests.post("/v1/Account/Refresh", token),
     registerAdmin: (user: IRegisterAdminUser): Promise<IRegisterResult> => requests.post(`/user/registeradminuser`, user),
     registerNonAdmin: (user: IRegisterNonAdminUser): Promise<IRegisterResult> => requests.post(`/user/registernormaluser`, user)
 }
