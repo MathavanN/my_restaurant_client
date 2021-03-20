@@ -9,6 +9,9 @@ import PurchaseOrderStore from "./purchaseOrderStore";
 import StockItemStore from "./stockItemStore";
 import SupplierStore from "./supplierStore";
 import GRNStore from "./grnStore";
+import UnitOfMeasureStore from "./unitOfMeasureStore";
+import StockTypeStore from "./stockTypeStore";
+import PaymentTypeStore from "./paymentTypeStore";
 
 configure({ enforceActions: 'always' })
 
@@ -22,6 +25,9 @@ export class RootStore {
     stockItemStore: StockItemStore
     supplierStore: SupplierStore;
     grnStore: GRNStore;
+    unitOfMeasureStore: UnitOfMeasureStore;
+    stockTypeStore: StockTypeStore;
+    paymentTypeStore: PaymentTypeStore;
 
     constructor() {
         this.userStore = new UserStore(this)
@@ -31,8 +37,11 @@ export class RootStore {
         this.settingsStore = new SettingsStore(this);
         this.purchaseOrderStore = new PurchaseOrderStore(this);
         this.stockItemStore = new StockItemStore(this);
-        this.supplierStore = new SupplierStore(this)
-        this.grnStore = new GRNStore(this)
+        this.supplierStore = new SupplierStore(this);
+        this.grnStore = new GRNStore(this);
+        this.unitOfMeasureStore = new UnitOfMeasureStore(this);
+        this.stockTypeStore = new StockTypeStore(this);
+        this.paymentTypeStore = new PaymentTypeStore(this);
     }
 }
 
