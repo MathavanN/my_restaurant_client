@@ -30,7 +30,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
     purchaseOrder,
     getPurchaseOrderItems,
   } = rootStore.purchaseOrderStore;
-  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.stockTypeStore;
   const { openModal } = rootStore.modalStore;
   const { user, hasModifyAccess } = rootStore.userStore;
 

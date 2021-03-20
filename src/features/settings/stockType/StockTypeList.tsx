@@ -8,7 +8,7 @@ import { StockTypeFormValues } from "../../../app/models/stockType";
 
 const StockTypeList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getStockTypes } = rootStore.settingsStore;
+  const { getStockTypes } = rootStore.stockTypeStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
 

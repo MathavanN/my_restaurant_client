@@ -9,7 +9,10 @@ import GRNDetails from "./GRNDetails";
 const GRNDashboard = () => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
-  const { loadPaymentTypes, loadPaymentTypeOptions } = rootStore.settingsStore;
+  const {
+    loadPaymentTypes,
+    loadPaymentTypeOptions,
+  } = rootStore.paymentTypeStore;
   const { loadAppUsers, loadAppUsersOptions } = rootStore.userStore;
   const { loadGRNs } = rootStore.grnStore;
   const {

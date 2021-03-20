@@ -13,7 +13,7 @@ interface IProps {
 const EditPaymentType: FC<IProps> = ({ paymentType }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { createPaymentType, updatePaymentType } = rootStore.settingsStore;
+  const { createPaymentType, updatePaymentType } = rootStore.paymentTypeStore;
 
   const onSubmit = (data: any) => {
     const formData = new PaymentTypeFormValues({ ...data, id: paymentType.id });

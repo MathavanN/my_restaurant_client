@@ -12,7 +12,7 @@ interface IProps {
 const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { deletePaymentType } = rootStore.settingsStore;
+  const { deletePaymentType } = rootStore.paymentTypeStore;
   return (
     <Fragment>
       <Header icon="delete" content="Are you sure to delete?" color="red" />

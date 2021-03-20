@@ -11,10 +11,8 @@ import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 
 const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadStockTypeOptions,
-    loadUnitOfMeasureOptions,
-  } = rootStore.settingsStore;
+  const { loadStockTypeOptions } = rootStore.stockTypeStore;
+  const { loadUnitOfMeasureOptions } = rootStore.unitOfMeasureStore;
 
   const {
     loadStockItems,

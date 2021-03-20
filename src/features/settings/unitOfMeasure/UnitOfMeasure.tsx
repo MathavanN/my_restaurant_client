@@ -6,7 +6,7 @@ import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 
 const UnitOfMeasure = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadUnitOfMeasures, loadingInitial } = rootStore.settingsStore;
+  const { loadUnitOfMeasures, loadingInitial } = rootStore.unitOfMeasureStore;
   useEffect(() => {
     loadUnitOfMeasures();
   }, [loadUnitOfMeasures]);

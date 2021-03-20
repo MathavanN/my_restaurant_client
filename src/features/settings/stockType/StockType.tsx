@@ -6,7 +6,7 @@ import { LoadingComponent } from "../../../app/layout/LoadingComponent";
 
 const StockType = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadStockTypes, loadingInitial } = rootStore.settingsStore;
+  const { loadStockTypes, loadingInitial } = rootStore.stockTypeStore;
   useEffect(() => {
     loadStockTypes();
   }, [loadStockTypes]);

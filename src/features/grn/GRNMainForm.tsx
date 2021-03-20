@@ -13,13 +13,11 @@ interface IDetailsParams {
 const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
   const rootStore = useContext(RootStoreContext);
   const { loadGRN, loadGRNItems, loadGRNFreeItems, grn } = rootStore.grnStore;
-  const {
-    loadPaymentTypes,
-    loadStockTypes,
-    loadStockTypeOptions,
-  } = rootStore.settingsStore;
+  const { loadPaymentTypes } = rootStore.paymentTypeStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.stockTypeStore;
   const { loadAppUsers } = rootStore.userStore;
   const { loadPurchaseOrders } = rootStore.purchaseOrderStore;
+
   useEffect(() => {
     loadPaymentTypes();
     loadAppUsers();

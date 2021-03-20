@@ -13,7 +13,10 @@ interface IProps {
 
 const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const rootStore = useContext(RootStoreContext);
-  const { updateUnitOfMeasure, createUnitOfMeasure } = rootStore.settingsStore;
+  const {
+    updateUnitOfMeasure,
+    createUnitOfMeasure,
+  } = rootStore.unitOfMeasureStore;
   const { closeModal } = rootStore.modalStore;
 
   const { register, errors, handleSubmit, setValue, trigger } = useForm({

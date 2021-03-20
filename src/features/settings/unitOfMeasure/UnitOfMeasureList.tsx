@@ -8,7 +8,7 @@ import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
 
 const UnitOfMeasureList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getUnitOfMeasures } = rootStore.settingsStore;
+  const { getUnitOfMeasures } = rootStore.unitOfMeasureStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
 

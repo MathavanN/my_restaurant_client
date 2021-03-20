@@ -29,7 +29,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     loadGRNItems,
     getGRNItems,
   } = rootStore.grnStore;
-  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.stockTypeStore;
   const { hasModifyAccess, user } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
   useEffect(() => {

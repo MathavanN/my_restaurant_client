@@ -12,7 +12,7 @@ interface IProps {
 }
 const EditStockType: FC<IProps> = ({ stockType }) => {
   const rootStore = useContext(RootStoreContext);
-  const { updateStockType, createStockType } = rootStore.settingsStore;
+  const { updateStockType, createStockType } = rootStore.stockTypeStore;
 
   const { closeModal } = rootStore.modalStore;
 

@@ -13,7 +13,7 @@ const PaymentTypeList = () => {
     loadPaymentTypes,
     getPaymentTypes,
     loadingInitial,
-  } = rootStore.settingsStore;
+  } = rootStore.paymentTypeStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
   useEffect(() => {

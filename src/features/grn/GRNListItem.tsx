@@ -25,7 +25,7 @@ const GRNListItem: FC<IProps> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
-  const { loadPaymentTypeOptions } = rootStore.settingsStore;
+  const { loadPaymentTypeOptions } = rootStore.paymentTypeStore;
   const { loadAppUsersOptions, isSuperAdminUser } = rootStore.userStore;
   const { loadApprovedPurchaseOrdersOptions } = rootStore.purchaseOrderStore;
   return (

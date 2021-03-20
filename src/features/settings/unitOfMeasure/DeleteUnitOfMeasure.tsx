@@ -12,7 +12,8 @@ interface IProps {
 const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { deleteUnitOfMeasure } = rootStore.settingsStore;
+  const { deleteUnitOfMeasure } = rootStore.unitOfMeasureStore;
+  
   return (
     <Fragment>
       <Header icon="delete" content="Are you sure to delete?" color="red" />
