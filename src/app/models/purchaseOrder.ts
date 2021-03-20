@@ -13,7 +13,6 @@ export interface IPurchaseOrder {
     description: string;
 }
 
-
 export class CreatePurchaseOrder {
     id: number = 0;
     supplierId: number = 0;
