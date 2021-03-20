@@ -18,13 +18,13 @@ import { LoadingComponent } from "./LoadingComponent";
 import CurrentUser from "../../features/user/CurrentUser";
 import Dashboard from "../../features/dashboard/Dashboard";
 import Settings from "../../features/settings/Settings";
-import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
 import ViewPurchaseOrder from "../../features/purchaseOrder/ViewPurchaseOrder";
 import OrderMainForm from "../../features/purchaseOrder/OrderMainForm";
 import UserDashboard from "../../features/user/UserDashboard";
 import GRNDashboard from "../../features/grn/GRNDashboard";
 import ViewGRN from "../../features/grn/ViewGRN";
 import GRNMainForm from "../../features/grn/GRNMainForm";
+import PurchaseOrderDashboard from "../../features/purchaseOrder/PurchaseOrderDashboard";
 
 const App: FC<RouteComponentProps> = () => {
   const rootStore = useContext(RootStoreContext);
@@ -37,7 +37,6 @@ const App: FC<RouteComponentProps> = () => {
   } = rootStore.commonStore;
 
   const { getUser, getRefreshToken } = rootStore.userStore;
-
   useEffect(() => {
     getToken();
     if (token) {
@@ -61,7 +60,7 @@ const App: FC<RouteComponentProps> = () => {
         render={() => (
           <Fragment>
             <NavBar />
-            <Container style={{ marginTop: "2em" }}>
+            <Container style={{ marginTop: "2em", width: "98%" }}>
               <Switch>
                 <PrivateRoute path="/dashboard" exact component={Dashboard} />
                 <PrivateRoute
