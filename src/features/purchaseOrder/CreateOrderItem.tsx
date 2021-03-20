@@ -155,6 +155,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           name="itemUnitPrice"
           fluid
           label="Unit Price"
+          autoComplete="off"
           placeholder="Unit price"
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
@@ -173,6 +174,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           name="quantity"
           fluid
           label="Quantity"
+          autoComplete="off"
           placeholder="Quantity"
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {

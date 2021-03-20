@@ -58,7 +58,7 @@ const StockItemList = () => {
         handleStockItemSearch={handleStockItemSearch}
       />
       {selectedStockType > 0 && (
-        <Table compact celled>
+        <Table compact celled striped color="red">
           <StockItemListHeader
             hasModifyAccess={hasModifyAccess}
             openModal={openModal}

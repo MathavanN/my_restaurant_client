@@ -40,7 +40,7 @@ const SupplierList = () => {
         handleSupplierSearch={handleSupplierSearch}
         setPredicate={setPredicate}
       />
-      <Table compact celled>
+      <Table compact celled striped color="red">
         <SupplierListHeader
           hasModifyAccess={hasModifyAccess}
           openModal={openModal}

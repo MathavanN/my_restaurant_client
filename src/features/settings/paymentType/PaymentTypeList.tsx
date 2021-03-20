@@ -25,7 +25,7 @@ const PaymentTypeList = () => {
 
   return (
     <Fragment>
-      <Table compact celled>
+      <Table compact celled striped color="red">
         <PaymentTypeListHeader
           hasModifyAccess={hasModifyAccess}
           openModal={openModal}

@@ -137,6 +137,7 @@ const EditStockItem: FC<IProps> = ({
           fluid
           label="Item Name"
           placeholder="Item name"
+          autoComplete="off"
           defaultValue={stockItem.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -174,6 +175,7 @@ const EditStockItem: FC<IProps> = ({
           fluid
           label="Item Unit"
           placeholder="Item unit"
+          autoComplete="off"
           defaultValue={stockItem.itemUnit}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -191,6 +193,7 @@ const EditStockItem: FC<IProps> = ({
           label="Item Description"
           name="description"
           placeholder="Item description..."
+          autoComplete="off"
           defaultValue={stockItem.description}
           rows={4}
           onChange={async (e, { name, value }) => {

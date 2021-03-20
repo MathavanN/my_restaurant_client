@@ -79,6 +79,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           fluid
           label="Payment Type Name"
           placeholder="Payment type name"
+          autoComplete="off"
           defaultValue={paymentType.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -98,6 +99,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           fluid
           label="Credit Period"
           placeholder="Credit period"
+          autoComplete="off"
           defaultValue={paymentType.creditPeriod}
           onChange={async (e, { name, value }) => {
             setValue(name, value);

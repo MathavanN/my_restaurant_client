@@ -188,6 +188,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           fluid
           label="Unit Price"
           placeholder="Unit price"
+          autoComplete="off"
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -206,6 +207,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           fluid
           label="Quantity"
           placeholder="Quantity"
+          autoComplete="off"
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -224,6 +226,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           fluid
           label="NBT %"
           placeholder="NBT"
+          autoComplete="off"
           defaultValue={item.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -242,6 +245,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           fluid
           label="VAT %"
           placeholder="VAT"
+          autoComplete="off"
           defaultValue={item.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -260,6 +264,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           fluid
           label="Discount %"
           placeholder="Discount"
+          autoComplete="off"
           defaultValue={item.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);

@@ -22,7 +22,7 @@ const SettingsContent: FC<IProps> = ({ setActiveTab }) => {
     <Fragment>
       <Tab
         menu={{ fluid: true, vertical: true, tabular: true }}
-        menuPosition="left"
+        menuPosition="left" 
         onTabChange={(e, data) => setActiveTab(data.activeIndex)}
         panes={panes}
       />

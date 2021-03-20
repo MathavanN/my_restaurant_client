@@ -74,6 +74,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           fluid
           label="Stock Type"
           placeholder="Stock type"
+          autoComplete="off"
           defaultValue={stockType.type}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -91,6 +92,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           label="Stock Type Description"
           name="description"
           placeholder="Stock type description..."
+          autoComplete="off"
           defaultValue={stockType.description}
           rows={2}
           onChange={async (e, { name, value }) => {

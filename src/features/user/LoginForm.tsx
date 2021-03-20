@@ -60,6 +60,7 @@ const LoginForm = () => {
           fluid
           label="Email"
           placeholder="Email"
+          autoComplete="off"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);

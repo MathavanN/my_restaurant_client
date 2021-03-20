@@ -88,6 +88,7 @@ const RegisterAdminUser = () => {
           type="email"
           fluid
           label="Email"
+          autoComplete="off"
           placeholder="Email"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -105,6 +106,7 @@ const RegisterAdminUser = () => {
           name="firstName"
           fluid
           label="First Name"
+          autoComplete="off"
           placeholder="First name"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -122,6 +124,7 @@ const RegisterAdminUser = () => {
           name="lastName"
           fluid
           label="Last Name"
+          autoComplete="off"
           placeholder="Last name"
           onChange={async (e, { name, value }) => {
             setValue(name, value);

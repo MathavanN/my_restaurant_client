@@ -81,6 +81,7 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
           options={supplierOptions}
           label="Supplier"
           placeholder="Select supplier"
+          autoComplete="off"
           defaultValue={order.supplierId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -98,6 +99,7 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
           label="Order Description"
           name="description"
           placeholder="Order description..."
+          autoComplete="off"
           defaultValue={order.description}
           rows={4}
           onChange={async (e, { name, value }) => {

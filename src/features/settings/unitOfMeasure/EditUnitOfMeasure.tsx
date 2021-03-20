@@ -78,6 +78,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           fluid
           label="UOM Code"
           placeholder="UOM Code"
+          autoComplete="off"
           defaultValue={uom.code}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -95,6 +96,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           label="UOM Description"
           name="description"
           placeholder="UOM description..."
+          autoComplete="off"
           defaultValue={uom.description}
           rows={2}
           onChange={async (e, { name, value }) => {

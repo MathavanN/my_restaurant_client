@@ -14,7 +14,7 @@ const UnitOfMeasureList = () => {
 
   return (
     <Fragment>
-      <Table compact celled>
+      <Table compact celled striped color="red">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>No</Table.HeaderCell>

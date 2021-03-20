@@ -149,6 +149,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Supplier Name"
           placeholder="Supplier name"
+          autoComplete="off"
           defaultValue={supplier.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -167,6 +168,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Supplier Address 1"
           placeholder="Address"
+          autoComplete="off"
           defaultValue={supplier.address1}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -185,6 +187,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Supplier Address 2"
           placeholder="Address"
+          autoComplete="off"
           defaultValue={supplier.address2}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -203,6 +206,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="City"
           placeholder="City"
+          autoComplete="off"
           defaultValue={supplier.city}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -221,6 +225,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Country"
           placeholder="Country"
+          autoComplete="off"
           defaultValue={supplier.country}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -239,6 +244,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Phone Number 1"
           placeholder="Phone number"
+          autoComplete="off"
           defaultValue={supplier.telephone1}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -257,6 +263,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Phone Number 2"
           placeholder="Phone number"
+          autoComplete="off"
           defaultValue={supplier.telephone2}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -275,6 +282,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Fax"
           placeholder="Fax"
+          autoComplete="off"
           defaultValue={supplier.fax}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -294,6 +302,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Email"
           placeholder="Email"
+          autoComplete="off"
           defaultValue={supplier.email}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -312,6 +321,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           fluid
           label="Contact Person"
           placeholder="Contact person"
+          autoComplete="off"
           defaultValue={supplier.contactPerson}
           onChange={async (e, { name, value }) => {
             setValue(name, value);

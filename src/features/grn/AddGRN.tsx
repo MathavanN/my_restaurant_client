@@ -171,6 +171,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="Invoice Number"
           placeholder="invoice number"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.invoiceNumber}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -190,6 +191,7 @@ const AddGRN: FC<IProps> = ({
           options={paymentTypeOptions}
           label="Payment Type"
           placeholder="Select payment type"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.paymentTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -208,6 +210,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="NBT (%)"
           placeholder="NBT"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -226,6 +229,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="VAT (%)"
           placeholder="VAT"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -244,6 +248,7 @@ const AddGRN: FC<IProps> = ({
           fluid
           label="Discount (%)"
           placeholder="Discount"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
