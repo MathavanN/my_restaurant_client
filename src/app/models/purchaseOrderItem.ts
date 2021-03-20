@@ -11,7 +11,6 @@ export interface IPurchaseOrderItem {
     quantity: number;
 }
 
-
 export class CreatePurchaseOrderItem {
     id: number = 0;
     purchaseOrderId: number = 0;
