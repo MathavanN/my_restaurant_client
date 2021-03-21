@@ -1,15 +1,15 @@
-import { FC, Fragment, useContext } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
+import { FC, Fragment, useContext } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
 import {
   CreateGoodsReceivedNote,
   IGoodsReceivedNote,
-} from "../../app/models/goodsReceivedNote";
-import { format, isEqual } from "date-fns";
-import { Link } from "react-router-dom";
-import { PENDING } from "../../app/models/constants";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import AddGRN from "./AddGRN";
+} from '../../app/models/goodsReceivedNote';
+import { format, isEqual } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { PENDING } from '../../app/models/constants';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { observer } from 'mobx-react-lite';
+import AddGRN from './AddGRN';
 
 interface IProps {
   grns: [string, IGoodsReceivedNote][];
@@ -48,15 +48,15 @@ const GRNListItem: FC<IProps> = ({
               <Table.Cell>
                 {!isEqual(
                   new Date(grn.approvedDate),
-                  new Date("0001-01-01T00:00:00")
+                  new Date('0001-01-01T00:00:00')
                 ) && format(new Date(grn.approvedDate), "yyyy-MM-dd'T'HH:mm")}
               </Table.Cell>
             )}
             {displayView && (
               <Table.Cell>
                 <Button
-                  content="View"
-                  color="blue"
+                  content='View'
+                  color='blue'
                   as={Link}
                   to={`/grn/view/${grn.id}`}
                 />
@@ -65,8 +65,8 @@ const GRNListItem: FC<IProps> = ({
             {displayEdit && isSuperAdminUser && (
               <Table.Cell>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(
                       <AddGRN
@@ -80,7 +80,7 @@ const GRNListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
               </Table.Cell>

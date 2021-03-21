@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import GRNList from "./GRNList";
-import { observer } from "mobx-react-lite";
-import GRNItemDetails from "./grnItem/GRNItemDetails";
-import GRNFreeItemDetails from "./grnFreeItem/GRNFreeItemDetails";
+import { FC, Fragment, useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import GRNList from './GRNList';
+import { observer } from 'mobx-react-lite';
+import GRNItemDetails from './grnItem/GRNItemDetails';
+import GRNFreeItemDetails from './grnFreeItem/GRNFreeItemDetails';
 
 interface IDetailsParams {
   id: string;
@@ -43,7 +43,7 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
       {match.params.id && grn! && (
         <Fragment>
           <GRNList
-            grns={new Array(["1", grn])}
+            grns={new Array(['1', grn])}
             displayColumn={false}
             displayEdit={true}
             displayView={false}

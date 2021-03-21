@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { ApprovalPurchaseOrder } from "../../app/models/purchaseOrder";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import history from "../../history";
-import { observer } from "mobx-react-lite";
+import { FC, Fragment, useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { ApprovalPurchaseOrder } from '../../app/models/purchaseOrder';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import history from '../../history';
+import { observer } from 'mobx-react-lite';
 
 interface IProps {
   header: string;
@@ -25,17 +25,17 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
     );
     approvalGRN(approval).finally(() => {
       closeModal();
-      history.push("/grn");
+      history.push('/grn');
     });
   };
   useEffect(() => {
     register(
-      { name: "approvalReason" },
+      { name: 'approvalReason' },
       {
-        required: "Reason is required",
+        required: 'Reason is required',
         maxLength: {
           value: 500,
-          message: "Reason maximum characters 500",
+          message: 'Reason maximum characters 500',
         },
       }
     );
@@ -43,13 +43,13 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>{header}</Header.Subheader>
         </Header>
         <Form.TextArea
-          label="Reason"
-          name="approvalReason"
-          placeholder="Reason..."
+          label='Reason'
+          name='approvalReason'
+          placeholder='Reason...'
           rows={4}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -57,13 +57,13 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
           }}
           error={
             errors.approvalReason && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.approvalReason.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>

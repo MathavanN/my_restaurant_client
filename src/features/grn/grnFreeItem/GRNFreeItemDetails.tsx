@@ -1,8 +1,8 @@
-import { Fragment, FC } from "react";
-import { Header } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import GRNFreeItemList from "./GRNFreeItemList";
+import { Fragment, FC } from 'react';
+import { Header } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import GRNFreeItemList from './GRNFreeItemList';
 
 interface IProps {
   displayAmount: boolean;
@@ -19,7 +19,7 @@ const GRNFreeItemDetails: FC<IProps> = ({
 }) => {
   return (
     <Fragment>
-      <Header size="medium" textAlign="center">
+      <Header size='medium' textAlign='center'>
         GRN Free Item Details.
       </Header>
       <GRNFreeItemList

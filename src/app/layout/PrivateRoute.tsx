@@ -1,12 +1,12 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext } from 'react';
 import {
   RouteProps,
   RouteComponentProps,
   Redirect,
   Route,
-} from "react-router-dom";
-import { RootStoreContext } from "../stores/rootStore";
-import { observer } from "mobx-react-lite";
+} from 'react-router-dom';
+import { RootStoreContext } from '../stores/rootStore';
+import { observer } from 'mobx-react-lite';
 
 interface IProps extends RouteProps {
   component: React.ComponentType<RouteComponentProps<any>>;
@@ -18,7 +18,7 @@ const PrivateRoute: FC<IProps> = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to={"/"} />
+        isLoggedIn ? <Component {...props} /> : <Redirect to={'/'} />
       }
     />
   );

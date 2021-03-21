@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import { RootStore } from "./rootStore";
+import { makeAutoObservable } from 'mobx';
+import { RootStore } from './rootStore';
 
 export default class SettingsStore {
     rootStore: RootStore;

@@ -1,11 +1,11 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { SupplierFormValues } from "../../../app/models/supplier";
-import { toast } from "react-toastify";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+import { FC, Fragment, useContext, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { SupplierFormValues } from '../../../app/models/supplier';
+import { toast } from 'react-toastify';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
   supplier: SupplierFormValues;
@@ -24,114 +24,114 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
     if (formData.id === 0)
       createSupplier(formData)
         .then(() => {
-          toast.success("Supplier created successfully");
+          toast.success('Supplier created successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
     else
       updateSupplier(formData)
         .then(() => {
-          toast.success("Supplier updated successfully");
+          toast.success('Supplier updated successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
   };
   useEffect(() => {
     register(
-      { name: "name" },
+      { name: 'name' },
       {
-        required: "Name is required",
+        required: 'Name is required',
         maxLength: {
           value: 256,
-          message: "Name maximum characters 256",
+          message: 'Name maximum characters 256',
         },
       }
     );
     register(
-      { name: "address1" },
+      { name: 'address1' },
       {
-        required: "Address is required",
+        required: 'Address is required',
         maxLength: {
           value: 256,
-          message: "Address maximum characters 256",
+          message: 'Address maximum characters 256',
         },
       }
     );
     register(
-      { name: "address2" },
+      { name: 'address2' },
       {
         maxLength: {
           value: 256,
-          message: "Address maximum characters 256",
+          message: 'Address maximum characters 256',
         },
       }
     );
     register(
-      { name: "city" },
+      { name: 'city' },
       {
-        required: "City is required",
+        required: 'City is required',
         maxLength: {
           value: 100,
-          message: "City maximum characters 100",
+          message: 'City maximum characters 100',
         },
       }
     );
     register(
-      { name: "country" },
+      { name: 'country' },
       {
-        required: "Country is required",
+        required: 'Country is required',
         maxLength: {
           value: 100,
-          message: "Country maximum characters 100",
+          message: 'Country maximum characters 100',
         },
       }
     );
     register(
-      { name: "telephone1" },
+      { name: 'telephone1' },
       {
         maxLength: {
           value: 20,
-          message: "Phone number maximum characters 20",
+          message: 'Phone number maximum characters 20',
         },
       }
     );
     register(
-      { name: "telephone2" },
+      { name: 'telephone2' },
       {
         maxLength: {
           value: 20,
-          message: "Phone number maximum characters 20",
+          message: 'Phone number maximum characters 20',
         },
       }
     );
     register(
-      { name: "fax" },
+      { name: 'fax' },
       {
         maxLength: {
           value: 20,
-          message: "Fax maximum characters 20",
+          message: 'Fax maximum characters 20',
         },
       }
     );
     register(
-      { name: "email" },
+      { name: 'email' },
       {
         pattern: {
           value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-          message: "Invalid email address",
+          message: 'Invalid email address',
         },
       }
     );
     register(
-      { name: "contactPerson" },
+      { name: 'contactPerson' },
       {
         maxLength: {
           value: 256,
-          message: "contact person maximum characters 256",
+          message: 'contact person maximum characters 256',
         },
       }
     );
@@ -139,17 +139,17 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
-            {supplier.id === 0 ? "Add New Supplier" : "Modify Supplier Details"}
+            {supplier.id === 0 ? 'Add New Supplier' : 'Modify Supplier Details'}
           </Header.Subheader>
         </Header>
         <Form.Input
-          name="name"
+          name='name'
           fluid
-          label="Supplier Name"
-          placeholder="Supplier name"
-          autoComplete="off"
+          label='Supplier Name'
+          placeholder='Supplier name'
+          autoComplete='off'
           defaultValue={supplier.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -157,18 +157,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.name && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.name.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="address1"
+          name='address1'
           fluid
-          label="Supplier Address 1"
-          placeholder="Address"
-          autoComplete="off"
+          label='Supplier Address 1'
+          placeholder='Address'
+          autoComplete='off'
           defaultValue={supplier.address1}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -176,18 +176,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.address1 && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.address1.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="address2"
+          name='address2'
           fluid
-          label="Supplier Address 2"
-          placeholder="Address"
-          autoComplete="off"
+          label='Supplier Address 2'
+          placeholder='Address'
+          autoComplete='off'
           defaultValue={supplier.address2}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -195,18 +195,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.address2 && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.address2.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="city"
+          name='city'
           fluid
-          label="City"
-          placeholder="City"
-          autoComplete="off"
+          label='City'
+          placeholder='City'
+          autoComplete='off'
           defaultValue={supplier.city}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -214,18 +214,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.city && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.city.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="country"
+          name='country'
           fluid
-          label="Country"
-          placeholder="Country"
-          autoComplete="off"
+          label='Country'
+          placeholder='Country'
+          autoComplete='off'
           defaultValue={supplier.country}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -233,18 +233,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.country && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.country.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="telephone1"
+          name='telephone1'
           fluid
-          label="Phone Number 1"
-          placeholder="Phone number"
-          autoComplete="off"
+          label='Phone Number 1'
+          placeholder='Phone number'
+          autoComplete='off'
           defaultValue={supplier.telephone1}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -252,18 +252,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.telephone1 && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.telephone1.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="telephone2"
+          name='telephone2'
           fluid
-          label="Phone Number 2"
-          placeholder="Phone number"
-          autoComplete="off"
+          label='Phone Number 2'
+          placeholder='Phone number'
+          autoComplete='off'
           defaultValue={supplier.telephone2}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -271,18 +271,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.telephone2 && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.telephone2.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="fax"
+          name='fax'
           fluid
-          label="Fax"
-          placeholder="Fax"
-          autoComplete="off"
+          label='Fax'
+          placeholder='Fax'
+          autoComplete='off'
           defaultValue={supplier.fax}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -290,19 +290,19 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.fax && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.fax.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="email"
-          type="email"
+          name='email'
+          type='email'
           fluid
-          label="Email"
-          placeholder="Email"
-          autoComplete="off"
+          label='Email'
+          placeholder='Email'
+          autoComplete='off'
           defaultValue={supplier.email}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -310,18 +310,18 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.email && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.email.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="contactPerson"
+          name='contactPerson'
           fluid
-          label="Contact Person"
-          placeholder="Contact person"
-          autoComplete="off"
+          label='Contact Person'
+          placeholder='Contact person'
+          autoComplete='off'
           defaultValue={supplier.contactPerson}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -329,13 +329,13 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           }}
           error={
             errors.contactPerson && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.contactPerson.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>

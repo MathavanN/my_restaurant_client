@@ -1,17 +1,17 @@
-import { createContext } from "react";
-import { configure } from "mobx";
-import UserStore from "./userStore";
-import CommonStore from "./commonStore";
-import ModalStore from "./modalStore";
-import RestaurantStore from "./restaurantStore";
-import SettingsStore from "./settingsStore";
-import PurchaseOrderStore from "./purchaseOrderStore";
-import StockItemStore from "./stockItemStore";
-import SupplierStore from "./supplierStore";
-import GRNStore from "./grnStore";
-import UnitOfMeasureStore from "./unitOfMeasureStore";
-import StockTypeStore from "./stockTypeStore";
-import PaymentTypeStore from "./paymentTypeStore";
+import { createContext } from 'react';
+import { configure } from 'mobx';
+import UserStore from './userStore';
+import CommonStore from './commonStore';
+import ModalStore from './modalStore';
+import RestaurantStore from './restaurantStore';
+import SettingsStore from './settingsStore';
+import PurchaseOrderStore from './purchaseOrderStore';
+import StockItemStore from './stockItemStore';
+import SupplierStore from './supplierStore';
+import GRNStore from './grnStore';
+import UnitOfMeasureStore from './unitOfMeasureStore';
+import StockTypeStore from './stockTypeStore';
+import PaymentTypeStore from './paymentTypeStore';
 
 configure({ enforceActions: 'always' })
 

@@ -1,11 +1,11 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import { toast } from "react-toastify";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+import { FC, Fragment, useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { observer } from 'mobx-react-lite';
+import { toast } from 'react-toastify';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
   uom: UnitOfMeasureFormValues;
@@ -27,40 +27,40 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
     if (formData.id === 0)
       createUnitOfMeasure(formData)
         .then(() => {
-          toast.success("Unit of measure created successfully");
+          toast.success('Unit of measure created successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
     else
       updateUnitOfMeasure(formData)
         .then(() => {
-          toast.success("Unit of measure updated successfully");
+          toast.success('Unit of measure updated successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
   };
 
   useEffect(() => {
     register(
-      { name: "code" },
+      { name: 'code' },
       {
-        required: "UOM code is required",
+        required: 'UOM code is required',
         maxLength: {
           value: 20,
-          message: "UOM code maximum characters 20",
+          message: 'UOM code maximum characters 20',
         },
       }
     );
     register(
-      { name: "description" },
+      { name: 'description' },
       {
         maxLength: {
           value: 50,
-          message: "UOM description maximum characters 50",
+          message: 'UOM description maximum characters 50',
         },
       }
     );
@@ -68,17 +68,17 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
-            {uom.id === 0 ? "Create Unit Of Measure" : "Modify Unit Of Measure"}
+            {uom.id === 0 ? 'Create Unit Of Measure' : 'Modify Unit Of Measure'}
           </Header.Subheader>
         </Header>
         <Form.Input
-          name="code"
+          name='code'
           fluid
-          label="UOM Code"
-          placeholder="UOM Code"
-          autoComplete="off"
+          label='UOM Code'
+          placeholder='UOM Code'
+          autoComplete='off'
           defaultValue={uom.code}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -86,17 +86,17 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           }}
           error={
             errors.code && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.code.message}
               </Label>
             )
           }
         />
         <Form.TextArea
-          label="UOM Description"
-          name="description"
-          placeholder="UOM description..."
-          autoComplete="off"
+          label='UOM Description'
+          name='description'
+          placeholder='UOM description...'
+          autoComplete='off'
           defaultValue={uom.description}
           rows={2}
           onChange={async (e, { name, value }) => {
@@ -105,13 +105,13 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           }}
           error={
             errors.description && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.description.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>

@@ -1,8 +1,8 @@
-import { Fragment, useContext } from "react";
-import { Card, Grid, Icon } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { Fragment, useContext } from 'react';
+import { Card, Grid, Icon } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 
 const CurrentUser = () => {
   const rootStore = useContext(RootStoreContext);
@@ -13,7 +13,7 @@ const CurrentUser = () => {
         <Grid>
           <Grid.Column width={8}>
             <Card>
-              <FontAwesomeIcon icon={faUserTie} size="10x" className="fa-fw" />
+              <FontAwesomeIcon icon={faUserTie} size='10x' className='fa-fw' />
               <Card.Content>
                 <Card.Content header={user.fullName} />
                 <Card.Meta>
@@ -23,7 +23,7 @@ const CurrentUser = () => {
                   <span>Last Name: {user.lastName}</span>
                 </Card.Meta>
                 <Card.Content extra>
-                  <Icon name="mail" />
+                  <Icon name='mail' />
                   {user.email}
                 </Card.Content>
               </Card.Content>

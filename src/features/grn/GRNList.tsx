@@ -1,8 +1,8 @@
-import { FC, Fragment } from "react";
-import { Table } from "semantic-ui-react";
-import { IGoodsReceivedNote } from "../../app/models/goodsReceivedNote";
-import GRNListItem from "./GRNListItem";
-import GRNListItemHeader from "./GRNListItemHeader";
+import { FC, Fragment } from 'react';
+import { Table } from 'semantic-ui-react';
+import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import GRNListItem from './GRNListItem';
+import GRNListItemHeader from './GRNListItemHeader';
 
 interface IProps {
   grns: [string, IGoodsReceivedNote][];

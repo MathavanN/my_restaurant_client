@@ -1,8 +1,8 @@
-import { RootStore } from "./rootStore";
-import { runInAction, makeAutoObservable, computed } from "mobx";
-import { ISupplier } from "../models/supplier";
-import agent from "../api/agent";
-import { ISelectInputOptions } from "../models/common";
+import { RootStore } from './rootStore';
+import { runInAction, makeAutoObservable, computed } from 'mobx';
+import { ISupplier } from '../models/supplier';
+import agent from '../api/agent';
+import { ISelectInputOptions } from '../models/common';
 import { LIMIT } from '../models/constants'
 
 export default class SupplierStore {

@@ -1,14 +1,14 @@
-import React, { FC, Fragment, useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { toast } from "react-toastify";
+import React, { FC, Fragment, useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import {
   CreateGoodsReceivedNoteItem,
   GoodsReceivedNoteItemFormValues,
-} from "../../../app/models/goodsReceivedNoteItem";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+} from '../../../app/models/goodsReceivedNoteItem';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
   item: GoodsReceivedNoteItemFormValues;
@@ -38,96 +38,96 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     if (formData.id === 0)
       createGRNItem(formData)
         .then(() => {
-          toast.success("Item created successfully");
+          toast.success('Item created successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
     else
       updateGRNItem(formData)
         .then(() => {
-          toast.success("Item updated successfully");
+          toast.success('Item updated successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
   };
 
-  const itemTypeSelected = watch("itemTypeId");
+  const itemTypeSelected = watch('itemTypeId');
   useEffect(() => {
     loadAllStockItems();
     register(
-      { name: "itemTypeId" },
+      { name: 'itemTypeId' },
       {
-        required: "Item type is required",
+        required: 'Item type is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Item type is required",
+            parseInt(value, 0) > 0 ? true : 'Item type is required',
         },
       }
     );
     register(
-      { name: "quantity" },
+      { name: 'quantity' },
       {
-        required: "Quantity is required",
+        required: 'Quantity is required',
         validate: {
           greaterThanZero: (value) =>
             parseInt(value, 0) > 0
               ? true
-              : "Quantity must be greater than zero",
+              : 'Quantity must be greater than zero',
         },
       }
     );
     register(
-      { name: "discount" },
+      { name: 'discount' },
       {
         validate: {
           validValue: (value) =>
             parseInt(value, 0) >= 0
               ? true
-              : "Discount must be a positive number",
+              : 'Discount must be a positive number',
         },
       }
     );
     register(
-      { name: "vat" },
+      { name: 'vat' },
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : "VAT must be a positive number",
+            parseInt(value, 0) >= 0 ? true : 'VAT must be a positive number',
         },
       }
     );
     register(
-      { name: "nbt" },
+      { name: 'nbt' },
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : "NBT must be a positive number",
+            parseInt(value, 0) >= 0 ? true : 'NBT must be a positive number',
         },
       }
     );
     register(
-      { name: "itemId" },
+      { name: 'itemId' },
       {
-        required: "Item is required",
+        required: 'Item is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Item is required",
+            parseInt(value, 0) > 0 ? true : 'Item is required',
         },
       }
     );
     register(
-      { name: "itemUnitPrice" },
+      { name: 'itemUnitPrice' },
       {
-        required: "Item unit price is required",
+        required: 'Item unit price is required',
         validate: {
           greaterThanZero: (value) =>
             parseInt(value, 0) > 0
               ? true
-              : "Item unit price must be greater than zero",
+              : 'Item unit price must be greater than zero',
         },
       }
     );
@@ -135,17 +135,17 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
-            {item.id === 0 ? "Add New GRN Item" : "Modify GRN Item"}
+            {item.id === 0 ? 'Add New GRN Item' : 'Modify GRN Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name="itemTypeId"
+          name='itemTypeId'
           fluid
           options={stockTypeOptions}
-          label="Item Type"
-          placeholder="Select item type"
+          label='Item Type'
+          placeholder='Select item type'
           defaultValue={item.itemTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -153,7 +153,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemTypeId && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.itemTypeId.message}
               </Label>
             )
@@ -161,13 +161,13 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         {itemTypeSelected > 0 && (
           <Form.Select
-            name="itemId"
+            name='itemId'
             fluid
             search
             selection
             options={getAllStockItemsForStockType(itemTypeSelected)}
-            label="Item Name"
-            placeholder="Select an item"
+            label='Item Name'
+            placeholder='Select an item'
             defaultValue={item.itemId}
             onChange={async (e, { name, value }) => {
               setValue(name, value);
@@ -175,7 +175,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             }}
             error={
               errors.itemId && (
-                <Label basic color="red" pointing>
+                <Label basic color='red' pointing>
                   {errors.itemId.message}
                 </Label>
               )
@@ -184,11 +184,11 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         )}
 
         <Form.Input
-          name="itemUnitPrice"
+          name='itemUnitPrice'
           fluid
-          label="Unit Price"
-          placeholder="Unit price"
-          autoComplete="off"
+          label='Unit Price'
+          placeholder='Unit price'
+          autoComplete='off'
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -196,18 +196,18 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemUnitPrice && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.itemUnitPrice.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="quantity"
+          name='quantity'
           fluid
-          label="Quantity"
-          placeholder="Quantity"
-          autoComplete="off"
+          label='Quantity'
+          placeholder='Quantity'
+          autoComplete='off'
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -215,18 +215,18 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.quantity && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.quantity.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="nbt"
+          name='nbt'
           fluid
-          label="NBT %"
-          placeholder="NBT"
-          autoComplete="off"
+          label='NBT %'
+          placeholder='NBT'
+          autoComplete='off'
           defaultValue={item.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -234,18 +234,18 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.nbt && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.nbt.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="vat"
+          name='vat'
           fluid
-          label="VAT %"
-          placeholder="VAT"
-          autoComplete="off"
+          label='VAT %'
+          placeholder='VAT'
+          autoComplete='off'
           defaultValue={item.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -253,18 +253,18 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.vat && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.vat.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="discount"
+          name='discount'
           fluid
-          label="Discount %"
-          placeholder="Discount"
-          autoComplete="off"
+          label='Discount %'
+          placeholder='Discount'
+          autoComplete='off'
           defaultValue={item.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -272,13 +272,13 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.discount && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.discount.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>

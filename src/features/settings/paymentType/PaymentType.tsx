@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import PaymentTypeList from "./PaymentTypeList";
+import { Fragment } from 'react';
+import PaymentTypeList from './PaymentTypeList';
 
 const PaymentType = () => {
   return (

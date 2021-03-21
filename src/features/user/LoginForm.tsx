@@ -1,13 +1,13 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
-import { Fragment, useEffect } from "react";
-import { Button, Form, Header, Label } from "semantic-ui-react";
-import { IUserLogin } from "../../app/models/user";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { useContext } from "react";
-import { toast } from "react-toastify";
-import ErrorMessage from "../../app/common/alert/ErrorMessage";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+import { Fragment, useEffect } from 'react';
+import { Button, Form, Header, Label } from 'semantic-ui-react';
+import { IUserLogin } from '../../app/models/user';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
+import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 const LoginForm = () => {
   const rootStore = useContext(RootStoreContext);
@@ -24,25 +24,25 @@ const LoginForm = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text='Error:' />);
       });
   };
 
   useEffect(() => {
     register(
-      { name: "email" },
+      { name: 'email' },
       {
-        required: "Email is required",
+        required: 'Email is required',
         pattern: {
           value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-          message: "Invalid email address",
+          message: 'Invalid email address',
         },
       }
     );
     register(
-      { name: "password" },
+      { name: 'password' },
       {
-        required: "You must specify a password",
+        required: 'You must specify a password',
       }
     );
   }, [register]);
@@ -50,48 +50,48 @@ const LoginForm = () => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
-          <FontAwesomeIcon icon={faSignInAlt} size="lg" />
+        <Header as='h2' color='teal' textAlign='center'>
+          <FontAwesomeIcon icon={faSignInAlt} size='lg' />
           <Header.Subheader>Sign In</Header.Subheader>
         </Header>
         <Form.Input
-          name="email"
-          type="email"
+          name='email'
+          type='email'
           fluid
-          label="Email"
-          placeholder="Email"
-          autoComplete="off"
+          label='Email'
+          placeholder='Email'
+          autoComplete='off'
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.email && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.email.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="password"
-          type="password"
+          name='password'
+          type='password'
           fluid
-          label="Password"
-          placeholder="Password"
+          label='Password'
+          placeholder='Password'
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.password && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.password.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>

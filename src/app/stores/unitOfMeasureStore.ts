@@ -1,8 +1,8 @@
-import { computed, makeAutoObservable, runInAction } from "mobx"
-import agent from "../api/agent";
-import { ISelectInputOptions } from "../models/common";
-import { IUnitOfMeasure, UnitOfMeasureFormValues } from "../models/unitOfMeasure";
-import { RootStore } from "./rootStore"
+import { computed, makeAutoObservable, runInAction } from 'mobx'
+import agent from '../api/agent';
+import { ISelectInputOptions } from '../models/common';
+import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
+import { RootStore } from './rootStore'
 
 export default class UnitOfMeasureStore {
     rootStore: RootStore;

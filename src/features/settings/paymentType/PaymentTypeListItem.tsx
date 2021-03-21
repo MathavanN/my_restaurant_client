@@ -1,8 +1,8 @@
-import { FC, Fragment } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { IPaymentType } from "../../../app/models/paymentType";
-import DeletePaymentType from "./DeletePaymentType";
-import EditPaymentType from "./EditPaymentType";
+import { FC, Fragment } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { IPaymentType } from '../../../app/models/paymentType';
+import DeletePaymentType from './DeletePaymentType';
+import EditPaymentType from './EditPaymentType';
 
 interface IProps {
   hasModifyAccess: boolean;
@@ -23,29 +23,29 @@ const PaymentTypeListItem: FC<IProps> = ({
             <Table.Cell>{paymentType.name}</Table.Cell>
             <Table.Cell>{paymentType.creditPeriod}</Table.Cell>
             {hasModifyAccess && (
-              <Table.Cell collapsing textAlign="right">
+              <Table.Cell collapsing textAlign='right'>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(<EditPaymentType paymentType={paymentType} />)
                   }
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
                 <Button
-                  animated="vertical"
-                  color="red"
+                  animated='vertical'
+                  color='red'
                   onClick={() =>
                     openModal(<DeletePaymentType paymentType={paymentType} />)
                   }
                 >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
-                    <Icon name="delete" />
+                    <Icon name='delete' />
                   </Button.Content>
                 </Button>
               </Table.Cell>

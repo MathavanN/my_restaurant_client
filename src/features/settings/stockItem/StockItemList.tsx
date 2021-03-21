@@ -1,13 +1,13 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { Table } from "semantic-ui-react";
-import { StockItemFormValues } from "../../../app/models/stockItem";
-import FilterStockItem from "./FilterStockItem";
-import StockItemListHeader from "./StockItemListHeader";
-import StockItemListItem from "./StockItemListItem";
-import StockListItemFooter from "./StockListItemFooter";
-import { LoadingComponent } from "../../../app/layout/LoadingComponent";
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { Table } from 'semantic-ui-react';
+import { StockItemFormValues } from '../../../app/models/stockItem';
+import FilterStockItem from './FilterStockItem';
+import StockItemListHeader from './StockItemListHeader';
+import StockItemListItem from './StockItemListItem';
+import StockListItemFooter from './StockListItemFooter';
+import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 
 const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -45,10 +45,10 @@ const StockItemList = () => {
   }, [loadStockTypeOptions, loadStockItems]);
 
   if (loadStockTypeOptions.length === 0)
-    return <LoadingComponent content="Cannot find stock type..." />;
+    return <LoadingComponent content='Cannot find stock type...' />;
 
   if (loadingInitial && page === 1)
-    return <LoadingComponent content="Loading stock items..." />;
+    return <LoadingComponent content='Loading stock items...' />;
 
   return (
     <Fragment>
@@ -58,7 +58,7 @@ const StockItemList = () => {
         handleStockItemSearch={handleStockItemSearch}
       />
       {selectedStockType > 0 && (
-        <Table compact celled striped color="red">
+        <Table compact celled striped color='red'>
           <StockItemListHeader
             hasModifyAccess={hasModifyAccess}
             openModal={openModal}

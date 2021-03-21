@@ -1,8 +1,8 @@
-import { FC, Fragment } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { StockItemFormValues } from "../../../app/models/stockItem";
-import EditStockItem from "./EditStockItem";
+import { FC, Fragment } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { StockItemFormValues } from '../../../app/models/stockItem';
+import EditStockItem from './EditStockItem';
 
 interface IProps {
   hasModifyAccess: boolean;
@@ -30,8 +30,8 @@ const StockItemListHeader: FC<IProps> = ({
           {hasModifyAccess && (
             <Table.HeaderCell>
               <Button
-                animated="vertical"
-                color="green"
+                animated='vertical'
+                color='green'
                 onClick={() =>
                   openModal(
                     <EditStockItem
@@ -44,7 +44,7 @@ const StockItemListHeader: FC<IProps> = ({
               >
                 <Button.Content hidden>Add</Button.Content>
                 <Button.Content visible>
-                  <Icon name="add circle" />
+                  <Icon name='add circle' />
                 </Button.Content>
               </Button>
             </Table.HeaderCell>

@@ -1,5 +1,3 @@
-
-
 //Pagination Limit
 export const LIMIT = 10;
 

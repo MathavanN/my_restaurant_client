@@ -1,8 +1,8 @@
-import { computed, makeAutoObservable, runInAction } from "mobx";
-import agent from "../api/agent";
-import { ISelectInputOptions } from "../models/common";
-import { IStockType } from "../models/stockType";
-import { RootStore } from "./rootStore";
+import { computed, makeAutoObservable, runInAction } from 'mobx';
+import agent from '../api/agent';
+import { ISelectInputOptions } from '../models/common';
+import { IStockType } from '../models/stockType';
+import { RootStore } from './rootStore';
 
 export default class StockTypeStore {
     rootStore: RootStore;

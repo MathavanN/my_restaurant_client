@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import OrderItemList from "./OrderItemList";
-import PurchaseOrderListItem from "./PurchaseOrderListItem";
+import { FC, Fragment, useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { observer } from 'mobx-react-lite';
+import OrderItemList from './OrderItemList';
+import PurchaseOrderListItem from './PurchaseOrderListItem';
 
 interface IDetailsParams {
   id: string;
@@ -45,7 +45,7 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
       {match.params.id && purchaseOrder! && (
         <Fragment>
           <PurchaseOrderListItem
-            orders={new Array(["1", purchaseOrder])}
+            orders={new Array(['1', purchaseOrder])}
             supplierOptions={loadSupplierOptions}
             displayColumn={false}
             displayEdit={true}

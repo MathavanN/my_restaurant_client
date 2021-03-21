@@ -1,8 +1,8 @@
-import { FC, Fragment } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { ISupplier, SupplierFormValues } from "../../../app/models/supplier";
-import DeleteSupplier from "./DeleteSupplier";
-import EditSupplier from "./EditSupplier";
+import { FC, Fragment } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { ISupplier, SupplierFormValues } from '../../../app/models/supplier';
+import DeleteSupplier from './DeleteSupplier';
+import EditSupplier from './EditSupplier';
 
 interface IProps {
   hasModifyAccess: boolean;
@@ -29,10 +29,10 @@ const SupplierListItem: FC<IProps> = ({
             <Table.Cell>{supplier.email}</Table.Cell>
             <Table.Cell>{supplier.contactPerson}</Table.Cell>
             {hasModifyAccess && (
-              <Table.Cell collapsing textAlign="right">
+              <Table.Cell collapsing textAlign='right'>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(
                       <EditSupplier
@@ -43,12 +43,12 @@ const SupplierListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
                 <Button
-                  animated="vertical"
-                  color="red"
+                  animated='vertical'
+                  color='red'
                   onClick={() =>
                     openModal(
                       <DeleteSupplier
@@ -60,7 +60,7 @@ const SupplierListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
-                    <Icon name="delete" />
+                    <Icon name='delete' />
                   </Button.Content>
                 </Button>
               </Table.Cell>

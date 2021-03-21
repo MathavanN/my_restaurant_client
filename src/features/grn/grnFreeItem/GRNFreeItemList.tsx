@@ -1,9 +1,9 @@
-import { Fragment, FC } from "react";
-import { Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import GRNFreeItemListHeader from "./GRNFreeItemListHeader";
-import GRNFreeItemListItem from "./GRNFreeItemListItem";
+import { Fragment, FC } from 'react';
+import { Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import GRNFreeItemListHeader from './GRNFreeItemListHeader';
+import GRNFreeItemListItem from './GRNFreeItemListItem';
 
 interface IProps {
   displayAmount: boolean;

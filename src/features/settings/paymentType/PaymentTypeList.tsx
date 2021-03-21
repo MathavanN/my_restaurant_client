@@ -1,11 +1,11 @@
-import { Fragment, useContext, useEffect } from "react";
-import { Table } from "semantic-ui-react";
-import PaymentTypeListHeader from "./PaymentTypeListHeader";
-import PaymentTypeListItem from "./PaymentTypeListItem";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { PaymentTypeFormValues } from "../../../app/models/paymentType";
-import { LoadingComponent } from "../../../app/layout/LoadingComponent";
+import { Fragment, useContext, useEffect } from 'react';
+import { Table } from 'semantic-ui-react';
+import PaymentTypeListHeader from './PaymentTypeListHeader';
+import PaymentTypeListItem from './PaymentTypeListItem';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { PaymentTypeFormValues } from '../../../app/models/paymentType';
+import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 
 const PaymentTypeList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -21,11 +21,11 @@ const PaymentTypeList = () => {
   }, [loadPaymentTypes]);
 
   if (loadingInitial)
-    return <LoadingComponent content="Loading payment type details..." />;
+    return <LoadingComponent content='Loading payment type details...' />;
 
   return (
     <Fragment>
-      <Table compact celled striped color="red">
+      <Table compact celled striped color='red'>
         <PaymentTypeListHeader
           hasModifyAccess={hasModifyAccess}
           openModal={openModal}

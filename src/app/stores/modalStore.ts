@@ -1,5 +1,5 @@
-import { RootStore } from "./rootStore";
-import { runInAction, makeAutoObservable } from "mobx";
+import { RootStore } from './rootStore';
+import { runInAction, makeAutoObservable } from 'mobx';
 
 export default class ModalStore {
     rootStore: RootStore;

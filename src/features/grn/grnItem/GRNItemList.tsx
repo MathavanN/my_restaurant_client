@@ -1,9 +1,9 @@
-import React, { Fragment, FC } from "react";
-import { Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import GRNItemListHeader from "./GRNItemListHeader";
-import GRNItemListItem from "./GRNItemListItem";
+import React, { Fragment, FC } from 'react';
+import { Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import GRNItemListHeader from './GRNItemListHeader';
+import GRNItemListItem from './GRNItemListItem';
 
 interface IProps {
   displayAmount: boolean;
