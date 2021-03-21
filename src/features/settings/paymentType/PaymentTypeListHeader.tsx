@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { PaymentTypeFormValues } from '../../../app/models/paymentType';
 import EditPaymentType from './EditPaymentType';
@@ -14,7 +14,7 @@ const PaymentTypeListHeader: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>No</Table.HeaderCell>
@@ -38,7 +38,7 @@ const PaymentTypeListHeader: FC<IProps> = ({
           )}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

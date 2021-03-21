@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
@@ -21,7 +21,7 @@ const GRNItemListHeader: FC<IProps> = ({
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>No</Table.HeaderCell>
@@ -56,7 +56,7 @@ const GRNItemListHeader: FC<IProps> = ({
           )}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

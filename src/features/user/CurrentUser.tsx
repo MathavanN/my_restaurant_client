@@ -1,14 +1,14 @@
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { Card, Grid, Icon } from 'semantic-ui-react';
-import { RootStoreContext } from '../../app/stores/rootStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { RootStoreContext } from '../../app/stores/rootStore';
 
 const CurrentUser = () => {
   const rootStore = useContext(RootStoreContext);
   const { user } = rootStore.userStore;
   return (
-    <Fragment>
+    <>
       {user && (
         <Grid>
           <Grid.Column width={8}>
@@ -42,7 +42,7 @@ const CurrentUser = () => {
           </Grid.Column>
         </Grid>
       )}
-    </Fragment>
+    </>
   );
 };
 

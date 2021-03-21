@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Pagination, Table } from 'semantic-ui-react';
 
 interface IProps {
@@ -12,7 +12,7 @@ const SupplierListItemFooter: FC<IProps> = ({
   handleOnPageChange,
 }) => {
   return (
-    <Fragment>
+    <>
       {totalPages > 1 && (
         <Table.Footer>
           <Table.Row>
@@ -28,7 +28,7 @@ const SupplierListItemFooter: FC<IProps> = ({
           </Table.Row>
         </Table.Footer>
       )}
-    </Fragment>
+    </>
   );
 };
 

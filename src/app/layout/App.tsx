@@ -6,10 +6,10 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
-import NavBar from '../../features/nav/NavBar';
 import { observer } from 'mobx-react-lite';
 import { ToastContainer } from 'react-toastify';
 import ModalContainer from '../common/modals/ModalContainer';
+import NavBar from '../../features/nav/NavBar';
 import Home from '../../features/home/Home';
 import PrivateRoute from './PrivateRoute';
 import NotFound from './NotFound';

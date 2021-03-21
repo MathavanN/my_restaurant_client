@@ -1,8 +1,8 @@
 import { FC, Fragment, useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import GRNList from './GRNList';
-import { observer } from 'mobx-react-lite';
 import GRNItemDetails from './grnItem/GRNItemDetails';
 import GRNFreeItemDetails from './grnFreeItem/GRNFreeItemDetails';
 
@@ -39,11 +39,11 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     match.params.id,
   ]);
   return (
-    <Fragment>
+    <>
       {match.params.id && grn! && (
-        <Fragment>
+        <>
           <GRNList
-            grns={new Array(['1', grn])}
+            goodsReceivedNotes={new Array(['1', grn])}
             displayColumn={false}
             displayEdit={true}
             displayView={false}
@@ -60,9 +60,9 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
             grn={grn}
             stockTypeOptions={loadStockTypeOptions}
           />
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 };
 

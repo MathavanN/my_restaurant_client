@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Tab } from 'semantic-ui-react';
 import PaymentType from './paymentType/PaymentType';
 import StockItem from './stockItem/StockItem';
@@ -19,14 +19,14 @@ interface IProps {
 }
 const SettingsContent: FC<IProps> = ({ setActiveTab }) => {
   return (
-    <Fragment>
+    <>
       <Tab
         menu={{ fluid: true, vertical: true, tabular: true }}
         menuPosition='left'
         onTabChange={(e, data) => setActiveTab(data.activeIndex)}
         panes={panes}
       />
-    </Fragment>
+    </>
   );
 };
 

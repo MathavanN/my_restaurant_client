@@ -1,6 +1,6 @@
-import { Fragment, useContext, useEffect } from 'react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
+import { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import UnitOfMeasureList from './UnitOfMeasureList';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 
@@ -15,9 +15,9 @@ const UnitOfMeasure = () => {
     return <LoadingComponent content='Loading UOM details...' />;
 
   return (
-    <Fragment>
+    <>
       <UnitOfMeasureList />
-    </Fragment>
+    </>
   );
 };
 

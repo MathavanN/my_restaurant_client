@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { Fragment, useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { Button, Form, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { NORMAL, REPORT } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IRegisterNonAdminUser } from '../../app/models/user';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 const RegisterNonAdminUser = () => {
@@ -84,7 +84,7 @@ const RegisterNonAdminUser = () => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>Register new user.</Header.Subheader>
@@ -215,7 +215,7 @@ const RegisterNonAdminUser = () => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

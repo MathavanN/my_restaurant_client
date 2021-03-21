@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { IPaymentType } from '../../../app/models/paymentType';
 import DeletePaymentType from './DeletePaymentType';
@@ -15,7 +15,7 @@ const PaymentTypeListItem: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {paymentTypes.map(([group, paymentType]) => (
           <Table.Row key={paymentType.id}>
@@ -53,7 +53,7 @@ const PaymentTypeListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

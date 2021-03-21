@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form, Message } from 'semantic-ui-react';
 
@@ -29,7 +29,7 @@ const FilterSupplier: FC<IProps> = ({ handleSupplierSearch, setPredicate }) => {
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Message>
         <Message.Header>Filter by:</Message.Header>
         <Message.Content>
@@ -70,7 +70,7 @@ const FilterSupplier: FC<IProps> = ({ handleSupplierSearch, setPredicate }) => {
           </Form>
         </Message.Content>
       </Message>
-    </Fragment>
+    </>
   );
 };
 

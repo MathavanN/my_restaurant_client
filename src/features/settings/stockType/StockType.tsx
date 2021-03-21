@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import StockTypeList from './StockTypeList';
@@ -15,9 +15,9 @@ const StockType = () => {
     return <LoadingComponent content='Loading stock type details...' />;
 
   return (
-    <Fragment>
+    <>
       <StockTypeList />
-    </Fragment>
+    </>
   );
 };
 

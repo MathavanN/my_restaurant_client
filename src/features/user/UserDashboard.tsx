@@ -1,7 +1,7 @@
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import UserList from './UserList';
 import { Button, Message, Icon } from 'semantic-ui-react';
+import UserList from './UserList';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import RegisterAdminUser from './RegisterAdminUser';
 import RegisterNonAdminUser from './RegisterNonAdminUser';
@@ -11,7 +11,7 @@ const UserDashboard = () => {
   const { openModal } = rootStore.modalStore;
   const { isSuperAdminUser } = rootStore.userStore;
   return (
-    <Fragment>
+    <>
       <Message info icon>
         <Icon name='shopping cart' />
         <Message.Content>
@@ -33,7 +33,7 @@ const UserDashboard = () => {
         )}
       </Message>
       <UserList />
-    </Fragment>
+    </>
   );
 };
 export default observer(UserDashboard);

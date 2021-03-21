@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { SupplierFormValues } from '../../../app/models/supplier';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -137,7 +137,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -339,7 +339,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

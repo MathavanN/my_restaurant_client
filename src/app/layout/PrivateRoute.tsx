@@ -5,8 +5,8 @@ import {
   Redirect,
   Route,
 } from 'react-router-dom';
-import { RootStoreContext } from '../stores/rootStore';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../stores/rootStore';
 
 interface IProps extends RouteProps {
   component: React.ComponentType<RouteComponentProps<any>>;

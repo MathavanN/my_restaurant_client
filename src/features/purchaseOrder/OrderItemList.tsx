@@ -1,9 +1,8 @@
-import { Fragment } from 'react';
+import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Divider, Header, Icon, Table } from 'semantic-ui-react';
 import { useContext } from 'react';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { FC } from 'react';
 import CreateOrderItem from './CreateOrderItem';
 import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItem';
 import DeleteOrderItem from './DeleteOrderItem';
@@ -29,7 +28,7 @@ const OrderItemList: FC<IProps> = ({
   const { getPurchaseOrderItems } = rootStore.purchaseOrderStore;
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table compact celled>
         <Table.Header>
           <Table.Row>
@@ -112,16 +111,16 @@ const OrderItemList: FC<IProps> = ({
         </Table.Body>
       </Table>
       {displaySummary && (
-        <Fragment>
+        <>
           <Divider />
           <Header size='medium' textAlign='center'>
             Purchase Order Item Summary
           </Header>
           <Divider />
           <OrderItemSummary order={order} items={getPurchaseOrderItems} />
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 };
 

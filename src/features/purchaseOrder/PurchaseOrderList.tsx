@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { Header } from 'semantic-ui-react';
 import { LoadingComponent } from '../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../app/stores/rootStore';
@@ -14,7 +14,7 @@ const PurchaseOrderList = () => {
     return <LoadingComponent content='Loading purchase orders...' />;
 
   return (
-    <Fragment>
+    <>
       <Header as='h3' dividing textAlign='center'>
         Purchase Orders.
       </Header>
@@ -25,7 +25,7 @@ const PurchaseOrderList = () => {
         displayEdit={false}
         displayView={true}
       />
-    </Fragment>
+    </>
   );
 };
 

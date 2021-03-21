@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Fragment, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Button, Icon, Message } from 'semantic-ui-react';
 import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
@@ -14,7 +14,7 @@ const GRNDashboard = () => {
     loadPaymentTypeOptions,
   } = rootStore.paymentTypeStore;
   const { loadAppUsers, loadAppUsersOptions } = rootStore.userStore;
-  const { loadGRNs } = rootStore.grnStore;
+  const { loadGoodsReceivedNotes } = rootStore.grnStore;
   const {
     loadPOForGRN,
     loadApprovedPurchaseOrdersOptions,
@@ -23,10 +23,10 @@ const GRNDashboard = () => {
     loadPaymentTypes();
     loadAppUsers();
     loadPOForGRN();
-    loadGRNs();
-  }, [loadPaymentTypes, loadAppUsers, loadPOForGRN, loadGRNs]);
+    loadGoodsReceivedNotes();
+  }, [loadPaymentTypes, loadAppUsers, loadPOForGRN, loadGoodsReceivedNotes]);
   return (
-    <Fragment>
+    <>
       <Message positive icon>
         <Icon name='shopping basket' />
         <Message.Content>
@@ -49,7 +49,7 @@ const GRNDashboard = () => {
         </Button>
       </Message>
       <GRNDetails />
-    </Fragment>
+    </>
   );
 };
 

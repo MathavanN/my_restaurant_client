@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { SupplierFormValues } from '../../../app/models/supplier';
 import EditSupplier from './EditSupplier';
@@ -14,7 +14,7 @@ const SupplierListHeader: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>No</Table.HeaderCell>
@@ -39,7 +39,7 @@ const SupplierListHeader: FC<IProps> = ({
           )}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

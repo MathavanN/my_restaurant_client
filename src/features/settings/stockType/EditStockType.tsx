@@ -1,11 +1,11 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { StockTypeFormValues } from '../../../app/models/stockType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
-import { toast } from 'react-toastify';
 
 interface IProps {
   stockType: StockTypeFormValues;
@@ -62,7 +62,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -111,7 +111,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

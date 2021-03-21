@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISupplier, SupplierFormValues } from '../../../app/models/supplier';
 import DeleteSupplier from './DeleteSupplier';
@@ -18,7 +18,7 @@ const SupplierListItem: FC<IProps> = ({
   closeModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {suppliers.map(([group, supplier]) => (
           <Table.Row key={supplier.id}>
@@ -68,7 +68,7 @@ const SupplierListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

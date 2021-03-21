@@ -10,7 +10,7 @@ const GRNListItemHeader: FC<IProps> = ({ displayColumn }) => {
   const { isSuperAdminUser } = rootStore.userStore;
 
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           {displayColumn && <Table.HeaderCell>No</Table.HeaderCell>}
@@ -26,7 +26,7 @@ const GRNListItemHeader: FC<IProps> = ({ displayColumn }) => {
           {isSuperAdminUser && <Table.HeaderCell>Action</Table.HeaderCell>}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

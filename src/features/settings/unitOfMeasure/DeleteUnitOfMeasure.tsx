@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
-import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure';
-import { RootStoreContext } from '../../../app/stores/rootStore';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
+import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -15,7 +15,7 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
   const { deleteUnitOfMeasure } = rootStore.unitOfMeasureStore;
 
   return (
-    <Fragment>
+    <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
@@ -43,7 +43,7 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

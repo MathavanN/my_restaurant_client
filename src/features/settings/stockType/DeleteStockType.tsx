@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import { observer } from 'mobx-react-lite';
-import { IStockType } from '../../../app/models/stockType';
 import { toast } from 'react-toastify';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IStockType } from '../../../app/models/stockType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -14,7 +14,7 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
   const { closeModal } = rootStore.modalStore;
   const { deleteStockType } = rootStore.stockTypeStore;
   return (
-    <Fragment>
+    <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
@@ -42,7 +42,7 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

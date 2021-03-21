@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
-import { observer } from 'mobx-react-lite';
-import { IPaymentType } from '../../../app/models/paymentType';
 import { toast } from 'react-toastify';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IPaymentType } from '../../../app/models/paymentType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -14,7 +14,7 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
   const { closeModal } = rootStore.modalStore;
   const { deletePaymentType } = rootStore.paymentTypeStore;
   return (
-    <Fragment>
+    <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
@@ -42,7 +42,7 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

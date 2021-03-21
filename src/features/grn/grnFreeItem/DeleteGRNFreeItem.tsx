@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
-import { toast } from 'react-toastify';
 import { IGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem';
 
 interface IProps {
@@ -14,7 +14,7 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
   const { closeModal } = rootStore.modalStore;
   const { deleteGRNFreeItem } = rootStore.grnStore;
   return (
-    <Fragment>
+    <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
@@ -42,7 +42,7 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

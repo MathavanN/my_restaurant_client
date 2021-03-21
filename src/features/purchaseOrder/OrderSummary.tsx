@@ -1,8 +1,8 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { Grid, Table } from 'semantic-ui-react';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
 import { format, isEqual } from 'date-fns';
 import { observer } from 'mobx-react-lite';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { APPROVED } from '../../app/models/constants';
 
@@ -77,7 +77,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
                 <Table.Cell>{order.supplierName}</Table.Cell>
               </Table.Row>
               {supplier && (
-                <Fragment>
+                <>
                   <Table.Row rowSpan={2}>
                     <Table.Cell>Supplier Address:</Table.Cell>
                     <Table.Cell>
@@ -105,7 +105,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
                     <Table.Cell>Contact Person:</Table.Cell>
                     <Table.Cell>{supplier.contactPerson}</Table.Cell>
                   </Table.Row>
-                </Fragment>
+                </>
               )}
             </Table.Body>
           </Table>

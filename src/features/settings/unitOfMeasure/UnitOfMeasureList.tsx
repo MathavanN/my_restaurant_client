@@ -1,7 +1,7 @@
-import { Fragment, useContext } from 'react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
+import { useContext } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import DeleteUnitOfMeasure from './DeleteUnitOfMeasure';
 import EditUnitOfMeasure from './EditUnitOfMeasure';
 import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure';
@@ -13,7 +13,7 @@ const UnitOfMeasureList = () => {
   const { hasModifyAccess } = rootStore.userStore;
 
   return (
-    <Fragment>
+    <>
       <Table compact celled striped color='red'>
         <Table.Header>
           <Table.Row>
@@ -83,7 +83,7 @@ const UnitOfMeasureList = () => {
           ))}
         </Table.Body>
       </Table>
-    </Fragment>
+    </>
   );
 };
 

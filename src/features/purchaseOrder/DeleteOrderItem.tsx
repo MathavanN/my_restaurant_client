@@ -1,9 +1,10 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IPurchaseOrderItem } from '../../app/models/purchaseOrderItem';
-import { toast } from 'react-toastify';
+
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -14,7 +15,7 @@ const DeleteOrderItem: FC<IProps> = ({ item }) => {
   const { closeModal } = rootStore.modalStore;
   const { deletePurchaseOrderItem } = rootStore.purchaseOrderStore;
   return (
-    <Fragment>
+    <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
@@ -42,7 +43,7 @@ const DeleteOrderItem: FC<IProps> = ({ item }) => {
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ const FilterStockItem: FC<IProps> = ({
   }, [register, selectedStockType, setValue]);
 
   return (
-    <Fragment>
+    <>
       {stockTypeOptions.length > 0 && (
         <Message>
           <Message.Header>Filter by:</Message.Header>
@@ -57,7 +57,7 @@ const FilterStockItem: FC<IProps> = ({
           </Message.Content>
         </Message>
       )}
-    </Fragment>
+    </>
   );
 };
 

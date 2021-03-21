@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { PaymentTypeFormValues } from '../../../app/models/paymentType';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -65,7 +65,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)} error>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -118,7 +118,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

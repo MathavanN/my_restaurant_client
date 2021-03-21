@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { Button, Grid, Message, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { LoadingComponent } from '../../app/layout/LoadingComponent';
-import { Button, Grid, Message, Segment } from 'semantic-ui-react';
 import {
   APPROVED,
   CANCELLED,
@@ -45,7 +45,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
 
   if (!grn) return <Message negative>GRN not found.</Message>;
   return (
-    <Fragment>
+    <>
       <Grid>
         <Grid.Column width={16}>
           {grn.approvalStatus === PENDING &&
@@ -133,7 +133,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
           )}
         </Grid.Column>
       </Grid>
-    </Fragment>
+    </>
   );
 };
 

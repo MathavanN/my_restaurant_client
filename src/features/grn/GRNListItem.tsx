@@ -1,24 +1,25 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { format, isEqual } from 'date-fns';
 import {
   CreateGoodsReceivedNote,
   IGoodsReceivedNote,
 } from '../../app/models/goodsReceivedNote';
-import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { PENDING } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { observer } from 'mobx-react-lite';
+
 import AddGRN from './AddGRN';
 
 interface IProps {
-  grns: [string, IGoodsReceivedNote][];
+  goodsReceivedNotes: [string, IGoodsReceivedNote][];
   displayColumn: boolean;
   displayView: boolean;
   displayEdit: boolean;
 }
 const GRNListItem: FC<IProps> = ({
-  grns,
+  goodsReceivedNotes,
   displayEdit,
   displayView,
   displayColumn,
@@ -29,27 +30,33 @@ const GRNListItem: FC<IProps> = ({
   const { loadAppUsersOptions, isSuperAdminUser } = rootStore.userStore;
   const { loadApprovedPurchaseOrdersOptions } = rootStore.purchaseOrderStore;
   return (
-    <Fragment>
+    <>
       <Table.Body>
-        {grns.map(([group, grn]) => (
-          <Table.Row key={grn.id}>
+        {goodsReceivedNotes.map(([group, goodsReceivedNote]) => (
+          <Table.Row key={goodsReceivedNote.id}>
             {displayColumn && <Table.Cell>{group}</Table.Cell>}
-            <Table.Cell>{grn.purchaseOrderNumber}</Table.Cell>
-            <Table.Cell>{grn.invoiceNumber}</Table.Cell>
-            <Table.Cell>{grn.paymentTypeName}</Table.Cell>
-            <Table.Cell>{grn.nbt}</Table.Cell>
-            <Table.Cell>{grn.vat}</Table.Cell>
-            <Table.Cell>{grn.discount}</Table.Cell>
-            <Table.Cell negative={grn.approvalStatus === PENDING}>
-              {grn.approvalStatus}
+            <Table.Cell>{goodsReceivedNote.purchaseOrderNumber}</Table.Cell>
+            <Table.Cell>{goodsReceivedNote.invoiceNumber}</Table.Cell>
+            <Table.Cell>{goodsReceivedNote.paymentTypeName}</Table.Cell>
+            <Table.Cell>{goodsReceivedNote.nbt}</Table.Cell>
+            <Table.Cell>{goodsReceivedNote.vat}</Table.Cell>
+            <Table.Cell>{goodsReceivedNote.discount}</Table.Cell>
+            <Table.Cell negative={goodsReceivedNote.approvalStatus === PENDING}>
+              {goodsReceivedNote.approvalStatus}
             </Table.Cell>
-            {displayColumn && <Table.Cell>{grn.approvedUserName}</Table.Cell>}
+            {displayColumn && (
+              <Table.Cell>{goodsReceivedNote.approvedUserName}</Table.Cell>
+            )}
             {displayColumn && (
               <Table.Cell>
                 {!isEqual(
-                  new Date(grn.approvedDate),
+                  new Date(goodsReceivedNote.approvedDate),
                   new Date('0001-01-01T00:00:00')
-                ) && format(new Date(grn.approvedDate), "yyyy-MM-dd'T'HH:mm")}
+                ) &&
+                  format(
+                    new Date(goodsReceivedNote.approvedDate),
+                    "yyyy-MM-dd'T'HH:mm"
+                  )}
               </Table.Cell>
             )}
             {displayView && (
@@ -58,7 +65,7 @@ const GRNListItem: FC<IProps> = ({
                   content='View'
                   color='blue'
                   as={Link}
-                  to={`/grn/view/${grn.id}`}
+                  to={`/grn/view/${goodsReceivedNote.id}`}
                 />
               </Table.Cell>
             )}
@@ -70,7 +77,9 @@ const GRNListItem: FC<IProps> = ({
                   onClick={() =>
                     openModal(
                       <AddGRN
-                        goodsReceivedNote={new CreateGoodsReceivedNote(grn)}
+                        goodsReceivedNote={
+                          new CreateGoodsReceivedNote(goodsReceivedNote)
+                        }
                         purchaseOrderOptions={loadApprovedPurchaseOrdersOptions}
                         paymentTypeOptions={loadPaymentTypeOptions}
                         userOptions={loadAppUsersOptions}
@@ -88,7 +97,7 @@ const GRNListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

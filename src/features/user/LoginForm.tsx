@@ -1,12 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
-import { Fragment, useEffect } from 'react';
 import { Button, Form, Header, Label } from 'semantic-ui-react';
 import { IUserLogin } from '../../app/models/user';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { useContext } from 'react';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 const LoginForm = () => {
@@ -48,7 +47,7 @@ const LoginForm = () => {
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <FontAwesomeIcon icon={faSignInAlt} size='lg' />
@@ -95,7 +94,7 @@ const LoginForm = () => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

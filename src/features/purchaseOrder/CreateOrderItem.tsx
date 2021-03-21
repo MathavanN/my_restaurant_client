@@ -1,8 +1,8 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
-import { RootStoreContext } from '../../app/stores/rootStore';
 import { toast } from 'react-toastify';
+import { RootStoreContext } from '../../app/stores/rootStore';
 import {
   CreatePurchaseOrderItem,
   PurchaseOrderItemFormValues,
@@ -32,7 +32,6 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       id: item.id,
       purchaseOrderId: item.purchaseOrderId,
     });
-    console.log(formData);
     if (formData.id === 0)
       createPurchaseOrderItem(formData)
         .then(() => {
@@ -101,7 +100,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -193,7 +192,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

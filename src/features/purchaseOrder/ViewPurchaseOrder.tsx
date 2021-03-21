@@ -1,10 +1,9 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { FC } from 'react';
-import { LoadingComponent } from '../../app/layout/LoadingComponent';
 import { Message, Grid, Segment, Button } from 'semantic-ui-react';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { LoadingComponent } from '../../app/layout/LoadingComponent';
 import OrderSummary from './OrderSummary';
 import OrderItemList from './OrderItemList';
 import ApprovalOrder from './ApprovalOrder';
@@ -52,7 +51,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
     return <Message negative>Purchase order details not found.</Message>;
 
   return (
-    <Fragment>
+    <>
       <Grid>
         <Grid.Column width={16}>
           {purchaseOrder.approvalStatus === PENDING &&
@@ -132,7 +131,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
           )}
         </Grid.Column>
       </Grid>
-    </Fragment>
+    </>
   );
 };
 

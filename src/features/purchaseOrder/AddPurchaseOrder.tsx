@@ -1,13 +1,13 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import {
   PurchaseOrderFormValues,
   CreatePurchaseOrder,
 } from '../../app/models/purchaseOrder';
 import { ISelectInputOptions } from '../../app/models/common';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -28,7 +28,6 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
 
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrder({ ...data, id: order.id });
-    console.log(formData);
     if (formData.id === 0)
       createPurchaseOrder(formData).catch((error) => {
         toast.error(<ErrorMessage error={error} text='Error:' />);
@@ -66,7 +65,7 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -118,7 +117,7 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

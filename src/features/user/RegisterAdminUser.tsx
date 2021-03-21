@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { Fragment, useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { Button, Form, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IRegisterAdminUser } from '../../app/models/user';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 const RegisterAdminUser = () => {
@@ -78,7 +78,7 @@ const RegisterAdminUser = () => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>Register new admin access user.</Header.Subheader>
@@ -178,7 +178,7 @@ const RegisterAdminUser = () => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

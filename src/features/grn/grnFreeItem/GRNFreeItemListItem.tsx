@@ -1,7 +1,7 @@
-import { Fragment, useContext, FC } from 'react';
+import { useContext, FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { RootStoreContext } from '../../../app/stores/rootStore';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
 import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem';
@@ -25,7 +25,7 @@ const GRNFreeItemListItem: FC<IProps> = ({
   const { getGRNFreeItems } = rootStore.grnStore;
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {getGRNFreeItems.map(([group, item]) => (
           <Table.Row key={item.id}>
@@ -86,7 +86,7 @@ const GRNFreeItemListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

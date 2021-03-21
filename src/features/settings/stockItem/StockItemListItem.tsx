@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { IStockItem, StockItemFormValues } from '../../../app/models/stockItem';
@@ -21,7 +21,7 @@ const StockItemListItem: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {stockItems.map(([group, stockItem]) => (
           <Table.Row key={stockItem.id}>
@@ -70,7 +70,7 @@ const StockItemListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

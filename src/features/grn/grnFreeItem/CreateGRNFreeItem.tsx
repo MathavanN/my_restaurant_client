@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
@@ -132,7 +132,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     );
   }, [loadAllStockItems, register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -281,7 +281,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

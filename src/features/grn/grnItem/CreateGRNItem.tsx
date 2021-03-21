@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
@@ -34,7 +34,6 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       id: item.id,
       goodsReceivedNoteId: item.goodsReceivedNoteId,
     });
-    console.log(formData);
     if (formData.id === 0)
       createGRNItem(formData)
         .then(() => {
@@ -133,7 +132,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     );
   }, [loadAllStockItems, register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -282,7 +281,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

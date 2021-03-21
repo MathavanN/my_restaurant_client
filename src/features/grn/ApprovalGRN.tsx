@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
 import { ApprovalPurchaseOrder } from '../../app/models/purchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import history from '../../history';
-import { observer } from 'mobx-react-lite';
 
 interface IProps {
   header: string;
@@ -41,7 +41,7 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
     );
   }, [register]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>{header}</Header.Subheader>
@@ -67,7 +67,7 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

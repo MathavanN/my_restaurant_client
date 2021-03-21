@@ -1,16 +1,16 @@
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { setHours, setMinutes } from 'date-fns';
+import { toast } from 'react-toastify';
 import {
   ISelectGuidInputOptions,
   ISelectInputOptions,
 } from '../../app/models/common';
 import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { setHours, setMinutes } from 'date-fns';
-import { toast } from 'react-toastify';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -136,7 +136,7 @@ const AddGRN: FC<IProps> = ({
     );
   }, [register, goodsReceivedNote.receivedDate, setReceivedDate]);
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
@@ -309,7 +309,7 @@ const AddGRN: FC<IProps> = ({
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

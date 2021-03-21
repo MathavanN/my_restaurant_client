@@ -1,7 +1,8 @@
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { RootStoreContext } from '../../../app/stores/rootStore';
 import { Button, Icon, Table } from 'semantic-ui-react';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+
 import DeleteStockType from './DeleteStockType';
 import EditStockType from './EditStockType';
 import { StockTypeFormValues } from '../../../app/models/stockType';
@@ -13,7 +14,7 @@ const StockTypeList = () => {
   const { hasModifyAccess } = rootStore.userStore;
 
   return (
-    <Fragment>
+    <>
       <Table compact celled striped color='red'>
         <Table.Header>
           <Table.Row>
@@ -82,7 +83,7 @@ const StockTypeList = () => {
           ))}
         </Table.Body>
       </Table>
-    </Fragment>
+    </>
   );
 };
 

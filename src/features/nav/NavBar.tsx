@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Container, Dropdown } from 'semantic-ui-react';
-import { RootStoreContext } from '../../app/stores/rootStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../app/stores/rootStore';
 import logo from '../../assets/NavBarLogo.png';
 
 const NavBar = () => {

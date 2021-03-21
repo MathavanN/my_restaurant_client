@@ -22,12 +22,12 @@ export default class GRNStore {
         makeAutoObservable(this);
     }
 
-    @computed get getGRNs() {
-        const sortedGRNs = this.getSortedGRNs();
+    @computed get getGoodsReceivedNotes() {
+        const sortedGoodsReceivedNotes = this.getSortedGoodsReceivedNotes();
 
-        return Object.entries(sortedGRNs.reduce((grns, grn, i) => {
-            grns[++i] = grn;
-            return grns;
+        return Object.entries(sortedGoodsReceivedNotes.reduce((goodsReceivedNotes, grn, i) => {
+            goodsReceivedNotes[++i] = grn;
+            return goodsReceivedNotes;
         }, {} as { [key: number]: IGoodsReceivedNote }));
     }
 
@@ -68,12 +68,12 @@ export default class GRNStore {
         }
     }
 
-    loadGRNs = async () => {
+    loadGoodsReceivedNotes = async () => {
         this.loadingInitial = true;
         try {
-            const grns = await agent.GRN.list();
+            const goodReceivedNotes = await agent.GRN.list();
             runInAction(() => {
-                grns.forEach(grn => {
+                goodReceivedNotes.forEach(grn => {
                     this.grnRegistry.set(grn.id, grn)
                 });
                 this.loadingInitial = false;
@@ -102,15 +102,15 @@ export default class GRNStore {
         }
     }
 
-    getSortedGRNs() {
-        const grns: IGoodsReceivedNote[] = Array.from(this.grnRegistry.values());
+    getSortedGoodsReceivedNotes() {
+        const goodsReceivedNotes: IGoodsReceivedNote[] = Array.from(this.grnRegistry.values());
 
-        const pendingGRNs = grns.filter(d => d.approvalStatus === PENDING);
-        const sortedPendingGRNs = pendingGRNs.sort((a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime())
-        const otherGRNs = grns.filter(d => d.approvalStatus !== PENDING);
-        const sortedOtherGRNs = otherGRNs.sort((a, b) => new Date(a.receivedDate).getTime() - new Date(b.receivedDate).getTime())
+        const pendingGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus === PENDING);
+        const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort((a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime())
+        const otherGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus !== PENDING);
+        const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort((a, b) => new Date(a.receivedDate).getTime() - new Date(b.receivedDate).getTime())
 
-        return [...sortedPendingGRNs, ...sortedOtherGRNs]
+        return [...sortedPendingGoodsReceivedNotes, ...sortedOtherGoodsReceivedNotes]
     }
 
 
