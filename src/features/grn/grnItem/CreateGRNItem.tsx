@@ -60,7 +60,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item type is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Item type is required',
+            parseInt(value, 10) > 0 ? true : 'Item type is required',
         },
       }
     );
@@ -70,7 +70,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Quantity is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Quantity must be greater than zero',
         },
@@ -81,7 +81,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0
+            parseInt(value, 10) >= 0
               ? true
               : 'Discount must be a positive number',
         },
@@ -92,7 +92,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : 'VAT must be a positive number',
+            parseInt(value, 10) >= 0 ? true : 'VAT must be a positive number',
         },
       }
     );
@@ -101,7 +101,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : 'NBT must be a positive number',
+            parseInt(value, 10) >= 0 ? true : 'NBT must be a positive number',
         },
       }
     );
@@ -111,7 +111,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Item is required',
+            parseInt(value, 10) > 0 ? true : 'Item is required',
         },
       }
     );
@@ -121,7 +121,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item unit price is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Item unit price must be greater than zero',
         },

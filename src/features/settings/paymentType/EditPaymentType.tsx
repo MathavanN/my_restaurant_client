@@ -57,7 +57,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0
+            parseInt(value, 10) >= 0
               ? true
               : 'Credit period must be a positive number',
         },

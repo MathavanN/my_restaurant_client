@@ -23,8 +23,6 @@
         }
     },
     "rules": {
-        "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off",
         "object-curly-spacing": [
             "warn",
             "always"
@@ -79,6 +77,8 @@
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-wrap-multilines": "off",
         "react/destructuring-assignment": "off",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
         "@typescript-eslint/comma-dangle": [
             "error",
             {

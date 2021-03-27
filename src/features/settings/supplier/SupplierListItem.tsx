@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { ISupplier, SupplierFormValues } from '../../../app/models/supplier';
+import { ISupplier } from '../../../app/models/supplier';
+import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import DeleteSupplier from './DeleteSupplier';
 import EditSupplier from './EditSupplier';
 

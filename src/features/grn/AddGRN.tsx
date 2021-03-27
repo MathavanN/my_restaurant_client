@@ -69,7 +69,7 @@ const AddGRN: FC<IProps> = ({
         required: 'Purchase order is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'purchase order is required',
+            parseInt(value, 10) > 0 ? true : 'purchase order is required',
         },
       }
     );
@@ -79,7 +79,7 @@ const AddGRN: FC<IProps> = ({
         required: 'Payment type is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'payment type is required',
+            parseInt(value, 10) > 0 ? true : 'payment type is required',
         },
       }
     );
@@ -104,7 +104,7 @@ const AddGRN: FC<IProps> = ({
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : 'NBT must be a positive number',
+            parseInt(value, 10) >= 0 ? true : 'NBT must be a positive number',
         },
       }
     );
@@ -113,7 +113,7 @@ const AddGRN: FC<IProps> = ({
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0 ? true : 'VAT must be a positive number',
+            parseInt(value, 10) >= 0 ? true : 'VAT must be a positive number',
         },
       }
     );
@@ -122,7 +122,7 @@ const AddGRN: FC<IProps> = ({
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0
+            parseInt(value, 10) >= 0
               ? true
               : 'Discount must be a positive number',
         },

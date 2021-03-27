@@ -24,9 +24,9 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     loadPurchaseOrders();
     loadStockTypes();
     if (match.params.id) {
-      loadGRN(parseInt(match.params.id));
-      loadGRNItems(parseInt(match.params.id));
-      loadGRNFreeItems(parseInt(match.params.id));
+      loadGRN(parseInt(match.params.id, 10));
+      loadGRNItems(parseInt(match.params.id, 10));
+      loadGRNFreeItems(parseInt(match.params.id, 10));
     }
   }, [
     loadPaymentTypes,

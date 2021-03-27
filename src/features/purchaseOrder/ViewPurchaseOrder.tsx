@@ -35,8 +35,8 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
 
   useEffect(() => {
     loadStockTypes();
-    loadPurchaseOrder(parseInt(match.params.id));
-    loadPurchaseOrderItems(parseInt(match.params.id));
+    loadPurchaseOrder(parseInt(match.params.id, 10));
+    loadPurchaseOrderItems(parseInt(match.params.id, 10));
   }, [
     loadPurchaseOrder,
     loadStockTypes,
@@ -94,7 +94,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={APPROVED}
                       header='Approve the Purchase Order'
                     />
@@ -107,7 +107,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={CANCELLED}
                       header='Cancel the Purchase Order'
                     />
@@ -120,7 +120,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={REJECTED}
                       header='Reject the Purchase Order'
                     />

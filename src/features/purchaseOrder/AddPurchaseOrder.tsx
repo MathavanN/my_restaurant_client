@@ -49,7 +49,7 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
         required: 'Supplier is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Supplier is required',
+            parseInt(value, 10) > 0 ? true : 'Supplier is required',
         },
       }
     );

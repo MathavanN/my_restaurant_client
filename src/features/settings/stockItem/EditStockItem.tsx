@@ -67,7 +67,7 @@ const EditStockItem: FC<IProps> = ({
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Stock type is required',
+            parseInt(value, 10) > 0 ? true : 'Stock type is required',
         },
       }
     );
@@ -77,7 +77,7 @@ const EditStockItem: FC<IProps> = ({
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Unit of measure is required',
+            parseInt(value, 10) > 0 ? true : 'Unit of measure is required',
         },
       }
     );
@@ -87,7 +87,7 @@ const EditStockItem: FC<IProps> = ({
         required: 'Item unit is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Item unit must be greater than zero',
         },

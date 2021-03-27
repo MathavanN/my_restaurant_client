@@ -35,13 +35,13 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
   useEffect(() => {
     loadStockTypes();
     if (match.params.id) {
-      loadGRN(parseInt(match.params.id));
-      loadGRNItems(parseInt(match.params.id));
+      loadGRN(parseInt(match.params.id, 10));
+      loadGRNItems(parseInt(match.params.id, 10));
     }
   }, [loadStockTypes, loadGRN, loadGRNItems, match.params.id]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading GRN details...' />;
+    return <LoadingComponent content="Loading GRN details..." />;
 
   if (!grn) return <Message negative>GRN not found.</Message>;
   return (
@@ -50,13 +50,13 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
         <Grid.Column width={16}>
           {grn.approvalStatus === PENDING &&
             (hasModifyAccess || grn.receivedBy === user?.userId) && (
-              <Segment attached='top' textAlign='center'>
+              <Segment attached="top" textAlign="center">
                 <Message info icon>
                   <Message.Content>
                     <Message.Header>GRN Details</Message.Header>
                   </Message.Content>
                   <Button
-                    floated='left'
+                    floated="left"
                     as={Link}
                     to={`/grn/manage/${match.params.id}`}
                   >
@@ -88,43 +88,43 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
             />
           </Segment>
           {grn.approvalStatus === PENDING && hasModifyAccess && (
-            <Segment attached textAlign='center'>
+            <Segment attached textAlign="center">
               <Button
-                color='green'
-                content='Approve'
+                color="green"
+                content="Approve"
                 disabled={getGRNItems.length === 0}
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={APPROVED}
-                      header='Approve the GRN'
+                      header="Approve the GRN"
                     />
                   )
                 }
               />
               <Button
-                color='orange'
-                content='Cancel'
+                color="orange"
+                content="Cancel"
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={CANCELLED}
-                      header='Cancel the GRN'
+                      header="Cancel the GRN"
                     />
                   )
                 }
               />
               <Button
-                color='red'
-                content='Reject'
+                color="red"
+                content="Reject"
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={REJECTED}
-                      header='Reject the GRN'
+                      header="Reject the GRN"
                     />
                   )
                 }
