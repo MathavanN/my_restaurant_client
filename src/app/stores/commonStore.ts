@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { reaction, makeAutoObservable } from 'mobx';
 import { RootStore } from './rootStore';
 

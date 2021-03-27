@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
 import { ISupplier } from '../models/supplier';

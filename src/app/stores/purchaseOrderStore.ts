@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IPurchaseOrder } from '../models/purchaseOrder';

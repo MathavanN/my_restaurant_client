@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { createContext } from 'react';
 import { configure } from 'mobx';
 import UserStore from './userStore';
