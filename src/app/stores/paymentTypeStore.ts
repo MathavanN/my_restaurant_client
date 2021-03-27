@@ -24,7 +24,9 @@ export default class PaymentTypeStore {
 
         return Object.entries(
             items.reduce((paymentTypes, paymentType, i) => {
-                paymentTypes[++i] = paymentType;
+                const key = i + 1;
+                // eslint-disable-next-line no-param-reassign
+                paymentTypes[key] = paymentType;
                 return paymentTypes;
             }, {} as { [key: number]: IPaymentType }));
     }

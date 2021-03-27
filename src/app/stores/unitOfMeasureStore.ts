@@ -23,7 +23,9 @@ export default class UnitOfMeasureStore {
         const items: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
 
         return Object.entries(items.reduce((unitOfMeasures, unitOfMeasure, i) => {
-            unitOfMeasures[++i] = unitOfMeasure;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            unitOfMeasures[key] = unitOfMeasure;
             return unitOfMeasures;
         }, {} as { [key: number]: IUnitOfMeasure }));
     }

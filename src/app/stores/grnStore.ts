@@ -35,7 +35,9 @@ export default class GRNStore {
 
         return Object.entries(
             sortedGoodsReceivedNotes.reduce((goodsReceivedNotes, grn, i) => {
-                goodsReceivedNotes[++i] = grn;
+                const key = i + 1;
+                // eslint-disable-next-line no-param-reassign
+                goodsReceivedNotes[key] = grn;
                 return goodsReceivedNotes;
             }, {} as { [key: number]: IGoodsReceivedNote }));
     }
@@ -188,7 +190,9 @@ export default class GRNStore {
         const grnItems: IGoodsReceivedNoteItem[] = Array.from(this.grnItemRegistry.values());
 
         return Object.entries(grnItems.reduce((items, item, i) => {
-            items[++i] = item;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            items[key] = item;
             return items;
         }, {} as { [key: number]: IGoodsReceivedNoteItem }));
     }
@@ -239,7 +243,9 @@ export default class GRNStore {
         const freeItems: IGoodsReceivedNoteItem[] = Array.from(this.grnFreeItemRegistry.values());
 
         return Object.entries(freeItems.reduce((items, item, i) => {
-            items[++i] = item;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            items[key] = item;
             return items;
         }, {} as { [key: number]: IGoodsReceivedNoteItem }));
     }

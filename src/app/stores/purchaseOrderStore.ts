@@ -78,7 +78,9 @@ export default class PurchaseOrderStore {
         const sortedItems = this.getSortedPurchaseOrderItems();
 
         return Object.entries(sortedItems.reduce((items, item, i) => {
-            items[++i] = item;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            items[key] = item;
             return items;
         }, {} as { [key: number]: IPurchaseOrderItem }));
     }
@@ -98,7 +100,9 @@ export default class PurchaseOrderStore {
         const sortedOrders = this.getSortedPurchaseOrders();
 
         return Object.entries(sortedOrders.reduce((orders, order, i) => {
-            orders[++i] = order;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            orders[key] = order;
             return orders;
         }, {} as { [key: number]: IPurchaseOrder }));
     }

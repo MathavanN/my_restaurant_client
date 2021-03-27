@@ -22,7 +22,9 @@ export default class StockTypeStore {
         const items: IStockType[] = Array.from(this.stockTypeRegistry.values());
 
         return Object.entries(items.reduce((stockTypes, stockType, i) => {
-            stockTypes[++i] = stockType;
+            const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
+            stockTypes[key] = stockType;
             return stockTypes;
         }, {} as { [key: number]: IStockType }));
     }

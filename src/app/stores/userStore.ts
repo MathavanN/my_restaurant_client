@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IToken, IUser, IUserLogin } from '../models/user';
 import agent from '../api/agent';
@@ -81,7 +82,8 @@ export default class UserStore {
         const sortedAppUsers = this.getSortedAppUsers();
 
         return Object.entries(sortedAppUsers.reduce((users, user, i) => {
-            users[++i] = user;
+            const key = i + 1;
+            users[key] = user;
             return users;
         }, {} as { [key: number]: IAppUser }));
     }
