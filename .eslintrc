@@ -13,6 +13,9 @@
         "project": "./tsconfig.json"
     },
     "settings": {
+        "react": {
+            "version": "detect"
+        },
         "import/resolver": {
             "typescript": {
                 "alwaysTryTypes": true
@@ -20,6 +23,8 @@
         }
     },
     "rules": {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
         "object-curly-spacing": [
             "warn",
             "always"
