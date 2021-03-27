@@ -1,10 +1,10 @@
-import { RootStore } from './rootStore';
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IToken, IUser, IUserLogin } from '../models/user';
 import agent from '../api/agent';
 import history from '../../history'
 import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
 import { ISelectGuidInputOptions } from '../models/common';
+import { RootStore } from './rootStore';
 
 export default class UserStore {
     rootStore: RootStore;
@@ -14,7 +14,7 @@ export default class UserStore {
     user: IUser | null = null
 
     loadingInitial = false;
-    
+
     appUsersRegistry = new Map();
 
     constructor(rootStore: RootStore) {
@@ -70,8 +70,10 @@ export default class UserStore {
     getSortedAppUsers() {
         const users: IAppUser[] = Array.from(this.appUsersRegistry.values());
         return users.sort(
-            (a, b) => (a.firstName.toLowerCase() === b.firstName.toLowerCase() ? 0 : (a.firstName.toLowerCase() < b.firstName.toLowerCase() ? 1 : -1))
-                || (a.lastName.toLowerCase() === b.lastName.toLowerCase() ? 0 : (a.lastName.toLowerCase() > b.lastName.toLowerCase() ? 1 : -1))
+            (a, b) => (a.firstName.toLowerCase() === b.firstName.toLowerCase() ?
+                0 : (a.firstName.toLowerCase() < b.firstName.toLowerCase() ? 1 : -1))
+                || (a.lastName.toLowerCase() === b.lastName.toLowerCase() ?
+                    0 : (a.lastName.toLowerCase() > b.lastName.toLowerCase() ? 1 : -1))
         );
     }
 
@@ -86,13 +88,11 @@ export default class UserStore {
 
     @computed get loadAppUsersOptions() {
         const sortedAppUsers = this.getSortedAppUsers();
-        return sortedAppUsers.map(user => {
-            return {
-                key: user.id,
-                text: `${user.firstName} ${user.lastName}`,
-                value: user.id
-            } as ISelectGuidInputOptions
-        })
+        return sortedAppUsers.map(user => ({
+            key: user.id,
+            text: `${user.firstName} ${user.lastName}`,
+            value: user.id
+        } as ISelectGuidInputOptions))
     }
 
     getUser = async () => {
@@ -113,49 +113,28 @@ export default class UserStore {
     }
 
     login = async (values: IUserLogin) => {
-        try {
-            const token = await agent.Users.login(values);
-            runInAction(async () => {
-                this.token = token;
-                this.rootStore.commonStore.setToken(token.accessToken)
-                this.rootStore.commonStore.setRefreshToken(token.refreshToken)
-                this.rootStore.modalStore.closeModal();
-            });
-            return token;
-        } catch (error) {
-            throw error;
-        }
+        const token = await agent.Users.login(values);
+        runInAction(async () => {
+            this.token = token;
+            this.rootStore.commonStore.setToken(token.accessToken)
+            this.rootStore.commonStore.setRefreshToken(token.refreshToken)
+            this.rootStore.modalStore.closeModal();
+        });
+        return token;
     }
 
-    registerAdmin = async (user: IRegisterAdminUser) => {
-        try {
-            return await agent.Users.registerAdmin(user);
-        } catch (error) {
-            throw error;
-        }
-    }
+    registerAdmin = async (user: IRegisterAdminUser) => agent.Users.registerAdmin(user)
 
-    registerNonAdmin = async (user: IRegisterNonAdminUser) => {
-        try {
-            return await agent.Users.registerNonAdmin(user);
-        } catch (error) {
-            throw error;
-        }
-    }
+    registerNonAdmin = async (user: IRegisterNonAdminUser) => agent.Users.registerNonAdmin(user)
 
     getRefreshToken = async (token: string) => {
-        try {
-            const refreshToken: IRefreshToken = { 'refreshToken': token };
-            const newToken = await agent.Users.refresh(refreshToken);
-            runInAction(async () => {
-                this.token = newToken;
-                this.rootStore.commonStore.setToken(newToken.accessToken)
-                this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
-            })
-
-        } catch (error) {
-            throw error;
-        }
+        const refreshToken: IRefreshToken = { 'refreshToken': token };
+        const newToken = await agent.Users.refresh(refreshToken);
+        runInAction(async () => {
+            this.token = newToken;
+            this.rootStore.commonStore.setToken(newToken.accessToken)
+            this.rootStore.commonStore.setRefreshToken(newToken.refreshToken)
+        })
     }
 
     moveToDashboardPage = () => {

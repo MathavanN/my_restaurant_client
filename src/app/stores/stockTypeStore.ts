@@ -10,7 +10,7 @@ export default class StockTypeStore {
     stockType: IStockType | null = null;
 
     stockTypeRegistry = new Map();
-    
+
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
@@ -19,9 +19,9 @@ export default class StockTypeStore {
     }
 
     @computed get getStockTypes() {
-        const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
+        const items: IStockType[] = Array.from(this.stockTypeRegistry.values());
 
-        return Object.entries(stockTypes.reduce((stockTypes, stockType, i) => {
+        return Object.entries(items.reduce((stockTypes, stockType, i) => {
             stockTypes[++i] = stockType;
             return stockTypes;
         }, {} as { [key: number]: IStockType }));
@@ -29,13 +29,11 @@ export default class StockTypeStore {
 
     @computed get loadStockTypeOptions() {
         const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
-        return stockTypes.map(stockType => {
-            return {
-                key: stockType.id,
-                text: stockType.type,
-                value: stockType.id,
-            } as ISelectInputOptions;
-        });
+        return stockTypes.map(stockType => ({
+            key: stockType.id,
+            text: stockType.type,
+            value: stockType.id,
+        } as ISelectInputOptions));
     }
 
     loadStockTypes = async () => {
@@ -72,35 +70,23 @@ export default class StockTypeStore {
     }
 
     createStockType = async (values: IStockType) => {
-        try {
-            const stockType = await agent.StockType.create(values);
-            runInAction(() => {
-                this.stockTypeRegistry.set(stockType.id, stockType)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const stockType = await agent.StockType.create(values);
+        runInAction(() => {
+            this.stockTypeRegistry.set(stockType.id, stockType)
+        });
     }
 
     updateStockType = async (values: IStockType) => {
-        try {
-            const stockType = await agent.StockType.update(values);
-            runInAction(() => {
-                this.stockTypeRegistry.set(values.id, stockType)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const stockType = await agent.StockType.update(values);
+        runInAction(() => {
+            this.stockTypeRegistry.set(values.id, stockType)
+        });
     }
 
     deleteStockType = async (id: number) => {
-        try {
-            await agent.StockType.delete(id);
-            runInAction(() => {
-                this.stockTypeRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.StockType.delete(id);
+        runInAction(() => {
+            this.stockTypeRegistry.delete(id);
+        });
     }
 }

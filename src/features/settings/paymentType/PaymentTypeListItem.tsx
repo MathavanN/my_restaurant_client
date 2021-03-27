@@ -13,48 +13,46 @@ const PaymentTypeListItem: FC<IProps> = ({
   hasModifyAccess,
   paymentTypes,
   openModal,
-}) => {
-  return (
-    <>
-      <Table.Body>
-        {paymentTypes.map(([group, paymentType]) => (
-          <Table.Row key={paymentType.id}>
-            <Table.Cell>{group}</Table.Cell>
-            <Table.Cell>{paymentType.name}</Table.Cell>
-            <Table.Cell>{paymentType.creditPeriod}</Table.Cell>
-            {hasModifyAccess && (
-              <Table.Cell collapsing textAlign='right'>
-                <Button
-                  animated='vertical'
-                  color='orange'
-                  onClick={() =>
-                    openModal(<EditPaymentType paymentType={paymentType} />)
-                  }
-                >
-                  <Button.Content hidden>Edit</Button.Content>
-                  <Button.Content visible>
-                    <Icon name='edit' />
-                  </Button.Content>
-                </Button>
-                <Button
-                  animated='vertical'
-                  color='red'
-                  onClick={() =>
-                    openModal(<DeletePaymentType paymentType={paymentType} />)
-                  }
-                >
-                  <Button.Content hidden>Delete</Button.Content>
-                  <Button.Content visible>
-                    <Icon name='delete' />
-                  </Button.Content>
-                </Button>
-              </Table.Cell>
-            )}
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </>
-  );
-};
+}) => (
+  <>
+    <Table.Body>
+      {paymentTypes.map(([group, paymentType]) => (
+        <Table.Row key={paymentType.id}>
+          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{paymentType.name}</Table.Cell>
+          <Table.Cell>{paymentType.creditPeriod}</Table.Cell>
+          {hasModifyAccess && (
+            <Table.Cell collapsing textAlign="right">
+              <Button
+                animated="vertical"
+                color="orange"
+                onClick={() =>
+                  openModal(<EditPaymentType paymentType={paymentType} />)
+                }
+              >
+                <Button.Content hidden>Edit</Button.Content>
+                <Button.Content visible>
+                  <Icon name="edit" />
+                </Button.Content>
+              </Button>
+              <Button
+                animated="vertical"
+                color="red"
+                onClick={() =>
+                  openModal(<DeletePaymentType paymentType={paymentType} />)
+                }
+              >
+                <Button.Content hidden>Delete</Button.Content>
+                <Button.Content visible>
+                  <Icon name="delete" />
+                </Button.Content>
+              </Button>
+            </Table.Cell>
+          )}
+        </Table.Row>
+      ))}
+    </Table.Body>
+  </>
+);
 
 export default PaymentTypeListItem;

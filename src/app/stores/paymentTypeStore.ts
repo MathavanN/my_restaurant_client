@@ -19,11 +19,11 @@ export default class PaymentTypeStore {
     }
 
     @computed get getPaymentTypes() {
-        const paymentTypes: IPaymentType[] =
+        const items: IPaymentType[] =
             Array.from(this.paymentTypeRegistry.values());
 
         return Object.entries(
-            paymentTypes.reduce((paymentTypes, paymentType, i) => {
+            items.reduce((paymentTypes, paymentType, i) => {
                 paymentTypes[++i] = paymentType;
                 return paymentTypes;
             }, {} as { [key: number]: IPaymentType }));

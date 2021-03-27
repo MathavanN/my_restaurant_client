@@ -16,20 +16,18 @@ const GRNList: FC<IProps> = ({
   displayColumn,
   displayEdit,
   displayView,
-}) => {
-  return (
-    <>
-      <Table compact celled>
-        <GRNListItemHeader displayColumn={displayColumn} />
-        <GRNListItem
-          goodsReceivedNotes={goodsReceivedNotes}
-          displayColumn={displayColumn}
-          displayEdit={displayEdit}
-          displayView={displayView}
-        />
-      </Table>
-    </>
-  );
-};
+}) => (
+  <>
+    <Table compact celled>
+      <GRNListItemHeader displayColumn={displayColumn} />
+      <GRNListItem
+        goodsReceivedNotes={goodsReceivedNotes}
+        displayColumn={displayColumn}
+        displayEdit={displayEdit}
+        displayView={displayView}
+      />
+    </Table>
+  </>
+);
 
 export default GRNList;

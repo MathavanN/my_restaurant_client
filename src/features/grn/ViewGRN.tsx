@@ -92,7 +92,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
               <Button
                 color='green'
                 content='Approve'
-                disabled={getGRNItems.length === 0 ? true : false}
+                disabled={getGRNItems.length === 0}
                 onClick={() =>
                   openModal(
                     <ApprovalGRN

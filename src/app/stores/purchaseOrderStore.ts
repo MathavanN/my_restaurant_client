@@ -5,7 +5,7 @@ import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history'
 import { PENDING } from '../models/constants'
-import { ISelectInputOptions, ITest } from '../models/common';
+import { ISelectInputOptions } from '../models/common';
 import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
 import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
 import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem'

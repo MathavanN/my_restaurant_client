@@ -48,9 +48,9 @@ export default class StockItemStore {
     }
 
     @computed get getStockItems() {
-        const stockItems: IStockItem[] = Array.from(this.stockItemRegistry.values());
+        const items: IStockItem[] = Array.from(this.stockItemRegistry.values());
 
-        return Object.entries(stockItems.reduce((stockItems, stockItem, i) => {
+        return Object.entries(items.reduce((stockItems, stockItem, i) => {
             const serialNumber = LIMIT * (this.page - 1) + i + 1;
             stockItems[serialNumber] = stockItem;
             return stockItems;
@@ -95,52 +95,33 @@ export default class StockItemStore {
     }
 
     createStockItem = async (stockItem: CreateStockItem) => {
-        try {
-            const result = await agent.StockItem.create(stockItem);
-            runInAction(() => {
-                this.stockItemRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.StockItem.create(stockItem);
+        runInAction(() => {
+            this.stockItemRegistry.set(result.id, result)
+        });
     }
 
     updateStockItem = async (stockItem: CreateStockItem) => {
-        try {
-            const result = await agent.StockItem.update(stockItem);
-            runInAction(() => {
-                this.stockItemRegistry.set(stockItem.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.StockItem.update(stockItem);
+        runInAction(() => {
+            this.stockItemRegistry.set(stockItem.id, result)
+        });
     }
 
     deleteStockItem = async (id: number) => {
-        try {
-            await agent.StockItem.delete(id);
-            runInAction(() => {
-                this.stockItemRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.StockItem.delete(id);
+        runInAction(() => {
+            this.stockItemRegistry.delete(id);
+        });
     }
 
     loadAllStockItems = async () => {
-        this.allStockItemsRegistry.clear();
-        try {
-            const stockItems = await agent.StockItem.listAll();
-
-            runInAction(() => {
-                stockItems.forEach(stockItem => {
-                    this.allStockItemsRegistry.set(stockItem.id, stockItem)
-                });
-            })
-        }
-        catch (error) {
-            throw error;
-        }
+        const stockItems = await agent.StockItem.listAll();
+        runInAction(() => {
+            stockItems.forEach(stockItem => {
+                this.allStockItemsRegistry.set(stockItem.id, stockItem)
+            });
+        });
     }
 
     getAllStockItemsForStockType = (typeId: number) => {

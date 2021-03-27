@@ -17,25 +17,23 @@ const GRNItemList: FC<IProps> = ({
   displayAmount,
   grn,
   stockTypeOptions,
-}) => {
-  return (
-    <>
-      <Table compact celled>
-        <GRNItemListHeader
-          displayAction={displayAction}
-          displayAmount={displayAmount}
-          grn={grn}
-          stockTypeOptions={stockTypeOptions}
-        />
-        <GRNItemListItem
-          displayAction={displayAction}
-          displayAmount={displayAmount}
-          grn={grn}
-          stockTypeOptions={stockTypeOptions}
-        />
-      </Table>
-    </>
-  );
-};
+}) => (
+  <>
+    <Table compact celled>
+      <GRNItemListHeader
+        displayAction={displayAction}
+        displayAmount={displayAmount}
+        grn={grn}
+        stockTypeOptions={stockTypeOptions}
+      />
+      <GRNItemListItem
+        displayAction={displayAction}
+        displayAmount={displayAmount}
+        grn={grn}
+        stockTypeOptions={stockTypeOptions}
+      />
+    </Table>
+  </>
+);
 
 export default GRNItemList;

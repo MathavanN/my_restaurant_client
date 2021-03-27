@@ -10,9 +10,8 @@ interface IProps {
 const GRNSummary: FC<IProps> = ({ grn }) => {
   const positive = grn.approvalStatus === APPROVED && true;
   const negative = grn.approvalStatus !== APPROVED && true;
-  const isDefaultDate = (date: Date) => {
-    return isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
-  };
+  const isDefaultDate = (date: Date) =>
+    isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
   return (
     <Grid columns={2}>
       <Grid.Row>
@@ -33,24 +32,15 @@ const GRNSummary: FC<IProps> = ({ grn }) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>NBT %</Table.Cell>
-                <Table.Cell>
-                  {grn.nbt}
-                  {'%'}
-                </Table.Cell>
+                <Table.Cell>{grn.nbt}%</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>VAT %</Table.Cell>
-                <Table.Cell>
-                  {grn.vat}
-                  {'%'}
-                </Table.Cell>
+                <Table.Cell>{grn.vat}%</Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Discount %</Table.Cell>
-                <Table.Cell>
-                  {grn.discount}
-                  {'%'}
-                </Table.Cell>
+                <Table.Cell>{grn.discount}%</Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>

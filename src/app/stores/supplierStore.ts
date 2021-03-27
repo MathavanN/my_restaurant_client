@@ -19,7 +19,7 @@ export default class SupplierStore {
     loadingInitial = false;
 
     predicate = new Map();
-    
+
     allSupplierRegistry = new Map();
 
     constructor(rootStore: RootStore) {
@@ -51,9 +51,9 @@ export default class SupplierStore {
 
 
     @computed get getSuppliers() {
-        const suppliers: ISupplier[] = Array.from(this.supplierRegistry.values());
+        const items: ISupplier[] = Array.from(this.supplierRegistry.values());
 
-        return Object.entries(suppliers.reduce((suppliers, supplier, i) => {
+        return Object.entries(items.reduce((suppliers, supplier, i) => {
             const serialNumber = LIMIT * (this.page - 1) + i + 1;
             suppliers[serialNumber] = supplier;
             return suppliers;
@@ -64,13 +64,11 @@ export default class SupplierStore {
 
     @computed get loadSupplierOptions() {
         const suppliers: ISupplier[] = Array.from(this.allSupplierRegistry.values());
-        return suppliers.map(supplier => {
-            return {
-                key: supplier.id,
-                text: supplier.name,
-                value: supplier.id,
-            } as ISelectInputOptions;
-        });
+        return suppliers.map(supplier => ({
+            key: supplier.id,
+            text: supplier.name,
+            value: supplier.id,
+        } as ISelectInputOptions));
     }
 
     loadSuppliers = async () => {
@@ -111,52 +109,35 @@ export default class SupplierStore {
     }
 
     createSupplier = async (supplier: ISupplier) => {
-        try {
-            const result = await agent.Supplier.create(supplier);
-            runInAction(() => {
-                this.supplierRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.Supplier.create(supplier);
+        runInAction(() => {
+            this.supplierRegistry.set(result.id, result)
+        });
     }
 
     updateSupplier = async (supplier: ISupplier) => {
-        try {
-            const result = await agent.Supplier.update(supplier);
-            runInAction(() => {
-                this.supplierRegistry.set(supplier.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.Supplier.update(supplier);
+        runInAction(() => {
+            this.supplierRegistry.set(supplier.id, result)
+        });
     }
 
     deleteSupplier = async (id: number) => {
-        try {
-            await agent.Supplier.delete(id);
-            runInAction(() => {
-                this.supplierRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.Supplier.delete(id);
+        runInAction(() => {
+            this.supplierRegistry.delete(id);
+        });
     }
 
     loadAllSuppliers = async () => {
         this.allSupplierRegistry.clear();
-        try {
-            const supplierEnvelop = await agent.Supplier.list(new URLSearchParams())
-            const { suppliers } = supplierEnvelop;
-            runInAction(() => {
-                suppliers.forEach(supplier => {
-                    this.allSupplierRegistry.set(supplier.id, supplier)
-                });
-            })
-        }
-        catch (error) {
-            throw error;
-        }
+        const supplierEnvelop = await agent.Supplier.list(new URLSearchParams())
+        const { suppliers } = supplierEnvelop;
+        runInAction(() => {
+            suppliers.forEach(supplier => {
+                this.allSupplierRegistry.set(supplier.id, supplier)
+            });
+        });
     }
 
 }

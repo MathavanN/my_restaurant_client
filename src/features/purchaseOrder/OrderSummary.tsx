@@ -18,9 +18,8 @@ const OrderSummary: FC<IProps> = ({ order }) => {
 
   const positive = order.approvalStatus === APPROVED && true;
   const negative = order.approvalStatus !== APPROVED && true;
-  const isDefaultDate = (date: Date) => {
-    return isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
-  };
+  const isDefaultDate = (date: Date) =>
+    isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
 
   return (
     <Grid columns={2}>
@@ -64,7 +63,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Approval Reason</Table.Cell>
-                <Table.Cell></Table.Cell>
+                <Table.Cell />
               </Table.Row>
             </Table.Body>
           </Table>
@@ -82,15 +81,15 @@ const OrderSummary: FC<IProps> = ({ order }) => {
                     <Table.Cell>Supplier Address:</Table.Cell>
                     <Table.Cell>
                       {supplier.address1}
-                      {supplier.address2! && ', ' + supplier.address2}
-                      {', ' + supplier.city + ', ' + supplier.country}
+                      {supplier.address2! && `, ${supplier.address2}`}
+                      {`, ${supplier.city}, ${supplier.country}`}
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Phone:</Table.Cell>
                     <Table.Cell>
                       {supplier.telephone1}
-                      {supplier.telephone2! && ', ' + supplier.telephone2}
+                      {supplier.telephone2! && `, ${supplier.telephone2}`}
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>

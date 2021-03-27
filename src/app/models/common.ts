@@ -8,8 +8,3 @@ export interface ISelectGuidInputOptions {
     text: string,
     value: string
 }
-
-export interface ITest<T> {
-    key: string,
-    value: T
-}

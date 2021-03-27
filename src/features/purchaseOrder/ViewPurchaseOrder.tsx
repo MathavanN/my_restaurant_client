@@ -90,7 +90,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
               <Button
                 color='green'
                 content='Approve'
-                disabled={getPurchaseOrderItems.length === 0 ? true : false}
+                disabled={getPurchaseOrderItems.length === 0}
                 onClick={() =>
                   openModal(
                     <ApprovalOrder

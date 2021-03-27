@@ -49,45 +49,45 @@ const App: FC<RouteComponentProps> = () => {
     }
   }, [getToken, token, refreshToken, getUser, getRefreshToken, setAppLoaded]);
 
-  if (!appLoaded) return <LoadingComponent content='Loading app...' />;
+  if (!appLoaded) return <LoadingComponent content="Loading app..." />;
   return (
     <>
       <ModalContainer />
-      <ToastContainer position='bottom-right' />
-      <Route path='/' exact component={Home} />
+      <ToastContainer position="bottom-right" />
+      <Route path="/" exact component={Home} />
       <Route
-        path={'/(.+)'}
+        path="/(.+)"
         render={() => (
           <>
             <NavBar />
             <Container style={{ marginTop: '2em', width: '98%' }}>
               <Switch>
-                <PrivateRoute path='/dashboard' exact component={Dashboard} />
+                <PrivateRoute path="/dashboard" exact component={Dashboard} />
                 <PrivateRoute
-                  path='/purchase'
+                  path="/purchase"
                   exact
                   component={PurchaseOrderDashboard}
                 />
                 <PrivateRoute
-                  path='/purchase/manage/:id'
+                  path="/purchase/manage/:id"
                   exact
                   component={OrderMainForm}
                 />
                 <PrivateRoute
-                  path='/purchase/view/:id'
+                  path="/purchase/view/:id"
                   exact
                   component={ViewPurchaseOrder}
                 />
-                <PrivateRoute path='/grn' exact component={GRNDashboard} />
-                <PrivateRoute path='/grn/view/:id' exact component={ViewGRN} />
+                <PrivateRoute path="/grn" exact component={GRNDashboard} />
+                <PrivateRoute path="/grn/view/:id" exact component={ViewGRN} />
                 <PrivateRoute
-                  path='/grn/manage/:id'
+                  path="/grn/manage/:id"
                   exact
                   component={GRNMainForm}
                 />
-                <PrivateRoute path='/users' exact component={UserDashboard} />
-                <PrivateRoute path='/settings' exact component={Settings} />
-                <PrivateRoute path='/user' exact component={CurrentUser} />
+                <PrivateRoute path="/users" exact component={UserDashboard} />
+                <PrivateRoute path="/settings" exact component={Settings} />
+                <PrivateRoute path="/user" exact component={CurrentUser} />
                 <Route component={NotFound} />
               </Switch>
             </Container>

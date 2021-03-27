@@ -1,6 +1,7 @@
 import { FC, useContext } from 'react';
 import { Table } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
+
 interface IProps {
   displayColumn: boolean;
 }
