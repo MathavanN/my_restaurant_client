@@ -1,9 +1,22 @@
 {
     "cSpell.words": [
+        "browserslist",
         "datepicker",
         "dd'T'HH",
+        "flowtype",
         "fontawesome",
         "fortawesome",
+        "multiline",
+        "multilines",
         "toastify"
-    ]
+    ],
+    "files.associations": {
+        "*.jsx": "javascriptreact"
+    },
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }
