@@ -11,13 +11,12 @@ export default class UserStore {
     token: IToken | null = null;
     user: IUser | null = null
     loadingInitial = false;
-
     appUsersRegistry = new Map();
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
     }
-
 
     getAccessPolicy(policy: string) {
         return !!this.user?.roles.includes(policy);
@@ -26,15 +25,19 @@ export default class UserStore {
     get isSuperAdminUser() {
         return this.getAccessPolicy(SUPER_ADMIN);
     }
+
     get isAdminUser() {
         return this.getAccessPolicy(ADMIN);
     }
+
     get isReportUser() {
         return this.getAccessPolicy(REPORT);
     }
+
     get isNormalUser() {
         return this.getAccessPolicy(NORMAL);
     }
+
     get isLoggedIn() {
         return !!this.user
     }

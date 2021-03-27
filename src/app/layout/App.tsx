@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import {
   Route,
   RouteComponentProps,
@@ -51,14 +51,14 @@ const App: FC<RouteComponentProps> = () => {
 
   if (!appLoaded) return <LoadingComponent content='Loading app...' />;
   return (
-    <Fragment>
+    <>
       <ModalContainer />
       <ToastContainer position='bottom-right' />
       <Route path='/' exact component={Home} />
       <Route
         path={'/(.+)'}
         render={() => (
-          <Fragment>
+          <>
             <NavBar />
             <Container style={{ marginTop: '2em', width: '98%' }}>
               <Switch>
@@ -91,10 +91,10 @@ const App: FC<RouteComponentProps> = () => {
                 <Route component={NotFound} />
               </Switch>
             </Container>
-          </Fragment>
+          </>
         )}
       />
-    </Fragment>
+    </>
   );
 };
 

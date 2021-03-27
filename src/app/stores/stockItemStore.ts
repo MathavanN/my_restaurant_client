@@ -6,7 +6,6 @@ import agent from '../api/agent';
 import { LIMIT } from '../models/constants'
 
 export default class StockItemStore {
-
     rootStore: RootStore;
     stockItem: IStockItem | null = null;
     stockItemRegistry = new Map(); // this is for pagination
@@ -14,8 +13,8 @@ export default class StockItemStore {
     page: number = 1;
     loadingInitial = false;
     predicate = new Map();
-
     allStockItemsRegistry = new Map(); //this to show in dropdown
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
@@ -55,7 +54,6 @@ export default class StockItemStore {
         this.loadingInitial = true;
         try {
             const stockItemEnvelop = await agent.StockItem.list(typeId, this.axiosParams);
-            console.log(stockItemEnvelop)
             const { stockItems, stockItemCount } = stockItemEnvelop;
             runInAction(() => {
                 stockItems.forEach(stockItem => {
@@ -69,7 +67,7 @@ export default class StockItemStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error);
+            throw error;
         }
     }
 
@@ -85,7 +83,6 @@ export default class StockItemStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
@@ -134,7 +131,7 @@ export default class StockItemStore {
             })
         }
         catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 

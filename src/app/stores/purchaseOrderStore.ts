@@ -9,13 +9,10 @@ import { ISelectInputOptions } from '../models/common';
 
 export default class PurchaseOrderStore {
     rootStore: RootStore;
-
     purchaseOrder: IPurchaseOrder | null = null;
     purchaseOrderRegistry = new Map();
     purchaseOrderForGRNRegistry = new Map();
-
     purchaseOrderItemRegistry = new Map();
-
     submitting = false;
     submittingItem = false;
     loadingInitial = false;
@@ -79,18 +76,6 @@ export default class PurchaseOrderStore {
             throw error;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @computed get getPurchaseOrderItems() {
         const sortedItems = this.getSortedPurchaseOrderItems();

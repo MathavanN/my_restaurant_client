@@ -18,9 +18,7 @@ axios.interceptors.request.use((config) => {
     const token = window.localStorage.getItem('jwt');
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
-}, error => {
-    return Promise.reject(error)
-});
+}, error => Promise.reject(error));
 
 axios.interceptors.response.use(undefined, error => {
     if (error.message === "Network Error" && !error.response) {
@@ -154,6 +152,18 @@ const GRNFreeItem = {
     delete: (id: number) => requests.del(`/v1/goodsReceivedNoteFreeItem/${id}`)
 }
 
-const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem, GRN, GRNItem, GRNFreeItem }
+const RestaurantApis = {
+    Users,
+    UnitOfMeasure,
+    StockType,
+    PaymentType,
+    StockItem,
+    Supplier,
+    PurchaseOrder,
+    PurchaseOrderItem,
+    GRN,
+    GRNItem,
+    GRNFreeItem
+}
 
 export default RestaurantApis

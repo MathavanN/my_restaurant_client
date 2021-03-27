@@ -13,8 +13,8 @@ export default class SupplierStore {
     page: number = 1;
     loadingInitial = false;
     predicate = new Map();
-
     allSupplierRegistry = new Map();
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
@@ -83,7 +83,7 @@ export default class SupplierStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
+            throw error;
         }
     }
 
@@ -99,7 +99,7 @@ export default class SupplierStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
+            throw error;
         }
     }
 
@@ -148,7 +148,7 @@ export default class SupplierStore {
             })
         }
         catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 

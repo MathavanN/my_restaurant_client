@@ -9,6 +9,7 @@ export default class UnitOfMeasureStore {
     unitOfMeasure: IUnitOfMeasure | null = null;
     unitOfMeasureRegistry = new Map();
     loadingInitial = false;
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
         makeAutoObservable(this)
@@ -100,12 +101,4 @@ export default class UnitOfMeasureStore {
             throw error;
         }
     }
-
-    // getSortedUnitOfMeasures() {
-    //     const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
-    //     return unitOfMeasures.sort(
-    //         (a, b) => 0 - (a.code.toLowerCase() < b.code.toLowerCase() ? 1 : -1)
-    //     );
-    // }
-
 }

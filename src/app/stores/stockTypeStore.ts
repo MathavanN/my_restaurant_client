@@ -65,7 +65,7 @@ export default class StockTypeStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
+            throw error;
         }
     }
 
@@ -101,11 +101,4 @@ export default class StockTypeStore {
             throw error;
         }
     }
-
-    // getSortedStockTypes() {
-    //     const stockTypes: IStockType[] = Array.from(this.stockTypeRegistry.values());
-    //     return stockTypes.sort(
-    //         (a, b) => a.type.toLowerCase() === b.type.toLowerCase() ? 0 : (a.type.toLowerCase() > b.type.toLowerCase() ? 1 : -1)
-    //     );
-    // }
 }

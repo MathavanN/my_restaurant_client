@@ -8,6 +8,4 @@ export default class RestaurantStore {
         this.rootStore = rootStore;
         makeAutoObservable(this);
     }
-
-
 }

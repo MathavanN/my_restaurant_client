@@ -9,14 +9,13 @@ import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFree
 
 export default class GRNStore {
     rootStore: RootStore;
-
     loadingInitial = false;
     grnRegistry = new Map();
     grn: IGoodsReceivedNote | null = null;
-
     grnItemRegistry = new Map();
     grnItemSummaryRegistry = new Map();
     grnFreeItemRegistry = new Map();
+
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore;
         makeAutoObservable(this);
@@ -104,15 +103,12 @@ export default class GRNStore {
 
     getSortedGoodsReceivedNotes() {
         const goodsReceivedNotes: IGoodsReceivedNote[] = Array.from(this.grnRegistry.values());
-
         const pendingGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus === PENDING);
         const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort((a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime())
         const otherGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus !== PENDING);
         const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort((a, b) => new Date(a.receivedDate).getTime() - new Date(b.receivedDate).getTime())
-
         return [...sortedPendingGoodsReceivedNotes, ...sortedOtherGoodsReceivedNotes]
     }
-
 
     ////GRN Item related
     loadGRNItems = async (goodsReceivedNoteId: number) => {
@@ -151,6 +147,7 @@ export default class GRNStore {
         this.grnItemSummaryRegistry.set('grnDiscount', 0);
         this.grnItemSummaryRegistry.set('grnGrandTotal', 0);
     }
+
     updateGRNItemSummary(item: CreateGoodsReceivedNoteItem) {
         const total = item.itemUnitPrice * item.quantity;
         const nbt = (total * item.nbt) / 100;
@@ -228,7 +225,6 @@ export default class GRNStore {
     }
 
     ////GRN Free Item related
-
     loadGRNFreeItems = async (goodsReceivedNoteId: number) => {
         this.loadingInitial = true;
         try {
