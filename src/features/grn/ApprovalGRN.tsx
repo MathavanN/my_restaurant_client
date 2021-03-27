@@ -2,7 +2,7 @@ import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { ApprovalPurchaseOrder } from '../../app/models/purchaseOrder';
+import { ApprovalPurchaseOrder } from '../../app/models/approvalPurchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import history from '../../history';
 

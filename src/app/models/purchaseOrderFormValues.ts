@@ -1,15 +1,15 @@
-import { IPurchaseOrder } from "./purchaseOrder";
+import { IPurchaseOrder } from './purchaseOrder';
 
 export class PurchaseOrderFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    supplierId: number = 0;
+  supplierId: number = 0;
 
-    supplierName: string = "";
+  supplierName: string = '';
 
-    description: string = "";
+  description: string = '';
 
-    constructor(init?: IPurchaseOrder) {
-        Object.assign(this, init);
-    }
+  constructor(init?: IPurchaseOrder) {
+    Object.assign(this, init);
+  }
 }

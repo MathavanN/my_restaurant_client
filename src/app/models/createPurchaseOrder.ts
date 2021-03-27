@@ -1,13 +1,13 @@
-import { PurchaseOrderFormValues } from "./purchaseOrderFormValues";
+import { PurchaseOrderFormValues } from './purchaseOrderFormValues';
 
 export class CreatePurchaseOrder {
-    id: number = 0;
+  id: number = 0;
 
-    supplierId: number = 0;
+  supplierId: number = 0;
 
-    description: string = "";
+  description: string = '';
 
-    constructor(init?: PurchaseOrderFormValues) {
-        Object.assign(this, init);
-    }
+  constructor(init?: PurchaseOrderFormValues) {
+    Object.assign(this, init);
+  }
 }

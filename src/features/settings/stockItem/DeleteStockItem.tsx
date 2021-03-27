@@ -15,7 +15,7 @@ const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
   const { deleteStockItem } = rootStore.stockItemStore;
   return (
     <>
-      <Header icon='delete' content='Are you sure to delete?' color='red' />
+      <Header icon="delete" content="Are you sure to delete?" color="red" />
       <Divider horizontal />
       <Modal.Content>
         <p>Stock Item: {stockItem.name}</p>
@@ -23,10 +23,10 @@ const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
       <Divider horizontal />
       <Modal.Actions>
         <Grid>
-          <Grid.Column textAlign='center'>
+          <Grid.Column textAlign="center">
             <Button
-              content='Yes'
-              color='red'
+              content="Yes"
+              color="red"
               onClick={() => {
                 deleteStockItem(stockItem.id)
                   .then(() => {
@@ -34,11 +34,11 @@ const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
                     closeModal();
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text='Error:' />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />);
                   });
               }}
             />
-            <Button content='No' color='green' onClick={() => closeModal()} />
+            <Button content="No" color="green" onClick={() => closeModal()} />
           </Grid.Column>
         </Grid>
       </Modal.Actions>

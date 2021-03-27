@@ -5,7 +5,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 
 import DeleteStockType from './DeleteStockType';
 import EditStockType from './EditStockType';
-import { StockTypeFormValues } from '../../../app/models/stockType';
+import { StockTypeFormValues } from '../../../app/models/stockTypeFormValues';
 
 const StockTypeList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -15,7 +15,7 @@ const StockTypeList = () => {
 
   return (
     <>
-      <Table compact celled striped color='red'>
+      <Table compact celled striped color="red">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>No</Table.HeaderCell>
@@ -24,8 +24,8 @@ const StockTypeList = () => {
             {hasModifyAccess && (
               <Table.HeaderCell>
                 <Button
-                  animated='vertical'
-                  color='green'
+                  animated="vertical"
+                  color="green"
                   onClick={() =>
                     openModal(
                       <EditStockType stockType={new StockTypeFormValues()} />
@@ -34,7 +34,7 @@ const StockTypeList = () => {
                 >
                   <Button.Content hidden>Add</Button.Content>
                   <Button.Content visible>
-                    <Icon name='add circle' />
+                    <Icon name="add circle" />
                   </Button.Content>
                 </Button>
               </Table.HeaderCell>
@@ -48,10 +48,10 @@ const StockTypeList = () => {
               <Table.Cell>{stockType.type}</Table.Cell>
               <Table.Cell>{stockType.description}</Table.Cell>
               {hasModifyAccess && (
-                <Table.Cell collapsing textAlign='right'>
+                <Table.Cell collapsing textAlign="right">
                   <Button
-                    animated='vertical'
-                    color='orange'
+                    animated="vertical"
+                    color="orange"
                     onClick={() =>
                       openModal(
                         <EditStockType
@@ -62,19 +62,19 @@ const StockTypeList = () => {
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
-                      <Icon name='edit' />
+                      <Icon name="edit" />
                     </Button.Content>
                   </Button>
                   <Button
-                    animated='vertical'
-                    color='red'
+                    animated="vertical"
+                    color="red"
                     onClick={() =>
                       openModal(<DeleteStockType stockType={stockType} />)
                     }
                   >
                     <Button.Content hidden>Delete</Button.Content>
                     <Button.Content visible>
-                      <Icon name='delete' />
+                      <Icon name="delete" />
                     </Button.Content>
                   </Button>
                 </Table.Cell>

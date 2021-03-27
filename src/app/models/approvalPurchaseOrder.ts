@@ -1,13 +1,13 @@
 export class ApprovalPurchaseOrder {
-    id: number = 0;
+  id: number = 0;
 
-    approvalStatus: string = "";
+  approvalStatus: string = '';
 
-    approvalReason: string = "";
+  approvalReason: string = '';
 
-    constructor(id: number, status: string, reason: string) {
-        this.id = id;
-        this.approvalStatus = status;
-        this.approvalReason = reason;
-    }
+  constructor(id: number, status: string, reason: string) {
+    this.id = id;
+    this.approvalStatus = status;
+    this.approvalReason = reason;
+  }
 }

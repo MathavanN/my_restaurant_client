@@ -1,13 +1,13 @@
-import { IStockType } from "./stockType";
+import { IStockType } from './stockType';
 
 export class StockTypeFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    type: string = "";
+  type: string = '';
 
-    description: string = "";
+  description: string = '';
 
-    constructor(init?: IStockType) {
-        Object.assign(this, init);
-    }
+  constructor(init?: IStockType) {
+    Object.assign(this, init);
+  }
 }

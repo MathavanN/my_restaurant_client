@@ -1,29 +1,29 @@
-import { ISupplier } from "./supplier";
+import { ISupplier } from './supplier';
 
 export class SupplierFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    name: string = "";
+  name: string = '';
 
-    address1: string = "";
+  address1: string = '';
 
-    address2: string = "";
+  address2: string = '';
 
-    city: string = "";
+  city: string = '';
 
-    country: string = "";
+  country: string = '';
 
-    telephone1: string = "";
+  telephone1: string = '';
 
-    telephone2: string = "";
+  telephone2: string = '';
 
-    fax: string = "";
+  fax: string = '';
 
-    email: string = "";
+  email: string = '';
 
-    contactPerson: string = "";
+  contactPerson: string = '';
 
-    constructor(init?: ISupplier) {
-        Object.assign(this, init);
-    }
+  constructor(init?: ISupplier) {
+    Object.assign(this, init);
+  }
 }

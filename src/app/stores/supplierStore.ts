@@ -4,7 +4,7 @@ import { RootStore } from './rootStore';
 import { ISupplier } from '../models/supplier';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { LIMIT } from '../models/constants'
+import { LIMIT } from '../models/constants';
 
 export default class SupplierStore {
     rootStore: RootStore;
@@ -24,8 +24,8 @@ export default class SupplierStore {
     allSupplierRegistry = new Map();
 
     constructor(rootStore: RootStore) {
-        this.rootStore = rootStore
-        makeAutoObservable(this)
+        this.rootStore = rootStore;
+        makeAutoObservable(this);
     }
 
     @computed get getSupplierTotalPages() {
@@ -37,62 +37,66 @@ export default class SupplierStore {
         params.append('limit', String(LIMIT));
         params.append('offset', String(this.page - 1));
         this.predicate.forEach((value, key) => {
-            params.append(key, value)
-        })
-        return params
+            params.append(key, value);
+        });
+        return params;
     }
 
     setPredicate = (predicate: string, value: string | Date | number) => {
-        this.predicate.set(predicate, value)
-    }
+        this.predicate.set(predicate, value);
+    };
 
     setSupplierPage = (page: number) => {
         this.page = page;
-    }
-
+    };
 
     @computed get getSuppliers() {
         const items: ISupplier[] = Array.from(this.supplierRegistry.values());
 
-        return Object.entries(items.reduce((suppliers, supplier, i) => {
-            const serialNumber = LIMIT * (this.page - 1) + i + 1;
-            // eslint-disable-next-line no-param-reassign
-            suppliers[serialNumber] = supplier;
-            return suppliers;
-        }, {} as { [key: number]: ISupplier }));
+        return Object.entries(
+            items.reduce((suppliers, supplier, i) => {
+                const serialNumber = LIMIT * (this.page - 1) + i + 1;
+                // eslint-disable-next-line no-param-reassign
+                suppliers[serialNumber] = supplier;
+                return suppliers;
+            }, {} as { [key: number]: ISupplier })
+        );
     }
 
-
-
     @computed get loadSupplierOptions() {
-        const suppliers: ISupplier[] = Array.from(this.allSupplierRegistry.values());
-        return suppliers.map(supplier => ({
-            key: supplier.id,
-            text: supplier.name,
-            value: supplier.id,
-        } as ISelectInputOptions));
+        const suppliers: ISupplier[] = Array.from(
+            this.allSupplierRegistry.values()
+        );
+        return suppliers.map(
+            (supplier) =>
+            ({
+                key: supplier.id,
+                text: supplier.name,
+                value: supplier.id,
+            } as ISelectInputOptions)
+        );
     }
 
     loadSuppliers = async () => {
         this.supplierRegistry.clear();
         this.loadingInitial = true;
         try {
-            const supplierEnvelop = await agent.Supplier.list(this.axiosParams)
+            const supplierEnvelop = await agent.Supplier.list(this.axiosParams);
             const { suppliers, supplierCount } = supplierEnvelop;
             runInAction(() => {
-                suppliers.forEach(supplier => {
-                    this.supplierRegistry.set(supplier.id, supplier)
+                suppliers.forEach((supplier) => {
+                    this.supplierRegistry.set(supplier.id, supplier);
                 });
                 this.supplierCount = supplierCount;
                 this.loadingInitial = false;
-            })
+            });
         } catch (error) {
             runInAction(() => {
                 this.loadingInitial = false;
-            })
+            });
             throw error;
         }
-    }
+    };
 
     loadSupplier = async (id: number) => {
         this.loadingInitial = true;
@@ -101,45 +105,44 @@ export default class SupplierStore {
             runInAction(() => {
                 this.supplier = supplier;
                 this.loadingInitial = false;
-            })
+            });
         } catch (error) {
             runInAction(() => {
                 this.loadingInitial = false;
-            })
+            });
             throw error;
         }
-    }
+    };
 
     createSupplier = async (supplier: ISupplier) => {
         const result = await agent.Supplier.create(supplier);
         runInAction(() => {
-            this.supplierRegistry.set(result.id, result)
+            this.supplierRegistry.set(result.id, result);
         });
-    }
+    };
 
     updateSupplier = async (supplier: ISupplier) => {
         const result = await agent.Supplier.update(supplier);
         runInAction(() => {
-            this.supplierRegistry.set(supplier.id, result)
+            this.supplierRegistry.set(supplier.id, result);
         });
-    }
+    };
 
     deleteSupplier = async (id: number) => {
         await agent.Supplier.delete(id);
         runInAction(() => {
             this.supplierRegistry.delete(id);
         });
-    }
+    };
 
     loadAllSuppliers = async () => {
         this.allSupplierRegistry.clear();
-        const supplierEnvelop = await agent.Supplier.list(new URLSearchParams())
+        const supplierEnvelop = await agent.Supplier.list(new URLSearchParams());
         const { suppliers } = supplierEnvelop;
         runInAction(() => {
-            suppliers.forEach(supplier => {
-                this.allSupplierRegistry.set(supplier.id, supplier)
+            suppliers.forEach((supplier) => {
+                this.allSupplierRegistry.set(supplier.id, supplier);
             });
         });
-    }
-
+    };
 }

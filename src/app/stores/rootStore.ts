@@ -14,47 +14,47 @@ import UnitOfMeasureStore from './unitOfMeasureStore';
 import StockTypeStore from './stockTypeStore';
 import PaymentTypeStore from './paymentTypeStore';
 
-configure({ enforceActions: 'always' })
+configure({ enforceActions: 'always' });
 
 export class RootStore {
-    userStore: UserStore
+  userStore: UserStore;
 
-    commonStore: CommonStore
+  commonStore: CommonStore;
 
-    modalStore: ModalStore;
+  modalStore: ModalStore;
 
-    restaurantStore: RestaurantStore;
+  restaurantStore: RestaurantStore;
 
-    settingsStore: SettingsStore;
+  settingsStore: SettingsStore;
 
-    purchaseOrderStore: PurchaseOrderStore;
+  purchaseOrderStore: PurchaseOrderStore;
 
-    stockItemStore: StockItemStore
+  stockItemStore: StockItemStore;
 
-    supplierStore: SupplierStore;
+  supplierStore: SupplierStore;
 
-    grnStore: GRNStore;
+  grnStore: GRNStore;
 
-    unitOfMeasureStore: UnitOfMeasureStore;
+  unitOfMeasureStore: UnitOfMeasureStore;
 
-    stockTypeStore: StockTypeStore;
+  stockTypeStore: StockTypeStore;
 
-    paymentTypeStore: PaymentTypeStore;
+  paymentTypeStore: PaymentTypeStore;
 
-    constructor() {
-        this.userStore = new UserStore(this)
-        this.commonStore = new CommonStore(this)
-        this.modalStore = new ModalStore(this)
-        this.restaurantStore = new RestaurantStore(this);
-        this.settingsStore = new SettingsStore(this);
-        this.purchaseOrderStore = new PurchaseOrderStore(this);
-        this.stockItemStore = new StockItemStore(this);
-        this.supplierStore = new SupplierStore(this);
-        this.grnStore = new GRNStore(this);
-        this.unitOfMeasureStore = new UnitOfMeasureStore(this);
-        this.stockTypeStore = new StockTypeStore(this);
-        this.paymentTypeStore = new PaymentTypeStore(this);
-    }
+  constructor() {
+    this.userStore = new UserStore(this);
+    this.commonStore = new CommonStore(this);
+    this.modalStore = new ModalStore(this);
+    this.restaurantStore = new RestaurantStore(this);
+    this.settingsStore = new SettingsStore(this);
+    this.purchaseOrderStore = new PurchaseOrderStore(this);
+    this.stockItemStore = new StockItemStore(this);
+    this.supplierStore = new SupplierStore(this);
+    this.grnStore = new GRNStore(this);
+    this.unitOfMeasureStore = new UnitOfMeasureStore(this);
+    this.stockTypeStore = new StockTypeStore(this);
+    this.paymentTypeStore = new PaymentTypeStore(this);
+  }
 }
 
-export const RootStoreContext = createContext(new RootStore())
+export const RootStoreContext = createContext(new RootStore());

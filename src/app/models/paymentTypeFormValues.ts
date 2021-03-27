@@ -1,13 +1,13 @@
-import { IPaymentType } from "./paymentType";
+import { IPaymentType } from './paymentType';
 
 export class PaymentTypeFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    name: string = "";
+  name: string = '';
 
-    creditPeriod: number = 0;
+  creditPeriod: number = 0;
 
-    constructor(init?: IPaymentType) {
-        Object.assign(this, init);
-    }
+  constructor(init?: IPaymentType) {
+    Object.assign(this, init);
+  }
 }

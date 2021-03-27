@@ -35,36 +35,36 @@ const FilterSupplier: FC<IProps> = ({ handleSupplierSearch, setPredicate }) => {
         <Message.Header>Filter by:</Message.Header>
         <Message.Content>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group widths='equal'>
+            <Form.Group widths="equal">
               <Form.Input
-                name='name'
-                placeholder='Supplier name'
-                autoComplete='off'
+                name="name"
+                placeholder="Supplier name"
+                autoComplete="off"
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
               <Form.Input
-                name='city'
-                placeholder='City'
-                autoComplete='off'
+                name="city"
+                placeholder="City"
+                autoComplete="off"
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
               <Form.Input
-                name='contactPerson'
-                placeholder='Contact person'
-                autoComplete='off'
+                name="contactPerson"
+                placeholder="Contact person"
+                autoComplete="off"
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
 
-              <Button type='submit' color='blue'>
+              <Button type="submit" color="blue">
                 Search
               </Button>
             </Form.Group>

@@ -1,23 +1,23 @@
-import { IStockItem } from "./stockItem";
+import { IStockItem } from './stockItem';
 
 export class StockItemFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    typeId: number = 0;
+  typeId: number = 0;
 
-    stockType: string = "";
+  stockType: string = '';
 
-    unitOfMeasureId: number = 0;
+  unitOfMeasureId: number = 0;
 
-    unitOfMeasureCode: string = "";
+  unitOfMeasureCode: string = '';
 
-    name: string = "";
+  name: string = '';
 
-    description: string = "";
+  description: string = '';
 
-    itemUnit: number = 0;
-    
-    constructor(init?: IStockItem) {
-        Object.assign(this, init);
-    }
+  itemUnit: number = 0;
+
+  constructor(init?: IStockItem) {
+    Object.assign(this, init);
+  }
 }

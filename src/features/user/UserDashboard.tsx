@@ -13,19 +13,19 @@ const UserDashboard = () => {
   return (
     <>
       <Message info icon>
-        <Icon name='shopping cart' />
+        <Icon name="shopping cart" />
         <Message.Content>
           <Message.Header>Register new user</Message.Header>
         </Message.Content>
         <Button
-          floated='left'
+          floated="left"
           onClick={() => openModal(<RegisterNonAdminUser />)}
         >
           Normal User
         </Button>
         {isSuperAdminUser && (
           <Button
-            floated='left'
+            floated="left"
             onClick={() => openModal(<RegisterAdminUser />)}
           >
             Admin User

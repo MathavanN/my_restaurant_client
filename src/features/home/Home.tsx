@@ -13,22 +13,22 @@ const Home = () => {
   const { openModal } = rootStore.modalStore;
 
   return (
-    <Segment textAlign='center' vertical>
+    <Segment textAlign="center" vertical>
       <Container text style={{ marginTop: '2em' }}>
-        <Image src={homeImage} size='large' centered />
+        <Image src={homeImage} size="large" centered />
         {isLoggedIn && user && token ? (
           <>
-            <Header as='h2' content={`Welcome back ${user.fullName}`} />
-            <Button as={Link} to='/dashboard' size='huge'>
+            <Header as="h2" content={`Welcome back ${user.fullName}`} />
+            <Button as={Link} to="/dashboard" size="huge">
               Go to Dashboard!
             </Button>
           </>
         ) : (
           <>
-            <Header as='h2' content='Welcome to Golden Dining' />
+            <Header as="h2" content="Welcome to Golden Dining" />
             <Button
               onClick={() => openModal(<LoginForm />)}
-              size='huge'
+              size="huge"
               primary
             >
               Login

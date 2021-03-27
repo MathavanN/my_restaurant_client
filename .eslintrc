@@ -79,6 +79,7 @@
         "import/prefer-default-export": "off",
         "react/jsx-boolean-value": "off",
         "react/prop-types": "off",
+        "comma-dangle": "off",
         "react/no-unescaped-entities": "off",
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-wrap-multilines": "off",

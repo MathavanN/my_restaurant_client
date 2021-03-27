@@ -1,13 +1,13 @@
-import { IUnitOfMeasure } from "./unitOfMeasure";
+import { IUnitOfMeasure } from './unitOfMeasure';
 
 export class UnitOfMeasureFormValues {
-    id: number = 0;
+  id: number = 0;
 
-    code: string = "";
+  code: string = '';
 
-    description: string = "";
-    
-    constructor(init?: IUnitOfMeasure) {
-        Object.assign(this, init);
-    }
+  description: string = '';
+
+  constructor(init?: IUnitOfMeasure) {
+    Object.assign(this, init);
+  }
 }

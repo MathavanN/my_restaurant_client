@@ -14,11 +14,11 @@ const UserList = () => {
   }, [loadAppUsers]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading user details...' />;
+    return <LoadingComponent content="Loading user details..." />;
 
   return (
     <>
-      <Header as='h3' dividing textAlign='center'>
+      <Header as="h3" dividing textAlign="center">
         User Details
       </Header>
       <UserListItem users={getAppUsers} />

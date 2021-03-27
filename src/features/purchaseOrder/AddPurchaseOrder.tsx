@@ -3,10 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import {
-  PurchaseOrderFormValues,
-  CreatePurchaseOrder,
-} from '../../app/models/purchaseOrder';
+import { CreatePurchaseOrder } from '../../app/models/createPurchaseOrder';
+import { PurchaseOrderFormValues } from '../../app/models/purchaseOrderFormValues';
 import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 

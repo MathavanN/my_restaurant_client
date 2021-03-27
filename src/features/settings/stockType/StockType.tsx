@@ -12,7 +12,7 @@ const StockType = () => {
   }, [loadStockTypes]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading stock type details...' />;
+    return <LoadingComponent content="Loading stock type details..." />;
 
   return (
     <>

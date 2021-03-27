@@ -32,7 +32,7 @@ const RegisterAdminUser = () => {
         }
       })
       .catch((error) => {
-        toast.error(<ErrorMessage error={error} text='Error:' />);
+        toast.error(<ErrorMessage error={error} text="Error:" />);
       });
   };
   useEffect(() => {
@@ -79,101 +79,101 @@ const RegisterAdminUser = () => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>Register new admin access user.</Header.Subheader>
         </Header>
         <Form.Input
-          name='email'
-          type='email'
+          name="email"
+          type="email"
           fluid
-          label='Email'
-          autoComplete='off'
-          placeholder='Email'
+          label="Email"
+          autoComplete="off"
+          placeholder="Email"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.email && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.email.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='firstName'
+          name="firstName"
           fluid
-          label='First Name'
-          autoComplete='off'
-          placeholder='First name'
+          label="First Name"
+          autoComplete="off"
+          placeholder="First name"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.firstName && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.firstName.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='lastName'
+          name="lastName"
           fluid
-          label='Last Name'
-          autoComplete='off'
-          placeholder='Last name'
+          label="Last Name"
+          autoComplete="off"
+          placeholder="Last name"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.lastName && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.lastName.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           fluid
-          label='Password'
-          placeholder='Password'
+          label="Password"
+          placeholder="Password"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.password && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.password.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='confirmPassword'
-          type='password'
+          name="confirmPassword"
+          type="password"
           fluid
-          label='Repeat password'
-          placeholder='Password'
+          label="Repeat password"
+          placeholder="Password"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.confirmPassword && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.confirmPassword.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

@@ -1,27 +1,26 @@
-import { IGoodsReceivedNote } from "./goodsReceivedNote";
+import { IGoodsReceivedNote } from './goodsReceivedNote';
 
 export class CreateGoodsReceivedNote {
-    id: number = 0;
+  id: number = 0;
 
-    purchaseOrderId: number = 0;
+  purchaseOrderId: number = 0;
 
-    invoiceNumber: string = "";
+  invoiceNumber: string = '';
 
-    paymentTypeId: number = 0;
+  paymentTypeId: number = 0;
 
-    nbt: number = 0;
+  nbt: number = 0;
 
-    vat: number = 0;
+  vat: number = 0;
 
-    discount: number = 0;
+  discount: number = 0;
 
-    receivedBy: string = "";
+  receivedBy: string = '';
 
-    receivedDate: Date = new Date();
+  receivedDate: Date = new Date();
 
-    constructor(init?: IGoodsReceivedNote) {
-        Object.assign(this, init);
-        if (init)
-            this.receivedDate = new Date(init?.receivedDate)
-    }
+  constructor(init?: IGoodsReceivedNote) {
+    Object.assign(this, init);
+    if (init) this.receivedDate = new Date(init?.receivedDate);
+  }
 }

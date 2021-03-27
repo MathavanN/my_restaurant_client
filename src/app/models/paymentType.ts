@@ -1,6 +1,5 @@
 export interface IPaymentType {
-    id: number;
-    name: string;
-    creditPeriod: number
+  id: number;
+  name: string;
+  creditPeriod: number;
 }
-

@@ -3,30 +3,30 @@ import { runInAction, makeAutoObservable } from 'mobx';
 import { RootStore } from './rootStore';
 
 export default class ModalStore {
-    rootStore: RootStore;
-    
-    modal = {
-        open: false,
-        body: null
-    };
+  rootStore: RootStore;
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-        makeAutoObservable(this)
-    }
+  modal = {
+    open: false,
+    body: null,
+  };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    openModal = (content: any) => {
-        runInAction(() => {
-            this.modal.open = true;
-            this.modal.body = content;
-        });
-    };
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+    makeAutoObservable(this);
+  }
 
-    closeModal = () => {
-        runInAction(() => {
-            this.modal.open = false;
-            this.modal.body = null;
-        });
-    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  openModal = (content: any) => {
+    runInAction(() => {
+      this.modal.open = true;
+      this.modal.body = content;
+    });
+  };
+
+  closeModal = () => {
+    runInAction(() => {
+      this.modal.open = false;
+      this.modal.body = null;
+    });
+  };
 }

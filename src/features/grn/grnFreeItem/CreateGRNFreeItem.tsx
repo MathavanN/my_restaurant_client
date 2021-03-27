@@ -5,10 +5,8 @@ import { toast } from 'react-toastify';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
-import {
-  CreateGoodsReceivedNoteFreeItem,
-  GoodsReceivedNoteFreeItemFormValues,
-} from '../../../app/models/goodsReceivedNoteFreeItem';
+import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItemFormValues';
+import { CreateGoodsReceivedNoteFreeItem } from '../../../app/models/createGoodsReceivedNoteFreeItem';
 
 interface IProps {
   item: GoodsReceivedNoteFreeItemFormValues;

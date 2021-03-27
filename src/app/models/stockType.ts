@@ -1,5 +1,5 @@
 export interface IStockType {
-    id: number;
-    type: string;
-    description: string;
+  id: number;
+  type: string;
+  description: string;
 }
