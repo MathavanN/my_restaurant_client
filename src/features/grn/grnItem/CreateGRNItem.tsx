@@ -24,7 +24,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
     defaultValues: item,
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new CreateGoodsReceivedNoteItem({
       ...data,

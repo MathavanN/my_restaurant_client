@@ -1,11 +1,12 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { SupplierFormValues } from '../../../app/models/supplier';
+import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import EditSupplier from './EditSupplier';
 
 interface IProps {
   hasModifyAccess: boolean;
   supplier: SupplierFormValues;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
 }
 const SupplierListHeader: FC<IProps> = ({

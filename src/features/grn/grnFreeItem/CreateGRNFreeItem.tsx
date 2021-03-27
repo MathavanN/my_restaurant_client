@@ -26,7 +26,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
     defaultValues: item,
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new CreateGoodsReceivedNoteFreeItem({
       ...data,
@@ -40,7 +40,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updateGRNFreeItem(formData)
@@ -49,7 +49,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
 
@@ -133,17 +133,17 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {item.id === 0 ? 'Add New GRN Free Item' : 'Modify GRN Free Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name='itemTypeId'
+          name="itemTypeId"
           fluid
           options={stockTypeOptions}
-          label='Item Type'
-          placeholder='Select item type'
+          label="Item Type"
+          placeholder="Select item type"
           defaultValue={item.itemTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -151,7 +151,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemTypeId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.itemTypeId.message}
               </Label>
             )
@@ -159,13 +159,13 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         {itemTypeSelected > 0 && (
           <Form.Select
-            name='itemId'
+            name="itemId"
             fluid
             search
             selection
             options={getAllStockItemsForStockType(itemTypeSelected)}
-            label='Item Name'
-            placeholder='Select an item'
+            label="Item Name"
+            placeholder="Select an item"
             defaultValue={item.itemId}
             onChange={async (e, { name, value }) => {
               setValue(name, value);
@@ -173,7 +173,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             }}
             error={
               errors.itemId && (
-                <Label basic color='red' pointing>
+                <Label basic color="red" pointing>
                   {errors.itemId.message}
                 </Label>
               )
@@ -182,11 +182,11 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         )}
 
         <Form.Input
-          name='itemUnitPrice'
+          name="itemUnitPrice"
           fluid
-          label='Unit Price'
-          placeholder='Unit price'
-          autoComplete='off'
+          label="Unit Price"
+          placeholder="Unit price"
+          autoComplete="off"
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -194,18 +194,18 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemUnitPrice && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.itemUnitPrice.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='quantity'
+          name="quantity"
           fluid
-          label='Quantity'
-          placeholder='Quantity'
-          autoComplete='off'
+          label="Quantity"
+          placeholder="Quantity"
+          autoComplete="off"
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -213,18 +213,18 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.quantity && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.quantity.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='nbt'
+          name="nbt"
           fluid
-          label='NBT %'
-          placeholder='NBT'
-          autoComplete='off'
+          label="NBT %"
+          placeholder="NBT"
+          autoComplete="off"
           defaultValue={item.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -232,18 +232,18 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.nbt && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.nbt.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='vat'
+          name="vat"
           fluid
-          label='VAT %'
-          placeholder='VAT'
-          autoComplete='off'
+          label="VAT %"
+          placeholder="VAT"
+          autoComplete="off"
           defaultValue={item.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -251,18 +251,18 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.vat && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.vat.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='discount'
+          name="discount"
           fluid
-          label='Discount %'
-          placeholder='Discount'
-          autoComplete='off'
+          label="Discount %"
+          placeholder="Discount"
+          autoComplete="off"
           defaultValue={item.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -270,13 +270,13 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.discount && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.discount.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

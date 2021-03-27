@@ -9,7 +9,7 @@ import {
   ISelectGuidInputOptions,
   ISelectInputOptions,
 } from '../../app/models/common';
-import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
@@ -34,7 +34,7 @@ const AddGRN: FC<IProps> = ({
   const rootStore = useContext(RootStoreContext);
   const { createGRN, updateGRN } = rootStore.grnStore;
   const { closeModal } = rootStore.modalStore;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new CreateGoodsReceivedNote({
       ...data,
@@ -42,7 +42,7 @@ const AddGRN: FC<IProps> = ({
     });
     if (formData.id === 0)
       createGRN(formData).catch((error) => {
-        toast.error(<ErrorMessage error={error} text='Error:' />);
+        toast.error(<ErrorMessage error={error} text="Error:" />);
       });
     else
       updateGRN(formData)
@@ -51,7 +51,7 @@ const AddGRN: FC<IProps> = ({
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
 
@@ -138,7 +138,7 @@ const AddGRN: FC<IProps> = ({
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {goodsReceivedNote.id === 0
               ? 'Create a new goods received note'
@@ -146,13 +146,13 @@ const AddGRN: FC<IProps> = ({
           </Header.Subheader>
         </Header>
         <Form.Select
-          name='purchaseOrderId'
+          name="purchaseOrderId"
           fluid
           search
           selection
           options={purchaseOrderOptions}
-          label='Purchase Order'
-          placeholder='Select a purchase order'
+          label="Purchase Order"
+          placeholder="Select a purchase order"
           defaultValue={goodsReceivedNote.purchaseOrderId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -160,18 +160,18 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.purchaseOrderId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.purchaseOrderId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='invoiceNumber'
+          name="invoiceNumber"
           fluid
-          label='Invoice Number'
-          placeholder='invoice number'
-          autoComplete='off'
+          label="Invoice Number"
+          placeholder="invoice number"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.invoiceNumber}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -179,19 +179,19 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.invoiceNumber && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.invoiceNumber.message}
               </Label>
             )
           }
         />
         <Form.Select
-          name='paymentTypeId'
+          name="paymentTypeId"
           fluid
           options={paymentTypeOptions}
-          label='Payment Type'
-          placeholder='Select payment type'
-          autoComplete='off'
+          label="Payment Type"
+          placeholder="Select payment type"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.paymentTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -199,18 +199,18 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.paymentTypeId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.paymentTypeId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='nbt'
+          name="nbt"
           fluid
-          label='NBT (%)'
-          placeholder='NBT'
-          autoComplete='off'
+          label="NBT (%)"
+          placeholder="NBT"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.nbt}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -218,18 +218,18 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.nbt && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.nbt.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='vat'
+          name="vat"
           fluid
-          label='VAT (%)'
-          placeholder='VAT'
-          autoComplete='off'
+          label="VAT (%)"
+          placeholder="VAT"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.vat}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -237,18 +237,18 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.vat && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.vat.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='discount'
+          name="discount"
           fluid
-          label='Discount (%)'
-          placeholder='Discount'
-          autoComplete='off'
+          label="Discount (%)"
+          placeholder="Discount"
+          autoComplete="off"
           defaultValue={goodsReceivedNote.discount}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -256,18 +256,18 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.discount && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.discount.message}
               </Label>
             )
           }
         />
         <Form.Select
-          name='receivedBy'
+          name="receivedBy"
           fluid
           options={userOptions}
-          label='Received By'
-          placeholder='Select received by'
+          label="Received By"
+          placeholder="Select received by"
           defaultValue={goodsReceivedNote.receivedBy}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -275,7 +275,7 @@ const AddGRN: FC<IProps> = ({
           }}
           error={
             errors.receivedBy && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.receivedBy.message}
               </Label>
             )
@@ -284,13 +284,13 @@ const AddGRN: FC<IProps> = ({
         <Form.Field>
           <label>Received Date</label>
           <DatePicker
-            id='receivedDate'
-            name='receivedDate'
+            id="receivedDate"
+            name="receivedDate"
             selected={receivedDate}
             onChange={handleReceivedDate}
-            timeFormat='p'
+            timeFormat="p"
             timeIntervals={15}
-            dateFormat='Pp'
+            dateFormat="Pp"
             showTimeSelect
             maxDate={new Date()}
             minTime={setHours(setMinutes(new Date(), 0), 0)}
@@ -300,12 +300,12 @@ const AddGRN: FC<IProps> = ({
             )}
           />
           {errors.receivedDate && (
-            <Label basic color='red' pointing>
+            <Label basic color="red" pointing>
               {errors.receivedDate.message}
             </Label>
           )}
         </Form.Field>
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

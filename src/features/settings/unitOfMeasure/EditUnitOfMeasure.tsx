@@ -22,6 +22,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: uom,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
     if (formData.id === 0)

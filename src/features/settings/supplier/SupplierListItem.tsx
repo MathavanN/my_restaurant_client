@@ -7,6 +7,7 @@ import EditSupplier from './EditSupplier';
 
 interface IProps {
   hasModifyAccess: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
   closeModal: () => void;
   suppliers: [string, ISupplier][];

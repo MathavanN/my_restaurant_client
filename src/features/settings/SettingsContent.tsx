@@ -15,6 +15,7 @@ const panes = [
   { menuItem: 'Supplier', render: () => <Supplier /> },
 ];
 interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setActiveTab: (activeIndex: any) => void;
 }
 const SettingsContent: FC<IProps> = ({ setActiveTab }) => (

@@ -9,6 +9,7 @@ interface IProps {
 
 const FilterSupplier: FC<IProps> = ({ handleSupplierSearch, setPredicate }) => {
   const { handleSubmit, setValue, register, trigger } = useForm();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     if (data.name) setPredicate('name', data.name);
     if (data.city) setPredicate('city', data.city);

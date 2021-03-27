@@ -15,6 +15,7 @@ const FilterStockItem: FC<IProps> = ({
   handleStockItemSearch,
 }) => {
   const { handleSubmit, setValue, register, errors, trigger } = useForm();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     handleStockItemSearch(data.typeId);
   };
@@ -30,9 +31,9 @@ const FilterStockItem: FC<IProps> = ({
           <Message.Header>Filter by:</Message.Header>
           <Message.Content>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group widths='equal'>
+              <Form.Group widths="equal">
                 <Form.Select
-                  name='typeId'
+                  name="typeId"
                   compact
                   options={stockTypeOptions}
                   defaultValue={selectedStockType}
@@ -42,13 +43,13 @@ const FilterStockItem: FC<IProps> = ({
                   }}
                   error={
                     errors.typeId && (
-                      <Label basic color='red' pointing>
+                      <Label basic color="red" pointing>
                         {errors.typeId.message}
                       </Label>
                     )
                   }
                 />
-                <Button type='submit' color='blue'>
+                <Button type="submit" color="blue">
                   Search
                 </Button>
               </Form.Group>

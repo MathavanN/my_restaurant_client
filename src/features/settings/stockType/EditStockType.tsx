@@ -19,6 +19,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: stockType,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new StockTypeFormValues({ ...data, id: stockType.id });
     if (formData.id === 0)

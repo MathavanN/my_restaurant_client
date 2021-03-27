@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IStockItem, StockItemFormValues } from '../../../app/models/stockItem';
+import { IStockItem } from '../../../app/models/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
 import DeleteStockItem from './DeleteStockItem';
 import EditStockItem from './EditStockItem';
 
@@ -9,6 +10,7 @@ interface IProps {
   hasModifyAccess: boolean;
   stockTypeOptions: ISelectInputOptions[];
   unitOfMeasureOptions: ISelectInputOptions[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
   stockItems: [string, IStockItem][];
 }

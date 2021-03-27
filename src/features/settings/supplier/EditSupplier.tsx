@@ -19,6 +19,7 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: supplier,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new SupplierFormValues({ ...data, id: supplier.id });
     if (formData.id === 0)

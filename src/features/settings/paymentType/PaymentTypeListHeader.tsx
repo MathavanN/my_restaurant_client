@@ -1,11 +1,12 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { PaymentTypeFormValues } from '../../../app/models/paymentType';
+import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
 import EditPaymentType from './EditPaymentType';
 
 interface IProps {
   hasModifyAccess: boolean;
   paymentType: PaymentTypeFormValues;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
 }
 const PaymentTypeListHeader: FC<IProps> = ({

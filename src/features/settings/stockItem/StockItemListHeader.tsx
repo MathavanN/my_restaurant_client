@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { StockItemFormValues } from '../../../app/models/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
 import EditStockItem from './EditStockItem';
 
 interface IProps {
@@ -9,6 +9,7 @@ interface IProps {
   stockItem: StockItemFormValues;
   stockTypeOptions: ISelectInputOptions[];
   unitOfMeasureOptions: ISelectInputOptions[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
 }
 const StockItemListHeader: FC<IProps> = ({
