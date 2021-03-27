@@ -52,6 +52,7 @@ export default class StockItemStore {
 
         return Object.entries(items.reduce((stockItems, stockItem, i) => {
             const serialNumber = LIMIT * (this.page - 1) + i + 1;
+            // eslint-disable-next-line no-param-reassign
             stockItems[serialNumber] = stockItem;
             return stockItems;
         }, {} as { [key: number]: IStockItem }));

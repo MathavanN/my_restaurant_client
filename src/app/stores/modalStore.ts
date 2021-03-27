@@ -14,6 +14,7 @@ export default class ModalStore {
         makeAutoObservable(this)
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     openModal = (content: any) => {
         runInAction(() => {
             this.modal.open = true;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from 'react';
 import { AxiosResponse } from 'axios';
 import { List, Message } from 'semantic-ui-react';

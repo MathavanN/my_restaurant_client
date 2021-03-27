@@ -6,6 +6,7 @@ import EditPaymentType from './EditPaymentType';
 
 interface IProps {
   hasModifyAccess: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
   paymentTypes: [string, IPaymentType][];
 }

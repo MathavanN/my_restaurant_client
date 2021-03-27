@@ -1,21 +1,31 @@
 import axios, { AxiosResponse } from 'axios'
 import { toast } from 'react-toastify';
 import history from '../../history'
-import { ApprovalGoodsReceivedNote, CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
-import { CreateGoodsReceivedNoteFreeItem, IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
-import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
+import { IGoodsReceivedNote } from '../models/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../models/createGoodsReceivedNote';
+import { ApprovalGoodsReceivedNote } from '../models/approvalGoodsReceivedNote';
+import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
+import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
+import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem'
 import { IPaymentType } from '../models/paymentType';
-import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
-import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
-import { CreateStockItem, IStockItem, IStockItemEnvelop } from '../models/stockItem';
+import { IPurchaseOrder } from '../models/purchaseOrder';
+import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
+import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
+import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem'
+import { IStockItem, IStockItemEnvelop } from '../models/stockItem';
+import { CreateStockItem } from '../models/createStockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier, ISupplierEnvelop } from '../models/supplier';
-import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
+import { IUnitOfMeasure } from '../models/unitOfMeasure';
+import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues'
 import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IRegisterResult, IToken, IUser, IUserLogin } from '../models/user';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {
     const token = window.localStorage.getItem('jwt');
+    // eslint-disable-next-line no-param-reassign
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 }, error => Promise.reject(error));
@@ -35,7 +45,7 @@ axios.interceptors.response.use(undefined, error => {
     if (status === 404) {
         history.push('/dashboard');
     }
-    if (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
+    if (status === 400 && config.method === 'get' && Object.prototype.hasOwnProperty.call(data.errors, 'id')) {
         history.push('/dashboard');
     }
 
@@ -49,12 +59,13 @@ const responseBody = (response: AxiosResponse) => response.data;
 
 const requests = {
     get: (url: string) => axios.get(url).then(responseBody),
-    getByParams: (url: string, params: URLSearchParams) => axios.get(url, { params: params }).then(responseBody),
+    getByParams: (url: string, params: URLSearchParams) =>
+        axios.get(url, { params }).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     del: (url: string) => axios.delete(url).then(responseBody),
     postForm: (url: string, file: Blob) => {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('File', file);
         return axios.post(url, formData, { headers: { 'Content-type': 'multipart/form-data' } }).then(responseBody)
     }
