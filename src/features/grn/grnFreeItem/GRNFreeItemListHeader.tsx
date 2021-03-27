@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import { GoodsReceivedNoteFreeItemFormValues } from "../../../app/models/goodsReceivedNoteFreeItem";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import CreateGRNFreeItem from "./CreateGRNFreeItem";
+import { FC, useContext } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import CreateGRNFreeItem from './CreateGRNFreeItem';
 
 interface IProps {
   displayAmount: boolean;
@@ -22,7 +22,7 @@ const GRNFreeItemListHeader: FC<IProps> = ({
   const rootStore = useContext(RootStoreContext);
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>No</Table.HeaderCell>
@@ -35,10 +35,10 @@ const GRNFreeItemListHeader: FC<IProps> = ({
           <Table.HeaderCell>Discount %</Table.HeaderCell>
           {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
           {displayAction && (
-            <Table.HeaderCell textAlign="center">
+            <Table.HeaderCell textAlign='center'>
               <Button
-                animated="vertical"
-                color="green"
+                animated='vertical'
+                color='green'
                 onClick={() =>
                   openModal(
                     <CreateGRNFreeItem
@@ -50,14 +50,14 @@ const GRNFreeItemListHeader: FC<IProps> = ({
               >
                 <Button.Content hidden>Add</Button.Content>
                 <Button.Content visible>
-                  <Icon name="add circle" />
+                  <Icon name='add circle' />
                 </Button.Content>
               </Button>
             </Table.HeaderCell>
           )}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,9 +1,9 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import OrderItemList from "./OrderItemList";
-import PurchaseOrderListItem from "./PurchaseOrderListItem";
+import { FC, useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import OrderItemList from './OrderItemList';
+import PurchaseOrderListItem from './PurchaseOrderListItem';
 
 interface IDetailsParams {
   id: string;
@@ -19,10 +19,8 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadPurchaseOrderItems,
     purchaseOrder,
   } = rootStore.purchaseOrderStore;
-  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
-
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.stockTypeStore;
   const { loadSupplierOptions, loadAllSuppliers } = rootStore.supplierStore;
-
   const { loadAllStockItems } = rootStore.stockItemStore;
 
   useEffect(() => {
@@ -43,11 +41,11 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
   ]);
 
   return (
-    <Fragment>
+    <>
       {match.params.id && purchaseOrder! && (
-        <Fragment>
+        <>
           <PurchaseOrderListItem
-            orders={new Array(["1", purchaseOrder])}
+            orders={new Array(['1', purchaseOrder])}
             supplierOptions={loadSupplierOptions}
             displayColumn={false}
             displayEdit={true}
@@ -60,9 +58,9 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
             displaySummary={false}
             displayAmount={false}
           />
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 };
 

@@ -62,51 +62,46 @@ const requests = {
     }
 }
 
-const userV1Apis = {
-    login: "/v1/account/login",
-    currentUser: "/v1/account/currentuser",
-    refresh: "/v1/Account/Refresh",
-}
 const Users = {
     list: (): Promise<IAppUser[]> => requests.get(`/v1/account/users`),
-    current: (): Promise<IUser> => requests.get(userV1Apis.currentUser),
-    login: (user: IUserLogin): Promise<IToken> => requests.post(userV1Apis.login, user),
-    refresh: (token: IRefreshToken): Promise<IToken> => requests.post(userV1Apis.refresh, token),
-    registerAdmin: (user: IRegisterAdminUser): Promise<IRegisterResult> => requests.post(`/user/registeradminuser`, user),
-    registerNonAdmin: (user: IRegisterNonAdminUser): Promise<IRegisterResult> => requests.post(`/user/registernormaluser`, user)
+    current: (): Promise<IUser> => requests.get("/v1/account/currentUser"),
+    login: (user: IUserLogin): Promise<IToken> => requests.post("/v1/account/login", user),
+    refresh: (token: IRefreshToken): Promise<IToken> => requests.post("/v1/Account/Refresh", token),
+    registerAdmin: (user: IRegisterAdminUser): Promise<IRegisterResult> => requests.post(`/user/registerAdminUser`, user),
+    registerNonAdmin: (user: IRegisterNonAdminUser): Promise<IRegisterResult> => requests.post(`/user/registerNormalUser`, user)
 }
 
 const UnitOfMeasure = {
-    list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitofmeasure`),
-    create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.post(`/v1/unitofmeasure`, unitOfMeasure),
-    update: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.put(`/v1/unitofmeasure/${unitOfMeasure.id}`, unitOfMeasure),
-    detail: (id: number): Promise<IUnitOfMeasure> => requests.get(`/v1/unitofmeasure/${id}`),
-    delete: (id: number) => requests.del(`/v1/unitofmeasure/${id}`),
+    list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitOfMeasure`),
+    create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.post(`/v1/unitOfMeasure`, unitOfMeasure),
+    update: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> => requests.put(`/v1/unitOfMeasure/${unitOfMeasure.id}`, unitOfMeasure),
+    detail: (id: number): Promise<IUnitOfMeasure> => requests.get(`/v1/unitOfMeasure/${id}`),
+    delete: (id: number) => requests.del(`/v1/unitOfMeasure/${id}`),
 }
 
 const StockType = {
-    list: (): Promise<IStockType[]> => requests.get(`/v1/stocktype`),
-    create: (stockType: IStockType): Promise<IStockType> => requests.post(`/v1/stocktype`, stockType),
-    update: (stockType: IStockType): Promise<IStockType> => requests.put(`/v1/stocktype/${stockType.id}`, stockType),
-    detail: (id: number): Promise<IStockType> => requests.get(`/v1/stocktype/${id}`),
-    delete: (id: number) => requests.del(`/v1/stocktype/${id}`),
+    list: (): Promise<IStockType[]> => requests.get(`/v1/stockType`),
+    create: (stockType: IStockType): Promise<IStockType> => requests.post(`/v1/stockType`, stockType),
+    update: (stockType: IStockType): Promise<IStockType> => requests.put(`/v1/stockType/${stockType.id}`, stockType),
+    detail: (id: number): Promise<IStockType> => requests.get(`/v1/stockType/${id}`),
+    delete: (id: number) => requests.del(`/v1/stockType/${id}`),
 }
 
 const PaymentType = {
-    list: (): Promise<IPaymentType[]> => requests.get(`/v1/paymenttype`),
-    create: (paymentType: IPaymentType): Promise<IPaymentType> => requests.post(`/v1/paymenttype`, paymentType),
-    update: (paymentType: IPaymentType): Promise<IPaymentType> => requests.put(`/v1/paymenttype/${paymentType.id}`, paymentType),
-    detail: (id: number): Promise<IPaymentType> => requests.get(`/v1/paymenttype/${id}`),
-    delete: (id: number) => requests.del(`/v1/paymenttype/${id}`),
+    list: (): Promise<IPaymentType[]> => requests.get(`/v1/paymentType`),
+    create: (paymentType: IPaymentType): Promise<IPaymentType> => requests.post(`/v1/paymentType`, paymentType),
+    update: (paymentType: IPaymentType): Promise<IPaymentType> => requests.put(`/v1/paymentType/${paymentType.id}`, paymentType),
+    detail: (id: number): Promise<IPaymentType> => requests.get(`/v1/paymentType/${id}`),
+    delete: (id: number) => requests.del(`/v1/paymentType/${id}`),
 }
 
 const StockItem = {
-    list: (typeId: number, params: URLSearchParams): Promise<IStockItemEnvelop> => requests.getByParams(`/v1/StockItem/type/${typeId}`, params),
-    listAll: (): Promise<IStockItem[]> => requests.get(`/v1/StockItem`),
-    create: (stockItem: CreateStockItem): Promise<IStockItem> => requests.post(`/v1/stockitem`, stockItem),
-    update: (stockItem: CreateStockItem): Promise<IStockItem> => requests.put(`/v1/stockitem/${stockItem.id}`, stockItem),
-    detail: (id: number): Promise<IStockItem> => requests.get(`/v1/stockitem/${id}`),
-    delete: (id: number) => requests.del(`/v1/stockitem/${id}`)
+    list: (typeId: number, params: URLSearchParams): Promise<IStockItemEnvelop> => requests.getByParams(`/v1/stockItem/type/${typeId}`, params),
+    listAll: (): Promise<IStockItem[]> => requests.get(`/v1/stockItem`),
+    create: (stockItem: CreateStockItem): Promise<IStockItem> => requests.post(`/v1/stockItem`, stockItem),
+    update: (stockItem: CreateStockItem): Promise<IStockItem> => requests.put(`/v1/stockItem/${stockItem.id}`, stockItem),
+    detail: (id: number): Promise<IStockItem> => requests.get(`/v1/stockItem/${id}`),
+    delete: (id: number) => requests.del(`/v1/stockItem/${id}`)
 }
 
 const Supplier = {
@@ -118,45 +113,45 @@ const Supplier = {
 }
 
 const PurchaseOrder = {
-    list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder`),
-    listPOForGRN: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseorder/grnallowed`),
-    create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseorder`, order),
-    detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseorder/${id}`),
-    update: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.put(`/v1/purchaseorder/${order.id}`, order),
-    delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`),
-    approval: (order: ApprovalPurchaseOrder): Promise<IPurchaseOrder> => requests.put(`/v1/purchaseorder/approval/${order.id}`, order)
+    list: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseOrder`),
+    listPOForGRN: (): Promise<IPurchaseOrder[]> => requests.get(`/v1/purchaseOrder/grnAllowed`),
+    create: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.post(`/v1/purchaseOrder`, order),
+    detail: (id: number): Promise<IPurchaseOrder> => requests.get(`/v1/purchaseOrder/${id}`),
+    update: (order: CreatePurchaseOrder): Promise<IPurchaseOrder> => requests.put(`/v1/purchaseOrder/${order.id}`, order),
+    delete: (id: number) => requests.del(`/v1/purchaseOrderItem/${id}`),
+    approval: (order: ApprovalPurchaseOrder): Promise<IPurchaseOrder> => requests.put(`/v1/purchaseOrder/approval/${order.id}`, order)
 }
 
 const PurchaseOrderItem = {
-    list: (params: URLSearchParams): Promise<IPurchaseOrderItem[]> => requests.getByParams(`/v1/purchaseorderitem`, params),
-    create: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.post(`/v1/purchaseorderitem`, item),
-    detail: (id: number): Promise<IPurchaseOrderItem> => requests.get(`/v1/purchaseorderitem/${id}`),
-    update: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.put(`/v1/purchaseorderitem/${item.id}`, item),
-    delete: (id: number) => requests.del(`/v1/purchaseorderitem/${id}`)
+    list: (params: URLSearchParams): Promise<IPurchaseOrderItem[]> => requests.getByParams(`/v1/purchaseOrderItem`, params),
+    create: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.post(`/v1/purchaseOrderItem`, item),
+    detail: (id: number): Promise<IPurchaseOrderItem> => requests.get(`/v1/purchaseOrderItem/${id}`),
+    update: (item: CreatePurchaseOrderItem): Promise<IPurchaseOrderItem> => requests.put(`/v1/purchaseOrderItem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/purchaseOrderItem/${id}`)
 }
 
 const GRN = {
-    list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsreceivednote`),
-    create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsreceivednote`, grn),
-    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsreceivednote/${id}`),
-    update: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.put(`/v1/goodsreceivednote/${grn.id}`, grn),
-    approval: (grn: ApprovalGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.put(`/v1/goodsreceivednote/approval/${grn.id}`, grn)
+    list: (): Promise<IGoodsReceivedNote[]> => requests.get(`/v1/goodsReceivedNote`),
+    create: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.post(`/v1/goodsReceivedNote`, grn),
+    detail: (id: number): Promise<IGoodsReceivedNote> => requests.get(`/v1/goodsReceivedNote/${id}`),
+    update: (grn: CreateGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.put(`/v1/goodsReceivedNote/${grn.id}`, grn),
+    approval: (grn: ApprovalGoodsReceivedNote): Promise<IGoodsReceivedNote> => requests.put(`/v1/goodsReceivedNote/approval/${grn.id}`, grn)
 }
 
 const GRNItem = {
-    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteItem[]> => requests.getByParams(`/v1/goodsreceivednoteitem`, params),
-    detail: (id: number): Promise<IGoodsReceivedNoteItem> => requests.get(`/v1/goodsreceivednoteitem/${id}`),
-    create: (item: CreateGoodsReceivedNoteItem): Promise<IGoodsReceivedNoteItem> => requests.post(`/v1/goodsreceivednoteitem`, item),
-    update: (item: CreateGoodsReceivedNoteItem) => requests.put(`/v1/goodsreceivednoteitem/${item.id}`, item),
-    delete: (id: number) => requests.del(`/v1/goodsreceivednoteitem/${id}`)
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteItem[]> => requests.getByParams(`/v1/goodsReceivedNoteItem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteItem> => requests.get(`/v1/goodsReceivedNoteItem/${id}`),
+    create: (item: CreateGoodsReceivedNoteItem): Promise<IGoodsReceivedNoteItem> => requests.post(`/v1/goodsReceivedNoteItem`, item),
+    update: (item: CreateGoodsReceivedNoteItem) => requests.put(`/v1/goodsReceivedNoteItem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsReceivedNoteItem/${id}`)
 }
 
 const GRNFreeItem = {
-    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteFreeItem[]> => requests.getByParams(`/v1/goodsreceivednotefreeitem`, params),
-    detail: (id: number): Promise<IGoodsReceivedNoteFreeItem> => requests.get(`/v1/goodsreceivednotefreeitem/${id}`),
-    create: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.post(`/v1/goodsreceivednotefreeitem`, item),
-    update: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.put(`/v1/goodsreceivednotefreeitem/${item.id}`, item),
-    delete: (id: number) => requests.del(`/v1/goodsreceivednotefreeitem/${id}`)
+    list: (params: URLSearchParams): Promise<IGoodsReceivedNoteFreeItem[]> => requests.getByParams(`/v1/goodsReceivedNoteFreeItem`, params),
+    detail: (id: number): Promise<IGoodsReceivedNoteFreeItem> => requests.get(`/v1/goodsReceivedNoteFreeItem/${id}`),
+    create: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.post(`/v1/goodsReceivedNoteFreeItem`, item),
+    update: (item: CreateGoodsReceivedNoteFreeItem): Promise<IGoodsReceivedNoteFreeItem> => requests.put(`/v1/goodsReceivedNoteFreeItem/${item.id}`, item),
+    delete: (id: number) => requests.del(`/v1/goodsReceivedNoteFreeItem/${id}`)
 }
 
 const RestaurantApis = { Users, UnitOfMeasure, StockType, PaymentType, StockItem, Supplier, PurchaseOrder, PurchaseOrderItem, GRN, GRNItem, GRNFreeItem }

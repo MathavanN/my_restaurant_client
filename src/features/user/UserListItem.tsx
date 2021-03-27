@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { Table } from "semantic-ui-react";
-import { IAppUser } from "../../app/models/user";
+import { FC } from 'react';
+import { Table } from 'semantic-ui-react';
+import { IAppUser } from '../../app/models/user';
 
 interface IProps {
   users: [string, IAppUser][];
@@ -26,7 +26,7 @@ const UserListItem: FC<IProps> = ({ users }) => {
             <Table.Cell>{user.lastName}</Table.Cell>
             <Table.Cell>{user.email}</Table.Cell>
             <Table.Cell>{user.phoneNumber}</Table.Cell>
-            <Table.Cell>{user.roles.join(", ")}</Table.Cell>
+            <Table.Cell>{user.roles.join(', ')}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>

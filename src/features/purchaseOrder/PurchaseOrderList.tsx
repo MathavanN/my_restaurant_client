@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite";
-import { Fragment, useContext } from "react";
-import { Header } from "semantic-ui-react";
-import { LoadingComponent } from "../../app/layout/LoadingComponent";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import PurchaseOrderListItem from "./PurchaseOrderListItem";
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import { Header } from 'semantic-ui-react';
+import { LoadingComponent } from '../../app/layout/LoadingComponent';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import PurchaseOrderListItem from './PurchaseOrderListItem';
 
 const PurchaseOrderList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -11,11 +11,11 @@ const PurchaseOrderList = () => {
   const { loadSupplierOptions } = rootStore.supplierStore;
 
   if (loadingInitial)
-    return <LoadingComponent content="Loading purchase orders..." />;
+    return <LoadingComponent content='Loading purchase orders...' />;
 
   return (
-    <Fragment>
-      <Header as="h3" dividing textAlign="center">
+    <>
+      <Header as='h3' dividing textAlign='center'>
         Purchase Orders.
       </Header>
       <PurchaseOrderListItem
@@ -25,7 +25,7 @@ const PurchaseOrderList = () => {
         displayEdit={false}
         displayView={true}
       />
-    </Fragment>
+    </>
   );
 };
 

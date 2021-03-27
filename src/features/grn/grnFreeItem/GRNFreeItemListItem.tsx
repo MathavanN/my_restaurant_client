@@ -1,12 +1,12 @@
-import { Fragment, useContext, FC } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import { GoodsReceivedNoteFreeItemFormValues } from "../../../app/models/goodsReceivedNoteFreeItem";
-import CreateGRNFreeItem from "./CreateGRNFreeItem";
-import DeleteGRNFreeItem from "./DeleteGRNFreeItem";
+import { useContext, FC } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem';
+import CreateGRNFreeItem from './CreateGRNFreeItem';
+import DeleteGRNFreeItem from './DeleteGRNFreeItem';
 
 interface IProps {
   displayAmount: boolean;
@@ -25,7 +25,7 @@ const GRNFreeItemListItem: FC<IProps> = ({
   const { getGRNFreeItems } = rootStore.grnStore;
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {getGRNFreeItems.map(([group, item]) => (
           <Table.Row key={item.id}>
@@ -51,10 +51,10 @@ const GRNFreeItemListItem: FC<IProps> = ({
               </Table.Cell>
             )}
             {displayAction && (
-              <Table.Cell collapsing textAlign="right">
+              <Table.Cell collapsing textAlign='right'>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(
                       <CreateGRNFreeItem
@@ -68,17 +68,17 @@ const GRNFreeItemListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
                 <Button
-                  animated="vertical"
-                  color="red"
+                  animated='vertical'
+                  color='red'
                   onClick={() => openModal(<DeleteGRNFreeItem item={item} />)}
                 >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
-                    <Icon name="delete" />
+                    <Icon name='delete' />
                   </Button.Content>
                 </Button>
               </Table.Cell>
@@ -86,7 +86,7 @@ const GRNFreeItemListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

@@ -35,7 +35,6 @@ export class StockItemFormValues {
     name: string = "";
     description: string = "";
     itemUnit: number = 0;
-
     constructor(init?: IStockItem) {
         Object.assign(this, init);
     }

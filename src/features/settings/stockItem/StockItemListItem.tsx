@@ -1,9 +1,9 @@
-import { FC, Fragment } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IStockItem, StockItemFormValues } from "../../../app/models/stockItem";
-import DeleteStockItem from "./DeleteStockItem";
-import EditStockItem from "./EditStockItem";
+import { FC } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IStockItem, StockItemFormValues } from '../../../app/models/stockItem';
+import DeleteStockItem from './DeleteStockItem';
+import EditStockItem from './EditStockItem';
 
 interface IProps {
   hasModifyAccess: boolean;
@@ -21,7 +21,7 @@ const StockItemListItem: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Body>
         {stockItems.map(([group, stockItem]) => (
           <Table.Row key={stockItem.id}>
@@ -34,10 +34,10 @@ const StockItemListItem: FC<IProps> = ({
             </Table.Cell>
             <Table.Cell>{stockItem.description}</Table.Cell>
             {hasModifyAccess && (
-              <Table.Cell collapsing textAlign="right">
+              <Table.Cell collapsing textAlign='right'>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(
                       <EditStockItem
@@ -50,19 +50,19 @@ const StockItemListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
                 <Button
-                  animated="vertical"
-                  color="red"
+                  animated='vertical'
+                  color='red'
                   onClick={() =>
                     openModal(<DeleteStockItem stockItem={stockItem} />)
                   }
                 >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
-                    <Icon name="delete" />
+                    <Icon name='delete' />
                   </Button.Content>
                 </Button>
               </Table.Cell>
@@ -70,7 +70,7 @@ const StockItemListItem: FC<IProps> = ({
           </Table.Row>
         ))}
       </Table.Body>
-    </Fragment>
+    </>
   );
 };
 

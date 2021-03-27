@@ -1,7 +1,7 @@
-import { FC, Fragment } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { SupplierFormValues } from "../../../app/models/supplier";
-import EditSupplier from "./EditSupplier";
+import { FC } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { SupplierFormValues } from '../../../app/models/supplier';
+import EditSupplier from './EditSupplier';
 
 interface IProps {
   hasModifyAccess: boolean;
@@ -14,7 +14,7 @@ const SupplierListHeader: FC<IProps> = ({
   openModal,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>No</Table.HeaderCell>
@@ -26,20 +26,20 @@ const SupplierListHeader: FC<IProps> = ({
           {hasModifyAccess && (
             <Table.HeaderCell>
               <Button
-                animated="vertical"
-                color="green"
+                animated='vertical'
+                color='green'
                 onClick={() => openModal(<EditSupplier supplier={supplier} />)}
               >
                 <Button.Content hidden>Add</Button.Content>
                 <Button.Content visible>
-                  <Icon name="add circle" />
+                  <Icon name='add circle' />
                 </Button.Content>
               </Button>
             </Table.HeaderCell>
           )}
         </Table.Row>
       </Table.Header>
-    </Fragment>
+    </>
   );
 };
 

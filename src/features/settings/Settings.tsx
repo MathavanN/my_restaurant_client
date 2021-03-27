@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite";
-import { useContext } from "react";
-import { Grid } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import SettingsContent from "./SettingsContent";
-import { SettingsHeader } from "./SettingsHeader";
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import { Grid } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import SettingsContent from './SettingsContent';
+import { SettingsHeader } from './SettingsHeader';
 
 const Settings = () => {
   const rootStore = useContext(RootStoreContext);

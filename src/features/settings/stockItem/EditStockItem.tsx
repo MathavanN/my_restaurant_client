@@ -1,15 +1,15 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { RootStoreContext } from "../../../app/stores/rootStore";
+import { FC, useContext, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 import {
   CreateStockItem,
   StockItemFormValues,
-} from "../../../app/models/stockItem";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { toast } from "react-toastify";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+} from '../../../app/models/stockItem';
+import { ISelectInputOptions } from '../../../app/models/common';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 interface IProps {
   stockItem: StockItemFormValues;
   stockTypeOptions: ISelectInputOptions[];
@@ -34,91 +34,91 @@ const EditStockItem: FC<IProps> = ({
     if (formData.id === 0)
       createStockItem(formData)
         .then(() => {
-          toast.success("Stock item created successfully");
+          toast.success('Stock item created successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
     else
       updateStockItem(formData)
         .then(() => {
-          toast.success("Stock item updated successfully");
+          toast.success('Stock item updated successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
   };
 
   useEffect(() => {
     register(
-      { name: "name" },
+      { name: 'name' },
       {
-        required: "Item name is required",
+        required: 'Item name is required',
         maxLength: {
           value: 250,
-          message: "Item name maximum characters 250",
+          message: 'Item name maximum characters 250',
         },
       }
     );
     register(
-      { name: "typeId" },
+      { name: 'typeId' },
       {
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Stock type is required",
+            parseInt(value, 0) > 0 ? true : 'Stock type is required',
         },
       }
     );
     register(
-      { name: "unitOfMeasureId" },
+      { name: 'unitOfMeasureId' },
       {
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Unit of measure is required",
+            parseInt(value, 0) > 0 ? true : 'Unit of measure is required',
         },
       }
     );
     register(
-      { name: "itemUnit" },
+      { name: 'itemUnit' },
       {
-        required: "Item unit is required",
+        required: 'Item unit is required',
         validate: {
           greaterThanZero: (value) =>
             parseInt(value, 0) > 0
               ? true
-              : "Item unit must be greater than zero",
+              : 'Item unit must be greater than zero',
         },
       }
     );
     register(
-      { name: "description" },
+      { name: 'description' },
       {
         maxLength: {
           value: 500,
-          message: "Description maximum characters 500",
+          message: 'Description maximum characters 500',
         },
       }
     );
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)} error>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
-            {stockItem.id === 0 ? "Add new Stock Item" : "Modify Stock Item"}
+            {stockItem.id === 0 ? 'Add new Stock Item' : 'Modify Stock Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name="typeId"
+          name='typeId'
           fluid
           options={stockTypeOptions}
-          label="Stock Type"
-          placeholder="Select stock type"
+          label='Stock Type'
+          placeholder='Select stock type'
           defaultValue={stockItem.typeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -126,17 +126,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.typeId && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.typeId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="name"
+          name='name'
           fluid
-          label="Item Name"
-          placeholder="Item name"
+          label='Item Name'
+          placeholder='Item name'
+          autoComplete='off'
           defaultValue={stockItem.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -144,18 +145,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.name && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.name.message}
               </Label>
             )
           }
         />
         <Form.Select
-          name="unitOfMeasureId"
+          name='unitOfMeasureId'
           fluid
           options={unitOfMeasureOptions}
-          label="Unit Of Measure"
-          placeholder="Select unit of measure"
+          label='Unit Of Measure'
+          placeholder='Select unit of measure'
           defaultValue={stockItem.unitOfMeasureId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -163,17 +164,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.unitOfMeasureId && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.unitOfMeasureId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="itemUnit"
+          name='itemUnit'
           fluid
-          label="Item Unit"
-          placeholder="Item unit"
+          label='Item Unit'
+          placeholder='Item unit'
+          autoComplete='off'
           defaultValue={stockItem.itemUnit}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -181,16 +183,17 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.itemUnit && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.itemUnit.message}
               </Label>
             )
           }
         />
         <Form.TextArea
-          label="Item Description"
-          name="description"
-          placeholder="Item description..."
+          label='Item Description'
+          name='description'
+          placeholder='Item description...'
+          autoComplete='off'
           defaultValue={stockItem.description}
           rows={4}
           onChange={async (e, { name, value }) => {
@@ -199,17 +202,17 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.description && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.description.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 

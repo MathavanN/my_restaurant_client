@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { Grid, Table } from "semantic-ui-react";
-import { IPurchaseOrder } from "../../app/models/purchaseOrder";
-import { format, isEqual } from "date-fns";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { APPROVED } from "../../app/models/constants";
+import { FC, useContext, useEffect } from 'react';
+import { Grid, Table } from 'semantic-ui-react';
+import { format, isEqual } from 'date-fns';
+import { observer } from 'mobx-react-lite';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { APPROVED } from '../../app/models/constants';
 
 interface IProps {
   order: IPurchaseOrder;
@@ -19,7 +19,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
   const positive = order.approvalStatus === APPROVED && true;
   const negative = order.approvalStatus !== APPROVED && true;
   const isDefaultDate = (date: Date) => {
-    return isEqual(new Date(date), new Date("0001-01-01T00:00:00"));
+    return isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
   };
 
   return (
@@ -77,20 +77,20 @@ const OrderSummary: FC<IProps> = ({ order }) => {
                 <Table.Cell>{order.supplierName}</Table.Cell>
               </Table.Row>
               {supplier && (
-                <Fragment>
+                <>
                   <Table.Row rowSpan={2}>
                     <Table.Cell>Supplier Address:</Table.Cell>
                     <Table.Cell>
                       {supplier.address1}
-                      {supplier.address2! && ", " + supplier.address2}
-                      {", " + supplier.city + ", " + supplier.country}
+                      {supplier.address2! && ', ' + supplier.address2}
+                      {', ' + supplier.city + ', ' + supplier.country}
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Phone:</Table.Cell>
                     <Table.Cell>
                       {supplier.telephone1}
-                      {supplier.telephone2! && ", " + supplier.telephone2}
+                      {supplier.telephone2! && ', ' + supplier.telephone2}
                     </Table.Cell>
                   </Table.Row>
                   <Table.Row>
@@ -105,7 +105,7 @@ const OrderSummary: FC<IProps> = ({ order }) => {
                     <Table.Cell>Contact Person:</Table.Cell>
                     <Table.Cell>{supplier.contactPerson}</Table.Cell>
                   </Table.Row>
-                </Fragment>
+                </>
               )}
             </Table.Body>
           </Table>

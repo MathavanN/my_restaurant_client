@@ -1,7 +1,7 @@
-import { FC, Fragment, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Button, Form, Label, Message } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
+import { FC, Fragment, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button, Form, Label, Message } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
 
 interface IProps {
   stockTypeOptions: ISelectInputOptions[];
@@ -20,20 +20,20 @@ const FilterStockItem: FC<IProps> = ({
     handleStockItemSearch(data.typeId);
   };
   useEffect(() => {
-    setValue("typeId", selectedStockType);
-    register({ name: "typeId" }, { required: true });
+    setValue('typeId', selectedStockType);
+    register({ name: 'typeId' }, { required: true });
   }, [register, selectedStockType, setValue]);
 
   return (
-    <Fragment>
+    <>
       {stockTypeOptions.length > 0 && (
         <Message>
           <Message.Header>Filter by:</Message.Header>
           <Message.Content>
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group widths="equal">
+              <Form.Group widths='equal'>
                 <Form.Select
-                  name="typeId"
+                  name='typeId'
                   compact
                   options={stockTypeOptions}
                   defaultValue={selectedStockType}
@@ -43,13 +43,13 @@ const FilterStockItem: FC<IProps> = ({
                   }}
                   error={
                     errors.typeId && (
-                      <Label basic color="red" pointing>
+                      <Label basic color='red' pointing>
                         {errors.typeId.message}
                       </Label>
                     )
                   }
                 />
-                <Button type="submit" color="blue">
+                <Button type='submit' color='blue'>
                   Search
                 </Button>
               </Form.Group>
@@ -57,7 +57,7 @@ const FilterStockItem: FC<IProps> = ({
           </Message.Content>
         </Message>
       )}
-    </Fragment>
+    </>
   );
 };
 

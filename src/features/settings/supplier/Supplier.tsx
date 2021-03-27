@@ -1,7 +1,7 @@
-import { Fragment, useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import SupplierList from "./SupplierList";
+import { useContext, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import SupplierList from './SupplierList';
 
 const Supplier = () => {
   const rootStore = useContext(RootStoreContext);
@@ -11,9 +11,9 @@ const Supplier = () => {
   }, [loadSuppliers]);
 
   return (
-    <Fragment>
+    <>
       <SupplierList />
-    </Fragment>
+    </>
   );
 };
 

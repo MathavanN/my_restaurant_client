@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext } from "react";
-import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
-import { toast } from "react-toastify";
-import { IGoodsReceivedNoteFreeItem } from "../../../app/models/goodsReceivedNoteFreeItem";
+import { FC, useContext } from 'react';
+import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { toast } from 'react-toastify';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { IGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem';
 
 interface IProps {
   item: IGoodsReceivedNoteFreeItem;
@@ -14,8 +14,8 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
   const { closeModal } = rootStore.modalStore;
   const { deleteGRNFreeItem } = rootStore.grnStore;
   return (
-    <Fragment>
-      <Header icon="delete" content="Are you sure to delete?" color="red" />
+    <>
+      <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
         <p>GRN Free Item: {item.itemName}</p>
@@ -23,26 +23,26 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
       <Divider horizontal></Divider>
       <Modal.Actions>
         <Grid>
-          <Grid.Column textAlign="center">
+          <Grid.Column textAlign='center'>
             <Button
-              content="Yes"
-              color="red"
+              content='Yes'
+              color='red'
               onClick={() => {
                 deleteGRNFreeItem(item.id)
                   .then(() => {
-                    toast.success("Item deleted successfully");
+                    toast.success('Item deleted successfully');
                     closeModal();
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text='Error:' />);
                   });
               }}
             />
-            <Button content="No" color="green" onClick={() => closeModal()} />
+            <Button content='No' color='green' onClick={() => closeModal()} />
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
-import { RootStore } from "./rootStore";
-import { reaction, makeAutoObservable } from "mobx";
+import { reaction, makeAutoObservable } from 'mobx';
+import { RootStore } from './rootStore';
 
 export default class CommonStore {
     rootStore: RootStore;

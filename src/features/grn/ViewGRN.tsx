@@ -1,20 +1,20 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import { Link, RouteComponentProps } from "react-router-dom";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { LoadingComponent } from "../../app/layout/LoadingComponent";
-import { Button, Grid, Message, Segment } from "semantic-ui-react";
+import { FC, useContext, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Button, Grid, Message, Segment } from 'semantic-ui-react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import { LoadingComponent } from '../../app/layout/LoadingComponent';
 import {
   APPROVED,
   CANCELLED,
   PENDING,
   REJECTED,
-} from "../../app/models/constants";
-import GRNSummary from "./GRNSummary";
-import GRNItemDetails from "./grnItem/GRNItemDetails";
-import GRNFreeItemDetails from "./grnFreeItem/GRNFreeItemDetails";
-import GRNFullSummary from "./GRNFullSummary";
-import ApprovalGRN from "./ApprovalGRN";
+} from '../../app/models/constants';
+import GRNSummary from './GRNSummary';
+import GRNItemDetails from './grnItem/GRNItemDetails';
+import GRNFreeItemDetails from './grnFreeItem/GRNFreeItemDetails';
+import GRNFullSummary from './GRNFullSummary';
+import ApprovalGRN from './ApprovalGRN';
 
 interface IDetailsParams {
   id: string;
@@ -29,7 +29,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     loadGRNItems,
     getGRNItems,
   } = rootStore.grnStore;
-  const { loadStockTypes, loadStockTypeOptions } = rootStore.settingsStore;
+  const { loadStockTypes, loadStockTypeOptions } = rootStore.stockTypeStore;
   const { hasModifyAccess, user } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
   useEffect(() => {
@@ -41,22 +41,22 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
   }, [loadStockTypes, loadGRN, loadGRNItems, match.params.id]);
 
   if (loadingInitial)
-    return <LoadingComponent content="Loading GRN details..." />;
+    return <LoadingComponent content='Loading GRN details...' />;
 
   if (!grn) return <Message negative>GRN not found.</Message>;
   return (
-    <Fragment>
+    <>
       <Grid>
         <Grid.Column width={16}>
           {grn.approvalStatus === PENDING &&
             (hasModifyAccess || grn.receivedBy === user?.userId) && (
-              <Segment attached="top" textAlign="center">
+              <Segment attached='top' textAlign='center'>
                 <Message info icon>
                   <Message.Content>
                     <Message.Header>GRN Details</Message.Header>
                   </Message.Content>
                   <Button
-                    floated="left"
+                    floated='left'
                     as={Link}
                     to={`/grn/manage/${match.params.id}`}
                   >
@@ -88,43 +88,43 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
             />
           </Segment>
           {grn.approvalStatus === PENDING && hasModifyAccess && (
-            <Segment attached textAlign="center">
+            <Segment attached textAlign='center'>
               <Button
-                color="green"
-                content="Approve"
+                color='green'
+                content='Approve'
                 disabled={getGRNItems.length === 0 ? true : false}
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={APPROVED}
-                      header="Approve the GRN"
+                      header='Approve the GRN'
                     />
                   )
                 }
               />
               <Button
-                color="orange"
-                content="Cancel"
+                color='orange'
+                content='Cancel'
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={CANCELLED}
-                      header="Cancel the GRN"
+                      header='Cancel the GRN'
                     />
                   )
                 }
               />
               <Button
-                color="red"
-                content="Reject"
+                color='red'
+                content='Reject'
                 onClick={() =>
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id)}
                       status={REJECTED}
-                      header="Reject the GRN"
+                      header='Reject the GRN'
                     />
                   )
                 }
@@ -133,7 +133,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
           )}
         </Grid.Column>
       </Grid>
-    </Fragment>
+    </>
   );
 };
 

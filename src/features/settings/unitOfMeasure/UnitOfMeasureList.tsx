@@ -1,20 +1,20 @@
-import { Fragment, useContext } from "react";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { Button, Icon, Table } from "semantic-ui-react";
-import { observer } from "mobx-react-lite";
-import DeleteUnitOfMeasure from "./DeleteUnitOfMeasure";
-import EditUnitOfMeasure from "./EditUnitOfMeasure";
-import { UnitOfMeasureFormValues } from "../../../app/models/unitOfMeasure";
+import { useContext } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import DeleteUnitOfMeasure from './DeleteUnitOfMeasure';
+import EditUnitOfMeasure from './EditUnitOfMeasure';
+import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure';
 
 const UnitOfMeasureList = () => {
   const rootStore = useContext(RootStoreContext);
-  const { getUnitOfMeasures } = rootStore.settingsStore;
+  const { getUnitOfMeasures } = rootStore.unitOfMeasureStore;
   const { openModal } = rootStore.modalStore;
   const { hasModifyAccess } = rootStore.userStore;
 
   return (
-    <Fragment>
-      <Table compact celled>
+    <>
+      <Table compact celled striped color='red'>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>No</Table.HeaderCell>
@@ -23,8 +23,8 @@ const UnitOfMeasureList = () => {
             {hasModifyAccess && (
               <Table.HeaderCell>
                 <Button
-                  animated="vertical"
-                  color="green"
+                  animated='vertical'
+                  color='green'
                   onClick={() =>
                     openModal(
                       <EditUnitOfMeasure uom={new UnitOfMeasureFormValues()} />
@@ -33,7 +33,7 @@ const UnitOfMeasureList = () => {
                 >
                   <Button.Content hidden>Add</Button.Content>
                   <Button.Content visible>
-                    <Icon name="add circle" />
+                    <Icon name='add circle' />
                   </Button.Content>
                 </Button>
               </Table.HeaderCell>
@@ -47,10 +47,10 @@ const UnitOfMeasureList = () => {
               <Table.Cell>{uom.code}</Table.Cell>
               <Table.Cell>{uom.description}</Table.Cell>
               {hasModifyAccess && (
-                <Table.Cell collapsing textAlign="right">
+                <Table.Cell collapsing textAlign='right'>
                   <Button
-                    animated="vertical"
-                    color="orange"
+                    animated='vertical'
+                    color='orange'
                     onClick={() =>
                       openModal(
                         <EditUnitOfMeasure
@@ -61,20 +61,20 @@ const UnitOfMeasureList = () => {
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
-                      <Icon name="edit" />
+                      <Icon name='edit' />
                     </Button.Content>
                   </Button>
 
                   <Button
-                    animated="vertical"
-                    color="red"
+                    animated='vertical'
+                    color='red'
                     onClick={() =>
                       openModal(<DeleteUnitOfMeasure unitOfMeasure={uom} />)
                     }
                   >
                     <Button.Content hidden>Delete</Button.Content>
                     <Button.Content visible>
-                      <Icon name="delete" />
+                      <Icon name='delete' />
                     </Button.Content>
                   </Button>
                 </Table.Cell>
@@ -83,7 +83,7 @@ const UnitOfMeasureList = () => {
           ))}
         </Table.Body>
       </Table>
-    </Fragment>
+    </>
   );
 };
 

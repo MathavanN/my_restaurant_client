@@ -1,10 +1,10 @@
-import { RootStore } from "./rootStore";
-import { runInAction, makeAutoObservable, computed } from "mobx";
-import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IToken, IUser, IUserLogin } from "../models/user";
-import agent from "../api/agent";
+import { RootStore } from './rootStore';
+import { runInAction, makeAutoObservable, computed } from 'mobx';
+import { IAppUser, IRefreshToken, IRegisterAdminUser, IRegisterNonAdminUser, IToken, IUser, IUserLogin } from '../models/user';
+import agent from '../api/agent';
 import history from '../../history'
 import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants'
-import { ISelectGuidInputOptions } from "../models/common";
+import { ISelectGuidInputOptions } from '../models/common';
 
 export default class UserStore {
     rootStore: RootStore;
@@ -138,7 +138,7 @@ export default class UserStore {
 
     getRefreshToken = async (token: string) => {
         try {
-            const refreshToken: IRefreshToken = { "refreshToken": token };
+            const refreshToken: IRefreshToken = { 'refreshToken': token };
             const newToken = await agent.Users.refresh(refreshToken);
             runInAction(async () => {
                 this.token = newToken;

@@ -1,20 +1,18 @@
-import { Fragment, useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { Table } from "semantic-ui-react";
-import { StockItemFormValues } from "../../../app/models/stockItem";
-import FilterStockItem from "./FilterStockItem";
-import StockItemListHeader from "./StockItemListHeader";
-import StockItemListItem from "./StockItemListItem";
-import StockListItemFooter from "./StockListItemFooter";
-import { LoadingComponent } from "../../../app/layout/LoadingComponent";
+import { useContext, useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Table } from 'semantic-ui-react';
+import { StockItemFormValues } from '../../../app/models/stockItem';
+import FilterStockItem from './FilterStockItem';
+import StockItemListHeader from './StockItemListHeader';
+import StockItemListItem from './StockItemListItem';
+import StockListItemFooter from './StockListItemFooter';
+import { LoadingComponent } from '../../../app/layout/LoadingComponent';
+import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);
-  const {
-    loadStockTypeOptions,
-    loadUnitOfMeasureOptions,
-  } = rootStore.settingsStore;
+  const { loadStockTypeOptions } = rootStore.stockTypeStore;
+  const { loadUnitOfMeasureOptions } = rootStore.unitOfMeasureStore;
 
   const {
     loadStockItems,
@@ -47,20 +45,20 @@ const StockItemList = () => {
   }, [loadStockTypeOptions, loadStockItems]);
 
   if (loadStockTypeOptions.length === 0)
-    return <LoadingComponent content="Cannot find stock type..." />;
+    return <LoadingComponent content='Cannot find stock type...' />;
 
   if (loadingInitial && page === 1)
-    return <LoadingComponent content="Loading stock items..." />;
+    return <LoadingComponent content='Loading stock items...' />;
 
   return (
-    <Fragment>
+    <>
       <FilterStockItem
         stockTypeOptions={loadStockTypeOptions}
         selectedStockType={selectedStockType}
         handleStockItemSearch={handleStockItemSearch}
       />
       {selectedStockType > 0 && (
-        <Table compact celled>
+        <Table compact celled striped color='red'>
           <StockItemListHeader
             hasModifyAccess={hasModifyAccess}
             openModal={openModal}
@@ -82,7 +80,7 @@ const StockItemList = () => {
           />
         </Table>
       )}
-    </Fragment>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
-import { FC, Fragment } from "react";
-import { Pagination, Table } from "semantic-ui-react";
+import { FC } from 'react';
+import { Pagination, Table } from 'semantic-ui-react';
 
 interface IProps {
   page: number;
@@ -12,11 +12,11 @@ const StockListItemFooter: FC<IProps> = ({
   handleOnPageChange,
 }) => {
   return (
-    <Fragment>
+    <>
       {totalPages > 1 && (
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan="6">
+            <Table.HeaderCell colSpan='6'>
               <Pagination
                 defaultActivePage={page}
                 totalPages={totalPages}
@@ -28,7 +28,7 @@ const StockListItemFooter: FC<IProps> = ({
           </Table.Row>
         </Table.Footer>
       )}
-    </Fragment>
+    </>
   );
 };
 

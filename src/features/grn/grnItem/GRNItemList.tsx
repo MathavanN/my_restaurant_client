@@ -1,9 +1,9 @@
-import React, { Fragment, FC } from "react";
-import { Table } from "semantic-ui-react";
-import { ISelectInputOptions } from "../../../app/models/common";
-import { IGoodsReceivedNote } from "../../../app/models/goodsReceivedNote";
-import GRNItemListHeader from "./GRNItemListHeader";
-import GRNItemListItem from "./GRNItemListItem";
+import { FC } from 'react';
+import { Table } from 'semantic-ui-react';
+import { ISelectInputOptions } from '../../../app/models/common';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import GRNItemListHeader from './GRNItemListHeader';
+import GRNItemListItem from './GRNItemListItem';
 
 interface IProps {
   displayAmount: boolean;
@@ -19,7 +19,7 @@ const GRNItemList: FC<IProps> = ({
   stockTypeOptions,
 }) => {
   return (
-    <Fragment>
+    <>
       <Table compact celled>
         <GRNItemListHeader
           displayAction={displayAction}
@@ -34,7 +34,7 @@ const GRNItemList: FC<IProps> = ({
           stockTypeOptions={stockTypeOptions}
         />
       </Table>
-    </Fragment>
+    </>
   );
 };
 

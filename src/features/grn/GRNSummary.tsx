@@ -1,8 +1,8 @@
-import { format, isEqual } from "date-fns";
-import { FC } from "react";
-import { Grid, Table } from "semantic-ui-react";
-import { APPROVED } from "../../app/models/constants";
-import { IGoodsReceivedNote } from "../../app/models/goodsReceivedNote";
+import { format, isEqual } from 'date-fns';
+import { FC } from 'react';
+import { Grid, Table } from 'semantic-ui-react';
+import { APPROVED } from '../../app/models/constants';
+import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
 
 interface IProps {
   grn: IGoodsReceivedNote;
@@ -11,7 +11,7 @@ const GRNSummary: FC<IProps> = ({ grn }) => {
   const positive = grn.approvalStatus === APPROVED && true;
   const negative = grn.approvalStatus !== APPROVED && true;
   const isDefaultDate = (date: Date) => {
-    return isEqual(new Date(date), new Date("0001-01-01T00:00:00"));
+    return isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
   };
   return (
     <Grid columns={2}>
@@ -35,21 +35,21 @@ const GRNSummary: FC<IProps> = ({ grn }) => {
                 <Table.Cell>NBT %</Table.Cell>
                 <Table.Cell>
                   {grn.nbt}
-                  {"%"}
+                  {'%'}
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>VAT %</Table.Cell>
                 <Table.Cell>
                   {grn.vat}
-                  {"%"}
+                  {'%'}
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
                 <Table.Cell>Discount %</Table.Cell>
                 <Table.Cell>
                   {grn.discount}
-                  {"%"}
+                  {'%'}
                 </Table.Cell>
               </Table.Row>
             </Table.Body>

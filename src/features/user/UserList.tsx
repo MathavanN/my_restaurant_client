@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite";
-import { Fragment, useContext, useEffect } from "react";
-import { Header } from "semantic-ui-react";
-import { LoadingComponent } from "../../app/layout/LoadingComponent";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import UserListItem from "./UserListItem";
+import { observer } from 'mobx-react-lite';
+import { Header } from 'semantic-ui-react';
+import { useContext, useEffect } from 'react';
+import { LoadingComponent } from '../../app/layout/LoadingComponent';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import UserListItem from './UserListItem';
 
 const UserList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -14,15 +14,15 @@ const UserList = () => {
   }, [loadAppUsers]);
 
   if (loadingInitial)
-    return <LoadingComponent content="Loading user details..." />;
+    return <LoadingComponent content='Loading user details...' />;
 
   return (
-    <Fragment>
-      <Header as="h3" dividing textAlign="center">
+    <>
+      <Header as='h3' dividing textAlign='center'>
         User Details
       </Header>
       <UserListItem users={getAppUsers} />
-    </Fragment>
+    </>
   );
 };
 

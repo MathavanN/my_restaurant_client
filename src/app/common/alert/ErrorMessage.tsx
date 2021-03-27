@@ -1,6 +1,6 @@
-import { FC, Fragment } from "react";
-import { AxiosResponse } from "axios";
-import { List, Message } from "semantic-ui-react";
+import { FC } from 'react';
+import { AxiosResponse } from 'axios';
+import { List, Message } from 'semantic-ui-react';
 
 interface IProps {
   error: AxiosResponse;
@@ -8,14 +8,14 @@ interface IProps {
 }
 const ErrorMessage: FC<IProps> = ({ error, text }) => {
   return (
-    <Fragment>
+    <>
       <Message.Header>
         {text ? (
-          <Fragment>
+          <>
             {text} {error.statusText}
-          </Fragment>
+          </>
         ) : (
-          <Fragment>{error.statusText}</Fragment>
+          <>{error.statusText}</>
         )}
       </Message.Header>
       {Array.isArray(error.data.errorMessage) === true ? (
@@ -27,7 +27,7 @@ const ErrorMessage: FC<IProps> = ({ error, text }) => {
       ) : (
         <p>{error.data.errorMessage}</p>
       )}
-    </Fragment>
+    </>
   );
 };
 

@@ -1,15 +1,14 @@
-import { Fragment } from "react";
-import { observer } from "mobx-react-lite";
-import { Button, Divider, Header, Icon, Table } from "semantic-ui-react";
-import { useContext } from "react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { FC } from "react";
-import CreateOrderItem from "./CreateOrderItem";
-import { PurchaseOrderItemFormValues } from "../../app/models/purchaseOrderItem";
-import DeleteOrderItem from "./DeleteOrderItem";
-import { IPurchaseOrder } from "../../app/models/purchaseOrder";
-import OrderItemSummary from "./OrderItemSummary";
-import { ISelectInputOptions } from "../../app/models/common";
+import { FC } from 'react';
+import { observer } from 'mobx-react-lite';
+import { Button, Divider, Header, Icon, Table } from 'semantic-ui-react';
+import { useContext } from 'react';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import CreateOrderItem from './CreateOrderItem';
+import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItem';
+import DeleteOrderItem from './DeleteOrderItem';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import OrderItemSummary from './OrderItemSummary';
+import { ISelectInputOptions } from '../../app/models/common';
 
 interface IProps {
   displayAmount: boolean;
@@ -29,7 +28,7 @@ const OrderItemList: FC<IProps> = ({
   const { getPurchaseOrderItems } = rootStore.purchaseOrderStore;
   const { openModal } = rootStore.modalStore;
   return (
-    <Fragment>
+    <>
       <Table compact celled>
         <Table.Header>
           <Table.Row>
@@ -40,10 +39,10 @@ const OrderItemList: FC<IProps> = ({
             <Table.HeaderCell>Quantity</Table.HeaderCell>
             {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
             {displayAction && (
-              <Table.HeaderCell textAlign="center">
+              <Table.HeaderCell textAlign='center'>
                 <Button
-                  animated="vertical"
-                  color="green"
+                  animated='vertical'
+                  color='green'
                   onClick={() =>
                     openModal(
                       <CreateOrderItem
@@ -55,7 +54,7 @@ const OrderItemList: FC<IProps> = ({
                 >
                   <Button.Content hidden>Add</Button.Content>
                   <Button.Content visible>
-                    <Icon name="add circle" />
+                    <Icon name='add circle' />
                   </Button.Content>
                 </Button>
               </Table.HeaderCell>
@@ -77,10 +76,10 @@ const OrderItemList: FC<IProps> = ({
                 <Table.Cell>{item.itemUnitPrice * item.quantity}</Table.Cell>
               )}
               {displayAction && (
-                <Table.Cell collapsing textAlign="right">
+                <Table.Cell collapsing textAlign='right'>
                   <Button
-                    animated="vertical"
-                    color="orange"
+                    animated='vertical'
+                    color='orange'
                     onClick={() =>
                       openModal(
                         <CreateOrderItem
@@ -92,17 +91,17 @@ const OrderItemList: FC<IProps> = ({
                   >
                     <Button.Content hidden>Edit</Button.Content>
                     <Button.Content visible>
-                      <Icon name="edit" />
+                      <Icon name='edit' />
                     </Button.Content>
                   </Button>
                   <Button
-                    animated="vertical"
-                    color="red"
+                    animated='vertical'
+                    color='red'
                     onClick={() => openModal(<DeleteOrderItem item={item} />)}
                   >
                     <Button.Content hidden>Delete</Button.Content>
                     <Button.Content visible>
-                      <Icon name="delete" />
+                      <Icon name='delete' />
                     </Button.Content>
                   </Button>
                 </Table.Cell>
@@ -112,16 +111,16 @@ const OrderItemList: FC<IProps> = ({
         </Table.Body>
       </Table>
       {displaySummary && (
-        <Fragment>
+        <>
           <Divider />
-          <Header size="medium" textAlign="center">
+          <Header size='medium' textAlign='center'>
             Purchase Order Item Summary
           </Header>
           <Divider />
           <OrderItemSummary order={order} items={getPurchaseOrderItems} />
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 };
 

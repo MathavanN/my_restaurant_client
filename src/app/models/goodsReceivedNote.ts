@@ -35,7 +35,6 @@ export class CreateGoodsReceivedNote {
     }
 }
 
-
 export class ApprovalGoodsReceivedNote {
     id: number = 0;
     approvalStatus: string = "";

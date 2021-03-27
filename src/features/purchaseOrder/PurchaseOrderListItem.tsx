@@ -1,16 +1,16 @@
-import { FC, useContext } from "react";
-import { Button, Icon, Table } from "semantic-ui-react";
+import { FC, useContext } from 'react';
+import { Button, Icon, Table } from 'semantic-ui-react';
+import { format, isEqual } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import {
   IPurchaseOrder,
   PurchaseOrderFormValues,
-} from "../../app/models/purchaseOrder";
-import { format, isEqual } from "date-fns";
-import { Link } from "react-router-dom";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import AddPurchaseOrder from "./AddPurchaseOrder";
-import { PENDING } from "../../app/models/constants";
-import { ISelectInputOptions } from "../../app/models/common";
-import { observer } from "mobx-react-lite";
+} from '../../app/models/purchaseOrder';
+import { RootStoreContext } from '../../app/stores/rootStore';
+import AddPurchaseOrder from './AddPurchaseOrder';
+import { PENDING } from '../../app/models/constants';
+import { ISelectInputOptions } from '../../app/models/common';
 
 interface IProps {
   orders: [string, IPurchaseOrder][];
@@ -61,15 +61,15 @@ const PurchaseOrderListItem: FC<IProps> = ({
               <Table.Cell>
                 {!isEqual(
                   new Date(order.approvedDate),
-                  new Date("0001-01-01T00:00:00")
+                  new Date('0001-01-01T00:00:00')
                 ) && format(new Date(order.approvedDate), "yyyy-MM-dd'T'HH:mm")}
               </Table.Cell>
             )}
             {displayView && (
               <Table.Cell>
                 <Button
-                  content="View"
-                  color="blue"
+                  content='View'
+                  color='blue'
                   as={Link}
                   to={`/purchase/view/${order.id}`}
                 />
@@ -78,8 +78,8 @@ const PurchaseOrderListItem: FC<IProps> = ({
             {displayEdit && (
               <Table.Cell>
                 <Button
-                  animated="vertical"
-                  color="orange"
+                  animated='vertical'
+                  color='orange'
                   onClick={() =>
                     openModal(
                       <AddPurchaseOrder
@@ -91,7 +91,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name="edit" />
+                    <Icon name='edit' />
                   </Button.Content>
                 </Button>
               </Table.Cell>

@@ -1,6 +1,6 @@
-import { FC, Fragment, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Button, Form, Message } from "semantic-ui-react";
+import { FC, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button, Form, Message } from 'semantic-ui-react';
 
 interface IProps {
   handleSupplierSearch: () => void;
@@ -10,68 +10,67 @@ interface IProps {
 const FilterSupplier: FC<IProps> = ({ handleSupplierSearch, setPredicate }) => {
   const { handleSubmit, setValue, register, trigger } = useForm();
   const onSubmit = (data: any) => {
-    console.log({ ...data });
-    if (data.name) setPredicate("name", data.name);
-    if (data.city) setPredicate("city", data.city);
-    if (data.contactPerson) setPredicate("contactPerson", data.contactPerson);
+    if (data.name) setPredicate('name', data.name);
+    if (data.city) setPredicate('city', data.city);
+    if (data.contactPerson) setPredicate('contactPerson', data.contactPerson);
 
     handleSupplierSearch();
   };
   useEffect(() => {
     register({
-      name: "name",
+      name: 'name',
     });
     register({
-      name: "city",
+      name: 'city',
     });
     register({
-      name: "contactPerson",
+      name: 'contactPerson',
     });
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Message>
         <Message.Header>Filter by:</Message.Header>
         <Message.Content>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group widths="equal">
+            <Form.Group widths='equal'>
               <Form.Input
-                name="name"
-                label="Supplier Name"
-                placeholder="Supplier name"
+                name='name'
+                placeholder='Supplier name'
+                autoComplete='off'
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
               <Form.Input
-                name="city"
-                label="City"
-                placeholder="City"
+                name='city'
+                placeholder='City'
+                autoComplete='off'
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
               <Form.Input
-                name="contactPerson"
-                label="Contact Person"
-                placeholder="Contact person"
+                name='contactPerson'
+                placeholder='Contact person'
+                autoComplete='off'
                 onChange={async (e, { name, value }) => {
                   setValue(name, value);
                   await trigger(name);
                 }}
               />
 
-              <Button type="submit" color="blue">
+              <Button type='submit' color='blue'>
                 Search
               </Button>
             </Form.Group>
           </Form>
         </Message.Content>
       </Message>
-    </Fragment>
+    </>
   );
 };
 

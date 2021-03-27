@@ -1,10 +1,10 @@
-import { FC, Fragment, useContext } from "react";
-import { Button, Modal, Header, Grid, Divider } from "semantic-ui-react";
-import { RootStoreContext } from "../../../app/stores/rootStore";
-import { observer } from "mobx-react-lite";
-import { IStockType } from "../../../app/models/stockType";
-import { toast } from "react-toastify";
-import ErrorMessage from "../../../app/common/alert/ErrorMessage";
+import { FC, useContext } from 'react';
+import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
+import { observer } from 'mobx-react-lite';
+import { RootStoreContext } from '../../../app/stores/rootStore';
+import { IStockType } from '../../../app/models/stockType';
+import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
   stockType: IStockType;
@@ -12,10 +12,10 @@ interface IProps {
 const DeleteStockType: FC<IProps> = ({ stockType }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
-  const { deleteStockType } = rootStore.settingsStore;
+  const { deleteStockType } = rootStore.stockTypeStore;
   return (
-    <Fragment>
-      <Header icon="delete" content="Are you sure to delete?" color="red" />
+    <>
+      <Header icon='delete' content='Are you sure to delete?' color='red' />
       <Divider horizontal></Divider>
       <Modal.Content>
         <p>Stock Type: {stockType.type}</p>
@@ -23,26 +23,26 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
       <Divider horizontal></Divider>
       <Modal.Actions>
         <Grid>
-          <Grid.Column textAlign="center">
+          <Grid.Column textAlign='center'>
             <Button
-              content="Yes"
-              color="red"
+              content='Yes'
+              color='red'
               onClick={() => {
                 deleteStockType(stockType.id)
                   .then(() => {
-                    toast.success("Stock type deleted successfully");
+                    toast.success('Stock type deleted successfully');
                     closeModal();
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text='Error:' />);
                   });
               }}
             />
-            <Button content="No" color="green" onClick={() => closeModal()} />
+            <Button content='No' color='green' onClick={() => closeModal()} />
           </Grid.Column>
         </Grid>
       </Modal.Actions>
-    </Fragment>
+    </>
   );
 };
 

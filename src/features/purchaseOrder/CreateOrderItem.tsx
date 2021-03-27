@@ -1,14 +1,14 @@
-import { FC, Fragment, useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Form, Button, Header, Label } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import { toast } from "react-toastify";
+import { FC, useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Form, Button, Header, Label } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
+import { RootStoreContext } from '../../app/stores/rootStore';
 import {
   CreatePurchaseOrderItem,
   PurchaseOrderItemFormValues,
-} from "../../app/models/purchaseOrderItem";
-import { ISelectInputOptions } from "../../app/models/common";
-import ErrorMessage from "../../app/common/alert/ErrorMessage";
+} from '../../app/models/purchaseOrderItem';
+import { ISelectInputOptions } from '../../app/models/common';
+import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
 interface IProps {
   item: PurchaseOrderItemFormValues;
@@ -32,88 +32,87 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       id: item.id,
       purchaseOrderId: item.purchaseOrderId,
     });
-    console.log(formData);
     if (formData.id === 0)
       createPurchaseOrderItem(formData)
         .then(() => {
-          toast.success("Item created successfully");
+          toast.success('Item created successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
     else
       updatePurchaseOrderItem(formData)
         .then(() => {
-          toast.success("Item updated successfully");
+          toast.success('Item updated successfully');
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text='Error:' />);
         });
   };
-  const itemTypeSelected = watch("itemTypeId");
+  const itemTypeSelected = watch('itemTypeId');
   useEffect(() => {
     register(
-      { name: "itemTypeId" },
+      { name: 'itemTypeId' },
       {
-        required: "Item type is required",
+        required: 'Item type is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Item type is required",
+            parseInt(value, 0) > 0 ? true : 'Item type is required',
         },
       }
     );
     register(
-      { name: "quantity" },
+      { name: 'quantity' },
       {
-        required: "Quantity is required",
+        required: 'Quantity is required',
         validate: {
           greaterThanZero: (value) =>
             parseInt(value, 0) > 0
               ? true
-              : "Quantity must be greater than zero",
+              : 'Quantity must be greater than zero',
         },
       }
     );
     register(
-      { name: "itemId" },
+      { name: 'itemId' },
       {
-        required: "Item is required",
+        required: 'Item is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : "Item is required",
+            parseInt(value, 0) > 0 ? true : 'Item is required',
         },
       }
     );
     register(
-      { name: "itemUnitPrice" },
+      { name: 'itemUnitPrice' },
       {
-        required: "Item unit price is required",
+        required: 'Item unit price is required',
         validate: {
           greaterThanZero: (value) =>
             parseInt(value, 0) > 0
               ? true
-              : "Item unit price must be greater than zero",
+              : 'Item unit price must be greater than zero',
         },
       }
     );
   }, [register]);
 
   return (
-    <Fragment>
+    <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as="h2" color="teal" textAlign="center">
+        <Header as='h2' color='teal' textAlign='center'>
           <Header.Subheader>
-            {item.id === 0 ? "Add new Item" : "Modify Item"}
+            {item.id === 0 ? 'Add new Item' : 'Modify Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name="itemTypeId"
+          name='itemTypeId'
           fluid
           options={stockTypeOptions}
-          label="Item Type"
-          placeholder="Select item type"
+          label='Item Type'
+          placeholder='Select item type'
           defaultValue={item.itemTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -121,7 +120,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemTypeId && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.itemTypeId.message}
               </Label>
             )
@@ -129,13 +128,13 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         {itemTypeSelected > 0 && (
           <Form.Select
-            name="itemId"
+            name='itemId'
             fluid
             search
             selection
             options={getAllStockItemsForStockType(itemTypeSelected)}
-            label="Item Name"
-            placeholder="Select an item"
+            label='Item Name'
+            placeholder='Select an item'
             defaultValue={item.itemId}
             onChange={async (e, { name, value }) => {
               setValue(name, value);
@@ -143,7 +142,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             }}
             error={
               errors.itemId && (
-                <Label basic color="red" pointing>
+                <Label basic color='red' pointing>
                   {errors.itemId.message}
                 </Label>
               )
@@ -152,10 +151,11 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         )}
 
         <Form.Input
-          name="itemUnitPrice"
+          name='itemUnitPrice'
           fluid
-          label="Unit Price"
-          placeholder="Unit price"
+          label='Unit Price'
+          autoComplete='off'
+          placeholder='Unit price'
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -163,17 +163,18 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemUnitPrice && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.itemUnitPrice.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name="quantity"
+          name='quantity'
           fluid
-          label="Quantity"
-          placeholder="Quantity"
+          label='Quantity'
+          autoComplete='off'
+          placeholder='Quantity'
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -181,17 +182,17 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.quantity && (
-              <Label basic color="red" pointing>
+              <Label basic color='red' pointing>
                 {errors.quantity.message}
               </Label>
             )
           }
         />
-        <Button type="submit" color="teal" fluid>
+        <Button type='submit' color='teal' fluid>
           Submit
         </Button>
       </Form>
-    </Fragment>
+    </>
   );
 };
 
