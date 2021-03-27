@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import { FC, useContext, useEffect } from 'react';
 import {
   Route,
@@ -56,7 +57,7 @@ const App: FC<RouteComponentProps> = () => {
       <ToastContainer position="bottom-right" />
       <Route path="/" exact component={Home} />
       <Route
-        path="/(.+)"
+        path={'/(.+)'}
         render={() => (
           <>
             <NavBar />

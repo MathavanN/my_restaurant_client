@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import { ComponentType, FC, useContext } from 'react';
 import {
   RouteProps,
@@ -19,7 +20,7 @@ const PrivateRoute: FC<IProps> = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/" />
+        isLoggedIn ? <Component {...props} /> : <Redirect to={"/"} />
       }
     />
   );
