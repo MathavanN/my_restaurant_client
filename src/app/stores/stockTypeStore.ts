@@ -49,7 +49,6 @@ export default class StockTypeStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 

@@ -39,7 +39,6 @@ export default class PurchaseOrderStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
@@ -120,7 +119,6 @@ export default class PurchaseOrderStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
@@ -138,7 +136,6 @@ export default class PurchaseOrderStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
@@ -154,7 +151,6 @@ export default class PurchaseOrderStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 

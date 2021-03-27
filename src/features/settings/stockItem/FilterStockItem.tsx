@@ -16,7 +16,6 @@ const FilterStockItem: FC<IProps> = ({
 }) => {
   const { handleSubmit, setValue, register, errors, trigger } = useForm();
   const onSubmit = (data: any) => {
-    console.log({ ...data });
     handleStockItemSearch(data.typeId);
   };
   useEffect(() => {

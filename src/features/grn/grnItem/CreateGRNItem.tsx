@@ -15,7 +15,6 @@ interface IProps {
   stockTypeOptions: ISelectInputOptions[];
 }
 const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
-  console.log(item);
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
   const {

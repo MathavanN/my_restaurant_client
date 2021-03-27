@@ -33,7 +33,6 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       id: item.id,
       goodsReceivedNoteId: item.goodsReceivedNoteId,
     });
-    console.log(formData);
     if (formData.id === 0)
       createGRNFreeItem(formData)
         .then(() => {

@@ -49,7 +49,6 @@ export default class UnitOfMeasureStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
@@ -65,7 +64,6 @@ export default class UnitOfMeasureStore {
             runInAction(() => {
                 this.loadingInitial = false;
             })
-            console.log(error)
         }
     }
 
