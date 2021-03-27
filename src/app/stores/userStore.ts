@@ -83,6 +83,7 @@ export default class UserStore {
 
         return Object.entries(sortedAppUsers.reduce((users, user, i) => {
             const key = i + 1;
+            // eslint-disable-next-line no-param-reassign
             users[key] = user;
             return users;
         }, {} as { [key: number]: IAppUser }));
