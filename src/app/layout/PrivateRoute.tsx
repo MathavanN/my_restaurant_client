@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { ComponentType, FC, useContext } from 'react';
 import {
   RouteProps,
   RouteComponentProps,
@@ -9,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../stores/rootStore';
 
 interface IProps extends RouteProps {
-  component: React.ComponentType<RouteComponentProps<any>>;
+  component: ComponentType<RouteComponentProps<any>>;
 }
 const PrivateRoute: FC<IProps> = ({ component: Component, ...rest }) => {
   const rootStore = useContext(RootStoreContext);
