@@ -3,6 +3,7 @@ import { RootStore } from './rootStore';
 
 export default class SettingsStore {
     rootStore: RootStore;
+
     activeTab: number = 0;
 
     constructor(rootStore: RootStore) {

@@ -16,11 +16,11 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
   return (
     <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Content>
         <p>GRN Free Item: {item.itemName}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
           <Grid.Column textAlign='center'>

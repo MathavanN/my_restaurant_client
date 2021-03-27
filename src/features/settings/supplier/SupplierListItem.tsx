@@ -16,60 +16,56 @@ const SupplierListItem: FC<IProps> = ({
   suppliers,
   openModal,
   closeModal,
-}) => {
-  return (
-    <>
-      <Table.Body>
-        {suppliers.map(([group, supplier]) => (
-          <Table.Row key={supplier.id}>
-            <Table.Cell>{group}</Table.Cell>
-            <Table.Cell>{supplier.name}</Table.Cell>
-            <Table.Cell>{supplier.address1}</Table.Cell>
-            <Table.Cell>{supplier.telephone1}</Table.Cell>
-            <Table.Cell>{supplier.email}</Table.Cell>
-            <Table.Cell>{supplier.contactPerson}</Table.Cell>
-            {hasModifyAccess && (
-              <Table.Cell collapsing textAlign='right'>
-                <Button
-                  animated='vertical'
-                  color='orange'
-                  onClick={() =>
-                    openModal(
-                      <EditSupplier
-                        supplier={new SupplierFormValues(supplier)}
-                      />
-                    )
-                  }
-                >
-                  <Button.Content hidden>Edit</Button.Content>
-                  <Button.Content visible>
-                    <Icon name='edit' />
-                  </Button.Content>
-                </Button>
-                <Button
-                  animated='vertical'
-                  color='red'
-                  onClick={() =>
-                    openModal(
-                      <DeleteSupplier
-                        supplier={supplier}
-                        closeModal={closeModal}
-                      />
-                    )
-                  }
-                >
-                  <Button.Content hidden>Delete</Button.Content>
-                  <Button.Content visible>
-                    <Icon name='delete' />
-                  </Button.Content>
-                </Button>
-              </Table.Cell>
-            )}
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </>
-  );
-};
+}) => (
+  <>
+    <Table.Body>
+      {suppliers.map(([group, supplier]) => (
+        <Table.Row key={supplier.id}>
+          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{supplier.name}</Table.Cell>
+          <Table.Cell>{supplier.address1}</Table.Cell>
+          <Table.Cell>{supplier.telephone1}</Table.Cell>
+          <Table.Cell>{supplier.email}</Table.Cell>
+          <Table.Cell>{supplier.contactPerson}</Table.Cell>
+          {hasModifyAccess && (
+            <Table.Cell collapsing textAlign="right">
+              <Button
+                animated="vertical"
+                color="orange"
+                onClick={() =>
+                  openModal(
+                    <EditSupplier supplier={new SupplierFormValues(supplier)} />
+                  )
+                }
+              >
+                <Button.Content hidden>Edit</Button.Content>
+                <Button.Content visible>
+                  <Icon name="edit" />
+                </Button.Content>
+              </Button>
+              <Button
+                animated="vertical"
+                color="red"
+                onClick={() =>
+                  openModal(
+                    <DeleteSupplier
+                      supplier={supplier}
+                      closeModal={closeModal}
+                    />
+                  )
+                }
+              >
+                <Button.Content hidden>Delete</Button.Content>
+                <Button.Content visible>
+                  <Icon name="delete" />
+                </Button.Content>
+              </Button>
+            </Table.Cell>
+          )}
+        </Table.Row>
+      ))}
+    </Table.Body>
+  </>
+);
 
 export default SupplierListItem;

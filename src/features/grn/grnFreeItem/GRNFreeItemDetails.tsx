@@ -16,20 +16,18 @@ const GRNFreeItemDetails: FC<IProps> = ({
   displayAmount,
   grn,
   stockTypeOptions,
-}) => {
-  return (
-    <>
-      <Header size='medium' textAlign='center'>
-        GRN Free Item Details.
-      </Header>
-      <GRNFreeItemList
-        displayAction={displayAction}
-        displayAmount={displayAmount}
-        grn={grn}
-        stockTypeOptions={stockTypeOptions}
-      />
-    </>
-  );
-};
+}) => (
+  <>
+    <Header size="medium" textAlign="center">
+      GRN Free Item Details.
+    </Header>
+    <GRNFreeItemList
+      displayAction={displayAction}
+      displayAmount={displayAmount}
+      grn={grn}
+      stockTypeOptions={stockTypeOptions}
+    />
+  </>
+);
 
 export default GRNFreeItemDetails;

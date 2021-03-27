@@ -1,19 +1,27 @@
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
-import { CreateStockItem, IStockItem } from '../models/stockItem';
+import { IStockItem } from '../models/stockItem';
 import { ISelectInputOptions } from '../models/common';
 import agent from '../api/agent';
 import { LIMIT } from '../models/constants'
+import { CreateStockItem } from '../models/createStockItem';
 
 export default class StockItemStore {
     rootStore: RootStore;
+
     stockItem: IStockItem | null = null;
+
     stockItemRegistry = new Map(); // this is for pagination
+
     stockItemCount: number = 0;
+
     page: number = 1;
+
     loadingInitial = false;
+
     predicate = new Map();
-    allStockItemsRegistry = new Map(); //this to show in dropdown
+
+    allStockItemsRegistry = new Map(); // this to show in dropdown
 
     constructor(rootStore: RootStore) {
         this.rootStore = rootStore
@@ -137,12 +145,10 @@ export default class StockItemStore {
 
     getAllStockItemsForStockType = (typeId: number) => {
         const stockItems: IStockItem[] = Array.from(this.allStockItemsRegistry.values());
-        return stockItems.filter(stockItem => stockItem.typeId === typeId).map(stockItem => {
-            return {
-                key: stockItem.id,
-                text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-                value: stockItem.id
-            } as ISelectInputOptions
-        })
+        return stockItems.filter(stockItem => stockItem.typeId === typeId).map(stockItem => ({
+            key: stockItem.id,
+            text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
+            value: stockItem.id
+        } as ISelectInputOptions))
     }
 }

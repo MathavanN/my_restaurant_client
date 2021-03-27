@@ -6,8 +6,11 @@ import { RootStore } from './rootStore';
 
 export default class PaymentTypeStore {
     rootStore: RootStore;
+
     paymentType: IPaymentType | null = null;
+
     paymentTypeRegistry = new Map();
+
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
@@ -16,23 +19,25 @@ export default class PaymentTypeStore {
     }
 
     @computed get getPaymentTypes() {
-        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
+        const paymentTypes: IPaymentType[] =
+            Array.from(this.paymentTypeRegistry.values());
 
-        return Object.entries(paymentTypes.reduce((paymentTypes, paymentType, i) => {
-            paymentTypes[++i] = paymentType;
-            return paymentTypes;
-        }, {} as { [key: number]: IPaymentType }));
+        return Object.entries(
+            paymentTypes.reduce((paymentTypes, paymentType, i) => {
+                paymentTypes[++i] = paymentType;
+                return paymentTypes;
+            }, {} as { [key: number]: IPaymentType }));
     }
 
     @computed get loadPaymentTypeOptions() {
-        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
-        return paymentTypes.map(paymentType => {
-            return {
-                key: paymentType.id,
-                text: paymentType.name,
-                value: paymentType.id,
-            } as ISelectInputOptions;
-        });
+        const paymentTypes: IPaymentType[] =
+            Array.from(this.paymentTypeRegistry.values());
+
+        return paymentTypes.map(paymentType => ({
+            key: paymentType.id,
+            text: paymentType.name,
+            value: paymentType.id,
+        } as ISelectInputOptions));
     }
 
     loadPaymentTypes = async () => {
@@ -68,35 +73,23 @@ export default class PaymentTypeStore {
     }
 
     createPaymentType = async (values: IPaymentType) => {
-        try {
-            const paymentType = await agent.PaymentType.create(values);
-            runInAction(() => {
-                this.paymentTypeRegistry.set(paymentType.id, paymentType)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const paymentType = await agent.PaymentType.create(values);
+        runInAction(() => {
+            this.paymentTypeRegistry.set(paymentType.id, paymentType)
+        });
     }
 
     updatePaymentType = async (values: IPaymentType) => {
-        try {
-            const paymentType = await agent.PaymentType.update(values);
-            runInAction(() => {
-                this.paymentTypeRegistry.set(values.id, paymentType)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const paymentType = await agent.PaymentType.update(values);
+        runInAction(() => {
+            this.paymentTypeRegistry.set(values.id, paymentType)
+        });
     }
 
     deletePaymentType = async (id: number) => {
-        try {
-            await agent.PaymentType.delete(id);
-            runInAction(() => {
-                this.paymentTypeRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.PaymentType.delete(id);
+        runInAction(() => {
+            this.paymentTypeRegistry.delete(id);
+        });
     }
 }

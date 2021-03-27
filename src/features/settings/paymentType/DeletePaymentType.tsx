@@ -16,11 +16,11 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
   return (
     <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Content>
         <p>Payment Type: {paymentType.name}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
           <Grid.Column textAlign='center'>

@@ -7,12 +7,19 @@ import { LIMIT } from '../models/constants'
 
 export default class SupplierStore {
     rootStore: RootStore;
+
     supplier: ISupplier | null = null;
+
     supplierRegistry = new Map(); // this is for pagination
+
     supplierCount: number = 0;
+
     page: number = 1;
+
     loadingInitial = false;
+
     predicate = new Map();
+    
     allSupplierRegistry = new Map();
 
     constructor(rootStore: RootStore) {

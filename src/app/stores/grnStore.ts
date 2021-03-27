@@ -1,19 +1,28 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { ApprovalGoodsReceivedNote, CreateGoodsReceivedNote, IGoodsReceivedNote } from '../models/goodsReceivedNote';
+import { IGoodsReceivedNote } from '../models/goodsReceivedNote';
 import { RootStore } from './rootStore';
 import { PENDING } from '../models/constants'
-import { CreateGoodsReceivedNoteItem, IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
+import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import history from '../../history'
-import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
+import { ApprovalGoodsReceivedNote } from '../models/approvalGoodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../models/createGoodsReceivedNote';
+import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem'
 
 export default class GRNStore {
     rootStore: RootStore;
+
     loadingInitial = false;
+
     grnRegistry = new Map();
+
     grn: IGoodsReceivedNote | null = null;
+
     grnItemRegistry = new Map();
+
     grnItemSummaryRegistry = new Map();
+
     grnFreeItemRegistry = new Map();
 
     constructor(rootStore: RootStore) {
@@ -24,47 +33,36 @@ export default class GRNStore {
     @computed get getGoodsReceivedNotes() {
         const sortedGoodsReceivedNotes = this.getSortedGoodsReceivedNotes();
 
-        return Object.entries(sortedGoodsReceivedNotes.reduce((goodsReceivedNotes, grn, i) => {
-            goodsReceivedNotes[++i] = grn;
-            return goodsReceivedNotes;
-        }, {} as { [key: number]: IGoodsReceivedNote }));
+        return Object.entries(
+            sortedGoodsReceivedNotes.reduce((goodsReceivedNotes, grn, i) => {
+                goodsReceivedNotes[++i] = grn;
+                return goodsReceivedNotes;
+            }, {} as { [key: number]: IGoodsReceivedNote }));
     }
 
     createGRN = async (grn: CreateGoodsReceivedNote) => {
-        try {
-            const result = await agent.GRN.create(grn);
-            runInAction(() => {
-                this.grnRegistry.set(result.id, result)
-                this.grn = result;
-            });
-            this.rootStore.modalStore.closeModal();
-            history.push(`/grn/manage/${result.id}`);
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRN.create(grn);
+        runInAction(() => {
+            this.grnRegistry.set(result.id, result)
+            this.grn = result;
+        });
+        this.rootStore.modalStore.closeModal();
+        history.push(`/grn/manage/${result.id}`);
     }
 
     updateGRN = async (grn: CreateGoodsReceivedNote) => {
-        try {
-            const result = await agent.GRN.update(grn);
-            runInAction(() => {
-                this.grnRegistry.set(grn.id, result)
-                this.grn = result;
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRN.update(grn);
+        runInAction(() => {
+            this.grnRegistry.set(grn.id, result)
+            this.grn = result;
+        })
     }
 
     approvalGRN = async (grn: ApprovalGoodsReceivedNote) => {
-        try {
-            const result = await agent.GRN.approval(grn);
-            runInAction(() => {
-                this.grnRegistry.set(grn.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRN.approval(grn);
+        runInAction(() => {
+            this.grnRegistry.set(grn.id, result)
+        })
     }
 
     loadGoodsReceivedNotes = async () => {
@@ -100,15 +98,22 @@ export default class GRNStore {
     }
 
     getSortedGoodsReceivedNotes() {
-        const goodsReceivedNotes: IGoodsReceivedNote[] = Array.from(this.grnRegistry.values());
-        const pendingGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus === PENDING);
-        const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort((a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime())
-        const otherGoodsReceivedNotes = goodsReceivedNotes.filter(d => d.approvalStatus !== PENDING);
-        const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort((a, b) => new Date(a.receivedDate).getTime() - new Date(b.receivedDate).getTime())
+        const goodsReceivedNotes: IGoodsReceivedNote[] =
+            Array.from(this.grnRegistry.values());
+        const pendingGoodsReceivedNotes =
+            goodsReceivedNotes.filter(d => d.approvalStatus === PENDING);
+        const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort(
+            (a, b) => new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
+        );
+        const otherGoodsReceivedNotes =
+            goodsReceivedNotes.filter(d => d.approvalStatus !== PENDING);
+        const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort(
+            (a, b) => new Date(a.receivedDate).getTime() - new Date(b.receivedDate).getTime()
+        );
         return [...sortedPendingGoodsReceivedNotes, ...sortedOtherGoodsReceivedNotes]
     }
 
-    ////GRN Item related
+    /// /GRN Item related
     loadGRNItems = async (goodsReceivedNoteId: number) => {
         this.loadingInitial = true;
         try {
@@ -180,48 +185,36 @@ export default class GRNStore {
     }
 
     @computed get getGRNItems() {
-        const items: IGoodsReceivedNoteItem[] = Array.from(this.grnItemRegistry.values());
+        const grnItems: IGoodsReceivedNoteItem[] = Array.from(this.grnItemRegistry.values());
 
-        return Object.entries(items.reduce((items, item, i) => {
+        return Object.entries(grnItems.reduce((items, item, i) => {
             items[++i] = item;
             return items;
         }, {} as { [key: number]: IGoodsReceivedNoteItem }));
     }
 
     createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
-        try {
-            const result = await agent.GRNItem.create(item);
-            runInAction(() => {
-                this.grnItemRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRNItem.create(item);
+        runInAction(() => {
+            this.grnItemRegistry.set(result.id, result)
+        });
     }
 
     updateGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
-        try {
-            const result = await agent.GRNItem.update(item);
-            runInAction(() => {
-                this.grnItemRegistry.set(item.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRNItem.update(item);
+        runInAction(() => {
+            this.grnItemRegistry.set(item.id, result)
+        });
     }
 
     deleteGRNItem = async (id: number) => {
-        try {
-            await agent.GRNItem.delete(id);
-            runInAction(() => {
-                this.grnItemRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.GRNItem.delete(id);
+        runInAction(() => {
+            this.grnItemRegistry.delete(id);
+        });
     }
 
-    ////GRN Free Item related
+    /// /GRN Free Item related
     loadGRNFreeItems = async (goodsReceivedNoteId: number) => {
         this.loadingInitial = true;
         try {
@@ -243,44 +236,32 @@ export default class GRNStore {
     }
 
     @computed get getGRNFreeItems() {
-        const items: IGoodsReceivedNoteItem[] = Array.from(this.grnFreeItemRegistry.values());
+        const freeItems: IGoodsReceivedNoteItem[] = Array.from(this.grnFreeItemRegistry.values());
 
-        return Object.entries(items.reduce((items, item, i) => {
+        return Object.entries(freeItems.reduce((items, item, i) => {
             items[++i] = item;
             return items;
         }, {} as { [key: number]: IGoodsReceivedNoteItem }));
     }
 
     createGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {
-        try {
-            const result = await agent.GRNFreeItem.create(item);
-            runInAction(() => {
-                this.grnFreeItemRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRNFreeItem.create(item);
+        runInAction(() => {
+            this.grnFreeItemRegistry.set(result.id, result)
+        });
     }
 
     updateGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {
-        try {
-            const result = await agent.GRNFreeItem.update(item);
-            runInAction(() => {
-                this.grnFreeItemRegistry.set(item.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.GRNFreeItem.update(item);
+        runInAction(() => {
+            this.grnFreeItemRegistry.set(item.id, result)
+        });
     }
 
     deleteGRNFreeItem = async (id: number) => {
-        try {
-            await agent.GRNFreeItem.delete(id);
-            runInAction(() => {
-                this.grnFreeItemRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.GRNFreeItem.delete(id);
+        runInAction(() => {
+            this.grnFreeItemRegistry.delete(id);
+        });
     }
 }

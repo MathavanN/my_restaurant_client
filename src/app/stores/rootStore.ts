@@ -17,16 +17,27 @@ configure({ enforceActions: 'always' })
 
 export class RootStore {
     userStore: UserStore
+
     commonStore: CommonStore
+
     modalStore: ModalStore;
+
     restaurantStore: RestaurantStore;
+
     settingsStore: SettingsStore;
+
     purchaseOrderStore: PurchaseOrderStore;
+
     stockItemStore: StockItemStore
+
     supplierStore: SupplierStore;
+
     grnStore: GRNStore;
+
     unitOfMeasureStore: UnitOfMeasureStore;
+
     stockTypeStore: StockTypeStore;
+
     paymentTypeStore: PaymentTypeStore;
 
     constructor() {

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { SupplierFormValues } from '../../../app/models/supplier';
+import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {

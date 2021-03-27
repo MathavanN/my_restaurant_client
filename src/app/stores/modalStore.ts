@@ -3,6 +3,7 @@ import { RootStore } from './rootStore';
 
 export default class ModalStore {
     rootStore: RootStore;
+    
     modal = {
         open: false,
         body: null

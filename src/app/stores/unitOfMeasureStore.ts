@@ -1,13 +1,17 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IUnitOfMeasure, UnitOfMeasureFormValues } from '../models/unitOfMeasure';
+import { IUnitOfMeasure } from '../models/unitOfMeasure';
 import { RootStore } from './rootStore'
+import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues'
 
 export default class UnitOfMeasureStore {
     rootStore: RootStore;
+
     unitOfMeasure: IUnitOfMeasure | null = null;
+
     unitOfMeasureRegistry = new Map();
+
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
@@ -16,9 +20,9 @@ export default class UnitOfMeasureStore {
     }
 
     @computed get getUnitOfMeasures() {
-        const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
+        const items: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
 
-        return Object.entries(unitOfMeasures.reduce((unitOfMeasures, unitOfMeasure, i) => {
+        return Object.entries(items.reduce((unitOfMeasures, unitOfMeasure, i) => {
             unitOfMeasures[++i] = unitOfMeasure;
             return unitOfMeasures;
         }, {} as { [key: number]: IUnitOfMeasure }));
@@ -26,13 +30,11 @@ export default class UnitOfMeasureStore {
 
     @computed get loadUnitOfMeasureOptions() {
         const unitOfMeasures: IUnitOfMeasure[] = Array.from(this.unitOfMeasureRegistry.values());
-        return unitOfMeasures.map(unitOfMeasure => {
-            return {
-                key: unitOfMeasure.id,
-                text: unitOfMeasure.code,
-                value: unitOfMeasure.id,
-            } as ISelectInputOptions;
-        });
+        return unitOfMeasures.map(unitOfMeasure => ({
+            key: unitOfMeasure.id,
+            text: unitOfMeasure.code,
+            value: unitOfMeasure.id,
+        } as ISelectInputOptions));
     }
 
     loadUnitOfMeasures = async () => {
@@ -40,9 +42,7 @@ export default class UnitOfMeasureStore {
         try {
             const unitOfMeasures = await agent.UnitOfMeasure.list();
             runInAction(() => {
-                unitOfMeasures.forEach(unitOfMeasure => {
-                    this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
-                });
+                unitOfMeasures.forEach(item => this.unitOfMeasureRegistry.set(item.id, item));
                 this.loadingInitial = false;
             })
         } catch (error) {
@@ -68,35 +68,23 @@ export default class UnitOfMeasureStore {
     }
 
     createUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
-        try {
-            const unitOfMeasure = await agent.UnitOfMeasure.create(values);
-            runInAction(() => {
-                this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const unitOfMeasure = await agent.UnitOfMeasure.create(values);
+        runInAction(() => {
+            this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure)
+        })
     }
 
     updateUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
-        try {
-            const unitOfMeasure = await agent.UnitOfMeasure.update(values);
-            runInAction(() => {
-                this.unitOfMeasureRegistry.set(values.id, unitOfMeasure)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const unitOfMeasure = await agent.UnitOfMeasure.update(values);
+        runInAction(() => {
+            this.unitOfMeasureRegistry.set(values.id, unitOfMeasure)
+        })
     }
 
     deleteUnitOfMeasure = async (id: number) => {
-        try {
-            await agent.UnitOfMeasure.delete(id);
-            runInAction(() => {
-                this.unitOfMeasureRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.UnitOfMeasure.delete(id);
+        runInAction(() => {
+            this.unitOfMeasureRegistry.delete(id);
+        })
     }
 }

@@ -6,8 +6,11 @@ import { RootStore } from './rootStore';
 
 export default class StockTypeStore {
     rootStore: RootStore;
+
     stockType: IStockType | null = null;
+
     stockTypeRegistry = new Map();
+    
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {

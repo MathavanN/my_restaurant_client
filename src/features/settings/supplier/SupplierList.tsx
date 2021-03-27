@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Table } from 'semantic-ui-react';
-import { SupplierFormValues } from '../../../app/models/supplier';
+import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import FilterSupplier from './FilterSupplier';
 import SupplierListHeader from './SupplierListHeader';
 import SupplierListItem from './SupplierListItem';
@@ -27,12 +27,12 @@ const SupplierList = () => {
     setSupplierPage(1);
     loadSuppliers();
   };
-  const handleOnPageChange = (page: number) => {
-    setSupplierPage(page);
+  const handleOnPageChange = (selectedPage: number) => {
+    setSupplierPage(selectedPage);
     loadSuppliers();
   };
   if (loadingInitial && page === 1)
-    return <LoadingComponent content='Loading suppliers...' />;
+    return <LoadingComponent content="Loading suppliers..." />;
 
   return (
     <>
@@ -40,7 +40,7 @@ const SupplierList = () => {
         handleSupplierSearch={handleSupplierSearch}
         setPredicate={setPredicate}
       />
-      <Table compact celled striped color='red'>
+      <Table compact celled striped color="red">
         <SupplierListHeader
           hasModifyAccess={hasModifyAccess}
           openModal={openModal}

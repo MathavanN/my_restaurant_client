@@ -15,18 +15,18 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
   const { deleteStockType } = rootStore.stockTypeStore;
   return (
     <>
-      <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Header icon="delete" content="Are you sure to delete?" color="red" />
+      <Divider horizontal />
       <Modal.Content>
         <p>Stock Type: {stockType.type}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
-          <Grid.Column textAlign='center'>
+          <Grid.Column textAlign="center">
             <Button
-              content='Yes'
-              color='red'
+              content="Yes"
+              color="red"
               onClick={() => {
                 deleteStockType(stockType.id)
                   .then(() => {
@@ -34,11 +34,11 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
                     closeModal();
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text='Error:' />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />);
                   });
               }}
             />
-            <Button content='No' color='green' onClick={() => closeModal()} />
+            <Button content="No" color="green" onClick={() => closeModal()} />
           </Grid.Column>
         </Grid>
       </Modal.Actions>

@@ -8,9 +8,13 @@ import { ISelectGuidInputOptions } from '../models/common';
 
 export default class UserStore {
     rootStore: RootStore;
+
     token: IToken | null = null;
+
     user: IUser | null = null
+
     loadingInitial = false;
+    
     appUsersRegistry = new Map();
 
     constructor(rootStore: RootStore) {

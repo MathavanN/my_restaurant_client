@@ -52,16 +52,10 @@
         "max-len": [
             "warn",
             {
-                "code": 80,
+                "code": 100,
                 "ignoreStrings": true,
                 "ignoreTemplateLiterals": true,
                 "ignoreComments": true
-            }
-        ],
-        "no-plusplus": [
-            "error",
-            {
-                "allowForLoopAfterthoughts": true
             }
         ],
         "react/jsx-key": "error",

@@ -16,11 +16,11 @@ const DeleteSupplier: FC<IProps> = ({ supplier, closeModal }) => {
   return (
     <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Content>
         <p>Supplier Name: {supplier.name}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
           <Grid.Column textAlign='center'>

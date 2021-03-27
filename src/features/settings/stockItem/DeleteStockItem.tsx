@@ -16,11 +16,11 @@ const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
   return (
     <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Content>
         <p>Stock Item: {stockItem.name}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
           <Grid.Column textAlign='center'>

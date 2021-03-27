@@ -1,20 +1,30 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { ApprovalPurchaseOrder, CreatePurchaseOrder, IPurchaseOrder } from '../models/purchaseOrder';
-import { CreatePurchaseOrderItem, IPurchaseOrderItem } from '../models/purchaseOrderItem';
+import { IPurchaseOrder } from '../models/purchaseOrder';
+import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history'
 import { PENDING } from '../models/constants'
-import { ISelectInputOptions } from '../models/common';
+import { ISelectInputOptions, ITest } from '../models/common';
+import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
+import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem'
 
 export default class PurchaseOrderStore {
     rootStore: RootStore;
+
     purchaseOrder: IPurchaseOrder | null = null;
+
     purchaseOrderRegistry = new Map();
+
     purchaseOrderForGRNRegistry = new Map();
+
     purchaseOrderItemRegistry = new Map();
+
     submitting = false;
+
     submittingItem = false;
+
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
@@ -43,37 +53,25 @@ export default class PurchaseOrderStore {
     }
 
     createPurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
-        try {
-            const result = await agent.PurchaseOrderItem.create(item);
-            runInAction(() => {
-                this.purchaseOrderItemRegistry.set(result.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.PurchaseOrderItem.create(item);
+        runInAction(() => {
+            this.purchaseOrderItemRegistry.set(result.id, result)
+        });
     }
 
     updatePurchaseOrderItem = async (item: CreatePurchaseOrderItem) => {
-        try {
-            const result = await agent.PurchaseOrderItem.update(item);
-            runInAction(() => {
-                this.purchaseOrderItemRegistry.set(item.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.PurchaseOrderItem.update(item);
+        runInAction(() => {
+            this.purchaseOrderItemRegistry.set(item.id, result)
+        });
     }
 
 
     deletePurchaseOrderItem = async (id: number) => {
-        try {
-            await agent.PurchaseOrderItem.delete(id);
-            runInAction(() => {
-                this.purchaseOrderItemRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
+        await agent.PurchaseOrderItem.delete(id);
+        runInAction(() => {
+            this.purchaseOrderItemRegistry.delete(id);
+        });
     }
 
     @computed get getPurchaseOrderItems() {
@@ -86,15 +84,14 @@ export default class PurchaseOrderStore {
     }
 
     @computed get loadApprovedPurchaseOrdersOptions() {
-        const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderForGRNRegistry.values());
+        const orders: IPurchaseOrder[] =
+            Array.from(this.purchaseOrderForGRNRegistry.values());
 
-        return orders.map(order => {
-            return {
-                key: order.id,
-                text: order.orderNumber,
-                value: order.id
-            } as ISelectInputOptions
-        })
+        return orders.map(order => ({
+            key: order.id,
+            text: order.orderNumber,
+            value: order.id
+        } as ISelectInputOptions))
     }
 
     @computed get getPurchaseOrders() {
@@ -155,48 +152,39 @@ export default class PurchaseOrderStore {
     }
 
     createPurchaseOrder = async (order: CreatePurchaseOrder) => {
-        try {
-            const result = await agent.PurchaseOrder.create(order);
-            runInAction(() => {
-                this.purchaseOrderRegistry.set(result.id, result)
-                this.purchaseOrder = result;
-            });
-            this.rootStore.modalStore.closeModal();
-            history.push(`/purchase/manage/${result.id}`);
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.PurchaseOrder.create(order);
+        runInAction(() => {
+            this.purchaseOrderRegistry.set(result.id, result)
+            this.purchaseOrder = result;
+        });
+        this.rootStore.modalStore.closeModal();
+        history.push(`/purchase/manage/${result.id}`);
     }
 
     updatePurchaseOrder = async (order: CreatePurchaseOrder) => {
-        try {
-            const result = await agent.PurchaseOrder.update(order);
-            runInAction(() => {
-                this.purchaseOrderRegistry.set(order.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.PurchaseOrder.update(order);
+        runInAction(() => {
+            this.purchaseOrderRegistry.set(order.id, result)
+        });
     }
 
     approvalPurchaseOrder = async (order: ApprovalPurchaseOrder) => {
-        try {
-            const result = await agent.PurchaseOrder.approval(order);
-            runInAction(() => {
-                this.purchaseOrderRegistry.set(order.id, result)
-            })
-        } catch (error) {
-            throw error;
-        }
+        const result = await agent.PurchaseOrder.approval(order);
+        runInAction(() => {
+            this.purchaseOrderRegistry.set(order.id, result)
+        });
     }
 
     getSortedPurchaseOrders() {
         const orders: IPurchaseOrder[] = Array.from(this.purchaseOrderRegistry.values());
-
         const pendingOrders = orders.filter(d => d.approvalStatus === PENDING);
-        const sortedPendingOrders = pendingOrders.sort((a, b) => new Date(b.requestedDate).getTime() - new Date(a.requestedDate).getTime())
+        const sortedPendingOrders = pendingOrders.sort(
+            (a, b) => new Date(b.requestedDate).getTime() - new Date(a.requestedDate).getTime()
+        );
         const otherOrders = orders.filter(d => d.approvalStatus !== PENDING);
-        const sortedOtherOrders = otherOrders.sort((a, b) => new Date(a.requestedDate).getTime() - new Date(b.requestedDate).getTime())
+        const sortedOtherOrders = otherOrders.sort(
+            (a, b) => new Date(a.requestedDate).getTime() - new Date(b.requestedDate).getTime()
+        );
 
         return [...sortedPendingOrders, ...sortedOtherOrders]
     }

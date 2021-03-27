@@ -17,11 +17,11 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
   return (
     <>
       <Header icon='delete' content='Are you sure to delete?' color='red' />
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Content>
         <p>Unit Of Measure Code: {unitOfMeasure.code}</p>
       </Modal.Content>
-      <Divider horizontal></Divider>
+      <Divider horizontal />
       <Modal.Actions>
         <Grid>
           <Grid.Column textAlign='center'>
