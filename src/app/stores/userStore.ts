@@ -112,6 +112,7 @@ export default class UserStore {
                 this.user = null;
                 this.loadingInitial = false;
             })
+            throw error;
         }
     }
 

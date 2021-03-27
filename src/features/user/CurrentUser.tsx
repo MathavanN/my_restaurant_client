@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useContext } from 'react';
 import { Card, Grid, Icon } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

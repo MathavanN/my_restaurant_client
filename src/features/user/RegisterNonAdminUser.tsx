@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useForm } from 'react-hook-form';
 import { useContext, useEffect, useRef } from 'react';
 import { Button, Form, Header, Label } from 'semantic-ui-react';

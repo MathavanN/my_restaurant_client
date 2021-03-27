@@ -55,6 +55,7 @@ export default class SupplierStore {
 
         return Object.entries(items.reduce((suppliers, supplier, i) => {
             const serialNumber = LIMIT * (this.page - 1) + i + 1;
+            // eslint-disable-next-line no-param-reassign
             suppliers[serialNumber] = supplier;
             return suppliers;
         }, {} as { [key: number]: ISupplier }));
