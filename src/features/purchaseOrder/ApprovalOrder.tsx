@@ -2,7 +2,7 @@ import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { ApprovalPurchaseOrder } from '../../app/models/purchaseOrder';
+import { ApprovalPurchaseOrder } from '../../app/models/approvalPurchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import history from '../../history';
 
@@ -17,6 +17,7 @@ const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
   const rootStore = useContext(RootStoreContext);
   const { approvalPurchaseOrder } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const approval = new ApprovalPurchaseOrder(
       orderId,
@@ -43,13 +44,13 @@ const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>{header}</Header.Subheader>
         </Header>
         <Form.TextArea
-          label='Reason'
-          name='approvalReason'
-          placeholder='Reason...'
+          label="Reason"
+          name="approvalReason"
+          placeholder="Reason..."
           rows={4}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -57,13 +58,13 @@ const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
           }}
           error={
             errors.approvalReason && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.approvalReason.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

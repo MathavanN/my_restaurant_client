@@ -6,7 +6,7 @@ import DeleteGRNItem from './DeleteGRNItem';
 import CreateGRNItem from './CreateGRNItem';
 import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItem';
+import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItemFormValues';
 
 interface IProps {
   displayAmount: boolean;
@@ -50,10 +50,10 @@ const GRNItemListItem: FC<IProps> = ({
               </Table.Cell>
             )}
             {displayAction && (
-              <Table.Cell collapsing textAlign='right'>
+              <Table.Cell collapsing textAlign="right">
                 <Button
-                  animated='vertical'
-                  color='orange'
+                  animated="vertical"
+                  color="orange"
                   onClick={() =>
                     openModal(
                       <CreateGRNItem
@@ -65,17 +65,17 @@ const GRNItemListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name='edit' />
+                    <Icon name="edit" />
                   </Button.Content>
                 </Button>
                 <Button
-                  animated='vertical'
-                  color='red'
+                  animated="vertical"
+                  color="red"
                   onClick={() => openModal(<DeleteGRNItem item={item} />)}
                 >
                   <Button.Content hidden>Delete</Button.Content>
                   <Button.Content visible>
-                    <Icon name='delete' />
+                    <Icon name="delete" />
                   </Button.Content>
                 </Button>
               </Table.Cell>

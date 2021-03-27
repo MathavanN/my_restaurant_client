@@ -12,7 +12,7 @@ const UnitOfMeasure = () => {
   }, [loadUnitOfMeasures]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading UOM details...' />;
+    return <LoadingComponent content="Loading UOM details..." />;
 
   return (
     <>

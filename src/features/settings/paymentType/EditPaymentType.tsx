@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { PaymentTypeFormValues } from '../../../app/models/paymentType';
+import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -14,7 +14,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
   const { createPaymentType, updatePaymentType } = rootStore.paymentTypeStore;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new PaymentTypeFormValues({ ...data, id: paymentType.id });
     if (formData.id === 0)
@@ -24,7 +24,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updatePaymentType(formData)
@@ -33,7 +33,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
 
@@ -57,7 +57,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
       {
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) >= 0
+            parseInt(value, 10) >= 0
               ? true
               : 'Credit period must be a positive number',
         },
@@ -67,7 +67,7 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)} error>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {paymentType.id === 0
               ? 'Add new Payment Type'
@@ -75,11 +75,11 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           </Header.Subheader>
         </Header>
         <Form.Input
-          name='name'
+          name="name"
           fluid
-          label='Payment Type Name'
-          placeholder='Payment type name'
-          autoComplete='off'
+          label="Payment Type Name"
+          placeholder="Payment type name"
+          autoComplete="off"
           defaultValue={paymentType.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -87,19 +87,19 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           }}
           error={
             errors.name && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.name.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='creditPeriod'
-          type='number'
+          name="creditPeriod"
+          type="number"
           fluid
-          label='Credit Period'
-          placeholder='Credit period'
-          autoComplete='off'
+          label="Credit Period"
+          placeholder="Credit period"
+          autoComplete="off"
           defaultValue={paymentType.creditPeriod}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -107,14 +107,14 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
           }}
           error={
             errors.creditPeriod && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.creditPeriod.message}
               </Label>
             )
           }
         />
 
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
@@ -6,33 +7,44 @@ import { RootStore } from './rootStore';
 
 export default class PaymentTypeStore {
     rootStore: RootStore;
+
     paymentType: IPaymentType | null = null;
+
     paymentTypeRegistry = new Map();
+
     loadingInitial = false;
 
     constructor(rootStore: RootStore) {
-        this.rootStore = rootStore
+        this.rootStore = rootStore;
         makeAutoObservable(this);
     }
 
     @computed get getPaymentTypes() {
-        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
+        const items: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
 
-        return Object.entries(paymentTypes.reduce((paymentTypes, paymentType, i) => {
-            paymentTypes[++i] = paymentType;
-            return paymentTypes;
-        }, {} as { [key: number]: IPaymentType }));
+        return Object.entries(
+            items.reduce((paymentTypes, paymentType, i) => {
+                const key = i + 1;
+                // eslint-disable-next-line no-param-reassign
+                paymentTypes[key] = paymentType;
+                return paymentTypes;
+            }, {} as { [key: number]: IPaymentType })
+        );
     }
 
     @computed get loadPaymentTypeOptions() {
-        const paymentTypes: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
-        return paymentTypes.map(paymentType => {
-            return {
+        const paymentTypes: IPaymentType[] = Array.from(
+            this.paymentTypeRegistry.values()
+        );
+
+        return paymentTypes.map(
+            (paymentType) =>
+            ({
                 key: paymentType.id,
                 text: paymentType.name,
                 value: paymentType.id,
-            } as ISelectInputOptions;
-        });
+            } as ISelectInputOptions)
+        );
     }
 
     loadPaymentTypes = async () => {
@@ -40,18 +52,17 @@ export default class PaymentTypeStore {
         try {
             const paymentTypes = await agent.PaymentType.list();
             runInAction(() => {
-                paymentTypes.forEach(paymentType => {
-                    this.paymentTypeRegistry.set(paymentType.id, paymentType)
+                paymentTypes.forEach((paymentType) => {
+                    this.paymentTypeRegistry.set(paymentType.id, paymentType);
                 });
                 this.loadingInitial = false;
-            })
+            });
         } catch (error) {
             runInAction(() => {
                 this.loadingInitial = false;
-            })
-            console.log(error)
+            });
         }
-    }
+    };
 
     loadPaymentType = async (id: number) => {
         this.loadingInitial = true;
@@ -60,45 +71,32 @@ export default class PaymentTypeStore {
             runInAction(() => {
                 this.paymentType = paymentType;
                 this.loadingInitial = false;
-            })
+            });
         } catch (error) {
             runInAction(() => {
                 this.loadingInitial = false;
-            })
-            console.log(error)
+            });
         }
-    }
+    };
 
     createPaymentType = async (values: IPaymentType) => {
-        try {
-            const paymentType = await agent.PaymentType.create(values);
-            runInAction(() => {
-                this.paymentTypeRegistry.set(paymentType.id, paymentType)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
+        const paymentType = await agent.PaymentType.create(values);
+        runInAction(() => {
+            this.paymentTypeRegistry.set(paymentType.id, paymentType);
+        });
+    };
 
     updatePaymentType = async (values: IPaymentType) => {
-        try {
-            const paymentType = await agent.PaymentType.update(values);
-            runInAction(() => {
-                this.paymentTypeRegistry.set(values.id, paymentType)
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
+        const paymentType = await agent.PaymentType.update(values);
+        runInAction(() => {
+            this.paymentTypeRegistry.set(values.id, paymentType);
+        });
+    };
 
     deletePaymentType = async (id: number) => {
-        try {
-            await agent.PaymentType.delete(id);
-            runInAction(() => {
-                this.paymentTypeRegistry.delete(id);
-            })
-        } catch (error) {
-            throw error;
-        }
-    }
+        await agent.PaymentType.delete(id);
+        runInAction(() => {
+            this.paymentTypeRegistry.delete(id);
+        });
+    };
 }

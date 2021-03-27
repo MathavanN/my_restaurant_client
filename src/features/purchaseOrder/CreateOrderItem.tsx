@@ -3,10 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import {
-  CreatePurchaseOrderItem,
-  PurchaseOrderItemFormValues,
-} from '../../app/models/purchaseOrderItem';
+import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItemFormValues';
+import { CreatePurchaseOrderItem } from '../../app/models/createPurchaseOrderItem';
 import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 
@@ -25,7 +23,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
   const { getAllStockItemsForStockType } = rootStore.stockItemStore;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new CreatePurchaseOrderItem({
       ...data,
@@ -39,7 +37,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updatePurchaseOrderItem(formData)
@@ -48,7 +46,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
   const itemTypeSelected = watch('itemTypeId');
@@ -59,7 +57,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item type is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Item type is required',
+            parseInt(value, 10) > 0 ? true : 'Item type is required',
         },
       }
     );
@@ -69,7 +67,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Quantity is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Quantity must be greater than zero',
         },
@@ -81,7 +79,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item is required',
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Item is required',
+            parseInt(value, 10) > 0 ? true : 'Item is required',
         },
       }
     );
@@ -91,7 +89,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         required: 'Item unit price is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Item unit price must be greater than zero',
         },
@@ -102,17 +100,17 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {item.id === 0 ? 'Add new Item' : 'Modify Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name='itemTypeId'
+          name="itemTypeId"
           fluid
           options={stockTypeOptions}
-          label='Item Type'
-          placeholder='Select item type'
+          label="Item Type"
+          placeholder="Select item type"
           defaultValue={item.itemTypeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -120,7 +118,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemTypeId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.itemTypeId.message}
               </Label>
             )
@@ -128,13 +126,13 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         />
         {itemTypeSelected > 0 && (
           <Form.Select
-            name='itemId'
+            name="itemId"
             fluid
             search
             selection
             options={getAllStockItemsForStockType(itemTypeSelected)}
-            label='Item Name'
-            placeholder='Select an item'
+            label="Item Name"
+            placeholder="Select an item"
             defaultValue={item.itemId}
             onChange={async (e, { name, value }) => {
               setValue(name, value);
@@ -142,7 +140,7 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
             }}
             error={
               errors.itemId && (
-                <Label basic color='red' pointing>
+                <Label basic color="red" pointing>
                   {errors.itemId.message}
                 </Label>
               )
@@ -151,11 +149,11 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
         )}
 
         <Form.Input
-          name='itemUnitPrice'
+          name="itemUnitPrice"
           fluid
-          label='Unit Price'
-          autoComplete='off'
-          placeholder='Unit price'
+          label="Unit Price"
+          autoComplete="off"
+          placeholder="Unit price"
           defaultValue={item.itemUnitPrice}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -163,18 +161,18 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.itemUnitPrice && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.itemUnitPrice.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='quantity'
+          name="quantity"
           fluid
-          label='Quantity'
-          autoComplete='off'
-          placeholder='Quantity'
+          label="Quantity"
+          autoComplete="off"
+          placeholder="Quantity"
           defaultValue={item.quantity}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -182,13 +180,13 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
           }}
           error={
             errors.quantity && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.quantity.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

@@ -15,19 +15,18 @@ const panes = [
   { menuItem: 'Supplier', render: () => <Supplier /> },
 ];
 interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setActiveTab: (activeIndex: any) => void;
 }
-const SettingsContent: FC<IProps> = ({ setActiveTab }) => {
-  return (
-    <>
-      <Tab
-        menu={{ fluid: true, vertical: true, tabular: true }}
-        menuPosition='left'
-        onTabChange={(e, data) => setActiveTab(data.activeIndex)}
-        panes={panes}
-      />
-    </>
-  );
-};
+const SettingsContent: FC<IProps> = ({ setActiveTab }) => (
+  <>
+    <Tab
+      menu={{ fluid: true, vertical: true, tabular: true }}
+      menuPosition="left"
+      onTabChange={(e, data) => setActiveTab(data.activeIndex)}
+      panes={panes}
+    />
+  </>
+);
 
 export default observer(SettingsContent);

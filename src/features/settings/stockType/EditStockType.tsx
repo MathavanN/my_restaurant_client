@@ -4,7 +4,7 @@ import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { StockTypeFormValues } from '../../../app/models/stockType';
+import { StockTypeFormValues } from '../../../app/models/stockTypeFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -19,6 +19,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: stockType,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new StockTypeFormValues({ ...data, id: stockType.id });
     if (formData.id === 0)
@@ -28,7 +29,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updateStockType(formData)
@@ -37,7 +38,7 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
   useEffect(() => {
@@ -64,17 +65,17 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {stockType.id === 0 ? 'Create Stock Type' : 'Modify Stock Type'}
           </Header.Subheader>
         </Header>
         <Form.Input
-          name='type'
+          name="type"
           fluid
-          label='Stock Type'
-          placeholder='Stock type'
-          autoComplete='off'
+          label="Stock Type"
+          placeholder="Stock type"
+          autoComplete="off"
           defaultValue={stockType.type}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -82,17 +83,17 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           }}
           error={
             errors.type && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.type.message}
               </Label>
             )
           }
         />
         <Form.TextArea
-          label='Stock Type Description'
-          name='description'
-          placeholder='Stock type description...'
-          autoComplete='off'
+          label="Stock Type Description"
+          name="description"
+          placeholder="Stock type description..."
+          autoComplete="off"
           defaultValue={stockType.description}
           rows={2}
           onChange={async (e, { name, value }) => {
@@ -101,13 +102,13 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
           }}
           error={
             errors.description && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.description.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

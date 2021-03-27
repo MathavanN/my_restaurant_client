@@ -35,8 +35,8 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
 
   useEffect(() => {
     loadStockTypes();
-    loadPurchaseOrder(parseInt(match.params.id));
-    loadPurchaseOrderItems(parseInt(match.params.id));
+    loadPurchaseOrder(parseInt(match.params.id, 10));
+    loadPurchaseOrderItems(parseInt(match.params.id, 10));
   }, [
     loadPurchaseOrder,
     loadStockTypes,
@@ -45,7 +45,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
   ]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading purchase order details...' />;
+    return <LoadingComponent content="Loading purchase order details..." />;
 
   if (!purchaseOrder)
     return <Message negative>Purchase order details not found.</Message>;
@@ -57,13 +57,13 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
           {purchaseOrder.approvalStatus === PENDING &&
             (hasModifyAccess ||
               purchaseOrder.requestedUserId === user?.userId) && (
-              <Segment attached='top' textAlign='center'>
+              <Segment attached="top" textAlign="center">
                 <Message info icon>
                   <Message.Content>
                     <Message.Header>Order Details</Message.Header>
                   </Message.Content>
                   <Button
-                    floated='left'
+                    floated="left"
                     as={Link}
                     to={`/purchase/manage/${match.params.id}`}
                   >
@@ -86,43 +86,43 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
             />
           </Segment>
           {purchaseOrder.approvalStatus === PENDING && hasModifyAccess && (
-            <Segment attached textAlign='center'>
+            <Segment attached textAlign="center">
               <Button
-                color='green'
-                content='Approve'
-                disabled={getPurchaseOrderItems.length === 0 ? true : false}
+                color="green"
+                content="Approve"
+                disabled={getPurchaseOrderItems.length === 0}
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={APPROVED}
-                      header='Approve the Purchase Order'
+                      header="Approve the Purchase Order"
                     />
                   )
                 }
               />
               <Button
-                color='orange'
-                content='Cancel'
+                color="orange"
+                content="Cancel"
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={CANCELLED}
-                      header='Cancel the Purchase Order'
+                      header="Cancel the Purchase Order"
                     />
                   )
                 }
               />
               <Button
-                color='red'
-                content='Reject'
+                color="red"
+                content="Reject"
                 onClick={() =>
                   openModal(
                     <ApprovalOrder
-                      orderId={parseInt(match.params.id)}
+                      orderId={parseInt(match.params.id, 10)}
                       status={REJECTED}
-                      header='Reject the Purchase Order'
+                      header="Reject the Purchase Order"
                     />
                   )
                 }

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import PaymentTypeListHeader from './PaymentTypeListHeader';
 import PaymentTypeListItem from './PaymentTypeListItem';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { PaymentTypeFormValues } from '../../../app/models/paymentType';
+import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 
 const PaymentTypeList = () => {
@@ -21,11 +21,11 @@ const PaymentTypeList = () => {
   }, [loadPaymentTypes]);
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading payment type details...' />;
+    return <LoadingComponent content="Loading payment type details..." />;
 
   return (
     <>
-      <Table compact celled striped color='red'>
+      <Table compact celled striped color="red">
         <PaymentTypeListHeader
           hasModifyAccess={hasModifyAccess}
           openModal={openModal}

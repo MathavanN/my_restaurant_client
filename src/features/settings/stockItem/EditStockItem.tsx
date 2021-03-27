@@ -4,12 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import {
-  CreateStockItem,
-  StockItemFormValues,
-} from '../../../app/models/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
+import { CreateStockItem } from '../../../app/models/createStockItem';
 import { ISelectInputOptions } from '../../../app/models/common';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+
 interface IProps {
   stockItem: StockItemFormValues;
   stockTypeOptions: ISelectInputOptions[];
@@ -28,7 +27,7 @@ const EditStockItem: FC<IProps> = ({
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: stockItem,
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new CreateStockItem({ ...data, id: stockItem.id });
     if (formData.id === 0)
@@ -38,7 +37,7 @@ const EditStockItem: FC<IProps> = ({
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updateStockItem(formData)
@@ -47,7 +46,7 @@ const EditStockItem: FC<IProps> = ({
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
 
@@ -68,7 +67,7 @@ const EditStockItem: FC<IProps> = ({
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Stock type is required',
+            parseInt(value, 10) > 0 ? true : 'Stock type is required',
         },
       }
     );
@@ -78,7 +77,7 @@ const EditStockItem: FC<IProps> = ({
         required: true,
         validate: {
           validValue: (value) =>
-            parseInt(value, 0) > 0 ? true : 'Unit of measure is required',
+            parseInt(value, 10) > 0 ? true : 'Unit of measure is required',
         },
       }
     );
@@ -88,7 +87,7 @@ const EditStockItem: FC<IProps> = ({
         required: 'Item unit is required',
         validate: {
           greaterThanZero: (value) =>
-            parseInt(value, 0) > 0
+            parseInt(value, 10) > 0
               ? true
               : 'Item unit must be greater than zero',
         },
@@ -108,17 +107,17 @@ const EditStockItem: FC<IProps> = ({
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)} error>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {stockItem.id === 0 ? 'Add new Stock Item' : 'Modify Stock Item'}
           </Header.Subheader>
         </Header>
         <Form.Select
-          name='typeId'
+          name="typeId"
           fluid
           options={stockTypeOptions}
-          label='Stock Type'
-          placeholder='Select stock type'
+          label="Stock Type"
+          placeholder="Select stock type"
           defaultValue={stockItem.typeId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -126,18 +125,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.typeId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.typeId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='name'
+          name="name"
           fluid
-          label='Item Name'
-          placeholder='Item name'
-          autoComplete='off'
+          label="Item Name"
+          placeholder="Item name"
+          autoComplete="off"
           defaultValue={stockItem.name}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -145,18 +144,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.name && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.name.message}
               </Label>
             )
           }
         />
         <Form.Select
-          name='unitOfMeasureId'
+          name="unitOfMeasureId"
           fluid
           options={unitOfMeasureOptions}
-          label='Unit Of Measure'
-          placeholder='Select unit of measure'
+          label="Unit Of Measure"
+          placeholder="Select unit of measure"
           defaultValue={stockItem.unitOfMeasureId}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -164,18 +163,18 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.unitOfMeasureId && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.unitOfMeasureId.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='itemUnit'
+          name="itemUnit"
           fluid
-          label='Item Unit'
-          placeholder='Item unit'
-          autoComplete='off'
+          label="Item Unit"
+          placeholder="Item unit"
+          autoComplete="off"
           defaultValue={stockItem.itemUnit}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -183,17 +182,17 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.itemUnit && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.itemUnit.message}
               </Label>
             )
           }
         />
         <Form.TextArea
-          label='Item Description'
-          name='description'
-          placeholder='Item description...'
-          autoComplete='off'
+          label="Item Description"
+          name="description"
+          placeholder="Item description..."
+          autoComplete="off"
           defaultValue={stockItem.description}
           rows={4}
           onChange={async (e, { name, value }) => {
@@ -202,13 +201,13 @@ const EditStockItem: FC<IProps> = ({
           }}
           error={
             errors.description && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.description.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

@@ -10,11 +10,11 @@ const GRNDetails = () => {
   const { getGoodsReceivedNotes, loadingInitial } = rootStore.grnStore;
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading Goods received notes...' />;
+    return <LoadingComponent content="Loading Goods received notes..." />;
 
   return (
     <>
-      <Header as='h3' dividing textAlign='center'>
+      <Header as="h3" dividing textAlign="center">
         GRN Details.
       </Header>
       <GRNList

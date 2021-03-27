@@ -2,7 +2,7 @@ import { FC, useContext } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
-import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItem';
+import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItemFormValues';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import CreateGRNItem from './CreateGRNItem';
 
@@ -34,10 +34,10 @@ const GRNItemListHeader: FC<IProps> = ({
           <Table.HeaderCell>Discount %</Table.HeaderCell>
           {displayAmount && <Table.HeaderCell>Amount</Table.HeaderCell>}
           {displayAction && (
-            <Table.HeaderCell textAlign='center'>
+            <Table.HeaderCell textAlign="center">
               <Button
-                animated='vertical'
-                color='green'
+                animated="vertical"
+                color="green"
                 onClick={() =>
                   openModal(
                     <CreateGRNItem
@@ -49,7 +49,7 @@ const GRNItemListHeader: FC<IProps> = ({
               >
                 <Button.Content hidden>Add</Button.Content>
                 <Button.Content visible>
-                  <Icon name='add circle' />
+                  <Icon name="add circle" />
                 </Button.Content>
               </Button>
             </Table.HeaderCell>

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect } from 'react';
 import { Button, Icon, Message } from 'semantic-ui-react';
-import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddGRN from './AddGRN';
 import GRNDetails from './GRNDetails';
@@ -28,12 +28,12 @@ const GRNDashboard = () => {
   return (
     <>
       <Message positive icon>
-        <Icon name='shopping basket' />
+        <Icon name="shopping basket" />
         <Message.Content>
           <Message.Header>Create new goods received note</Message.Header>
         </Message.Content>
         <Button
-          floated='left'
+          floated="left"
           onClick={() =>
             openModal(
               <AddGRN

@@ -3,10 +3,8 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import {
-  IPurchaseOrder,
-  PurchaseOrderFormValues,
-} from '../../app/models/purchaseOrder';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { PurchaseOrderFormValues } from '../../app/models/purchaseOrderFormValues';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPurchaseOrder from './AddPurchaseOrder';
 import { PENDING } from '../../app/models/constants';
@@ -68,8 +66,8 @@ const PurchaseOrderListItem: FC<IProps> = ({
             {displayView && (
               <Table.Cell>
                 <Button
-                  content='View'
-                  color='blue'
+                  content="View"
+                  color="blue"
                   as={Link}
                   to={`/purchase/view/${order.id}`}
                 />
@@ -78,8 +76,8 @@ const PurchaseOrderListItem: FC<IProps> = ({
             {displayEdit && (
               <Table.Cell>
                 <Button
-                  animated='vertical'
-                  color='orange'
+                  animated="vertical"
+                  color="orange"
                   onClick={() =>
                     openModal(
                       <AddPurchaseOrder
@@ -91,7 +89,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
                 >
                   <Button.Content hidden>Edit</Button.Content>
                   <Button.Content visible>
-                    <Icon name='edit' />
+                    <Icon name="edit" />
                   </Button.Content>
                 </Button>
               </Table.Cell>

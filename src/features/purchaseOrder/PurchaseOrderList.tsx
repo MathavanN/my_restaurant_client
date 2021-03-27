@@ -11,11 +11,11 @@ const PurchaseOrderList = () => {
   const { loadSupplierOptions } = rootStore.supplierStore;
 
   if (loadingInitial)
-    return <LoadingComponent content='Loading purchase orders...' />;
+    return <LoadingComponent content="Loading purchase orders..." />;
 
   return (
     <>
-      <Header as='h3' dividing textAlign='center'>
+      <Header as="h3" dividing textAlign="center">
         Purchase Orders.
       </Header>
       <PurchaseOrderListItem

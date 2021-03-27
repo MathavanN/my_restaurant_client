@@ -16,20 +16,18 @@ const GRNItemDetails: FC<IProps> = ({
   displayAmount,
   grn,
   stockTypeOptions,
-}) => {
-  return (
-    <>
-      <Header size='medium' textAlign='center'>
-        GRN Item Details.
-      </Header>
-      <GRNItemList
-        displayAction={displayAction}
-        displayAmount={displayAmount}
-        grn={grn}
-        stockTypeOptions={stockTypeOptions}
-      />
-    </>
-  );
-};
+}) => (
+  <>
+    <Header size="medium" textAlign="center">
+      GRN Item Details.
+    </Header>
+    <GRNItemList
+      displayAction={displayAction}
+      displayAmount={displayAmount}
+      grn={grn}
+      stockTypeOptions={stockTypeOptions}
+    />
+  </>
+);
 
 export default GRNItemDetails;

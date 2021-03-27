@@ -1,16 +1,18 @@
+/* eslint-disable import/no-cycle */
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from './rootStore';
 
 export default class SettingsStore {
-    rootStore: RootStore;
-    activeTab: number = 0;
+  rootStore: RootStore;
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore
-        makeAutoObservable(this);
-    }
+  activeTab: number = 0;
 
-    setActiveTab = (activeIndex: number) => {
-        this.activeTab = activeIndex
-    }
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+    makeAutoObservable(this);
+  }
+
+  setActiveTab = (activeIndex: number) => {
+    this.activeTab = activeIndex;
+  };
 }

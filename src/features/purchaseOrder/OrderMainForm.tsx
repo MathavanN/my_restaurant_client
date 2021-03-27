@@ -28,8 +28,8 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
     loadAllSuppliers();
     loadAllStockItems();
     if (match.params.id) {
-      loadPurchaseOrder(parseInt(match.params.id));
-      loadPurchaseOrderItems(parseInt(match.params.id));
+      loadPurchaseOrder(parseInt(match.params.id, 10));
+      loadPurchaseOrderItems(parseInt(match.params.id, 10));
     }
   }, [
     loadPurchaseOrder,

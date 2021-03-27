@@ -22,8 +22,7 @@ const LoginForm = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
-        toast.error(<ErrorMessage error={error} text='Error:' />);
+        toast.error(<ErrorMessage error={error} text="Error:" />);
       });
   };
 
@@ -49,48 +48,48 @@ const LoginForm = () => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
-          <FontAwesomeIcon icon={faSignInAlt} size='lg' />
+        <Header as="h2" color="teal" textAlign="center">
+          <FontAwesomeIcon icon={faSignInAlt} size="lg" />
           <Header.Subheader>Sign In</Header.Subheader>
         </Header>
         <Form.Input
-          name='email'
-          type='email'
+          name="email"
+          type="email"
           fluid
-          label='Email'
-          placeholder='Email'
-          autoComplete='off'
+          label="Email"
+          placeholder="Email"
+          autoComplete="off"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.email && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.email.message}
               </Label>
             )
           }
         />
         <Form.Input
-          name='password'
-          type='password'
+          name="password"
+          type="password"
           fluid
-          label='Password'
-          placeholder='Password'
+          label="Password"
+          placeholder="Password"
           onChange={async (e, { name, value }) => {
             setValue(name, value);
             await trigger(name);
           }}
           error={
             errors.password && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.password.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
-import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure';
+import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasureFormValues';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
@@ -22,6 +22,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: uom,
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
     const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
     if (formData.id === 0)
@@ -31,7 +32,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
     else
       updateUnitOfMeasure(formData)
@@ -40,7 +41,7 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           closeModal();
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text='Error:' />);
+          toast.error(<ErrorMessage error={error} text="Error:" />);
         });
   };
 
@@ -68,17 +69,17 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Header as='h2' color='teal' textAlign='center'>
+        <Header as="h2" color="teal" textAlign="center">
           <Header.Subheader>
             {uom.id === 0 ? 'Create Unit Of Measure' : 'Modify Unit Of Measure'}
           </Header.Subheader>
         </Header>
         <Form.Input
-          name='code'
+          name="code"
           fluid
-          label='UOM Code'
-          placeholder='UOM Code'
-          autoComplete='off'
+          label="UOM Code"
+          placeholder="UOM Code"
+          autoComplete="off"
           defaultValue={uom.code}
           onChange={async (e, { name, value }) => {
             setValue(name, value);
@@ -86,17 +87,17 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           }}
           error={
             errors.code && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.code.message}
               </Label>
             )
           }
         />
         <Form.TextArea
-          label='UOM Description'
-          name='description'
-          placeholder='UOM description...'
-          autoComplete='off'
+          label="UOM Description"
+          name="description"
+          placeholder="UOM description..."
+          autoComplete="off"
           defaultValue={uom.description}
           rows={2}
           onChange={async (e, { name, value }) => {
@@ -105,13 +106,13 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
           }}
           error={
             errors.description && (
-              <Label basic color='red' pointing>
+              <Label basic color="red" pointing>
                 {errors.description.message}
               </Label>
             )
           }
         />
-        <Button type='submit' color='teal' fluid>
+        <Button type="submit" color="teal" fluid>
           Submit
         </Button>
       </Form>

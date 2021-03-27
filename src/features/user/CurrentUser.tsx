@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useContext } from 'react';
 import { Card, Grid, Icon } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,7 @@ const CurrentUser = () => {
         <Grid>
           <Grid.Column width={8}>
             <Card>
-              <FontAwesomeIcon icon={faUserTie} size='10x' className='fa-fw' />
+              <FontAwesomeIcon icon={faUserTie} size="10x" className="fa-fw" />
               <Card.Content>
                 <Card.Content header={user.fullName} />
                 <Card.Meta>
@@ -23,7 +24,7 @@ const CurrentUser = () => {
                   <span>Last Name: {user.lastName}</span>
                 </Card.Meta>
                 <Card.Content extra>
-                  <Icon name='mail' />
+                  <Icon name="mail" />
                   {user.email}
                 </Card.Content>
               </Card.Content>

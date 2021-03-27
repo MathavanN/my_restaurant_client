@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Table } from 'semantic-ui-react';
-import { StockItemFormValues } from '../../../app/models/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
 import FilterStockItem from './FilterStockItem';
 import StockItemListHeader from './StockItemListHeader';
 import StockItemListItem from './StockItemListItem';
@@ -32,8 +32,8 @@ const StockItemList = () => {
     loadStockItems(typeId);
   };
 
-  const handleOnPageChange = (page: number) => {
-    setStockItemPage(page);
+  const handleOnPageChange = (selectedPage: number) => {
+    setStockItemPage(selectedPage);
     loadStockItems(selectedStockType);
   };
 
@@ -45,10 +45,10 @@ const StockItemList = () => {
   }, [loadStockTypeOptions, loadStockItems]);
 
   if (loadStockTypeOptions.length === 0)
-    return <LoadingComponent content='Cannot find stock type...' />;
+    return <LoadingComponent content="Cannot find stock type..." />;
 
   if (loadingInitial && page === 1)
-    return <LoadingComponent content='Loading stock items...' />;
+    return <LoadingComponent content="Loading stock items..." />;
 
   return (
     <>
@@ -58,7 +58,7 @@ const StockItemList = () => {
         handleStockItemSearch={handleStockItemSearch}
       />
       {selectedStockType > 0 && (
-        <Table compact celled striped color='red'>
+        <Table compact celled striped color="red">
           <StockItemListHeader
             hasModifyAccess={hasModifyAccess}
             openModal={openModal}
