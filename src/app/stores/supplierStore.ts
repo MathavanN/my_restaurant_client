@@ -45,6 +45,10 @@ export default class SupplierStore {
     setPredicate = (predicate: string, value: string | Date | number) => {
         this.predicate.set(predicate, value);
     };
+    
+    removePredicate = (predicate: string) => {
+        this.predicate.delete(predicate);
+    }
 
     setSupplierPage = (page: number) => {
         this.page = page;

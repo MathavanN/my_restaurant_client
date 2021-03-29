@@ -41,7 +41,7 @@ const OrderItemSummary: FC<IProps> = ({ items, order }) => {
                 </Table.Cell>
                 <Table.Cell>
                   <Header as="h4">
-                    <Header.Content>{orderTotal}</Header.Content>
+                    <Header.Content>{orderTotal.toFixed(2)}</Header.Content>
                   </Header>
                 </Table.Cell>
               </Table.Row>

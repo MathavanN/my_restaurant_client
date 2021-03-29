@@ -17,6 +17,7 @@ const SupplierList = () => {
     getSupplierTotalPages,
     setSupplierPage,
     setPredicate,
+    removePredicate,
     loadSuppliers,
     loadingInitial,
   } = rootStore.supplierStore;
@@ -39,6 +40,7 @@ const SupplierList = () => {
       <FilterSupplier
         handleSupplierSearch={handleSupplierSearch}
         setPredicate={setPredicate}
+        removePredicate={removePredicate}
       />
       <Table compact celled striped color="red">
         <SupplierListHeader

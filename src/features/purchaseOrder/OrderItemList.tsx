@@ -69,10 +69,12 @@ const OrderItemList: FC<IProps> = ({
                 {item.itemUnit}
                 {item.unitOfMeasureCode}
               </Table.Cell>
-              <Table.Cell>{item.itemUnitPrice}</Table.Cell>
+              <Table.Cell>{item.itemUnitPrice.toFixed(2)}</Table.Cell>
               <Table.Cell>{item.quantity}</Table.Cell>
               {displayAmount && (
-                <Table.Cell>{item.itemUnitPrice * item.quantity}</Table.Cell>
+                <Table.Cell>
+                  {(item.itemUnitPrice * item.quantity).toFixed(2)}
+                </Table.Cell>
               )}
               {displayAction && (
                 <Table.Cell collapsing textAlign="right">
