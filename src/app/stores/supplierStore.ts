@@ -7,146 +7,146 @@ import { ISelectInputOptions } from '../models/common';
 import { LIMIT } from '../models/constants';
 
 export default class SupplierStore {
-    rootStore: RootStore;
+  rootStore: RootStore;
 
-    supplier: ISupplier | null = null;
+  supplier: ISupplier | null = null;
 
-    supplierRegistry = new Map(); // this is for pagination
+  supplierRegistry = new Map(); // this is for pagination
 
-    supplierCount: number = 0;
+  supplierCount: number = 0;
 
-    page: number = 1;
+  page: number = 1;
 
-    loadingInitial = false;
+  loadingInitial = false;
 
-    predicate = new Map();
+  predicate = new Map();
 
-    allSupplierRegistry = new Map();
+  allSupplierRegistry = new Map();
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-        makeAutoObservable(this);
-    }
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+    makeAutoObservable(this);
+  }
 
-    @computed get getSupplierTotalPages() {
-        return Math.ceil(this.supplierCount / LIMIT);
-    }
+  @computed get getSupplierTotalPages() {
+    return Math.ceil(this.supplierCount / LIMIT);
+  }
 
-    @computed get axiosParams() {
-        const params = new URLSearchParams();
-        params.append('limit', String(LIMIT));
-        params.append('offset', String(this.page - 1));
-        this.predicate.forEach((value, key) => {
-            params.append(key, value);
+  @computed get axiosParams() {
+    const params = new URLSearchParams();
+    params.append('limit', String(LIMIT));
+    params.append('offset', String(this.page - 1));
+    this.predicate.forEach((value, key) => {
+      params.append(key, value);
+    });
+    return params;
+  }
+
+  setPredicate = (predicate: string, value: string | Date | number) => {
+    this.predicate.set(predicate, value);
+  };
+
+  removePredicate = (predicate: string) => {
+    this.predicate.delete(predicate);
+  };
+
+  setSupplierPage = (page: number) => {
+    this.page = page;
+  };
+
+  @computed get getSuppliers() {
+    const items: ISupplier[] = Array.from(this.supplierRegistry.values());
+
+    return Object.entries(
+      items.reduce((suppliers, supplier, i) => {
+        const serialNumber = LIMIT * (this.page - 1) + i + 1;
+        // eslint-disable-next-line no-param-reassign
+        suppliers[serialNumber] = supplier;
+        return suppliers;
+      }, {} as { [key: number]: ISupplier })
+    );
+  }
+
+  @computed get loadSupplierOptions() {
+    const suppliers: ISupplier[] = Array.from(
+      this.allSupplierRegistry.values()
+    );
+    return suppliers.map(
+      (supplier) =>
+        ({
+          key: supplier.id,
+          text: supplier.name,
+          value: supplier.id,
+        } as ISelectInputOptions)
+    );
+  }
+
+  loadSuppliers = async () => {
+    this.supplierRegistry.clear();
+    this.loadingInitial = true;
+    try {
+      const supplierEnvelop = await agent.Supplier.list(this.axiosParams);
+      const { suppliers, supplierCount } = supplierEnvelop;
+      runInAction(() => {
+        suppliers.forEach((supplier) => {
+          this.supplierRegistry.set(supplier.id, supplier);
         });
-        return params;
+        this.supplierCount = supplierCount;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
+      throw error;
     }
+  };
 
-    setPredicate = (predicate: string, value: string | Date | number) => {
-        this.predicate.set(predicate, value);
-    };
-    
-    removePredicate = (predicate: string) => {
-        this.predicate.delete(predicate);
+  loadSupplier = async (id: number) => {
+    this.loadingInitial = true;
+    try {
+      const supplier = await agent.Supplier.detail(id);
+      runInAction(() => {
+        this.supplier = supplier;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
+      throw error;
     }
+  };
 
-    setSupplierPage = (page: number) => {
-        this.page = page;
-    };
+  createSupplier = async (supplier: ISupplier) => {
+    const result = await agent.Supplier.create(supplier);
+    runInAction(() => {
+      this.supplierRegistry.set(result.id, result);
+    });
+  };
 
-    @computed get getSuppliers() {
-        const items: ISupplier[] = Array.from(this.supplierRegistry.values());
+  updateSupplier = async (supplier: ISupplier) => {
+    const result = await agent.Supplier.update(supplier);
+    runInAction(() => {
+      this.supplierRegistry.set(supplier.id, result);
+    });
+  };
 
-        return Object.entries(
-            items.reduce((suppliers, supplier, i) => {
-                const serialNumber = LIMIT * (this.page - 1) + i + 1;
-                // eslint-disable-next-line no-param-reassign
-                suppliers[serialNumber] = supplier;
-                return suppliers;
-            }, {} as { [key: number]: ISupplier })
-        );
-    }
+  deleteSupplier = async (id: number) => {
+    await agent.Supplier.delete(id);
+    runInAction(() => {
+      this.supplierRegistry.delete(id);
+    });
+  };
 
-    @computed get loadSupplierOptions() {
-        const suppliers: ISupplier[] = Array.from(
-            this.allSupplierRegistry.values()
-        );
-        return suppliers.map(
-            (supplier) =>
-            ({
-                key: supplier.id,
-                text: supplier.name,
-                value: supplier.id,
-            } as ISelectInputOptions)
-        );
-    }
-
-    loadSuppliers = async () => {
-        this.supplierRegistry.clear();
-        this.loadingInitial = true;
-        try {
-            const supplierEnvelop = await agent.Supplier.list(this.axiosParams);
-            const { suppliers, supplierCount } = supplierEnvelop;
-            runInAction(() => {
-                suppliers.forEach((supplier) => {
-                    this.supplierRegistry.set(supplier.id, supplier);
-                });
-                this.supplierCount = supplierCount;
-                this.loadingInitial = false;
-            });
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            });
-            throw error;
-        }
-    };
-
-    loadSupplier = async (id: number) => {
-        this.loadingInitial = true;
-        try {
-            const supplier = await agent.Supplier.detail(id);
-            runInAction(() => {
-                this.supplier = supplier;
-                this.loadingInitial = false;
-            });
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            });
-            throw error;
-        }
-    };
-
-    createSupplier = async (supplier: ISupplier) => {
-        const result = await agent.Supplier.create(supplier);
-        runInAction(() => {
-            this.supplierRegistry.set(result.id, result);
-        });
-    };
-
-    updateSupplier = async (supplier: ISupplier) => {
-        const result = await agent.Supplier.update(supplier);
-        runInAction(() => {
-            this.supplierRegistry.set(supplier.id, result);
-        });
-    };
-
-    deleteSupplier = async (id: number) => {
-        await agent.Supplier.delete(id);
-        runInAction(() => {
-            this.supplierRegistry.delete(id);
-        });
-    };
-
-    loadAllSuppliers = async () => {
-        this.allSupplierRegistry.clear();
-        const supplierEnvelop = await agent.Supplier.list(new URLSearchParams());
-        const { suppliers } = supplierEnvelop;
-        runInAction(() => {
-            suppliers.forEach((supplier) => {
-                this.allSupplierRegistry.set(supplier.id, supplier);
-            });
-        });
-    };
+  loadAllSuppliers = async () => {
+    this.allSupplierRegistry.clear();
+    const supplierEnvelop = await agent.Supplier.list(new URLSearchParams());
+    const { suppliers } = supplierEnvelop;
+    runInAction(() => {
+      suppliers.forEach((supplier) => {
+        this.allSupplierRegistry.set(supplier.id, supplier);
+      });
+    });
+  };
 }
