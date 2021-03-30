@@ -13,3 +13,7 @@ export interface IGoodsReceivedNoteFreeItem {
   vat: number;
   discount: number;
 }
+
+export interface IGoodsReceivedNoteFreeItemSerial extends IGoodsReceivedNoteFreeItem {
+  serial: number;
+}

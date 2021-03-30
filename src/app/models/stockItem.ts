@@ -12,3 +12,7 @@ export interface IStockItem {
   unitOfMeasureId: number;
   itemUnit: number;
 }
+
+export interface IStockItemSerial extends IStockItem {
+  serial: number;
+}

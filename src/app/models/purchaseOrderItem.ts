@@ -10,3 +10,7 @@ export interface IPurchaseOrderItem {
   itemUnitPrice: number;
   quantity: number;
 }
+
+export interface IPurchaseOrderItemSerial extends IPurchaseOrderItem {
+  serial: number;
+}

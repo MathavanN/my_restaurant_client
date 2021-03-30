@@ -17,3 +17,7 @@ export interface IGoodsReceivedNote {
   approvedDate: Date;
   approvalReason: string;
 }
+
+export interface IGoodsReceivedNoteSerial extends IGoodsReceivedNote {
+  serial: number;
+}
