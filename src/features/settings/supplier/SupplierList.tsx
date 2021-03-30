@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Table } from 'semantic-ui-react';
-import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import FilterSupplier from './FilterSupplier';
 import SupplierListHeader from './SupplierListHeader';
 import SupplierListItem from './SupplierListItem';
 import SupplierListItemFooter from './SupplierListItemFooter';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import { SupplierFormValues } from '../../../app/models/supplier/supplierFormValues';
 
 const SupplierList = () => {
   const rootStore = useContext(RootStoreContext);

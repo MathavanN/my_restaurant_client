@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { SupplierFormValues } from '../../../app/models/supplierFormValues';
+import { SupplierFormValues } from '../../../app/models/supplier/supplierFormValues';
 import EditSupplier from './EditSupplier';
 
 interface IProps {

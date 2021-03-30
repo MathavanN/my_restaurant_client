@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
-import { ISupplier, ISupplierSerial } from '../models/supplier';
+import { ISupplier, ISupplierSerial } from '../models/supplier/supplier';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
 import { LIMIT } from '../models/constants';
