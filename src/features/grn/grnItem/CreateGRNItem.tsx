@@ -2,11 +2,11 @@ import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
-import { CreateGoodsReceivedNoteItem } from '../../../app/models/createGoodsReceivedNoteItem';
-import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItemFormValues';
+import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItem/goodsReceivedNoteItemFormValues';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { CreateGoodsReceivedNoteItem } from '../../../app/models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 
 interface IProps {
   item: GoodsReceivedNoteItemFormValues;
@@ -24,8 +24,7 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
     defaultValues: item,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: GoodsReceivedNoteItemFormValues) => {
     const formData = new CreateGoodsReceivedNoteItem({
       ...data,
       id: item.id,
@@ -34,8 +33,8 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     if (formData.id === 0)
       createGRNItem(formData)
         .then(() => {
-          toast.success('Item created successfully');
           closeModal();
+          toast.success('Item created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -43,8 +42,8 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     else
       updateGRNItem(formData)
         .then(() => {
-          toast.success('Item updated successfully');
           closeModal();
+          toast.success('Item updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
