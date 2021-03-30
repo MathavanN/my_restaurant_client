@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Header } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
 import GRNFreeItemList from './GRNFreeItemList';
 
 interface IProps {

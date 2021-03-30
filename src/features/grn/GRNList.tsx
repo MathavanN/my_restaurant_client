@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Table } from 'semantic-ui-react';
-import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
 import GRNListItem from './GRNListItem';
 import GRNListItemHeader from './GRNListItemHeader';
 

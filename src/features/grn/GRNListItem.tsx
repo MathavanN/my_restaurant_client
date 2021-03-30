@@ -3,12 +3,11 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote';
-import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { PENDING } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
-
 import AddGRN from './AddGRN';
+import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
 
 interface IProps {
   goodsReceivedNotes: IGoodsReceivedNoteSerial[];

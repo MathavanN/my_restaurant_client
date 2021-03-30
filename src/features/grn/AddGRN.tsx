@@ -10,9 +10,9 @@ import {
   ISelectGuidInputOptions,
   ISelectInputOptions,
 } from '../../app/models/common';
-import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
 
 interface IProps {
   goodsReceivedNote: CreateGoodsReceivedNote;

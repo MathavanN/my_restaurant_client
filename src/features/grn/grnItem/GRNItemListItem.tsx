@@ -4,9 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import DeleteGRNItem from './DeleteGRNItem';
 import CreateGRNItem from './CreateGRNItem';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItemFormValues';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
 
 interface IProps {
   displayAmount: boolean;

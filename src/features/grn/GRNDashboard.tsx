@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect } from 'react';
 import { Button, Icon, Message } from 'semantic-ui-react';
-import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddGRN from './AddGRN';
 import GRNDetails from './GRNDetails';

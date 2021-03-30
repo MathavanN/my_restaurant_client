@@ -1,16 +1,16 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote';
 import { RootStore } from './rootStore';
 import { PENDING } from '../models/constants';
 import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem';
 import history from '../../history';
 import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
-import { ApprovalGoodsReceivedNote } from '../models/approvalGoodsReceivedNote';
-import { CreateGoodsReceivedNote } from '../models/createGoodsReceivedNote';
+import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
 import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem';
+import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
 
 export default class GRNStore {
   rootStore: RootStore;

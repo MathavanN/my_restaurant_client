@@ -1,7 +1,7 @@
 import { FC, useContext } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
 import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItemFormValues';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import CreateGRNFreeItem from './CreateGRNFreeItem';

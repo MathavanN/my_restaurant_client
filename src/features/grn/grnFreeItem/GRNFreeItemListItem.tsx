@@ -3,10 +3,10 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
 import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItemFormValues';
 import CreateGRNFreeItem from './CreateGRNFreeItem';
 import DeleteGRNFreeItem from './DeleteGRNFreeItem';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
 
 interface IProps {
   displayAmount: boolean;
