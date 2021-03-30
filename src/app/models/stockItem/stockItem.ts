@@ -2,6 +2,7 @@ export interface IStockItemEnvelop {
   stockItems: IStockItem[];
   stockItemCount: number;
 }
+
 export interface IStockItem {
   id: number;
   name: string;

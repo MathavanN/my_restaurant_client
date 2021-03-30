@@ -1,11 +1,11 @@
 /* eslint-disable import/no-cycle */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
-import { IStockItem, IStockItemSerial } from '../models/stockItem';
+import { IStockItem, IStockItemSerial } from '../models/stockItem/stockItem';
 import { ISelectInputOptions } from '../models/common';
 import agent from '../api/agent';
 import { LIMIT } from '../models/constants';
-import { CreateStockItem } from '../models/createStockItem';
+import { CreateStockItem } from '../models/stockItem/createStockItem';
 
 export default class StockItemStore {
   rootStore: RootStore;

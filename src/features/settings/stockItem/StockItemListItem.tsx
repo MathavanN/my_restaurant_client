@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IStockItemSerial } from '../../../app/models/stockItem';
-import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
+import { IStockItemSerial } from '../../../app/models/stockItem/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
 import DeleteStockItem from './DeleteStockItem';
 import EditStockItem from './EditStockItem';
 

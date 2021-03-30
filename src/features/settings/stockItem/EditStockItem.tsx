@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
-import { CreateStockItem } from '../../../app/models/createStockItem';
+import { CreateStockItem } from '../../../app/models/stockItem/createStockItem';
 import { ISelectInputOptions } from '../../../app/models/common';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
 
 interface IProps {
   stockItem: StockItemFormValues;
@@ -27,14 +27,13 @@ const EditStockItem: FC<IProps> = ({
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: stockItem,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: StockItemFormValues) => {
     const formData = new CreateStockItem({ ...data, id: stockItem.id });
     if (formData.id === 0)
       createStockItem(formData)
         .then(() => {
-          toast.success('Stock item created successfully');
           closeModal();
+          toast.success('Stock item created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -42,8 +41,8 @@ const EditStockItem: FC<IProps> = ({
     else
       updateStockItem(formData)
         .then(() => {
-          toast.success('Stock item updated successfully');
           closeModal();
+          toast.success('Stock item updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
