@@ -22,7 +22,9 @@ export default class StockTypeStore {
   @computed get getStockTypes() {
     return Array.from(this.stockTypeRegistry.values()).map((stockType, i) => {
       const item = stockType as IStockTypeSerial;
-      item.serial = i + 1;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
       return item;
     });
   }

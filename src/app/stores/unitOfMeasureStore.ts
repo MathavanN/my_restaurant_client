@@ -23,7 +23,9 @@ export default class UnitOfMeasureStore {
   @computed get getUnitOfMeasures() {
     return Array.from(this.unitOfMeasureRegistry.values()).map((unitOfMeasure, i) => {
       const item = unitOfMeasure as IUnitOfMeasureSerial;
-      item.serial = i + 1;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
       return item;
     });
   }

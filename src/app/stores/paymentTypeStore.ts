@@ -22,7 +22,9 @@ export default class PaymentTypeStore {
   @computed get getPaymentTypes() {
     return Array.from(this.paymentTypeRegistry.values()).map((paymentType, i) => {
       const item = paymentType as IPaymentTypeSerial;
-      item.serial = i + 1;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
       return item;
     });
   }
