@@ -8,7 +8,7 @@ import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem'
 import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
 import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem';
-import { IPaymentType } from '../models/paymentType';
+import { IPaymentType } from '../models/paymentType/paymentType';
 import { IPurchaseOrder } from '../models/purchaseOrder';
 import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
 import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
@@ -18,8 +18,7 @@ import { IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { CreateStockItem } from '../models/createStockItem';
 import { IStockType } from '../models/stockType';
 import { ISupplier, ISupplierEnvelop } from '../models/supplier';
-import { IUnitOfMeasure } from '../models/unitOfMeasure';
-import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues';
+import { IUnitOfMeasure } from '../models/unitOfMeasure/unitOfMeasure';
 import {
   IAppUser,
   IRefreshToken,
@@ -110,9 +109,9 @@ const Users = {
 
 const UnitOfMeasure = {
   list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitOfMeasure`),
-  create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> =>
+  create: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> =>
     requests.post(`/v1/unitOfMeasure`, unitOfMeasure),
-  update: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> =>
+  update: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> =>
     requests.put(`/v1/unitOfMeasure/${unitOfMeasure.id}`, unitOfMeasure),
   detail: (id: number): Promise<IUnitOfMeasure> =>
     requests.get(`/v1/unitOfMeasure/${id}`),
