@@ -12,8 +12,7 @@ import { IPaymentType } from '../models/paymentType/paymentType';
 import { IPurchaseOrder } from '../models/purchaseOrder/purchaseOrder';
 import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
 import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
-import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
-import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
+import { IPurchaseOrderItem } from '../models/purchaseOrderItem/purchaseOrderItem';
 import { IStockItem, IStockItemEnvelop } from '../models/stockItem/stockItem';
 import { CreateStockItem } from '../models/stockItem/createStockItem';
 import { IStockType } from '../models/stockType/stockType';
@@ -29,6 +28,7 @@ import {
   IUser,
   IUserLogin,
 } from '../models/user';
+import { CreatePurchaseOrderItem } from '../models/purchaseOrderItem/createPurchaseOrderItem';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use(

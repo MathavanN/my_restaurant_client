@@ -2,14 +2,14 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder/purchaseOrder';
-import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem';
+import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history';
 import { PENDING } from '../models/constants';
 import { ISelectInputOptions } from '../models/common';
 import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
 import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
-import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
+import { CreatePurchaseOrderItem } from '../models/purchaseOrderItem/createPurchaseOrderItem';
 
 export default class PurchaseOrderStore {
   rootStore: RootStore;

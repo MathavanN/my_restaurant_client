@@ -33,8 +33,8 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
     else
       updatePurchaseOrder(formData)
         .then(() => {
-          toast.success('Purchase order updated successfully');
           closeModal();
+          toast.success('Purchase order updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

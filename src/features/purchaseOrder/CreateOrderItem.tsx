@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItemFormValues';
-import { CreatePurchaseOrderItem } from '../../app/models/createPurchaseOrderItem';
 import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItem/purchaseOrderItemFormValues';
+import { CreatePurchaseOrderItem } from '../../app/models/purchaseOrderItem/createPurchaseOrderItem';
 
 interface IProps {
   item: PurchaseOrderItemFormValues;
@@ -23,8 +23,8 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
   const { getAllStockItemsForStockType } = rootStore.stockItemStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+
+  const onSubmit = (data: PurchaseOrderItemFormValues) => {
     const formData = new CreatePurchaseOrderItem({
       ...data,
       id: item.id,
@@ -33,8 +33,8 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     if (formData.id === 0)
       createPurchaseOrderItem(formData)
         .then(() => {
-          toast.success('Item created successfully');
           closeModal();
+          toast.success('Item created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -42,8 +42,8 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     else
       updatePurchaseOrderItem(formData)
         .then(() => {
-          toast.success('Item updated successfully');
           closeModal();
+          toast.success('Item updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
