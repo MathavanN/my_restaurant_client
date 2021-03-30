@@ -2,7 +2,7 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IStockType, IStockTypeSerial } from '../models/stockType';
+import { IStockType, IStockTypeSerial } from '../models/stockType/stockType';
 import { RootStore } from './rootStore';
 
 export default class StockTypeStore {

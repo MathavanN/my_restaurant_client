@@ -31,8 +31,8 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
               onClick={() => {
                 deleteUnitOfMeasure(unitOfMeasure.id)
                   .then(() => {
-                    toast.success('UOM deleted successfully');
                     closeModal();
+                    toast.success('UOM deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

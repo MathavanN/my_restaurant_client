@@ -2,10 +2,9 @@ import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-
 import DeleteStockType from './DeleteStockType';
 import EditStockType from './EditStockType';
-import { StockTypeFormValues } from '../../../app/models/stockTypeFormValues';
+import { StockTypeFormValues } from '../../../app/models/stockType/stockTypeFormValues';
 
 const StockTypeList = () => {
   const rootStore = useContext(RootStoreContext);

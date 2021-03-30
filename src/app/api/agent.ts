@@ -16,7 +16,7 @@ import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
 import { IStockItem, IStockItemEnvelop } from '../models/stockItem';
 import { CreateStockItem } from '../models/createStockItem';
-import { IStockType } from '../models/stockType';
+import { IStockType } from '../models/stockType/stockType';
 import { ISupplier, ISupplierEnvelop } from '../models/supplier/supplier';
 import { IUnitOfMeasure } from '../models/unitOfMeasure/unitOfMeasure';
 import {
