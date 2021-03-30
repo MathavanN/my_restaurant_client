@@ -7,98 +7,98 @@ import { RootStore } from './rootStore';
 import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues';
 
 export default class UnitOfMeasureStore {
-    rootStore: RootStore;
+  rootStore: RootStore;
 
-    unitOfMeasure: IUnitOfMeasure | null = null;
+  unitOfMeasure: IUnitOfMeasure | null = null;
 
-    unitOfMeasureRegistry = new Map();
+  unitOfMeasureRegistry = new Map();
 
-    loadingInitial = false;
+  loadingInitial = false;
 
-    constructor(rootStore: RootStore) {
-        this.rootStore = rootStore;
-        makeAutoObservable(this);
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+    makeAutoObservable(this);
+  }
+
+  @computed get getUnitOfMeasures() {
+    const items: IUnitOfMeasure[] = Array.from(
+      this.unitOfMeasureRegistry.values()
+    );
+
+    return Object.entries(
+      items.reduce((unitOfMeasures, unitOfMeasure, i) => {
+        const key = i + 1;
+        // eslint-disable-next-line no-param-reassign
+        unitOfMeasures[key] = unitOfMeasure;
+        return unitOfMeasures;
+      }, {} as { [key: number]: IUnitOfMeasure })
+    );
+  }
+
+  @computed get loadUnitOfMeasureOptions() {
+    const unitOfMeasures: IUnitOfMeasure[] = Array.from(
+      this.unitOfMeasureRegistry.values()
+    );
+    return unitOfMeasures.map(
+      (unitOfMeasure) =>
+        ({
+          key: unitOfMeasure.id,
+          text: unitOfMeasure.code,
+          value: unitOfMeasure.id,
+        } as ISelectInputOptions)
+    );
+  }
+
+  loadUnitOfMeasures = async () => {
+    this.loadingInitial = true;
+    try {
+      const unitOfMeasures = await agent.UnitOfMeasure.list();
+      runInAction(() => {
+        unitOfMeasures.forEach((item) =>
+          this.unitOfMeasureRegistry.set(item.id, item)
+        );
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
     }
+  };
 
-    @computed get getUnitOfMeasures() {
-        const items: IUnitOfMeasure[] = Array.from(
-            this.unitOfMeasureRegistry.values()
-        );
-
-        return Object.entries(
-            items.reduce((unitOfMeasures, unitOfMeasure, i) => {
-                const key = i + 1;
-                // eslint-disable-next-line no-param-reassign
-                unitOfMeasures[key] = unitOfMeasure;
-                return unitOfMeasures;
-            }, {} as { [key: number]: IUnitOfMeasure })
-        );
+  loadUnitOfMeasure = async (id: number) => {
+    this.loadingInitial = true;
+    try {
+      const unitOfMeasure = await agent.UnitOfMeasure.detail(id);
+      runInAction(() => {
+        this.unitOfMeasure = unitOfMeasure;
+        this.loadingInitial = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loadingInitial = false;
+      });
     }
+  };
 
-    @computed get loadUnitOfMeasureOptions() {
-        const unitOfMeasures: IUnitOfMeasure[] = Array.from(
-            this.unitOfMeasureRegistry.values()
-        );
-        return unitOfMeasures.map(
-            (unitOfMeasure) =>
-            ({
-                key: unitOfMeasure.id,
-                text: unitOfMeasure.code,
-                value: unitOfMeasure.id,
-            } as ISelectInputOptions)
-        );
-    }
+  createUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
+    const unitOfMeasure = await agent.UnitOfMeasure.create(values);
+    runInAction(() => {
+      this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure);
+    });
+  };
 
-    loadUnitOfMeasures = async () => {
-        this.loadingInitial = true;
-        try {
-            const unitOfMeasures = await agent.UnitOfMeasure.list();
-            runInAction(() => {
-                unitOfMeasures.forEach((item) =>
-                    this.unitOfMeasureRegistry.set(item.id, item)
-                );
-                this.loadingInitial = false;
-            });
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            });
-        }
-    };
+  updateUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
+    const unitOfMeasure = await agent.UnitOfMeasure.update(values);
+    runInAction(() => {
+      this.unitOfMeasureRegistry.set(values.id, unitOfMeasure);
+    });
+  };
 
-    loadUnitOfMeasure = async (id: number) => {
-        this.loadingInitial = true;
-        try {
-            const unitOfMeasure = await agent.UnitOfMeasure.detail(id);
-            runInAction(() => {
-                this.unitOfMeasure = unitOfMeasure;
-                this.loadingInitial = false;
-            });
-        } catch (error) {
-            runInAction(() => {
-                this.loadingInitial = false;
-            });
-        }
-    };
-
-    createUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
-        const unitOfMeasure = await agent.UnitOfMeasure.create(values);
-        runInAction(() => {
-            this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure);
-        });
-    };
-
-    updateUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
-        const unitOfMeasure = await agent.UnitOfMeasure.update(values);
-        runInAction(() => {
-            this.unitOfMeasureRegistry.set(values.id, unitOfMeasure);
-        });
-    };
-
-    deleteUnitOfMeasure = async (id: number) => {
-        await agent.UnitOfMeasure.delete(id);
-        runInAction(() => {
-            this.unitOfMeasureRegistry.delete(id);
-        });
-    };
+  deleteUnitOfMeasure = async (id: number) => {
+    await agent.UnitOfMeasure.delete(id);
+    runInAction(() => {
+      this.unitOfMeasureRegistry.delete(id);
+    });
+  };
 }

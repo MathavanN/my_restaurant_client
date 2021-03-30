@@ -16,7 +16,10 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
   const { createPaymentType, updatePaymentType } = rootStore.paymentTypeStore;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    const formData = new PaymentTypeFormValues({ ...data, id: paymentType.id });
+    const formData = new PaymentTypeFormValues({
+      ...data,
+      id: paymentType.id,
+    });
     if (formData.id === 0)
       createPaymentType(formData)
         .then(() => {
