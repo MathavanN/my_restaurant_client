@@ -41,9 +41,9 @@ const UnitOfMeasureList = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getUnitOfMeasures.map(([group, uom]) => (
+          {getUnitOfMeasures.map((uom) => (
             <Table.Row key={uom.id}>
-              <Table.Cell>{group}</Table.Cell>
+              <Table.Cell>{uom.serial}</Table.Cell>
               <Table.Cell>{uom.code}</Table.Cell>
               <Table.Cell>{uom.description}</Table.Cell>
               {hasModifyAccess && (
