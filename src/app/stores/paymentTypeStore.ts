@@ -2,7 +2,7 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IPaymentType, IPaymentTypeSerial } from '../models/paymentType';
+import { IPaymentType, IPaymentTypeSerial } from '../models/paymentType/paymentType';
 import { RootStore } from './rootStore';
 
 export default class PaymentTypeStore {
