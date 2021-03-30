@@ -23,8 +23,8 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
     if (formData.id === 0)
       createPaymentType(formData)
         .then(() => {
-          toast.success('Payment type created successfully');
           closeModal();
+          toast.success('Payment type created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

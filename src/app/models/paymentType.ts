@@ -3,3 +3,7 @@ export interface IPaymentType {
   name: string;
   creditPeriod: number;
 }
+
+export interface IPaymentTypeSerial extends IPaymentType {
+  serial: number;
+}

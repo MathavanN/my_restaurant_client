@@ -30,8 +30,8 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
               onClick={() => {
                 deletePaymentType(paymentType.id)
                   .then(() => {
-                    toast.success('Payment type deleted successfully');
                     closeModal();
+                    toast.success('Payment type deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

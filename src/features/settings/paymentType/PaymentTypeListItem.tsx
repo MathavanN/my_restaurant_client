@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { IPaymentType } from '../../../app/models/paymentType';
+import { IPaymentTypeSerial } from '../../../app/models/paymentType';
 import DeletePaymentType from './DeletePaymentType';
 import EditPaymentType from './EditPaymentType';
 
@@ -8,7 +8,7 @@ interface IProps {
   hasModifyAccess: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
-  paymentTypes: [string, IPaymentType][];
+  paymentTypes: IPaymentTypeSerial[];
 }
 const PaymentTypeListItem: FC<IProps> = ({
   hasModifyAccess,
@@ -17,9 +17,9 @@ const PaymentTypeListItem: FC<IProps> = ({
 }) => (
   <>
     <Table.Body>
-      {paymentTypes.map(([group, paymentType]) => (
+      {paymentTypes.map((paymentType) => (
         <Table.Row key={paymentType.id}>
-          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{paymentType.serial}</Table.Cell>
           <Table.Cell>{paymentType.name}</Table.Cell>
           <Table.Cell>{paymentType.creditPeriod}</Table.Cell>
           {hasModifyAccess && (
