@@ -9,9 +9,9 @@ import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNo
 import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem';
 import { IPaymentType } from '../models/paymentType/paymentType';
-import { IPurchaseOrder } from '../models/purchaseOrder';
-import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
-import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
+import { IPurchaseOrder } from '../models/purchaseOrder/purchaseOrder';
+import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
 import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
 import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
 import { IStockItem, IStockItemEnvelop } from '../models/stockItem/stockItem';

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Grid, Header, Table } from 'semantic-ui-react';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
 import { IPurchaseOrderItemSerial } from '../../app/models/purchaseOrderItem';
 
 interface IProps {

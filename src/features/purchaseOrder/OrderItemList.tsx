@@ -5,7 +5,7 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 import CreateOrderItem from './CreateOrderItem';
 import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItemFormValues';
 import DeleteOrderItem from './DeleteOrderItem';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
 import OrderItemSummary from './OrderItemSummary';
 import { ISelectInputOptions } from '../../app/models/common';
 

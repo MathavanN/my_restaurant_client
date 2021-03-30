@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { CreatePurchaseOrder } from '../../app/models/createPurchaseOrder';
-import { PurchaseOrderFormValues } from '../../app/models/purchaseOrderFormValues';
+import { CreatePurchaseOrder } from '../../app/models/purchaseOrder/createPurchaseOrder';
 import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { PurchaseOrderFormValues } from '../../app/models/purchaseOrder/purchaseOrderFormValues';
 
 interface IProps {
   order: PurchaseOrderFormValues;
@@ -23,8 +23,8 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
     updatePurchaseOrder,
   } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+
+  const onSubmit = (data: PurchaseOrderFormValues) => {
     const formData = new CreatePurchaseOrder({ ...data, id: order.id });
     if (formData.id === 0)
       createPurchaseOrder(formData).catch((error) => {

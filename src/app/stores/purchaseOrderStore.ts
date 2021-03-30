@@ -1,14 +1,14 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder';
+import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder/purchaseOrder';
 import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history';
 import { PENDING } from '../models/constants';
 import { ISelectInputOptions } from '../models/common';
-import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
-import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
+import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
 import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
 
 export default class PurchaseOrderStore {
