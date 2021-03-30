@@ -61,9 +61,9 @@ const OrderItemList: FC<IProps> = ({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getPurchaseOrderItems.map(([group, item]) => (
+          {getPurchaseOrderItems.map((item) => (
             <Table.Row key={item.id}>
-              <Table.Cell>{group}</Table.Cell>
+              <Table.Cell>{item.serial}</Table.Cell>
               <Table.Cell>{item.itemName}</Table.Cell>
               <Table.Cell>
                 {item.itemUnit}

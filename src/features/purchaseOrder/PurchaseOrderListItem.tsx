@@ -3,7 +3,7 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { IPurchaseOrderSerial } from '../../app/models/purchaseOrder';
 import { PurchaseOrderFormValues } from '../../app/models/purchaseOrderFormValues';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPurchaseOrder from './AddPurchaseOrder';
@@ -11,7 +11,7 @@ import { PENDING } from '../../app/models/constants';
 import { ISelectInputOptions } from '../../app/models/common';
 
 interface IProps {
-  orders: [string, IPurchaseOrder][];
+  orders: IPurchaseOrderSerial[];
   supplierOptions: ISelectInputOptions[];
   displayColumn: boolean;
   displayView: boolean;
@@ -42,9 +42,9 @@ const PurchaseOrderListItem: FC<IProps> = ({
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {orders.map(([group, order]) => (
+        {orders.map((order) => (
           <Table.Row key={order.id}>
-            {displayColumn && <Table.Cell>{group}</Table.Cell>}
+            {displayColumn && <Table.Cell>{order.serial}</Table.Cell>}
             <Table.Cell>{order.orderNumber}</Table.Cell>
             <Table.Cell>{order.supplierName}</Table.Cell>
             <Table.Cell>{order.requestedUserName}</Table.Cell>

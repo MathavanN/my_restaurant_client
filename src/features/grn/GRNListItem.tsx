@@ -3,7 +3,7 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote';
 import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { PENDING } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
@@ -11,7 +11,7 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 import AddGRN from './AddGRN';
 
 interface IProps {
-  goodsReceivedNotes: [string, IGoodsReceivedNote][];
+  goodsReceivedNotes: IGoodsReceivedNoteSerial[];
   displayColumn: boolean;
   displayView: boolean;
   displayEdit: boolean;
@@ -30,9 +30,11 @@ const GRNListItem: FC<IProps> = ({
   return (
     <>
       <Table.Body>
-        {goodsReceivedNotes.map(([group, goodsReceivedNote]) => (
+        {goodsReceivedNotes.map((goodsReceivedNote) => (
           <Table.Row key={goodsReceivedNote.id}>
-            {displayColumn && <Table.Cell>{group}</Table.Cell>}
+            {displayColumn && (
+              <Table.Cell>{goodsReceivedNote.serial}</Table.Cell>
+            )}
             <Table.Cell>{goodsReceivedNote.purchaseOrderNumber}</Table.Cell>
             <Table.Cell>{goodsReceivedNote.invoiceNumber}</Table.Cell>
             <Table.Cell>{goodsReceivedNote.paymentTypeName}</Table.Cell>

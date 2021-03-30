@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { ISupplier } from '../../../app/models/supplier';
+import { ISupplierSerial } from '../../../app/models/supplier';
 import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import DeleteSupplier from './DeleteSupplier';
 import EditSupplier from './EditSupplier';
@@ -10,7 +10,7 @@ interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
   closeModal: () => void;
-  suppliers: [string, ISupplier][];
+  suppliers: ISupplierSerial[];
 }
 
 const SupplierListItem: FC<IProps> = ({
@@ -21,9 +21,9 @@ const SupplierListItem: FC<IProps> = ({
 }) => (
   <>
     <Table.Body>
-      {suppliers.map(([group, supplier]) => (
+      {suppliers.map((supplier) => (
         <Table.Row key={supplier.id}>
-          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{supplier.serial}</Table.Cell>
           <Table.Cell>{supplier.name}</Table.Cell>
           <Table.Cell>{supplier.address1}</Table.Cell>
           <Table.Cell>{supplier.telephone1}</Table.Cell>

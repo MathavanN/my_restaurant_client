@@ -27,9 +27,9 @@ const GRNFreeItemListItem: FC<IProps> = ({
   return (
     <>
       <Table.Body>
-        {getGRNFreeItems.map(([group, item]) => (
+        {getGRNFreeItems.map((item) => (
           <Table.Row key={item.id}>
-            <Table.Cell>{group}</Table.Cell>
+            <Table.Cell>{item.serial}</Table.Cell>
             <Table.Cell>{item.itemName}</Table.Cell>
             <Table.Cell>
               {item.itemUnit}
