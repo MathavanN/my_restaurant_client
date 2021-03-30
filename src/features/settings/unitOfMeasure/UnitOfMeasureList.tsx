@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import DeleteUnitOfMeasure from './DeleteUnitOfMeasure';
 import EditUnitOfMeasure from './EditUnitOfMeasure';
-import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasureFormValues';
+import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure/unitOfMeasureFormValues';
 
 const UnitOfMeasureList = () => {
   const rootStore = useContext(RootStoreContext);

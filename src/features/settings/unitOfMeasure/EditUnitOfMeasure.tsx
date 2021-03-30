@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
-import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasureFormValues';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure/unitOfMeasureFormValues';
+import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure/unitOfMeasure';
 
 interface IProps {
   uom: UnitOfMeasureFormValues;
@@ -22,14 +23,13 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: uom,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const formData = new UnitOfMeasureFormValues({ ...data, id: uom.id });
+  const onSubmit = (data: IUnitOfMeasure) => {
+    const formData = { ...data, id: uom.id };
     if (formData.id === 0)
       createUnitOfMeasure(formData)
         .then(() => {
-          toast.success('Unit of measure created successfully');
           closeModal();
+          toast.success('Unit of measure created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -37,8 +37,8 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
     else
       updateUnitOfMeasure(formData)
         .then(() => {
-          toast.success('Unit of measure updated successfully');
           closeModal();
+          toast.success('Unit of measure updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

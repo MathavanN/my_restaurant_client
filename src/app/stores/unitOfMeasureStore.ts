@@ -2,9 +2,8 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IUnitOfMeasure, IUnitOfMeasureSerial } from '../models/unitOfMeasure';
+import { IUnitOfMeasure, IUnitOfMeasureSerial } from '../models/unitOfMeasure/unitOfMeasure';
 import { RootStore } from './rootStore';
-import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues';
 
 export default class UnitOfMeasureStore {
   rootStore: RootStore;
@@ -75,14 +74,14 @@ export default class UnitOfMeasureStore {
     }
   };
 
-  createUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
+  createUnitOfMeasure = async (values: IUnitOfMeasure) => {
     const unitOfMeasure = await agent.UnitOfMeasure.create(values);
     runInAction(() => {
       this.unitOfMeasureRegistry.set(unitOfMeasure.id, unitOfMeasure);
     });
   };
 
-  updateUnitOfMeasure = async (values: UnitOfMeasureFormValues) => {
+  updateUnitOfMeasure = async (values: IUnitOfMeasure) => {
     const unitOfMeasure = await agent.UnitOfMeasure.update(values);
     runInAction(() => {
       this.unitOfMeasureRegistry.set(values.id, unitOfMeasure);
