@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form, Label, Message } from 'semantic-ui-react';
