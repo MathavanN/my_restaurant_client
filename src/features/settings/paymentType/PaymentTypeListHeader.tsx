@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
+import { PaymentTypeFormValues } from '../../../app/models/paymentType/paymentTypeFormValues';
 import EditPaymentType from './EditPaymentType';
 
 interface IProps {

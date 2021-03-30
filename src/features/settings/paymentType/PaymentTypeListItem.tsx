@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { IPaymentTypeSerial } from '../../../app/models/paymentType';
+import { IPaymentTypeSerial } from '../../../app/models/paymentType/paymentType';
 import DeletePaymentType from './DeletePaymentType';
 import EditPaymentType from './EditPaymentType';
 

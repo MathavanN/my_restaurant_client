@@ -3,7 +3,7 @@ import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { IPaymentType } from '../../../app/models/paymentType';
+import { IPaymentType } from '../../../app/models/paymentType/paymentType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {

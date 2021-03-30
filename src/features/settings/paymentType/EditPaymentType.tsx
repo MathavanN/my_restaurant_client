@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { PaymentTypeFormValues } from '../../../app/models/paymentType/paymentTypeFormValues';
+import { IPaymentType } from '../../../app/models/paymentType/paymentType';
 
 interface IProps {
   paymentType: PaymentTypeFormValues;
@@ -14,12 +15,9 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
   const rootStore = useContext(RootStoreContext);
   const { closeModal } = rootStore.modalStore;
   const { createPaymentType, updatePaymentType } = rootStore.paymentTypeStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const formData = new PaymentTypeFormValues({
-      ...data,
-      id: paymentType.id,
-    });
+
+  const onSubmit = (data: IPaymentType) => {
+    const formData = { ...data, id: paymentType.id };
     if (formData.id === 0)
       createPaymentType(formData)
         .then(() => {
@@ -32,8 +30,8 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
     else
       updatePaymentType(formData)
         .then(() => {
-          toast.success('Payment type updated successfully');
           closeModal();
+          toast.success('Payment type updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
