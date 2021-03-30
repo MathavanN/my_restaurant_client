@@ -2,8 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import history from '../../history';
 import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
-import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
-import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { IPaymentType } from '../models/paymentType/paymentType';
 import { IPurchaseOrder } from '../models/purchaseOrder/purchaseOrder';
 import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
@@ -29,6 +28,7 @@ import { IGoodsReceivedNote } from '../models/goodsReceivedNote/goodsReceivedNot
 import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
 import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
+import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use(

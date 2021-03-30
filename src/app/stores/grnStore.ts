@@ -4,13 +4,13 @@ import agent from '../api/agent';
 import { RootStore } from './rootStore';
 import { PENDING } from '../models/constants';
 import history from '../../history';
-import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
-import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem';
 import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote/goodsReceivedNote';
 import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
+import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
 
 export default class GRNStore {
   rootStore: RootStore;
