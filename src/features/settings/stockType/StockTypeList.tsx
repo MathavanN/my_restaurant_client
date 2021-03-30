@@ -42,9 +42,9 @@ const StockTypeList = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getStockTypes.map(([group, stockType]) => (
+          {getStockTypes.map((stockType) => (
             <Table.Row key={stockType.id}>
-              <Table.Cell>{group}</Table.Cell>
+              <Table.Cell>{stockType.serial}</Table.Cell>
               <Table.Cell>{stockType.type}</Table.Cell>
               <Table.Cell>{stockType.description}</Table.Cell>
               {hasModifyAccess && (
