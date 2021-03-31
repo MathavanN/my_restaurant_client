@@ -45,7 +45,7 @@ const OrderMainForm: FC<RouteComponentProps<IDetailsParams>> = ({
       {match.params.id && purchaseOrder! && (
         <>
           <PurchaseOrderListItem
-            orders={new Array(['1', purchaseOrder])}
+            orders={new Array({ ...purchaseOrder, serial: 1 })}
             supplierOptions={loadSupplierOptions}
             displayColumn={false}
             displayEdit={true}

@@ -43,7 +43,7 @@ const GRNMainForm: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
       {match.params.id && grn! && (
         <>
           <GRNList
-            goodsReceivedNotes={new Array(['1', grn])}
+            goodsReceivedNotes={new Array({ ...grn, serial: 1 })}
             displayColumn={false}
             displayEdit={true}
             displayView={false}

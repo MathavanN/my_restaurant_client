@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IStockItem } from '../../../app/models/stockItem';
-import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
+import { IStockItemSerial } from '../../../app/models/stockItem/stockItem';
+import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
 import DeleteStockItem from './DeleteStockItem';
 import EditStockItem from './EditStockItem';
 
@@ -12,7 +12,7 @@ interface IProps {
   unitOfMeasureOptions: ISelectInputOptions[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal: (content: any) => void;
-  stockItems: [string, IStockItem][];
+  stockItems: IStockItemSerial[];
 }
 
 const StockItemListItem: FC<IProps> = ({
@@ -24,9 +24,9 @@ const StockItemListItem: FC<IProps> = ({
 }) => (
   <>
     <Table.Body>
-      {stockItems.map(([group, stockItem]) => (
+      {stockItems.map((stockItem) => (
         <Table.Row key={stockItem.id}>
-          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{stockItem.serial}</Table.Cell>
           <Table.Cell>{stockItem.stockType}</Table.Cell>
           <Table.Cell>{stockItem.name}</Table.Cell>
           <Table.Cell>

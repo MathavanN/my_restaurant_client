@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { ISupplier } from '../../../app/models/supplier';
+import { ISupplier } from '../../../app/models/supplier/supplier';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -30,8 +30,8 @@ const DeleteSupplier: FC<IProps> = ({ supplier, closeModal }) => {
               onClick={() => {
                 deleteSupplier(supplier.id)
                   .then(() => {
-                    toast.success('Supplier deleted successfully');
                     closeModal();
+                    toast.success('Supplier deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

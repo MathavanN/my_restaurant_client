@@ -2,7 +2,7 @@ import { FC, useContext } from 'react';
 import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
-import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure';
+import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure/unitOfMeasure';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
@@ -31,8 +31,8 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
               onClick={() => {
                 deleteUnitOfMeasure(unitOfMeasure.id)
                   .then(() => {
-                    toast.success('UOM deleted successfully');
                     closeModal();
+                    toast.success('UOM deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

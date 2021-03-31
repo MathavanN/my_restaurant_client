@@ -2,7 +2,7 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IStockType } from '../models/stockType';
+import { IStockType, IStockTypeSerial } from '../models/stockType/stockType';
 import { RootStore } from './rootStore';
 
 export default class StockTypeStore {
@@ -20,29 +20,25 @@ export default class StockTypeStore {
   }
 
   @computed get getStockTypes() {
-    const items: IStockType[] = Array.from(this.stockTypeRegistry.values());
-
-    return Object.entries(
-      items.reduce((stockTypes, stockType, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        stockTypes[key] = stockType;
-        return stockTypes;
-      }, {} as { [key: number]: IStockType })
-    );
+    return Array.from(this.stockTypeRegistry.values()).map((stockType, i) => {
+      const item = stockType as IStockTypeSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   @computed get loadStockTypeOptions() {
-    const stockTypes: IStockType[] = Array.from(
+    return Array.from(
       this.stockTypeRegistry.values()
-    );
-    return stockTypes.map(
+    ).map(
       (stockType) =>
-        ({
-          key: stockType.id,
-          text: stockType.type,
-          value: stockType.id,
-        } as ISelectInputOptions)
+      ({
+        key: stockType.id,
+        text: stockType.type,
+        value: stockType.id,
+      } as ISelectInputOptions)
     );
   }
 

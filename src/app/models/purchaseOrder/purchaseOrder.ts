@@ -12,3 +12,7 @@ export interface IPurchaseOrder {
   approvedDate: Date;
   description: string;
 }
+
+export interface IPurchaseOrderSerial extends IPurchaseOrder {
+  serial: number;
+}

@@ -2,7 +2,7 @@ import { FC, useContext, useEffect } from 'react';
 import { Grid, Table } from 'semantic-ui-react';
 import { format, isEqual } from 'date-fns';
 import { observer } from 'mobx-react-lite';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { APPROVED } from '../../app/models/constants';
 

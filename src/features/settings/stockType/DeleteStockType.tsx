@@ -3,7 +3,7 @@ import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { IStockType } from '../../../app/models/stockType';
+import { IStockType } from '../../../app/models/stockType/stockType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -30,8 +30,8 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
               onClick={() => {
                 deleteStockType(stockType.id)
                   .then(() => {
-                    toast.success('Stock type deleted successfully');
                     closeModal();
+                    toast.success('Stock type deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

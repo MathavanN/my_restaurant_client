@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
-import { ISupplier } from '../models/supplier';
+import { ISupplier, ISupplierSerial } from '../models/supplier/supplier';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
 import { LIMIT } from '../models/constants';
@@ -55,16 +55,13 @@ export default class SupplierStore {
   };
 
   @computed get getSuppliers() {
-    const items: ISupplier[] = Array.from(this.supplierRegistry.values());
-
-    return Object.entries(
-      items.reduce((suppliers, supplier, i) => {
-        const serialNumber = LIMIT * (this.page - 1) + i + 1;
-        // eslint-disable-next-line no-param-reassign
-        suppliers[serialNumber] = supplier;
-        return suppliers;
-      }, {} as { [key: number]: ISupplier })
-    );
+    return Array.from(this.supplierRegistry.values()).map((supplier, i) => {
+      const item = supplier as ISupplierSerial;
+      runInAction(() => {
+        item.serial = LIMIT * (this.page - 1) + i + 1;
+      });
+      return item;
+    });
   }
 
   @computed get loadSupplierOptions() {
@@ -73,11 +70,11 @@ export default class SupplierStore {
     );
     return suppliers.map(
       (supplier) =>
-        ({
-          key: supplier.id,
-          text: supplier.name,
-          value: supplier.id,
-        } as ISelectInputOptions)
+      ({
+        key: supplier.id,
+        text: supplier.name,
+        value: supplier.id,
+      } as ISelectInputOptions)
     );
   }
 

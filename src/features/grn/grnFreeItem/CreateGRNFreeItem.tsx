@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import { ISelectInputOptions } from '../../../app/models/common';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
-import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItemFormValues';
-import { CreateGoodsReceivedNoteFreeItem } from '../../../app/models/createGoodsReceivedNoteFreeItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
+import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItemFormValues';
 
 interface IProps {
   item: GoodsReceivedNoteFreeItemFormValues;
@@ -24,8 +24,7 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
   const { register, errors, handleSubmit, setValue, trigger, watch } = useForm({
     defaultValues: item,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: GoodsReceivedNoteFreeItemFormValues) => {
     const formData = new CreateGoodsReceivedNoteFreeItem({
       ...data,
       id: item.id,
@@ -34,8 +33,8 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     if (formData.id === 0)
       createGRNFreeItem(formData)
         .then(() => {
-          toast.success('Item created successfully');
           closeModal();
+          toast.success('Item created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -43,8 +42,8 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
     else
       updateGRNFreeItem(formData)
         .then(() => {
-          toast.success('Item updated successfully');
           closeModal();
+          toast.success('Item updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

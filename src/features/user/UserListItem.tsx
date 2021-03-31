@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Table } from 'semantic-ui-react';
-import { IAppUser } from '../../app/models/user';
+import { IAppUserSerial } from '../../app/models/user';
 
 interface IProps {
-  users: [string, IAppUser][];
+  users: IAppUserSerial[];
 }
 const UserListItem: FC<IProps> = ({ users }) => (
   <Table compact celled>
@@ -18,9 +18,9 @@ const UserListItem: FC<IProps> = ({ users }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {users.map(([group, user]) => (
+      {users.map((user) => (
         <Table.Row key={user.id}>
-          <Table.Cell>{group}</Table.Cell>
+          <Table.Cell>{user.serial}</Table.Cell>
           <Table.Cell>{user.firstName}</Table.Cell>
           <Table.Cell>{user.lastName}</Table.Cell>
           <Table.Cell>{user.email}</Table.Cell>

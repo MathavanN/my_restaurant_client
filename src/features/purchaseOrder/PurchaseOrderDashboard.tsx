@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect } from 'react';
 import { Message, Icon, Button } from 'semantic-ui-react';
-import { PurchaseOrderFormValues } from '../../app/models/purchaseOrderFormValues';
+import { PurchaseOrderFormValues } from '../../app/models/purchaseOrder/purchaseOrderFormValues';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPurchaseOrder from './AddPurchaseOrder';
 import PurchaseOrderList from './PurchaseOrderList';

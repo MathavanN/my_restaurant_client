@@ -3,6 +3,7 @@
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import {
   IAppUser,
+  IAppUserSerial,
   IRefreshToken,
   IRegisterAdminUser,
   IRegisterNonAdminUser,
@@ -84,38 +85,35 @@ export default class UserStore {
         (a.firstName.toLowerCase() === b.firstName.toLowerCase()
           ? 0
           : a.firstName.toLowerCase() < b.firstName.toLowerCase()
-          ? 1
-          : -1) ||
+            ? 1
+            : -1) ||
         (a.lastName.toLowerCase() === b.lastName.toLowerCase()
           ? 0
           : a.lastName.toLowerCase() > b.lastName.toLowerCase()
-          ? 1
-          : -1)
+            ? 1
+            : -1)
     );
   }
 
   @computed get getAppUsers() {
-    const sortedAppUsers = this.getSortedAppUsers();
-
-    return Object.entries(
-      sortedAppUsers.reduce((users, user, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        users[key] = user;
-        return users;
-      }, {} as { [key: number]: IAppUser })
-    );
+    return this.getSortedAppUsers().map((user, i) => {
+      const item = user as IAppUserSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   @computed get loadAppUsersOptions() {
     const sortedAppUsers = this.getSortedAppUsers();
     return sortedAppUsers.map(
       (user) =>
-        ({
-          key: user.id,
-          text: `${user.firstName} ${user.lastName}`,
-          value: user.id,
-        } as ISelectGuidInputOptions)
+      ({
+        key: user.id,
+        text: `${user.firstName} ${user.lastName}`,
+        value: user.id,
+      } as ISelectGuidInputOptions)
     );
   }
 

@@ -1,15 +1,16 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IGoodsReceivedNote } from '../models/goodsReceivedNote';
 import { RootStore } from './rootStore';
 import { PENDING } from '../models/constants';
-import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
 import history from '../../history';
-import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
-import { ApprovalGoodsReceivedNote } from '../models/approvalGoodsReceivedNote';
-import { CreateGoodsReceivedNote } from '../models/createGoodsReceivedNote';
-import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
+import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
+import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
+import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
+import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
+import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
 
 export default class GRNStore {
   rootStore: RootStore;
@@ -32,16 +33,13 @@ export default class GRNStore {
   }
 
   @computed get getGoodsReceivedNotes() {
-    const sortedGoodsReceivedNotes = this.getSortedGoodsReceivedNotes();
-
-    return Object.entries(
-      sortedGoodsReceivedNotes.reduce((goodsReceivedNotes, grn, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        goodsReceivedNotes[key] = grn;
-        return goodsReceivedNotes;
-      }, {} as { [key: number]: IGoodsReceivedNote })
-    );
+    return this.getSortedGoodsReceivedNotes().map((goodsReceivedNote, i) => {
+      const item = goodsReceivedNote as IGoodsReceivedNoteSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   createGRN = async (grn: CreateGoodsReceivedNote) => {
@@ -211,18 +209,13 @@ export default class GRNStore {
   }
 
   @computed get getGRNItems() {
-    const grnItems: IGoodsReceivedNoteItem[] = Array.from(
-      this.grnItemRegistry.values()
-    );
-
-    return Object.entries(
-      grnItems.reduce((items, item, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        items[key] = item;
-        return items;
-      }, {} as { [key: number]: IGoodsReceivedNoteItem })
-    );
+    return Array.from(this.grnItemRegistry.values()).map((goodsReceivedNoteItem, i) => {
+      const item = goodsReceivedNoteItem as IGoodsReceivedNoteItemSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
@@ -268,18 +261,13 @@ export default class GRNStore {
   };
 
   @computed get getGRNFreeItems() {
-    const freeItems: IGoodsReceivedNoteItem[] = Array.from(
-      this.grnFreeItemRegistry.values()
-    );
-
-    return Object.entries(
-      freeItems.reduce((items, item, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        items[key] = item;
-        return items;
-      }, {} as { [key: number]: IGoodsReceivedNoteItem })
-    );
+    return Array.from(this.grnFreeItemRegistry.values()).map((goodsReceivedNoteFreeItem, i) => {
+      const item = goodsReceivedNoteFreeItem as IGoodsReceivedNoteFreeItemSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   createGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {

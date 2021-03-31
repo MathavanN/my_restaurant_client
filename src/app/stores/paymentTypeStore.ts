@@ -2,7 +2,7 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IPaymentType } from '../models/paymentType';
+import { IPaymentType, IPaymentTypeSerial } from '../models/paymentType/paymentType';
 import { RootStore } from './rootStore';
 
 export default class PaymentTypeStore {
@@ -20,30 +20,25 @@ export default class PaymentTypeStore {
   }
 
   @computed get getPaymentTypes() {
-    const items: IPaymentType[] = Array.from(this.paymentTypeRegistry.values());
-
-    return Object.entries(
-      items.reduce((paymentTypes, paymentType, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        paymentTypes[key] = paymentType;
-        return paymentTypes;
-      }, {} as { [key: number]: IPaymentType })
-    );
+    return Array.from(this.paymentTypeRegistry.values()).map((paymentType, i) => {
+      const item = paymentType as IPaymentTypeSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   @computed get loadPaymentTypeOptions() {
-    const paymentTypes: IPaymentType[] = Array.from(
+    return Array.from(
       this.paymentTypeRegistry.values()
-    );
-
-    return paymentTypes.map(
+    ).map(
       (paymentType) =>
-        ({
-          key: paymentType.id,
-          text: paymentType.name,
-          value: paymentType.id,
-        } as ISelectInputOptions)
+      ({
+        key: paymentType.id,
+        text: paymentType.name,
+        value: paymentType.id,
+      } as ISelectInputOptions)
     );
   }
 

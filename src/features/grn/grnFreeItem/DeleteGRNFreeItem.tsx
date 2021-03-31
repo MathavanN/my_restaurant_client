@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
-import { IGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem';
+import { IGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
 
 interface IProps {
   item: IGoodsReceivedNoteFreeItem;
@@ -30,8 +30,8 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
               onClick={() => {
                 deleteGRNFreeItem(item.id)
                   .then(() => {
-                    toast.success('Item deleted successfully');
                     closeModal();
+                    toast.success('Item deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

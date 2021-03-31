@@ -2,6 +2,7 @@ export interface IStockItemEnvelop {
   stockItems: IStockItem[];
   stockItemCount: number;
 }
+
 export interface IStockItem {
   id: number;
   name: string;
@@ -11,4 +12,8 @@ export interface IStockItem {
   typeId: number;
   unitOfMeasureId: number;
   itemUnit: number;
+}
+
+export interface IStockItemSerial extends IStockItem {
+  serial: number;
 }

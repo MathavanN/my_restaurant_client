@@ -4,9 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import DeleteGRNItem from './DeleteGRNItem';
 import CreateGRNItem from './CreateGRNItem';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItemFormValues';
+import { GoodsReceivedNoteItemFormValues } from '../../../app/models/goodsReceivedNoteItem/goodsReceivedNoteItemFormValues';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
 
 interface IProps {
   displayAmount: boolean;
@@ -26,9 +26,9 @@ const GRNItemListItem: FC<IProps> = ({
   return (
     <>
       <Table.Body>
-        {getGRNItems.map(([group, item]) => (
+        {getGRNItems.map((item) => (
           <Table.Row key={item.id}>
-            <Table.Cell>{group}</Table.Cell>
+            <Table.Cell>{item.serial}</Table.Cell>
             <Table.Cell>{item.itemName}</Table.Cell>
             <Table.Cell>
               {item.itemUnit}

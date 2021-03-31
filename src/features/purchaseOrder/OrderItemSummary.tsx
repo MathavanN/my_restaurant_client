@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { Grid, Header, Table } from 'semantic-ui-react';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
-import { IPurchaseOrderItem } from '../../app/models/purchaseOrderItem';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
+import { IPurchaseOrderItemSerial } from '../../app/models/purchaseOrderItem/purchaseOrderItem';
 
 interface IProps {
-  items: [string, IPurchaseOrderItem][];
+  items: IPurchaseOrderItemSerial[];
   order: IPurchaseOrder;
 }
 const OrderItemSummary: FC<IProps> = ({ items, order }) => {
   const orderTotal = items.reduce(
-    (total, [group, item]) => total + item.itemUnitPrice * item.quantity,
+    (total, item) => total + item.itemUnitPrice * item.quantity,
     0
   );
   return (

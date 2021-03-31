@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { SupplierFormValues } from '../../../app/models/supplierFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { SupplierFormValues } from '../../../app/models/supplier/supplierFormValues';
+import { ISupplier } from '../../../app/models/supplier/supplier';
 
 interface IProps {
   supplier: SupplierFormValues;
@@ -19,14 +20,13 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: supplier,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const formData = new SupplierFormValues({ ...data, id: supplier.id });
+  const onSubmit = (data: ISupplier) => {
+    const formData = { ...data, id: supplier.id };
     if (formData.id === 0)
       createSupplier(formData)
         .then(() => {
-          toast.success('Supplier created successfully');
           closeModal();
+          toast.success('Supplier created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -34,8 +34,8 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
     else
       updateSupplier(formData)
         .then(() => {
-          toast.success('Supplier updated successfully');
           closeModal();
+          toast.success('Supplier updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

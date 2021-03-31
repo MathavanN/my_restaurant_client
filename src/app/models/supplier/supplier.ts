@@ -15,3 +15,7 @@ export interface ISupplier {
   email: string;
   contactPerson: string;
 }
+
+export interface ISupplierSerial extends ISupplier {
+  serial: number;
+}

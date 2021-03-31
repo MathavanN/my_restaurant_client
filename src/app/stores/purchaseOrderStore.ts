@@ -1,15 +1,15 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IPurchaseOrder } from '../models/purchaseOrder';
-import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
+import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder/purchaseOrder';
+import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history';
 import { PENDING } from '../models/constants';
 import { ISelectInputOptions } from '../models/common';
-import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
-import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
-import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
+import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
+import { CreatePurchaseOrderItem } from '../models/purchaseOrderItem/createPurchaseOrderItem';
 
 export default class PurchaseOrderStore {
   rootStore: RootStore;
@@ -75,16 +75,13 @@ export default class PurchaseOrderStore {
   };
 
   @computed get getPurchaseOrderItems() {
-    const sortedItems = this.getSortedPurchaseOrderItems();
-
-    return Object.entries(
-      sortedItems.reduce((items, item, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        items[key] = item;
-        return items;
-      }, {} as { [key: number]: IPurchaseOrderItem })
-    );
+    return this.getSortedPurchaseOrderItems().map((orderItem, i) => {
+      const item = orderItem as IPurchaseOrderItemSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   @computed get loadApprovedPurchaseOrdersOptions() {
@@ -94,25 +91,22 @@ export default class PurchaseOrderStore {
 
     return orders.map(
       (order) =>
-        ({
-          key: order.id,
-          text: order.orderNumber,
-          value: order.id,
-        } as ISelectInputOptions)
+      ({
+        key: order.id,
+        text: order.orderNumber,
+        value: order.id,
+      } as ISelectInputOptions)
     );
   }
 
   @computed get getPurchaseOrders() {
-    const sortedOrders = this.getSortedPurchaseOrders();
-
-    return Object.entries(
-      sortedOrders.reduce((orders, order, i) => {
-        const key = i + 1;
-        // eslint-disable-next-line no-param-reassign
-        orders[key] = order;
-        return orders;
-      }, {} as { [key: number]: IPurchaseOrder })
-    );
+    return this.getSortedPurchaseOrders().map((order, i) => {
+      const item = order as IPurchaseOrderSerial;
+      runInAction(() => {
+        item.serial = i + 1;
+      });
+      return item;
+    });
   }
 
   loadPOForGRN = async () => {

@@ -3,3 +3,7 @@ export interface IUnitOfMeasure {
   code: string;
   description: string;
 }
+
+export interface IUnitOfMeasureSerial extends IUnitOfMeasure {
+  serial: number;
+}

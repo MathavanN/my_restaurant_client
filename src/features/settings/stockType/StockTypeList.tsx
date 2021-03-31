@@ -2,10 +2,9 @@ import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-
 import DeleteStockType from './DeleteStockType';
 import EditStockType from './EditStockType';
-import { StockTypeFormValues } from '../../../app/models/stockTypeFormValues';
+import { StockTypeFormValues } from '../../../app/models/stockType/stockTypeFormValues';
 
 const StockTypeList = () => {
   const rootStore = useContext(RootStoreContext);
@@ -42,9 +41,9 @@ const StockTypeList = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getStockTypes.map(([group, stockType]) => (
+          {getStockTypes.map((stockType) => (
             <Table.Row key={stockType.id}>
-              <Table.Cell>{group}</Table.Cell>
+              <Table.Cell>{stockType.serial}</Table.Cell>
               <Table.Cell>{stockType.type}</Table.Cell>
               <Table.Cell>{stockType.description}</Table.Cell>
               {hasModifyAccess && (

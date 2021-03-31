@@ -10,9 +10,9 @@ import {
   ISelectGuidInputOptions,
   ISelectInputOptions,
 } from '../../app/models/common';
-import { CreateGoodsReceivedNote } from '../../app/models/createGoodsReceivedNote';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
 
 interface IProps {
   goodsReceivedNote: CreateGoodsReceivedNote;
@@ -35,12 +35,9 @@ const AddGRN: FC<IProps> = ({
   const rootStore = useContext(RootStoreContext);
   const { createGRN, updateGRN } = rootStore.grnStore;
   const { closeModal } = rootStore.modalStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const formData = new CreateGoodsReceivedNote({
-      ...data,
-      id: goodsReceivedNote.id,
-    });
+
+  const onSubmit = (data: CreateGoodsReceivedNote) => {
+    const formData = { ...data, id: goodsReceivedNote.id };
     if (formData.id === 0)
       createGRN(formData).catch((error) => {
         toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -48,8 +45,8 @@ const AddGRN: FC<IProps> = ({
     else
       updateGRN(formData)
         .then(() => {
-          toast.success('GRN updated successfully');
           closeModal();
+          toast.success('GRN updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

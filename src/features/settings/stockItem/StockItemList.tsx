@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Table } from 'semantic-ui-react';
-import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
 import FilterStockItem from './FilterStockItem';
 import StockItemListHeader from './StockItemListHeader';
 import StockItemListItem from './StockItemListItem';
 import StockListItemFooter from './StockListItemFooter';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
 
 const StockItemList = () => {
   const rootStore = useContext(RootStoreContext);

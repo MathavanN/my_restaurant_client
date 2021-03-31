@@ -1,25 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import history from '../../history';
-import { IGoodsReceivedNote } from '../models/goodsReceivedNote';
-import { CreateGoodsReceivedNote } from '../models/createGoodsReceivedNote';
-import { ApprovalGoodsReceivedNote } from '../models/approvalGoodsReceivedNote';
-import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem';
-import { CreateGoodsReceivedNoteFreeItem } from '../models/createGoodsReceivedNoteFreeItem';
-import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem';
-import { CreateGoodsReceivedNoteItem } from '../models/createGoodsReceivedNoteItem';
-import { IPaymentType } from '../models/paymentType';
-import { IPurchaseOrder } from '../models/purchaseOrder';
-import { ApprovalPurchaseOrder } from '../models/approvalPurchaseOrder';
-import { CreatePurchaseOrder } from '../models/createPurchaseOrder';
-import { IPurchaseOrderItem } from '../models/purchaseOrderItem';
-import { CreatePurchaseOrderItem } from '../models/createPurchaseOrderItem';
-import { IStockItem, IStockItemEnvelop } from '../models/stockItem';
-import { CreateStockItem } from '../models/createStockItem';
-import { IStockType } from '../models/stockType';
-import { ISupplier, ISupplierEnvelop } from '../models/supplier';
-import { IUnitOfMeasure } from '../models/unitOfMeasure';
-import { UnitOfMeasureFormValues } from '../models/unitOfMeasureFormValues';
+import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
+import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
+import { IPaymentType } from '../models/paymentType/paymentType';
+import { IPurchaseOrder } from '../models/purchaseOrder/purchaseOrder';
+import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
+import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
+import { IPurchaseOrderItem } from '../models/purchaseOrderItem/purchaseOrderItem';
+import { IStockItem, IStockItemEnvelop } from '../models/stockItem/stockItem';
+import { CreateStockItem } from '../models/stockItem/createStockItem';
+import { IStockType } from '../models/stockType/stockType';
+import { ISupplier, ISupplierEnvelop } from '../models/supplier/supplier';
+import { IUnitOfMeasure } from '../models/unitOfMeasure/unitOfMeasure';
 import {
   IAppUser,
   IRefreshToken,
@@ -30,6 +23,12 @@ import {
   IUser,
   IUserLogin,
 } from '../models/user';
+import { CreatePurchaseOrderItem } from '../models/purchaseOrderItem/createPurchaseOrderItem';
+import { IGoodsReceivedNote } from '../models/goodsReceivedNote/goodsReceivedNote';
+import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
+import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
+import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
+import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use(
@@ -110,9 +109,9 @@ const Users = {
 
 const UnitOfMeasure = {
   list: (): Promise<IUnitOfMeasure[]> => requests.get(`/v1/unitOfMeasure`),
-  create: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> =>
+  create: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> =>
     requests.post(`/v1/unitOfMeasure`, unitOfMeasure),
-  update: (unitOfMeasure: UnitOfMeasureFormValues): Promise<IUnitOfMeasure> =>
+  update: (unitOfMeasure: IUnitOfMeasure): Promise<IUnitOfMeasure> =>
     requests.put(`/v1/unitOfMeasure/${unitOfMeasure.id}`, unitOfMeasure),
   detail: (id: number): Promise<IUnitOfMeasure> =>
     requests.get(`/v1/unitOfMeasure/${id}`),

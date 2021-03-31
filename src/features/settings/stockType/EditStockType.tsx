@@ -4,8 +4,9 @@ import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { StockTypeFormValues } from '../../../app/models/stockTypeFormValues';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { StockTypeFormValues } from '../../../app/models/stockType/stockTypeFormValues';
+import { IStockType } from '../../../app/models/stockType/stockType';
 
 interface IProps {
   stockType: StockTypeFormValues;
@@ -19,14 +20,13 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
   const { register, errors, handleSubmit, setValue, trigger } = useForm({
     defaultValues: stockType,
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const formData = new StockTypeFormValues({ ...data, id: stockType.id });
+  const onSubmit = (data: IStockType) => {
+    const formData = { ...data, id: stockType.id };
     if (formData.id === 0)
       createStockType(formData)
         .then(() => {
-          toast.success('Stock type created successfully');
           closeModal();
+          toast.success('Stock type created successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);
@@ -34,8 +34,8 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
     else
       updateStockType(formData)
         .then(() => {
-          toast.success('Stock type updated successfully');
           closeModal();
+          toast.success('Stock type updated successfully');
         })
         .catch((error) => {
           toast.error(<ErrorMessage error={error} text="Error:" />);

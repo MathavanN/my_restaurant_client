@@ -36,6 +36,9 @@ export interface IAppUser {
   phoneNumber: string;
   roles: string[];
 }
+export interface IAppUserSerial extends IAppUser {
+  serial: number;
+}
 
 export interface IToken {
   accessToken: string;

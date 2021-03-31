@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Table } from 'semantic-ui-react';
-import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
 import GRNListItem from './GRNListItem';
 import GRNListItemHeader from './GRNListItemHeader';
 
 interface IProps {
-  goodsReceivedNotes: [string, IGoodsReceivedNote][];
+  goodsReceivedNotes: IGoodsReceivedNoteSerial[];
   displayColumn: boolean;
   displayView: boolean;
   displayEdit: boolean;

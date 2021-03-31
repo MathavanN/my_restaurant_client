@@ -2,7 +2,7 @@ import { format, isEqual } from 'date-fns';
 import { FC } from 'react';
 import { Grid, Table } from 'semantic-ui-react';
 import { APPROVED } from '../../app/models/constants';
-import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote';
+import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
 
 interface IProps {
   grn: IGoodsReceivedNote;

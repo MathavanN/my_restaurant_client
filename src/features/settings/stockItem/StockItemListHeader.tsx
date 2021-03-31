@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { StockItemFormValues } from '../../../app/models/stockItemFormValues';
+import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
 import EditStockItem from './EditStockItem';
 
 interface IProps {

@@ -3,7 +3,7 @@ import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { IPaymentType } from '../../../app/models/paymentType';
+import { IPaymentType } from '../../../app/models/paymentType/paymentType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 
 interface IProps {
@@ -30,8 +30,8 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
               onClick={() => {
                 deletePaymentType(paymentType.id)
                   .then(() => {
-                    toast.success('Payment type deleted successfully');
                     closeModal();
+                    toast.success('Payment type deleted successfully');
                   })
                   .catch((error) => {
                     toast.error(<ErrorMessage error={error} text="Error:" />);

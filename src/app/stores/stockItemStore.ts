@@ -1,11 +1,11 @@
 /* eslint-disable import/no-cycle */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import { RootStore } from './rootStore';
-import { IStockItem } from '../models/stockItem';
+import { IStockItem, IStockItemSerial } from '../models/stockItem/stockItem';
 import { ISelectInputOptions } from '../models/common';
 import agent from '../api/agent';
 import { LIMIT } from '../models/constants';
-import { CreateStockItem } from '../models/createStockItem';
+import { CreateStockItem } from '../models/stockItem/createStockItem';
 
 export default class StockItemStore {
   rootStore: RootStore;
@@ -49,16 +49,13 @@ export default class StockItemStore {
   };
 
   @computed get getStockItems() {
-    const items: IStockItem[] = Array.from(this.stockItemRegistry.values());
-
-    return Object.entries(
-      items.reduce((stockItems, stockItem, i) => {
-        const serialNumber = LIMIT * (this.page - 1) + i + 1;
-        // eslint-disable-next-line no-param-reassign
-        stockItems[serialNumber] = stockItem;
-        return stockItems;
-      }, {} as { [key: number]: IStockItem })
-    );
+    return Array.from(this.stockItemRegistry.values()).map((stockItem, i) => {
+      const item = stockItem as IStockItemSerial;
+      runInAction(() => {
+        item.serial = LIMIT * (this.page - 1) + i + 1;
+      });
+      return item;
+    });
   }
 
   loadStockItems = async (typeId: number) => {
@@ -138,11 +135,11 @@ export default class StockItemStore {
       .filter((stockItem) => stockItem.typeId === typeId)
       .map(
         (stockItem) =>
-          ({
-            key: stockItem.id,
-            text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-            value: stockItem.id,
-          } as ISelectInputOptions)
+        ({
+          key: stockItem.id,
+          text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
+          value: stockItem.id,
+        } as ISelectInputOptions)
       );
   };
 }

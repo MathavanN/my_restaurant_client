@@ -4,8 +4,8 @@ import { observer } from 'mobx-react-lite';
 import PaymentTypeListHeader from './PaymentTypeListHeader';
 import PaymentTypeListItem from './PaymentTypeListItem';
 import { RootStoreContext } from '../../../app/stores/rootStore';
-import { PaymentTypeFormValues } from '../../../app/models/paymentTypeFormValues';
 import { LoadingComponent } from '../../../app/layout/LoadingComponent';
+import { PaymentTypeFormValues } from '../../../app/models/paymentType/paymentTypeFormValues';
 
 const PaymentTypeList = () => {
   const rootStore = useContext(RootStoreContext);

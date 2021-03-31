@@ -1,4 +1,4 @@
-export interface IGoodsReceivedNoteItem {
+export interface IGoodsReceivedNoteFreeItem {
   id: number;
   goodsReceivedNoteId: number;
   itemTypeId: number;
@@ -12,4 +12,8 @@ export interface IGoodsReceivedNoteItem {
   nbt: number;
   vat: number;
   discount: number;
+}
+
+export interface IGoodsReceivedNoteFreeItemSerial extends IGoodsReceivedNoteFreeItem {
+  serial: number;
 }

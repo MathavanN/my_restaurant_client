@@ -3,10 +3,10 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { ISelectInputOptions } from '../../../app/models/common';
-import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote';
-import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItemFormValues';
 import CreateGRNFreeItem from './CreateGRNFreeItem';
 import DeleteGRNFreeItem from './DeleteGRNFreeItem';
+import { IGoodsReceivedNote } from '../../../app/models/goodsReceivedNote/goodsReceivedNote';
+import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItemFormValues';
 
 interface IProps {
   displayAmount: boolean;
@@ -27,9 +27,9 @@ const GRNFreeItemListItem: FC<IProps> = ({
   return (
     <>
       <Table.Body>
-        {getGRNFreeItems.map(([group, item]) => (
+        {getGRNFreeItems.map((item) => (
           <Table.Row key={item.id}>
-            <Table.Cell>{group}</Table.Cell>
+            <Table.Cell>{item.serial}</Table.Cell>
             <Table.Cell>{item.itemName}</Table.Cell>
             <Table.Cell>
               {item.itemUnit}

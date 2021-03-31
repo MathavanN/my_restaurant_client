@@ -1,6 +1,6 @@
-export interface IGoodsReceivedNoteFreeItem {
+export interface IPurchaseOrderItem {
   id: number;
-  goodsReceivedNoteId: number;
+  purchaseOrderId: number;
   itemTypeId: number;
   itemTypeName: string;
   itemId: number;
@@ -9,7 +9,8 @@ export interface IGoodsReceivedNoteFreeItem {
   unitOfMeasureCode: string;
   itemUnitPrice: number;
   quantity: number;
-  nbt: number;
-  vat: number;
-  discount: number;
+}
+
+export interface IPurchaseOrderItemSerial extends IPurchaseOrderItem {
+  serial: number;
 }

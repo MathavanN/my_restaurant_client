@@ -3,11 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { Button, Divider, Header, Icon, Table } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import CreateOrderItem from './CreateOrderItem';
-import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItemFormValues';
 import DeleteOrderItem from './DeleteOrderItem';
-import { IPurchaseOrder } from '../../app/models/purchaseOrder';
+import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
 import OrderItemSummary from './OrderItemSummary';
 import { ISelectInputOptions } from '../../app/models/common';
+import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItem/purchaseOrderItemFormValues';
 
 interface IProps {
   displayAmount: boolean;
@@ -61,9 +61,9 @@ const OrderItemList: FC<IProps> = ({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {getPurchaseOrderItems.map(([group, item]) => (
+          {getPurchaseOrderItems.map((item) => (
             <Table.Row key={item.id}>
-              <Table.Cell>{group}</Table.Cell>
+              <Table.Cell>{item.serial}</Table.Cell>
               <Table.Cell>{item.itemName}</Table.Cell>
               <Table.Cell>
                 {item.itemUnit}
