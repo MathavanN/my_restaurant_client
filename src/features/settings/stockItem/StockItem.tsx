@@ -7,11 +7,13 @@ const StockItem = () => {
   const rootStore = useContext(RootStoreContext);
   const { loadStockTypes } = rootStore.stockTypeStore;
   const { loadUnitOfMeasures } = rootStore.unitOfMeasureStore;
+  const { setStockItemPage } = rootStore.stockItemStore;
 
   useEffect(() => {
+    setStockItemPage(1);
     loadUnitOfMeasures();
     loadStockTypes();
-  }, [loadUnitOfMeasures, loadStockTypes]);
+  }, [setStockItemPage, loadUnitOfMeasures, loadStockTypes]);
 
   return (
     <>

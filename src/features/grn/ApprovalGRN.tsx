@@ -2,9 +2,9 @@ import { FC, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Header, Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { ApprovalPurchaseOrder } from '../../app/models/purchaseOrder/approvalPurchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import history from '../../history';
+import { ApprovalGoodsReceivedNote } from '../../app/models/goodsReceivedNote/approvalGoodsReceivedNote';
 
 interface IProps {
   header: string;
@@ -17,13 +17,8 @@ const ApprovalGRN: FC<IProps> = ({ header, orderId, status }) => {
   const rootStore = useContext(RootStoreContext);
   const { approvalGRN } = rootStore.grnStore;
   const { closeModal } = rootStore.modalStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const approval = new ApprovalPurchaseOrder(
-      orderId,
-      status,
-      data.approvalReason
-    );
+  const onSubmit = (data: ApprovalGoodsReceivedNote) => {
+    const approval = { ...data, id: orderId, approvalStatus: status };
     approvalGRN(approval).finally(() => {
       closeModal();
       history.push('/grn');
