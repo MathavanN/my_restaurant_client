@@ -17,13 +17,8 @@ const ApprovalOrder: FC<IProps> = ({ header, orderId, status }) => {
   const rootStore = useContext(RootStoreContext);
   const { approvalPurchaseOrder } = rootStore.purchaseOrderStore;
   const { closeModal } = rootStore.modalStore;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: any) => {
-    const approval = new ApprovalPurchaseOrder(
-      orderId,
-      status,
-      data.approvalReason
-    );
+  const onSubmit = (data: ApprovalPurchaseOrder) => {
+    const approval = { ...data, id: orderId, approvalStatus: status };
     approvalPurchaseOrder(approval).finally(() => {
       closeModal();
       history.push('/purchase');
