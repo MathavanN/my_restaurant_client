@@ -2,7 +2,10 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ISelectInputOptions } from '../models/common';
-import { IUnitOfMeasure, IUnitOfMeasureSerial } from '../models/unitOfMeasure/unitOfMeasure';
+import {
+  IUnitOfMeasure,
+  IUnitOfMeasureSerial,
+} from '../models/unitOfMeasure/unitOfMeasure';
 import { RootStore } from './rootStore';
 
 export default class UnitOfMeasureStore {
@@ -20,25 +23,25 @@ export default class UnitOfMeasureStore {
   }
 
   @computed get getUnitOfMeasures() {
-    return Array.from(this.unitOfMeasureRegistry.values()).map((unitOfMeasure, i) => {
-      const item = unitOfMeasure as IUnitOfMeasureSerial;
-      runInAction(() => {
-        item.serial = i + 1;
-      });
-      return item;
-    });
+    return Array.from(this.unitOfMeasureRegistry.values()).map(
+      (unitOfMeasure, i) => {
+        const item = unitOfMeasure as IUnitOfMeasureSerial;
+        runInAction(() => {
+          item.serial = i + 1;
+        });
+        return item;
+      }
+    );
   }
 
   @computed get loadUnitOfMeasureOptions() {
-    return Array.from(
-      this.unitOfMeasureRegistry.values()
-    ).map(
+    return Array.from(this.unitOfMeasureRegistry.values()).map(
       (unitOfMeasure) =>
-      ({
-        key: unitOfMeasure.id,
-        text: unitOfMeasure.code,
-        value: unitOfMeasure.id,
-      } as ISelectInputOptions)
+        ({
+          key: unitOfMeasure.id,
+          text: unitOfMeasure.code,
+          value: unitOfMeasure.id,
+        } as ISelectInputOptions)
     );
   }
 

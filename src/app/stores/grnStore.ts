@@ -6,7 +6,10 @@ import { PENDING } from '../models/constants';
 import history from '../../history';
 import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
-import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote/goodsReceivedNote';
+import {
+  IGoodsReceivedNote,
+  IGoodsReceivedNoteSerial,
+} from '../models/goodsReceivedNote/goodsReceivedNote';
 import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
@@ -209,13 +212,15 @@ export default class GRNStore {
   }
 
   @computed get getGRNItems() {
-    return Array.from(this.grnItemRegistry.values()).map((goodsReceivedNoteItem, i) => {
-      const item = goodsReceivedNoteItem as IGoodsReceivedNoteItemSerial;
-      runInAction(() => {
-        item.serial = i + 1;
-      });
-      return item;
-    });
+    return Array.from(this.grnItemRegistry.values()).map(
+      (goodsReceivedNoteItem, i) => {
+        const item = goodsReceivedNoteItem as IGoodsReceivedNoteItemSerial;
+        runInAction(() => {
+          item.serial = i + 1;
+        });
+        return item;
+      }
+    );
   }
 
   createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
@@ -261,13 +266,15 @@ export default class GRNStore {
   };
 
   @computed get getGRNFreeItems() {
-    return Array.from(this.grnFreeItemRegistry.values()).map((goodsReceivedNoteFreeItem, i) => {
-      const item = goodsReceivedNoteFreeItem as IGoodsReceivedNoteFreeItemSerial;
-      runInAction(() => {
-        item.serial = i + 1;
-      });
-      return item;
-    });
+    return Array.from(this.grnFreeItemRegistry.values()).map(
+      (goodsReceivedNoteFreeItem, i) => {
+        const item = goodsReceivedNoteFreeItem as IGoodsReceivedNoteFreeItemSerial;
+        runInAction(() => {
+          item.serial = i + 1;
+        });
+        return item;
+      }
+    );
   }
 
   createGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {

@@ -1,8 +1,14 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder/purchaseOrder';
-import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem/purchaseOrderItem';
+import {
+  IPurchaseOrder,
+  IPurchaseOrderSerial,
+} from '../models/purchaseOrder/purchaseOrder';
+import {
+  IPurchaseOrderItem,
+  IPurchaseOrderItemSerial,
+} from '../models/purchaseOrderItem/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history';
 import { PENDING } from '../models/constants';
@@ -91,11 +97,11 @@ export default class PurchaseOrderStore {
 
     return orders.map(
       (order) =>
-      ({
-        key: order.id,
-        text: order.orderNumber,
-        value: order.id,
-      } as ISelectInputOptions)
+        ({
+          key: order.id,
+          text: order.orderNumber,
+          value: order.id,
+        } as ISelectInputOptions)
     );
   }
 

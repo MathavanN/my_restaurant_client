@@ -28,8 +28,8 @@ const RegisterNonAdminUser = () => {
     registerNonAdmin(data)
       .then((result) => {
         if (result.status === 'Success') {
-          toast.success(result.message);
           closeModal();
+          toast.success(result.message);
         } else {
           toast.error(result.message);
         }

@@ -135,11 +135,11 @@ export default class StockItemStore {
       .filter((stockItem) => stockItem.typeId === typeId)
       .map(
         (stockItem) =>
-        ({
-          key: stockItem.id,
-          text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
-          value: stockItem.id,
-        } as ISelectInputOptions)
+          ({
+            key: stockItem.id,
+            text: `${stockItem.name}-${stockItem.itemUnit}${stockItem.unitOfMeasureCode}`,
+            value: stockItem.id,
+          } as ISelectInputOptions)
       );
   };
 }

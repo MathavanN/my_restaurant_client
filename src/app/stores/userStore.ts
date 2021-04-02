@@ -1,8 +1,6 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable no-nested-ternary */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import {
-  IAppUser,
   IAppUserSerial,
   IRefreshToken,
   IRegisterAdminUser,
@@ -78,25 +76,8 @@ export default class UserStore {
     }
   };
 
-  getSortedAppUsers() {
-    const users: IAppUser[] = Array.from(this.appUsersRegistry.values());
-    return users.sort(
-      (a, b) =>
-        (a.firstName.toLowerCase() === b.firstName.toLowerCase()
-          ? 0
-          : a.firstName.toLowerCase() < b.firstName.toLowerCase()
-            ? 1
-            : -1) ||
-        (a.lastName.toLowerCase() === b.lastName.toLowerCase()
-          ? 0
-          : a.lastName.toLowerCase() > b.lastName.toLowerCase()
-            ? 1
-            : -1)
-    );
-  }
-
   @computed get getAppUsers() {
-    return this.getSortedAppUsers().map((user, i) => {
+    return Array.from(this.appUsersRegistry.values()).map((user, i) => {
       const item = user as IAppUserSerial;
       runInAction(() => {
         item.serial = i + 1;
@@ -106,14 +87,13 @@ export default class UserStore {
   }
 
   @computed get loadAppUsersOptions() {
-    const sortedAppUsers = this.getSortedAppUsers();
-    return sortedAppUsers.map(
+    return Array.from(this.appUsersRegistry.values()).map(
       (user) =>
-      ({
-        key: user.id,
-        text: `${user.firstName} ${user.lastName}`,
-        value: user.id,
-      } as ISelectGuidInputOptions)
+        ({
+          key: user.id,
+          text: `${user.firstName} ${user.lastName}`,
+          value: user.id,
+        } as ISelectGuidInputOptions)
     );
   }
 
@@ -146,11 +126,21 @@ export default class UserStore {
     return token;
   };
 
-  registerAdmin = async (user: IRegisterAdminUser) =>
-    agent.Users.registerAdmin(user);
+  registerAdmin = async (user: IRegisterAdminUser) => {
+    const result = await agent.Users.registerAdmin(user);
+    runInAction(() => {
+      if (result.status === 'Success') this.loadAppUsers();
+    });
+    return result;
+  };
 
-  registerNonAdmin = async (user: IRegisterNonAdminUser) =>
-    agent.Users.registerNonAdmin(user);
+  registerNonAdmin = async (user: IRegisterNonAdminUser) => {
+    const result = await agent.Users.registerNonAdmin(user);
+    runInAction(() => {
+      if (result.status === 'Success') this.loadAppUsers();
+    });
+    return result;
+  };
 
   getRefreshToken = async (token: string) => {
     const refreshToken: IRefreshToken = { refreshToken: token };

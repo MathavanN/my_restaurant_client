@@ -14,6 +14,7 @@ export interface IGoodsReceivedNoteFreeItem {
   discount: number;
 }
 
-export interface IGoodsReceivedNoteFreeItemSerial extends IGoodsReceivedNoteFreeItem {
+export interface IGoodsReceivedNoteFreeItemSerial
+  extends IGoodsReceivedNoteFreeItem {
   serial: number;
 }

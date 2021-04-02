@@ -1,4 +1,4 @@
-import { IPaymentType } from "./paymentType";
+import { IPaymentType } from './paymentType';
 
 export class PaymentTypeFormValues {
   id: number = 0;
