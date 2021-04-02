@@ -5,10 +5,18 @@ import SupplierList from './SupplierList';
 
 const Supplier = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadSuppliers } = rootStore.supplierStore;
+  const {
+    loadSuppliers,
+    removePredicate,
+    setSupplierPage,
+  } = rootStore.supplierStore;
   useEffect(() => {
+    removePredicate('name');
+    removePredicate('city');
+    removePredicate('contactPerson');
+    setSupplierPage(1);
     loadSuppliers();
-  }, [loadSuppliers]);
+  }, [loadSuppliers, removePredicate, setSupplierPage]);
 
   return (
     <>
