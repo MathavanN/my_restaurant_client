@@ -2,7 +2,6 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
-import { PENDING } from '../models/constants';
 import history from '../../history';
 import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
@@ -14,6 +13,7 @@ import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoods
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
 import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
+import { Status } from '../models/constants';
 
 export default class GRNStore {
   rootStore: RootStore;
@@ -107,14 +107,14 @@ export default class GRNStore {
       this.grnRegistry.values()
     );
     const pendingGoodsReceivedNotes = goodsReceivedNotes.filter(
-      (d) => d.approvalStatus === PENDING
+      (d) => d.approvalStatus === Status.PENDING
     );
     const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort(
       (a, b) =>
         new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
     );
     const otherGoodsReceivedNotes = goodsReceivedNotes.filter(
-      (d) => d.approvalStatus !== PENDING
+      (d) => d.approvalStatus !== Status.PENDING
     );
     const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort(
       (a, b) =>
