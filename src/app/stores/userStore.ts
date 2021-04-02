@@ -11,9 +11,9 @@ import {
 } from '../models/user';
 import agent from '../api/agent';
 import history from '../../history';
-import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants';
 import { ISelectGuidInputOptions } from '../models/common';
 import { RootStore } from './rootStore';
+import { Roles } from '../models/constants';
 
 export default class UserStore {
   rootStore: RootStore;
@@ -36,19 +36,19 @@ export default class UserStore {
   }
 
   get isSuperAdminUser() {
-    return this.getAccessPolicy(SUPER_ADMIN);
+    return this.getAccessPolicy(Roles.SUPER_ADMIN);
   }
 
   get isAdminUser() {
-    return this.getAccessPolicy(ADMIN);
+    return this.getAccessPolicy(Roles.ADMIN);
   }
 
   get isReportUser() {
-    return this.getAccessPolicy(REPORT);
+    return this.getAccessPolicy(Roles.REPORT);
   }
 
   get isNormalUser() {
-    return this.getAccessPolicy(NORMAL);
+    return this.getAccessPolicy(Roles.NORMAL);
   }
 
   get isLoggedIn() {
@@ -56,7 +56,10 @@ export default class UserStore {
   }
 
   get hasModifyAccess() {
-    return this.getAccessPolicy(SUPER_ADMIN) || this.getAccessPolicy(ADMIN);
+    return (
+      this.getAccessPolicy(Roles.SUPER_ADMIN) ||
+      this.getAccessPolicy(Roles.ADMIN)
+    );
   }
 
   loadAppUsers = async () => {
