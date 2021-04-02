@@ -24,6 +24,7 @@ const SettingsContent: FC<IProps> = ({ setActiveTab }) => (
       menu={{ fluid: true, vertical: true, tabular: true }}
       menuPosition="left"
       onTabChange={(e, data) => setActiveTab(data.activeIndex)}
+      renderActiveOnly={true}
       panes={panes}
     />
   </>
