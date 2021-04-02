@@ -5,6 +5,7 @@ import { Button, Modal, Header, Grid, Divider } from 'semantic-ui-react';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { ISupplier } from '../../../app/models/supplier/supplier';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   supplier: ISupplier;
@@ -31,10 +32,14 @@ const DeleteSupplier: FC<IProps> = ({ supplier, closeModal }) => {
                 deleteSupplier(supplier.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Supplier deleted successfully');
+                    toast.success('Supplier deleted successfully', {
+                      toastId: ToastIds.SUPPLIER.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.SUPPLIER.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

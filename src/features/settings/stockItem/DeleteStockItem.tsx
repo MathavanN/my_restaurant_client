@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { IStockItem } from '../../../app/models/stockItem/stockItem';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   stockItem: IStockItem;
@@ -31,10 +32,14 @@ const DeleteStockItem: FC<IProps> = ({ stockItem }) => {
                 deleteStockItem(stockItem.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Stock item deleted successfully');
+                    toast.success('Stock item deleted successfully', {
+                      toastId: ToastIds.STOCK_ITEM.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.STOCK_ITEM.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { SupplierFormValues } from '../../../app/models/supplier/supplierFormValues';
 import { ISupplier } from '../../../app/models/supplier/supplier';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   supplier: SupplierFormValues;
@@ -26,19 +27,27 @@ const EditSupplier: FC<IProps> = ({ supplier }) => {
       createSupplier(formData)
         .then(() => {
           closeModal();
-          toast.success('Supplier created successfully');
+          toast.success('Supplier created successfully', {
+            toastId: ToastIds.SUPPLIER.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.SUPPLIER.CREATE_ERROR_ID,
+          });
         });
     else
       updateSupplier(formData)
         .then(() => {
           closeModal();
-          toast.success('Supplier updated successfully');
+          toast.success('Supplier updated successfully', {
+            toastId: ToastIds.SUPPLIER.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.SUPPLIER.UPDATE_ERROR_ID,
+          });
         });
   };
   useEffect(() => {

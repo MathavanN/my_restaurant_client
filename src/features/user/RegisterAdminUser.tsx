@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IRegisterAdminUser } from '../../app/models/user';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../app/models/constants';
 
 const RegisterAdminUser = () => {
   const rootStore = useContext(RootStoreContext);
@@ -26,13 +27,19 @@ const RegisterAdminUser = () => {
       .then((result) => {
         if (result.status === 'Success') {
           closeModal();
-          toast.success(result.message);
+          toast.success(result.message, {
+            toastId: ToastIds.ACCOUNT.CREATE_ADMIN_USER_SUCCESS_ID,
+          });
         } else {
-          toast.error(result.message);
+          toast.error(result.message, {
+            toastId: ToastIds.ACCOUNT.CREATE_ADMIN_USER_FAILED_ID,
+          });
         }
       })
       .catch((error) => {
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text="Error:" />, {
+          toastId: ToastIds.ACCOUNT.CREATE_ADMIN_USER_ERROR_ID,
+        });
       });
   };
   useEffect(() => {

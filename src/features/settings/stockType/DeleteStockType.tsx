@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { IStockType } from '../../../app/models/stockType/stockType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   stockType: IStockType;
@@ -31,10 +32,14 @@ const DeleteStockType: FC<IProps> = ({ stockType }) => {
                 deleteStockType(stockType.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Stock type deleted successfully');
+                    toast.success('Stock type deleted successfully', {
+                      toastId: ToastIds.STOCK_TYPE.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.STOCK_TYPE.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

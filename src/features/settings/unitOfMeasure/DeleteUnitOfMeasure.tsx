@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure/unitOfMeasure';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   unitOfMeasure: IUnitOfMeasure;
@@ -32,10 +33,14 @@ const DeleteUnitOfMeasure: FC<IProps> = ({ unitOfMeasure }) => {
                 deleteUnitOfMeasure(unitOfMeasure.id)
                   .then(() => {
                     closeModal();
-                    toast.success('UOM deleted successfully');
+                    toast.success('UOM deleted successfully', {
+                      toastId: ToastIds.UOM.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.UOM.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

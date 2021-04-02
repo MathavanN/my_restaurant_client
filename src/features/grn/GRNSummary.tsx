@@ -1,15 +1,15 @@
 import { format, isEqual } from 'date-fns';
 import { FC } from 'react';
 import { Grid, Table } from 'semantic-ui-react';
-import { APPROVED } from '../../app/models/constants';
+import { Status } from '../../app/models/constants';
 import { IGoodsReceivedNote } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
 
 interface IProps {
   grn: IGoodsReceivedNote;
 }
 const GRNSummary: FC<IProps> = ({ grn }) => {
-  const positive = grn.approvalStatus === APPROVED && true;
-  const negative = grn.approvalStatus !== APPROVED && true;
+  const positive = grn.approvalStatus === Status.APPROVED && true;
+  const negative = grn.approvalStatus !== Status.APPROVED && true;
   const isDefaultDate = (date: Date) =>
     isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
   return (

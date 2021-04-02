@@ -7,6 +7,7 @@ import { Button, Form, Header, Label } from 'semantic-ui-react';
 import { IUserLogin } from '../../app/models/user';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../app/models/constants';
 
 const LoginForm = () => {
   const rootStore = useContext(RootStoreContext);
@@ -22,7 +23,9 @@ const LoginForm = () => {
         });
       })
       .catch((error) => {
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text="Error:" />, {
+          toastId: ToastIds.ACCOUNT.LOGIN_ERROR_ID,
+        });
       });
   };
 

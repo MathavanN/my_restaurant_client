@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { StockTypeFormValues } from '../../../app/models/stockType/stockTypeFormValues';
 import { IStockType } from '../../../app/models/stockType/stockType';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   stockType: StockTypeFormValues;
@@ -26,19 +27,27 @@ const EditStockType: FC<IProps> = ({ stockType }) => {
       createStockType(formData)
         .then(() => {
           closeModal();
-          toast.success('Stock type created successfully');
+          toast.success('Stock type created successfully', {
+            toastId: ToastIds.STOCK_TYPE.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.STOCK_TYPE.CREATE_ERROR_ID,
+          });
         });
     else
       updateStockType(formData)
         .then(() => {
           closeModal();
-          toast.success('Stock type updated successfully');
+          toast.success('Stock type updated successfully', {
+            toastId: ToastIds.STOCK_TYPE.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.STOCK_TYPE.UPDATE_ERROR_ID,
+          });
         });
   };
   useEffect(() => {

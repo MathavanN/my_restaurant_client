@@ -4,7 +4,7 @@ import { format, isEqual } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import { IPurchaseOrder } from '../../app/models/purchaseOrder/purchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
-import { APPROVED } from '../../app/models/constants';
+import { Status } from '../../app/models/constants';
 
 interface IProps {
   order: IPurchaseOrder;
@@ -16,8 +16,8 @@ const OrderSummary: FC<IProps> = ({ order }) => {
     loadSupplier(order.supplierId);
   }, [loadSupplier, order]);
 
-  const positive = order.approvalStatus === APPROVED && true;
-  const negative = order.approvalStatus !== APPROVED && true;
+  const positive = order.approvalStatus === Status.APPROVED && true;
+  const negative = order.approvalStatus !== Status.APPROVED && true;
   const isDefaultDate = (date: Date) =>
     isEqual(new Date(date), new Date('0001-01-01T00:00:00'));
 

@@ -7,12 +7,7 @@ import { LoadingComponent } from '../../app/layout/LoadingComponent';
 import OrderSummary from './OrderSummary';
 import OrderItemList from './OrderItemList';
 import ApprovalOrder from './ApprovalOrder';
-import {
-  APPROVED,
-  CANCELLED,
-  PENDING,
-  REJECTED,
-} from '../../app/models/constants';
+import { Status } from '../../app/models/constants';
 
 interface IDetailsParams {
   id: string;
@@ -54,7 +49,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
     <>
       <Grid>
         <Grid.Column width={16}>
-          {purchaseOrder.approvalStatus === PENDING &&
+          {purchaseOrder.approvalStatus === Status.PENDING &&
             (hasModifyAccess ||
               purchaseOrder.requestedUserId === user?.userId) && (
               <Segment attached="top" textAlign="center">
@@ -85,7 +80,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
               displayAmount={true}
             />
           </Segment>
-          {purchaseOrder.approvalStatus === PENDING && hasModifyAccess && (
+          {purchaseOrder.approvalStatus === Status.PENDING && hasModifyAccess && (
             <Segment attached textAlign="center">
               <Button
                 color="green"
@@ -95,7 +90,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                   openModal(
                     <ApprovalOrder
                       orderId={parseInt(match.params.id, 10)}
-                      status={APPROVED}
+                      status={Status.APPROVED}
                       header="Approve the Purchase Order"
                     />
                   )
@@ -108,7 +103,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                   openModal(
                     <ApprovalOrder
                       orderId={parseInt(match.params.id, 10)}
-                      status={CANCELLED}
+                      status={Status.CANCELLED}
                       header="Cancel the Purchase Order"
                     />
                   )
@@ -121,7 +116,7 @@ const ViewPurchaseOrder: FC<RouteComponentProps<IDetailsParams>> = ({
                   openModal(
                     <ApprovalOrder
                       orderId={parseInt(match.params.id, 10)}
-                      status={REJECTED}
+                      status={Status.REJECTED}
                       header="Reject the Purchase Order"
                     />
                   )

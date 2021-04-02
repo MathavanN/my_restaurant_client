@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { UnitOfMeasureFormValues } from '../../../app/models/unitOfMeasure/unitOfMeasureFormValues';
 import { IUnitOfMeasure } from '../../../app/models/unitOfMeasure/unitOfMeasure';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   uom: UnitOfMeasureFormValues;
@@ -29,19 +30,27 @@ const EditUnitOfMeasure: FC<IProps> = ({ uom }) => {
       createUnitOfMeasure(formData)
         .then(() => {
           closeModal();
-          toast.success('Unit of measure created successfully');
+          toast.success('Unit of measure created successfully', {
+            toastId: ToastIds.UOM.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.UOM.CREATE_ERROR_ID,
+          });
         });
     else
       updateUnitOfMeasure(formData)
         .then(() => {
           closeModal();
-          toast.success('Unit of measure updated successfully');
+          toast.success('Unit of measure updated successfully', {
+            toastId: ToastIds.UOM.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.UOM.UPDATE_ERROR_ID,
+          });
         });
   };
 
