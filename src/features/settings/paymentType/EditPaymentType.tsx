@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { PaymentTypeFormValues } from '../../../app/models/paymentType/paymentTypeFormValues';
 import { IPaymentType } from '../../../app/models/paymentType/paymentType';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   paymentType: PaymentTypeFormValues;
@@ -22,19 +23,27 @@ const EditPaymentType: FC<IProps> = ({ paymentType }) => {
       createPaymentType(formData)
         .then(() => {
           closeModal();
-          toast.success('Payment type created successfully');
+          toast.success('Payment type created successfully', {
+            toastId: ToastIds.PAYMENT_TYPE.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.PAYMENT_TYPE.CREATE_ERROR_ID,
+          });
         });
     else
       updatePaymentType(formData)
         .then(() => {
           closeModal();
-          toast.success('Payment type updated successfully');
+          toast.success('Payment type updated successfully', {
+            toastId: ToastIds.PAYMENT_TYPE.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.PAYMENT_TYPE.UPDATE_ERROR_ID,
+          });
         });
   };
 

@@ -30,15 +30,13 @@ export default class StockTypeStore {
   }
 
   @computed get loadStockTypeOptions() {
-    return Array.from(
-      this.stockTypeRegistry.values()
-    ).map(
+    return Array.from(this.stockTypeRegistry.values()).map(
       (stockType) =>
-      ({
-        key: stockType.id,
-        text: stockType.type,
-        value: stockType.id,
-      } as ISelectInputOptions)
+        ({
+          key: stockType.id,
+          text: stockType.type,
+          value: stockType.id,
+        } as ISelectInputOptions)
     );
   }
 

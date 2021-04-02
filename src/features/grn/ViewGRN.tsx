@@ -4,17 +4,12 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Grid, Message, Segment } from 'semantic-ui-react';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { LoadingComponent } from '../../app/layout/LoadingComponent';
-import {
-  APPROVED,
-  CANCELLED,
-  PENDING,
-  REJECTED,
-} from '../../app/models/constants';
 import GRNSummary from './GRNSummary';
 import GRNItemDetails from './grnItem/GRNItemDetails';
 import GRNFreeItemDetails from './grnFreeItem/GRNFreeItemDetails';
 import GRNFullSummary from './GRNFullSummary';
 import ApprovalGRN from './ApprovalGRN';
+import { Status } from '../../app/models/constants';
 
 interface IDetailsParams {
   id: string;
@@ -48,7 +43,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
     <>
       <Grid>
         <Grid.Column width={16}>
-          {grn.approvalStatus === PENDING &&
+          {grn.approvalStatus === Status.PENDING &&
             (hasModifyAccess || grn.receivedBy === user?.userId) && (
               <Segment attached="top" textAlign="center">
                 <Message info icon>
@@ -87,7 +82,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
               stockTypeOptions={loadStockTypeOptions}
             />
           </Segment>
-          {grn.approvalStatus === PENDING && hasModifyAccess && (
+          {grn.approvalStatus === Status.PENDING && hasModifyAccess && (
             <Segment attached textAlign="center">
               <Button
                 color="green"
@@ -97,7 +92,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id, 10)}
-                      status={APPROVED}
+                      status={Status.APPROVED}
                       header="Approve the GRN"
                     />
                   )
@@ -110,7 +105,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id, 10)}
-                      status={CANCELLED}
+                      status={Status.CANCELLED}
                       header="Cancel the GRN"
                     />
                   )
@@ -123,7 +118,7 @@ const ViewGRN: FC<RouteComponentProps<IDetailsParams>> = ({ match }) => {
                   openModal(
                     <ApprovalGRN
                       orderId={parseInt(match.params.id, 10)}
-                      status={REJECTED}
+                      status={Status.REJECTED}
                       header="Reject the GRN"
                     />
                   )

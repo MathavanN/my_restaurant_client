@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { IGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   item: IGoodsReceivedNoteFreeItem;
@@ -31,10 +32,14 @@ const DeleteGRNFreeItem: FC<IProps> = ({ item }) => {
                 deleteGRNFreeItem(item.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Item deleted successfully');
+                    toast.success('Item deleted successfully', {
+                      toastId: ToastIds.GRN_FREE_ITEM.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.GRN_FREE_ITEM.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

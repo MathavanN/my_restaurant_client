@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IPurchaseOrderItem } from '../../app/models/purchaseOrderItem/purchaseOrderItem';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../app/models/constants';
 
 interface IProps {
   item: IPurchaseOrderItem;
@@ -31,10 +32,14 @@ const DeleteOrderItem: FC<IProps> = ({ item }) => {
                 deletePurchaseOrderItem(item.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Item deleted successfully');
+                    toast.success('Item deleted successfully', {
+                      toastId: ToastIds.ORDER_ITEM.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.ORDER_ITEM.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

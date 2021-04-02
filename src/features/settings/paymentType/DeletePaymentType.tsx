@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { IPaymentType } from '../../../app/models/paymentType/paymentType';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   paymentType: IPaymentType;
@@ -31,10 +32,14 @@ const DeletePaymentType: FC<IProps> = ({ paymentType }) => {
                 deletePaymentType(paymentType.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Payment type deleted successfully');
+                    toast.success('Payment type deleted successfully', {
+                      toastId: ToastIds.PAYMENT_TYPE.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.PAYMENT_TYPE.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

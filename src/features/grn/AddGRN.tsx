@@ -13,6 +13,7 @@ import {
 import { RootStoreContext } from '../../app/stores/rootStore';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
+import { ToastIds } from '../../app/models/constants';
 
 interface IProps {
   goodsReceivedNote: CreateGoodsReceivedNote;
@@ -40,16 +41,22 @@ const AddGRN: FC<IProps> = ({
     const formData = { ...data, id: goodsReceivedNote.id };
     if (formData.id === 0)
       createGRN(formData).catch((error) => {
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text="Error:" />, {
+          toastId: ToastIds.GRN.CREATE_ERROR_ID,
+        });
       });
     else
       updateGRN(formData)
         .then(() => {
           closeModal();
-          toast.success('GRN updated successfully');
+          toast.success('GRN updated successfully', {
+            toastId: ToastIds.GRN.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.GRN.UPDATE_ERROR_ID,
+          });
         });
   };
 

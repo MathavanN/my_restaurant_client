@@ -7,6 +7,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { CreateGoodsReceivedNoteFreeItem } from '../../../app/models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { GoodsReceivedNoteFreeItemFormValues } from '../../../app/models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItemFormValues';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   item: GoodsReceivedNoteFreeItemFormValues;
@@ -34,19 +35,27 @@ const CreateGRNFreeItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       createGRNFreeItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item created successfully');
+          toast.success('Item created successfully', {
+            toastId: ToastIds.GRN_FREE_ITEM.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.GRN_FREE_ITEM.CREATE_ERROR_ID,
+          });
         });
     else
       updateGRNFreeItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item updated successfully');
+          toast.success('Item updated successfully', {
+            toastId: ToastIds.GRN_FREE_ITEM.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.GRN_FREE_ITEM.UPDATE_ERROR_ID,
+          });
         });
   };
 

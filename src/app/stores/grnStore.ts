@@ -2,15 +2,18 @@
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
-import { PENDING } from '../models/constants';
 import history from '../../history';
 import { CreateGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/createGoodsReceivedNoteFreeItem';
 import { ApprovalGoodsReceivedNote } from '../models/goodsReceivedNote/approvalGoodsReceivedNote';
-import { IGoodsReceivedNote, IGoodsReceivedNoteSerial } from '../models/goodsReceivedNote/goodsReceivedNote';
+import {
+  IGoodsReceivedNote,
+  IGoodsReceivedNoteSerial,
+} from '../models/goodsReceivedNote/goodsReceivedNote';
 import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoodsReceivedNote';
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteItemSerial } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
 import { IGoodsReceivedNoteFreeItemSerial } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
+import { Status } from '../models/constants';
 
 export default class GRNStore {
   rootStore: RootStore;
@@ -104,14 +107,14 @@ export default class GRNStore {
       this.grnRegistry.values()
     );
     const pendingGoodsReceivedNotes = goodsReceivedNotes.filter(
-      (d) => d.approvalStatus === PENDING
+      (d) => d.approvalStatus === Status.PENDING
     );
     const sortedPendingGoodsReceivedNotes = pendingGoodsReceivedNotes.sort(
       (a, b) =>
         new Date(b.receivedDate).getTime() - new Date(a.receivedDate).getTime()
     );
     const otherGoodsReceivedNotes = goodsReceivedNotes.filter(
-      (d) => d.approvalStatus !== PENDING
+      (d) => d.approvalStatus !== Status.PENDING
     );
     const sortedOtherGoodsReceivedNotes = otherGoodsReceivedNotes.sort(
       (a, b) =>
@@ -209,13 +212,15 @@ export default class GRNStore {
   }
 
   @computed get getGRNItems() {
-    return Array.from(this.grnItemRegistry.values()).map((goodsReceivedNoteItem, i) => {
-      const item = goodsReceivedNoteItem as IGoodsReceivedNoteItemSerial;
-      runInAction(() => {
-        item.serial = i + 1;
-      });
-      return item;
-    });
+    return Array.from(this.grnItemRegistry.values()).map(
+      (goodsReceivedNoteItem, i) => {
+        const item = goodsReceivedNoteItem as IGoodsReceivedNoteItemSerial;
+        runInAction(() => {
+          item.serial = i + 1;
+        });
+        return item;
+      }
+    );
   }
 
   createGRNItem = async (item: CreateGoodsReceivedNoteItem) => {
@@ -261,13 +266,15 @@ export default class GRNStore {
   };
 
   @computed get getGRNFreeItems() {
-    return Array.from(this.grnFreeItemRegistry.values()).map((goodsReceivedNoteFreeItem, i) => {
-      const item = goodsReceivedNoteFreeItem as IGoodsReceivedNoteFreeItemSerial;
-      runInAction(() => {
-        item.serial = i + 1;
-      });
-      return item;
-    });
+    return Array.from(this.grnFreeItemRegistry.values()).map(
+      (goodsReceivedNoteFreeItem, i) => {
+        const item = goodsReceivedNoteFreeItem as IGoodsReceivedNoteFreeItemSerial;
+        runInAction(() => {
+          item.serial = i + 1;
+        });
+        return item;
+      }
+    );
   }
 
   createGRNFreeItem = async (item: CreateGoodsReceivedNoteFreeItem) => {

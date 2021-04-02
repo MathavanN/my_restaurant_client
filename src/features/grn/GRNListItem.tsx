@@ -3,11 +3,11 @@ import { Button, Icon, Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { format, isEqual } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { PENDING } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddGRN from './AddGRN';
 import { IGoodsReceivedNoteSerial } from '../../app/models/goodsReceivedNote/goodsReceivedNote';
 import { CreateGoodsReceivedNote } from '../../app/models/goodsReceivedNote/createGoodsReceivedNote';
+import { Status } from '../../app/models/constants';
 
 interface IProps {
   goodsReceivedNotes: IGoodsReceivedNoteSerial[];
@@ -40,7 +40,9 @@ const GRNListItem: FC<IProps> = ({
             <Table.Cell>{goodsReceivedNote.nbt}</Table.Cell>
             <Table.Cell>{goodsReceivedNote.vat}</Table.Cell>
             <Table.Cell>{goodsReceivedNote.discount}</Table.Cell>
-            <Table.Cell negative={goodsReceivedNote.approvalStatus === PENDING}>
+            <Table.Cell
+              negative={goodsReceivedNote.approvalStatus === Status.PENDING}
+            >
               {goodsReceivedNote.approvalStatus}
             </Table.Cell>
             {displayColumn && (

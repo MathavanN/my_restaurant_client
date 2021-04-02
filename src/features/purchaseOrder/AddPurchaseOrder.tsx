@@ -7,6 +7,7 @@ import { CreatePurchaseOrder } from '../../app/models/purchaseOrder/createPurcha
 import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 import { PurchaseOrderFormValues } from '../../app/models/purchaseOrder/purchaseOrderFormValues';
+import { ToastIds } from '../../app/models/constants';
 
 interface IProps {
   order: PurchaseOrderFormValues;
@@ -28,16 +29,22 @@ const AddPurchaseOrder: FC<IProps> = ({ order, supplierOptions }) => {
     const formData = new CreatePurchaseOrder({ ...data, id: order.id });
     if (formData.id === 0)
       createPurchaseOrder(formData).catch((error) => {
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text="Error:" />, {
+          toastId: ToastIds.ORDER.CREATE_ERROR_ID,
+        });
       });
     else
       updatePurchaseOrder(formData)
         .then(() => {
           closeModal();
-          toast.success('Purchase order updated successfully');
+          toast.success('Purchase order updated successfully', {
+            toastId: ToastIds.ORDER.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.ORDER.UPDATE_ERROR_ID,
+          });
         });
   };
   useEffect(() => {

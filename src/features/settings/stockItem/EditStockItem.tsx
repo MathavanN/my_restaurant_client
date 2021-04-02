@@ -8,6 +8,7 @@ import { CreateStockItem } from '../../../app/models/stockItem/createStockItem';
 import { ISelectInputOptions } from '../../../app/models/common';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { StockItemFormValues } from '../../../app/models/stockItem/stockItemFormValues';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   stockItem: StockItemFormValues;
@@ -33,19 +34,27 @@ const EditStockItem: FC<IProps> = ({
       createStockItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Stock item created successfully');
+          toast.success('Stock item created successfully', {
+            toastId: ToastIds.STOCK_ITEM.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.STOCK_ITEM.CREATE_ERROR_ID,
+          });
         });
     else
       updateStockItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Stock item updated successfully');
+          toast.success('Stock item updated successfully', {
+            toastId: ToastIds.STOCK_ITEM.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.STOCK_ITEM.UPDATE_ERROR_ID,
+          });
         });
   };
 

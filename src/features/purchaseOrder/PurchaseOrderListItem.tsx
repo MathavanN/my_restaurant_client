@@ -6,9 +6,9 @@ import { observer } from 'mobx-react-lite';
 import { IPurchaseOrderSerial } from '../../app/models/purchaseOrder/purchaseOrder';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import AddPurchaseOrder from './AddPurchaseOrder';
-import { PENDING } from '../../app/models/constants';
 import { ISelectInputOptions } from '../../app/models/common';
 import { PurchaseOrderFormValues } from '../../app/models/purchaseOrder/purchaseOrderFormValues';
+import { Status } from '../../app/models/constants';
 
 interface IProps {
   orders: IPurchaseOrderSerial[];
@@ -51,7 +51,7 @@ const PurchaseOrderListItem: FC<IProps> = ({
             <Table.Cell>
               {format(new Date(order.requestedDate), "yyyy-MM-dd'T'HH:mm")}
             </Table.Cell>
-            <Table.Cell negative={order.approvalStatus === PENDING}>
+            <Table.Cell negative={order.approvalStatus === Status.PENDING}>
               {order.approvalStatus}
             </Table.Cell>
             {displayColumn && <Table.Cell>{order.approvedUserName}</Table.Cell>}

@@ -7,6 +7,7 @@ import { ISelectInputOptions } from '../../app/models/common';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
 import { PurchaseOrderItemFormValues } from '../../app/models/purchaseOrderItem/purchaseOrderItemFormValues';
 import { CreatePurchaseOrderItem } from '../../app/models/purchaseOrderItem/createPurchaseOrderItem';
+import { ToastIds } from '../../app/models/constants';
 
 interface IProps {
   item: PurchaseOrderItemFormValues;
@@ -34,19 +35,27 @@ const CreateOrderItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       createPurchaseOrderItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item created successfully');
+          toast.success('Item created successfully', {
+            toastId: ToastIds.ORDER_ITEM.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.ORDER_ITEM.CREATE_ERROR_ID,
+          });
         });
     else
       updatePurchaseOrderItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item updated successfully');
+          toast.success('Item updated successfully', {
+            toastId: ToastIds.ORDER_ITEM.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.ORDER_ITEM.UPDATE_ERROR_ID,
+          });
         });
   };
   const itemTypeSelected = watch('itemTypeId');

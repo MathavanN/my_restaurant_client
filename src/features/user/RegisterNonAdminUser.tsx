@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useContext, useEffect, useRef } from 'react';
 import { Button, Form, Header, Label } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
-import { NORMAL, REPORT } from '../../app/models/constants';
+import { ToastIds, Roles } from '../../app/models/constants';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IRegisterNonAdminUser } from '../../app/models/user';
 import ErrorMessage from '../../app/common/alert/ErrorMessage';
@@ -28,14 +28,20 @@ const RegisterNonAdminUser = () => {
     registerNonAdmin(data)
       .then((result) => {
         if (result.status === 'Success') {
-          toast.success(result.message);
           closeModal();
+          toast.success(result.message, {
+            toastId: ToastIds.ACCOUNT.CREATE_NORMAL_USER_SUCCESS_ID,
+          });
         } else {
-          toast.error(result.message);
+          toast.error(result.message, {
+            toastId: ToastIds.ACCOUNT.CREATE_NORMAL_USER_FAILED_ID,
+          });
         }
       })
       .catch((error) => {
-        toast.error(<ErrorMessage error={error} text="Error:" />);
+        toast.error(<ErrorMessage error={error} text="Error:" />, {
+          toastId: ToastIds.ACCOUNT.CREATE_NORMAL_USER_ERROR_ID,
+        });
       });
   };
   const atLeastOne = () =>
@@ -149,24 +155,24 @@ const RegisterNonAdminUser = () => {
           <div>
             <input
               name="roles"
-              key={REPORT}
+              key={Roles.REPORT}
               type="checkbox"
-              value={REPORT}
+              value={Roles.REPORT}
               ref={register({
                 validate: atLeastOne,
               })}
             />
-            <label htmlFor={REPORT}>{REPORT}</label>
+            <label htmlFor={Roles.REPORT}>{Roles.REPORT}</label>
           </div>
           <div>
             <input
               name="roles"
-              key={NORMAL}
+              key={Roles.NORMAL}
               type="checkbox"
-              value={NORMAL}
+              value={Roles.NORMAL}
               ref={register({ validate: atLeastOne })}
             />
-            <label htmlFor={NORMAL}>{NORMAL}</label>
+            <label htmlFor={Roles.NORMAL}>{Roles.NORMAL}</label>
           </div>
           {errors.roles && (
             <Label basic color="red" pointing>

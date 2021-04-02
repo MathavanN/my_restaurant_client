@@ -29,6 +29,7 @@ import { CreateGoodsReceivedNote } from '../models/goodsReceivedNote/createGoods
 import { IGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/goodsReceivedNoteItem';
 import { CreateGoodsReceivedNoteItem } from '../models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
 import { IGoodsReceivedNoteFreeItem } from '../models/goodsReceivedNoteFreeItem/goodsReceivedNoteFreeItem';
+import { ToastIds } from '../models/constants';
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use(
@@ -43,7 +44,9 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === 'Network Error' && !error.response) {
-    toast.error('network error');
+    toast.error('network error', {
+      toastId: ToastIds.ACCOUNT.NETWORK_ERROR_ID,
+    });
   }
   const { status, data, config, headers } = error.response;
 
@@ -54,7 +57,9 @@ axios.interceptors.response.use(undefined, (error) => {
   ) {
     window.localStorage.removeItem('jwt');
     history.push('/');
-    toast.info('Your session has expired, please login again');
+    toast.info('Your session has expired, please login again', {
+      toastId: ToastIds.ACCOUNT.SESSION_EXPIRED_ID,
+    });
   }
 
   if (status === 404) {
@@ -69,7 +74,9 @@ axios.interceptors.response.use(undefined, (error) => {
   }
 
   if (status === 500) {
-    toast.error('Server error - check the terminal for more info!');
+    toast.error('Server error - check the terminal for more info!', {
+      toastId: ToastIds.ACCOUNT.SERVER_ERROR_ID,
+    });
   }
   throw error.response;
 });

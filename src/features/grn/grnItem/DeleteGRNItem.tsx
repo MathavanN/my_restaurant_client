@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { IGoodsReceivedNoteItem } from '../../../app/models/goodsReceivedNoteItem/goodsReceivedNoteItem';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   item: IGoodsReceivedNoteItem;
@@ -31,10 +32,14 @@ const DeleteGRNItem: FC<IProps> = ({ item }) => {
                 deleteGRNItem(item.id)
                   .then(() => {
                     closeModal();
-                    toast.success('Item deleted successfully');
+                    toast.success('Item deleted successfully', {
+                      toastId: ToastIds.GRN_ITEM.DELETE_SUCCESS_ID,
+                    });
                   })
                   .catch((error) => {
-                    toast.error(<ErrorMessage error={error} text="Error:" />);
+                    toast.error(<ErrorMessage error={error} text="Error:" />, {
+                      toastId: ToastIds.GRN_ITEM.DELETE_ERROR_ID,
+                    });
                   });
               }}
             />

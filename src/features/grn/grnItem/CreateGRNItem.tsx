@@ -7,6 +7,7 @@ import { ISelectInputOptions } from '../../../app/models/common';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import ErrorMessage from '../../../app/common/alert/ErrorMessage';
 import { CreateGoodsReceivedNoteItem } from '../../../app/models/goodsReceivedNoteItem/createGoodsReceivedNoteItem';
+import { ToastIds } from '../../../app/models/constants';
 
 interface IProps {
   item: GoodsReceivedNoteItemFormValues;
@@ -34,19 +35,27 @@ const CreateGRNItem: FC<IProps> = ({ item, stockTypeOptions }) => {
       createGRNItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item created successfully');
+          toast.success('Item created successfully', {
+            toastId: ToastIds.GRN_ITEM.CREATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.GRN_ITEM.CREATE_ERROR_ID,
+          });
         });
     else
       updateGRNItem(formData)
         .then(() => {
           closeModal();
-          toast.success('Item updated successfully');
+          toast.success('Item updated successfully', {
+            toastId: ToastIds.GRN_ITEM.UPDATE_SUCCESS_ID,
+          });
         })
         .catch((error) => {
-          toast.error(<ErrorMessage error={error} text="Error:" />);
+          toast.error(<ErrorMessage error={error} text="Error:" />, {
+            toastId: ToastIds.GRN_ITEM.UPDATE_ERROR_ID,
+          });
         });
   };
 

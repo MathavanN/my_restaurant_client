@@ -1,15 +1,21 @@
 /* eslint-disable import/no-cycle */
 import { computed, makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
-import { IPurchaseOrder, IPurchaseOrderSerial } from '../models/purchaseOrder/purchaseOrder';
-import { IPurchaseOrderItem, IPurchaseOrderItemSerial } from '../models/purchaseOrderItem/purchaseOrderItem';
+import {
+  IPurchaseOrder,
+  IPurchaseOrderSerial,
+} from '../models/purchaseOrder/purchaseOrder';
+import {
+  IPurchaseOrderItem,
+  IPurchaseOrderItemSerial,
+} from '../models/purchaseOrderItem/purchaseOrderItem';
 import { RootStore } from './rootStore';
 import history from '../../history';
-import { PENDING } from '../models/constants';
 import { ISelectInputOptions } from '../models/common';
 import { ApprovalPurchaseOrder } from '../models/purchaseOrder/approvalPurchaseOrder';
 import { CreatePurchaseOrder } from '../models/purchaseOrder/createPurchaseOrder';
 import { CreatePurchaseOrderItem } from '../models/purchaseOrderItem/createPurchaseOrderItem';
+import { Status } from '../models/constants';
 
 export default class PurchaseOrderStore {
   rootStore: RootStore;
@@ -91,11 +97,11 @@ export default class PurchaseOrderStore {
 
     return orders.map(
       (order) =>
-      ({
-        key: order.id,
-        text: order.orderNumber,
-        value: order.id,
-      } as ISelectInputOptions)
+        ({
+          key: order.id,
+          text: order.orderNumber,
+          value: order.id,
+        } as ISelectInputOptions)
     );
   }
 
@@ -185,13 +191,17 @@ export default class PurchaseOrderStore {
     const orders: IPurchaseOrder[] = Array.from(
       this.purchaseOrderRegistry.values()
     );
-    const pendingOrders = orders.filter((d) => d.approvalStatus === PENDING);
+    const pendingOrders = orders.filter(
+      (d) => d.approvalStatus === Status.PENDING
+    );
     const sortedPendingOrders = pendingOrders.sort(
       (a, b) =>
         new Date(b.requestedDate).getTime() -
         new Date(a.requestedDate).getTime()
     );
-    const otherOrders = orders.filter((d) => d.approvalStatus !== PENDING);
+    const otherOrders = orders.filter(
+      (d) => d.approvalStatus !== Status.PENDING
+    );
     const sortedOtherOrders = otherOrders.sort(
       (a, b) =>
         new Date(a.requestedDate).getTime() -

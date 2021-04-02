@@ -70,11 +70,11 @@ export default class SupplierStore {
     );
     return suppliers.map(
       (supplier) =>
-      ({
-        key: supplier.id,
-        text: supplier.name,
-        value: supplier.id,
-      } as ISelectInputOptions)
+        ({
+          key: supplier.id,
+          text: supplier.name,
+          value: supplier.id,
+        } as ISelectInputOptions)
     );
   }
 

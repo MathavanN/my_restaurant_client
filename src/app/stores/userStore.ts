@@ -1,8 +1,6 @@
 /* eslint-disable import/no-cycle */
-/* eslint-disable no-nested-ternary */
 import { runInAction, makeAutoObservable, computed } from 'mobx';
 import {
-  IAppUser,
   IAppUserSerial,
   IRefreshToken,
   IRegisterAdminUser,
@@ -13,9 +11,9 @@ import {
 } from '../models/user';
 import agent from '../api/agent';
 import history from '../../history';
-import { SUPER_ADMIN, ADMIN, NORMAL, REPORT } from '../models/constants';
 import { ISelectGuidInputOptions } from '../models/common';
 import { RootStore } from './rootStore';
+import { Roles } from '../models/constants';
 
 export default class UserStore {
   rootStore: RootStore;
@@ -38,19 +36,19 @@ export default class UserStore {
   }
 
   get isSuperAdminUser() {
-    return this.getAccessPolicy(SUPER_ADMIN);
+    return this.getAccessPolicy(Roles.SUPER_ADMIN);
   }
 
   get isAdminUser() {
-    return this.getAccessPolicy(ADMIN);
+    return this.getAccessPolicy(Roles.ADMIN);
   }
 
   get isReportUser() {
-    return this.getAccessPolicy(REPORT);
+    return this.getAccessPolicy(Roles.REPORT);
   }
 
   get isNormalUser() {
-    return this.getAccessPolicy(NORMAL);
+    return this.getAccessPolicy(Roles.NORMAL);
   }
 
   get isLoggedIn() {
@@ -58,7 +56,10 @@ export default class UserStore {
   }
 
   get hasModifyAccess() {
-    return this.getAccessPolicy(SUPER_ADMIN) || this.getAccessPolicy(ADMIN);
+    return (
+      this.getAccessPolicy(Roles.SUPER_ADMIN) ||
+      this.getAccessPolicy(Roles.ADMIN)
+    );
   }
 
   loadAppUsers = async () => {
@@ -78,25 +79,8 @@ export default class UserStore {
     }
   };
 
-  getSortedAppUsers() {
-    const users: IAppUser[] = Array.from(this.appUsersRegistry.values());
-    return users.sort(
-      (a, b) =>
-        (a.firstName.toLowerCase() === b.firstName.toLowerCase()
-          ? 0
-          : a.firstName.toLowerCase() < b.firstName.toLowerCase()
-            ? 1
-            : -1) ||
-        (a.lastName.toLowerCase() === b.lastName.toLowerCase()
-          ? 0
-          : a.lastName.toLowerCase() > b.lastName.toLowerCase()
-            ? 1
-            : -1)
-    );
-  }
-
   @computed get getAppUsers() {
-    return this.getSortedAppUsers().map((user, i) => {
+    return Array.from(this.appUsersRegistry.values()).map((user, i) => {
       const item = user as IAppUserSerial;
       runInAction(() => {
         item.serial = i + 1;
@@ -106,14 +90,13 @@ export default class UserStore {
   }
 
   @computed get loadAppUsersOptions() {
-    const sortedAppUsers = this.getSortedAppUsers();
-    return sortedAppUsers.map(
+    return Array.from(this.appUsersRegistry.values()).map(
       (user) =>
-      ({
-        key: user.id,
-        text: `${user.firstName} ${user.lastName}`,
-        value: user.id,
-      } as ISelectGuidInputOptions)
+        ({
+          key: user.id,
+          text: `${user.firstName} ${user.lastName}`,
+          value: user.id,
+        } as ISelectGuidInputOptions)
     );
   }
 
@@ -146,11 +129,21 @@ export default class UserStore {
     return token;
   };
 
-  registerAdmin = async (user: IRegisterAdminUser) =>
-    agent.Users.registerAdmin(user);
+  registerAdmin = async (user: IRegisterAdminUser) => {
+    const result = await agent.Users.registerAdmin(user);
+    runInAction(() => {
+      if (result.status === 'Success') this.loadAppUsers();
+    });
+    return result;
+  };
 
-  registerNonAdmin = async (user: IRegisterNonAdminUser) =>
-    agent.Users.registerNonAdmin(user);
+  registerNonAdmin = async (user: IRegisterNonAdminUser) => {
+    const result = await agent.Users.registerNonAdmin(user);
+    runInAction(() => {
+      if (result.status === 'Success') this.loadAppUsers();
+    });
+    return result;
+  };
 
   getRefreshToken = async (token: string) => {
     const refreshToken: IRefreshToken = { refreshToken: token };
