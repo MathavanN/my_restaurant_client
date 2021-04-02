@@ -54,7 +54,7 @@ const App: FC<RouteComponentProps> = () => {
   return (
     <>
       <ModalContainer />
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" limit={2} />
       <Route path="/" exact component={Home} />
       <Route
         path={'/(.+)'}
