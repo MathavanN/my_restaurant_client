@@ -1,7 +1,6 @@
-/* eslint-disable import/no-cycle */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISignIn } from '../../model/SignIn.model';
-import { AppThunk, RootState } from '../../store';
+import type { AppThunk, RootState } from '../../store';
 
 interface UserState {
   isLoggedIn: boolean;
