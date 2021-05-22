@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { FC, ReactNode, useReducer } from 'react';
@@ -43,20 +42,20 @@ interface IProps {
 
 const Layout: FC<IProps> = ({ toggleTheme, useDefaultTheme, children }) => {
   const classes = useStyles();
-  const [open, toggle] = useReducer((open) => !open, false);
+  const [toggle, setToggle] = useReducer((open) => !open, false);
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Header
-        open={open}
-        handleMenuOpen={toggle}
+        open={toggle}
+        handleMenuOpen={setToggle}
         toggleTheme={toggleTheme}
         useDefaultTheme={useDefaultTheme}
       />
-      <Navigation open={open} handleMenuClose={toggle} />
+      <Navigation open={toggle} handleMenuClose={setToggle} />
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: toggle,
         })}
       >
         <div className={classes.toolbar} />
