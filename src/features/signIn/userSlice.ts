@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ISignIn } from '../../model/SignIn.model';
