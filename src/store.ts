@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import userReducer from './features/signIn/userSlice';
 
