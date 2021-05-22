@@ -1,21 +1,18 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
-import { Router } from 'react-router-dom';
-import 'semantic-ui-css/semantic.min.css';
-import 'react-toastify/dist/ReactToastify.css';
-import App from './app/layout/App';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './app/layout/styles.css';
-import history from './history';
-import ScrollToTop from './app/layout/ScrollToTop';
+import { store } from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
-      <ScrollToTop>
-        <App />
-      </ScrollToTop>
+    <Provider store={store}>
+    <Router>
+      <App />
     </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
