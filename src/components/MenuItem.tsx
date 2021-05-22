@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC } from 'react';
 import clsx from 'clsx';
 import {
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const MenuItem: FC<MenuItemDetails> = (route: MenuItemDetails) => {
   const classes = useStyles();
-  const location: any = useLocation();
+  const { pathname } = useLocation();
 
   const handleNavigate = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -54,7 +53,7 @@ const MenuItem: FC<MenuItemDetails> = (route: MenuItemDetails) => {
             <ListItemIcon>
               <IconButton
                 className={clsx({
-                  [classes.selected]: location.pathname === route.path,
+                  [classes.selected]: pathname === route.path,
                 })}
                 size="small"
               >

@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useState } from 'react';
 import clsx from 'clsx';
 import {
@@ -41,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AppMenu = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const location: any = useLocation();
+  const { pathname } = useLocation();
 
   const handleClick = (): void => {
     setOpen(!open);
@@ -49,8 +47,8 @@ const AppMenu = () => {
 
   return (
     <List>
-      {menuItems.map((route, i) => (
-        <Fragment key={i}>
+      {menuItems.map((route) => (
+        <Fragment key={route.routeKey}>
           {route.subRoutes ? (
             <>
               <ListItem button onClick={handleClick}>
@@ -59,9 +57,7 @@ const AppMenu = () => {
                     className={clsx({
                       [classes.selected]:
                         !open &&
-                        route.subRoutes.some(
-                          (item) => item.path === location.pathname
-                        ),
+                        route.subRoutes.some((item) => item.path === pathname),
                     })}
                     size="small"
                   >
