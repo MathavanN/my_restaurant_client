@@ -1,10 +1,10 @@
 import { ComponentType, FC } from 'react';
 
 interface MenuItemDetails {
-  routeKey: String;
-  title: String;
-  tooltip?: String;
-  path?: String;
+  routeKey: string;
+  title: string;
+  tooltip?: string;
+  path?: string;
   component?: FC<{}>;
   enabled: boolean;
   icon?: ComponentType;
