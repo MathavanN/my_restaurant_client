@@ -1,5 +1,7 @@
-import { Fragment, useState } from "react";
-import clsx from "clsx";
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Fragment, useState } from 'react';
+import clsx from 'clsx';
 import {
   List,
   Divider,
@@ -10,16 +12,16 @@ import {
   Icon,
   Tooltip,
   IconButton,
-} from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import DefaultIcon from "@material-ui/icons/FileCopy";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import { useLocation } from "react-router-dom";
+} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import DefaultIcon from '@material-ui/icons/FileCopy';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import { useLocation } from 'react-router-dom';
 
 // app routes
-import { menuItems } from "../config";
-import MenuItem from "./MenuItem";
+import { menuItems } from '../config';
+import MenuItem from './MenuItem';
 
 const useStyles = makeStyles((theme: Theme) => ({
   divider: {
@@ -30,8 +32,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(2),
   },
   selected: {
-    transition: "box-shadow",
-    transitionDuration: "1s",
+    transition: 'box-shadow',
+    transitionDuration: '1s',
     boxShadow: `0 0 3px ${theme.palette.primary.main}, 0 0 9px ${theme.palette.primary.main}, 0 0 11px ${theme.palette.primary.main}, 0 0 30px ${theme.palette.primary.main}`,
   },
 }));

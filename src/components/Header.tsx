@@ -6,15 +6,20 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Brightness7Icon from "@material-ui/icons/Brightness7";
-import Brightness3Icon from "@material-ui/icons/Brightness3";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import { DRAWER_WIDTH, APP_TITLE, PAGE_SIGNIN, PAGE_HOME } from '../utils/constants';
-import { Button, Tooltip, Menu,
-  MenuItem, } from '@material-ui/core';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
+import { Button, Tooltip, Menu, MenuItem } from '@material-ui/core';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserLoggedIn, signOut } from '../features/signIn/userSlice'
+import { getUserLoggedIn, signOut } from '../features/signIn/userSlice';
+import {
+  DRAWER_WIDTH,
+  APP_TITLE,
+  PAGE_SIGN_IN,
+  PAGE_HOME,
+} from '../utils/constants';
 
 interface IProps {
   open: boolean;
@@ -58,14 +63,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   title: {
     flexGrow: 1,
   },
-})
-);
+}));
 
 const Header: FC<IProps> = ({
   open,
   handleMenuOpen,
   toggleTheme,
-  useDefaultTheme
+  useDefaultTheme,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -88,23 +92,31 @@ const Header: FC<IProps> = ({
 
   return (
     <>
-      <AppBar position="fixed"
+      <AppBar
+        position="fixed"
         elevation={0}
-        className={clsx(classes.appBar, { [classes.appBarShift]: open })}>
+        className={clsx(classes.appBar, { [classes.appBarShift]: open })}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open menu"
             onClick={handleMenuOpen}
-            className={clsx(classes.menuButton, { [classes.menuButtonHidden]: open })}
+            className={clsx(classes.menuButton, {
+              [classes.menuButtonHidden]: open,
+            })}
             size="small"
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1"
-            variant="h6" color="inherit"
-            noWrap className={classes.title}>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
             {APP_TITLE}
           </Typography>
           <IconButton onClick={toggleTheme}>
@@ -119,41 +131,42 @@ const Header: FC<IProps> = ({
             )}
           </IconButton>
           {isLoggedIn ? (
-          <><IconButton
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          size="small"
-          color="inherit"
-          onClick={handleMenu}
-        >
-          <AccountCircle />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          keepMounted
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
-          open={view}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>My Account</MenuItem>
-          <MenuItem onClick={handleSingOut}>Sign Out</MenuItem>
-        </Menu></>
-          ) : (<NavLink 
-            to={`${PAGE_SIGN_IN.path}`}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Button variant="contained">Sign In</Button>
-          </NavLink>)}
-          
-
-          
+            <>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                size="small"
+                color="inherit"
+                onClick={handleMenu}
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                keepMounted
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={view}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>My Account</MenuItem>
+                <MenuItem onClick={handleSingOut}>Sign Out</MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <NavLink
+              to={`${PAGE_SIGN_IN.path}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <Button variant="contained">Sign In</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </>
-  )
-}
+  );
+};
 
 export default Header;
