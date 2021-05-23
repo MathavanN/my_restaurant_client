@@ -6,10 +6,11 @@ import PublicIcon from '@material-ui/icons/LockOpenOutlined';
 // interface
 import MenuItemDetails from '../model/MenuItemDetails.model';
 
-import { PAGE_COUNTER, PAGE_HOME, PAGE_TODO } from '../utils/constants';
+import { PAGE_COUNTER, PAGE_HOME, PAGE_TODO, PAGE_UNIT_OF_MEASURE } from '../utils/constants';
 import Home from '../features/home/Home';
 import Counter from '../features/counter/Counter';
 import Todo from '../features/todo/Todo';
+import UnitOfMeasure from '../features/unitOfMeasure/UnitOfMeasure'
 
 export const menuItems: Array<MenuItemDetails> = [
   {
@@ -39,6 +40,16 @@ export const menuItems: Array<MenuItemDetails> = [
     path: PAGE_TODO.path,
     enabled: true,
     component: Todo,
+    icon: PrivateIcon,
+    appendDivider: true,
+  },
+  {
+    routeKey: 'router-unit-of-measure',
+    title: PAGE_UNIT_OF_MEASURE.title,
+    tooltip: PAGE_UNIT_OF_MEASURE.tooltip,
+    path: PAGE_UNIT_OF_MEASURE.path,
+    enabled: true,
+    component: UnitOfMeasure,
     icon: PrivateIcon,
     appendDivider: true,
   },
