@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import userReducer from './features/signIn/userSlice';
+import signInReducer from './features/signIn/signInSlice';
+import unitOfMeasureReducer from './features/unitOfMeasure/unitOfMeasureSlice'
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
+    user: signInReducer,
+    unitOfMeasure: unitOfMeasureReducer
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
