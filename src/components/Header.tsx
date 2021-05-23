@@ -13,7 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Button, Tooltip, Menu, MenuItem } from '@material-ui/core';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserLoggedIn, signOut } from '../features/signIn/userSlice';
+import { getIsLoggedIn, setSignOut } from '../features/signIn/signInSlice';
 import {
   DRAWER_WIDTH,
   APP_TITLE,
@@ -74,7 +74,7 @@ const Header: FC<IProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-  const isLoggedIn = useSelector(getUserLoggedIn);
+  const isLoggedIn = useSelector(getIsLoggedIn);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const view = Boolean(anchorEl);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -85,7 +85,7 @@ const Header: FC<IProps> = ({
   };
 
   const handleSingOut = () => {
-    dispatch(signOut());
+    dispatch(setSignOut());
     setAnchorEl(null);
     history.push(PAGE_HOME.path);
   };
