@@ -4,9 +4,9 @@ import * as yup from 'yup';
 import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ISignIn } from '../../model/SignIn.model';
+import { ISignIn } from '../../model/User.model';
 import { PAGE_HOME } from '../../utils/constants';
-import { signInAsync } from './userSlice';
+import { signInAsync } from './signInSlice';
 
 const UseSignInForm = () => {
   const history = useHistory();
