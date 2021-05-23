@@ -19,7 +19,7 @@ import {
   APP_TITLE,
   PAGE_SIGN_IN,
   PAGE_HOME,
-} from '../utils/constants';
+} from '../config/constants';
 
 interface IProps {
   open: boolean;

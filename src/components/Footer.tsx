@@ -1,5 +1,5 @@
 import { Link, makeStyles, Theme } from '@material-ui/core';
-import { FOOTER_HEIGHT, FOOTER_TEXT } from '../utils/constants';
+import { FOOTER_HEIGHT, FOOTER_TEXT } from '../config/constants';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

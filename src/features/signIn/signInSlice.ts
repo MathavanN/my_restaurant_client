@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import agent from '../../api/agent'
 import { ISignIn, IToken } from '../../model/User.model';
 import type { AppThunk, RootState } from '../../store';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../utils/constants';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../config/constants';
 
 interface ISignInState {
   token: IToken | null;

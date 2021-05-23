@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 import { useHistory } from 'react-router-dom';
-import { PAGE_HOME, PAGE_TODO } from '../../utils/constants';
+import { PAGE_HOME, PAGE_TODO } from '../../config/constants';
 
 const Counter = () => {
   const history = useHistory();

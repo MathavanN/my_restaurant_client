@@ -3,7 +3,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { IToken, ISignIn, IUser } from '../model/User.model';
 import { IUnitOfMeasure } from '../model/UnitOfMeasure.model';
-import { ACCESS_TOKEN } from '../utils/constants'
+import { ACCESS_TOKEN } from '../config/constants'
 
 axios.defaults.baseURL = process.env.REACT_APP_RESTAURANT_API_URL;
 axios.interceptors.request.use((config) => {

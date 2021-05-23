@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ISignIn } from '../../model/User.model';
-import { PAGE_HOME } from '../../utils/constants';
+import { PAGE_HOME } from '../../config/constants';
 import { signInAsync } from './signInSlice';
 
 const UseSignInForm = () => {

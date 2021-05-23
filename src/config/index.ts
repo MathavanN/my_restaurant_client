@@ -6,7 +6,7 @@ import PublicIcon from '@material-ui/icons/LockOpenOutlined';
 // interface
 import MenuItemDetails from '../model/MenuItemDetails.model';
 
-import { PAGE_COUNTER, PAGE_HOME, PAGE_TODO, PAGE_UNIT_OF_MEASURE } from '../utils/constants';
+import { PAGE_COUNTER, PAGE_HOME, PAGE_TODO, PAGE_UNIT_OF_MEASURE } from './constants'
 import Home from '../features/home/Home';
 import Counter from '../features/counter/Counter';
 import Todo from '../features/todo/Todo';

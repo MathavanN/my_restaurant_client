@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Footer from './Footer';
 import Header from './Header';
 import Navigation from './Navigation';
-import { DRAWER_WIDTH, FOOTER_HEIGHT } from '../utils/constants';
+import { DRAWER_WIDTH, FOOTER_HEIGHT } from '../config/constants';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

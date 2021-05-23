@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { IconButton, Drawer } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { DRAWER_WIDTH } from '../utils/constants';
+import { DRAWER_WIDTH } from '../config/constants';
 import AppMenu from './AppMenu';
 
 interface IProps {
